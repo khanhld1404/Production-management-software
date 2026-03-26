@@ -1,0 +1,651 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FF83294-6B83-48FC-BD3F-8057C671B963}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>EVS_ProductionStatus</RootNamespace>
+    <AssemblyName>EVS_ProductionStatus</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icons8-circuit-70.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetZip, Version=1.16.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.16.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=6.0.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.6.0.3\lib\net452\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.0.0\lib\net452\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.0.0\lib\net452\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.2\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Pipelines, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.10.0.2\lib\netstandard2.0\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\netstandard2.0\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encodings.Web, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.10.0.2\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.10.0.2\lib\netstandard2.0\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CheckVersion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckVersion.Designer.cs">
+      <DependentUpon>CheckVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="clConnection.cs" />
+    <Compile Include="clMethod.cs" />
+    <Compile Include="Controller\clDongGoiDongThoi.cs" />
+    <Compile Include="Controller\clExportData.cs" />
+    <Compile Include="Controller\clKittingDongThoi.cs" />
+    <Compile Include="Controller\clMaBanVe.cs" />
+    <Compile Include="Controller\clThoiGianKhau.cs" />
+    <Compile Include="Data\EVS_Manage.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\NewInventory_EVS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DongGoiDongThoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DongGoiDongThoi.Designer.cs">
+      <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExport\ExportHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportHome.Designer.cs">
+      <DependentUpon>ExportHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExport\ExportKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportKhau.Designer.cs">
+      <DependentUpon>ExportKhau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExport\ExportDongGoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportDongGoi.Designer.cs">
+      <DependentUpon>ExportDongGoi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExport\ExportKitting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportKitting.Designer.cs">
+      <DependentUpon>ExportKitting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExport\ExportQC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportQC.Designer.cs">
+      <DependentUpon>ExportQC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HomeForm.Designer.cs">
+      <DependentUpon>HomeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputForm.Designer.cs">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KittingDongThoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KittingDongThoi.Designer.cs">
+      <DependentUpon>KittingDongThoi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NhapKhauIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NhapKhauIn.Designer.cs">
+      <DependentUpon>NhapKhauIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NhapQCDoDang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NhapQCDoDang.Designer.cs">
+      <DependentUpon>NhapQCDoDang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OperatorStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OperatorStatus.Designer.cs">
+      <DependentUpon>OperatorStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OperatorStatusDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OperatorStatusDetail.Designer.cs">
+      <DependentUpon>OperatorStatusDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductionStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductionStatus.Designer.cs">
+      <DependentUpon>ProductionStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="pro_02_tblInputWithTime_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_03_WOBaoLuu_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_08_KhauTime_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_09_QCTime_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_10_KittingTime_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_11_DongGoiTime_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_12_WOChuaDG_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_14_TrangThaiSP_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\InputPacking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\InputPacking.Designer.cs">
+      <DependentUpon>InputPacking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\KetThucPacking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\KetThucPacking.Designer.cs">
+      <DependentUpon>KetThucPacking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\masterThoiGianKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\masterThoiGianKhau.Designer.cs">
+      <DependentUpon>masterThoiGianKhau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\QuanLyNguoiThaoTac.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\QuanLyNguoiThaoTac.Designer.cs">
+      <DependentUpon>QuanLyNguoiThaoTac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\QuanLyThoiGianNghi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\QuanLyThoiGianNghi.Designer.cs">
+      <DependentUpon>QuanLyThoiGianNghi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\QuanLyTrangThai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\QuanLyTrangThai.Designer.cs">
+      <DependentUpon>QuanLyTrangThai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\QuanLyWOBaoLuu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\QuanLyWOBaoLuu.Designer.cs">
+      <DependentUpon>QuanLyWOBaoLuu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\TrangThaiSP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\TrangThaiSP.designer.cs">
+      <DependentUpon>TrangThaiSP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\WOChamDongGoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\WOChamDongGoi.Designer.cs">
+      <DependentUpon>WOChamDongGoi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="tblBanVe.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblContent.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDongGoi.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblInput.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblKhauIn.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblNgayNghi.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblQC.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblQCDetail.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblThoiGianKhau.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblThoiGianNghi.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblURL.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblUser.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblViTriNguoiTT.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblWO.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\ThietLapFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\ThietLapFile.Designer.cs">
+      <DependentUpon>ThietLapFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Status.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Status.Designer.cs">
+      <DependentUpon>UC_Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Status_OneCategory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Status_OneCategory.Designer.cs">
+      <DependentUpon>UC_Status_OneCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Status_TwoCategory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Status_TwoCategory.Designer.cs">
+      <DependentUpon>UC_Status_TwoCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_ViTriThaoTac.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_ViTriThaoTac.Designer.cs">
+      <DependentUpon>UC_ViTriThaoTac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\View_MasterBanVe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\View_MasterBanVe.Designer.cs">
+      <DependentUpon>View_MasterBanVe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Update_Inventory\Class\Excel_Multi_Sheet.cs" />
+    <Compile Include="Update_Inventory\Class\Excel_Only_Sheet.cs" />
+    <Compile Include="Update_Inventory\Class\Other_function.cs" />
+    <Compile Include="Update_Inventory\Class\Placeholder.cs" />
+    <Compile Include="Update_Inventory\Class\Reload_Inventory_Infor.cs" />
+    <Compile Include="Update_Inventory\Elink_NVL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Update_Inventory\Elink_NVL.Designer.cs">
+      <DependentUpon>Elink_NVL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Update_Inventory\Form_HFG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Update_Inventory\Form_HFG.Designer.cs">
+      <DependentUpon>Form_HFG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Update_Inventory\Form_Kitting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Update_Inventory\Form_Kitting.Designer.cs">
+      <DependentUpon>Form_Kitting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Update_Inventory\Form_RM_WIP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Update_Inventory\Form_RM_WIP.Designer.cs">
+      <DependentUpon>Form_RM_WIP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Update_Inventory\LoadingOverlay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Update_Inventory\LoadingOverlay.Designer.cs">
+      <DependentUpon>LoadingOverlay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Update_Inventory\Model\Get_Link.cs" />
+    <Compile Include="Update_Inventory\Model\HFG_Detail.cs" />
+    <Compile Include="Update_Inventory\Model\HFG_Overview.cs" />
+    <Compile Include="Update_Inventory\Model\Kitting_Type.cs" />
+    <Compile Include="Update_Inventory\Model\Link_Eink.cs" />
+    <Compile Include="Update_Inventory\Model\Product_Eink.cs" />
+    <Compile Include="Update_Inventory\Model\RM_WIP_Detail.cs" />
+    <Compile Include="Update_Inventory\Model\RM_WIP_Elink.cs" />
+    <Compile Include="Update_Inventory\Model\RM_WIP_Overview.cs" />
+    <Compile Include="v_01_Kitting.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_04_DongGoi.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_05_KhauDetail.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_05_QCDetail.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_06_LoaiSP.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="v_DSLoaiSP.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CheckVersion.resx">
+      <DependentUpon>CheckVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DongGoiDongThoi.resx">
+      <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportHome.resx">
+      <DependentUpon>ExportHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportKhau.resx">
+      <DependentUpon>ExportKhau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportDongGoi.resx">
+      <DependentUpon>ExportDongGoi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportKitting.resx">
+      <DependentUpon>ExportKitting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportQC.resx">
+      <DependentUpon>ExportQC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HomeForm.resx">
+      <DependentUpon>HomeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputForm.resx">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KittingDongThoi.resx">
+      <DependentUpon>KittingDongThoi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NhapKhauIn.resx">
+      <DependentUpon>NhapKhauIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NhapQCDoDang.resx">
+      <DependentUpon>NhapQCDoDang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OperatorStatus.resx">
+      <DependentUpon>OperatorStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OperatorStatusDetail.resx">
+      <DependentUpon>OperatorStatusDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductionStatus.resx">
+      <DependentUpon>ProductionStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Settings\InputPacking.resx">
+      <DependentUpon>InputPacking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\KetThucPacking.resx">
+      <DependentUpon>KetThucPacking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\masterThoiGianKhau.resx">
+      <DependentUpon>masterThoiGianKhau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\QuanLyNguoiThaoTac.resx">
+      <DependentUpon>QuanLyNguoiThaoTac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\QuanLyThoiGianNghi.resx">
+      <DependentUpon>QuanLyThoiGianNghi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\QuanLyTrangThai.resx">
+      <DependentUpon>QuanLyTrangThai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\QuanLyWOBaoLuu.resx">
+      <DependentUpon>QuanLyWOBaoLuu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\ThietLapFile.resx">
+      <DependentUpon>ThietLapFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\TrangThaiSP.resx">
+      <DependentUpon>TrangThaiSP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\WOChamDongGoi.resx">
+      <DependentUpon>WOChamDongGoi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Status.resx">
+      <DependentUpon>UC_Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Status_OneCategory.resx">
+      <DependentUpon>UC_Status_OneCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Status_TwoCategory.resx">
+      <DependentUpon>UC_Status_TwoCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_ViTriThaoTac.resx">
+      <DependentUpon>UC_ViTriThaoTac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\View_MasterBanVe.resx">
+      <DependentUpon>View_MasterBanVe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Update_Inventory\Elink_NVL.resx">
+      <DependentUpon>Elink_NVL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Update_Inventory\Form_HFG.resx">
+      <DependentUpon>Form_HFG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Update_Inventory\Form_Kitting.resx">
+      <DependentUpon>Form_Kitting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Update_Inventory\Form_RM_WIP.resx">
+      <DependentUpon>Form_RM_WIP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EntityDeploy Include="db.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Data\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </None>
+    <None Include="db.edmx.diagram">
+      <DependentUpon>db.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="db.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>db.Context.cs</LastGenOutput>
+      <DependentUpon>db.edmx</DependentUpon>
+    </Content>
+    <Content Include="db.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db.edmx</DependentUpon>
+      <LastGenOutput>db.cs</LastGenOutput>
+    </Content>
+    <Content Include="icons8-circuit-70.ico" />
+    <None Include="Resources\icons8-idea-32.png" />
+    <None Include="Resources\icons8-complete-32.png" />
+    <None Include="Resources\icons8-cancel-32.png" />
+    <None Include="Resources\icons8-handle-with-care-32.png" />
+    <None Include="Resources\icons8-office-32.png" />
+    <None Include="Resources\icons8-input-32.png" />
+    <None Include="Resources\icons8-user-groups-64.png" />
+    <None Include="Resources\icons8-circuit-70-recolor2.png" />
+    <None Include="Resources\icons8-circuit-70-recolor1.png" />
+    <None Include="Resources\icons8-circuit-70-recolor.png" />
+    <None Include="Resources\blinking-arrow.gif" />
+    <None Include="Resources\giphy.gif" />
+    <None Include="Resources\icons8-xls-64.png" />
+    <None Include="Resources\icons8-circuit-70.png" />
+    <None Include="Resources\16.gif" />
+    <None Include="Resources\Input_64x64.png" />
+    <None Include="Resources\icons8-approval-64.png" />
+    <None Include="Resources\icons8-circled-play-64.png" />
+    <None Include="Resources\icons8-collect-64.png" />
+    <None Include="Resources\icons8-workflow-70.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

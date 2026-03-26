@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="303229b2922343c7ae3070c58b3b6ece" Name="Diagram1" ZoomLevel="79">
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblBanVe" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblContent" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblDongGoi" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblInput" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblKhauIn" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblNgayNghi" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblQC" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblQCDetail" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblThoiGianNghi" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblURL" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblUser" Width="1.5" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblViTriNguoiTT" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblWO" Width="1.5" PointX="8.75" PointY="9.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_01_Kitting" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_04_DongGoi" Width="1.5" PointX="10.75" PointY="5.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_05_KhauDetail" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_05_QCDetail" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" Width="1.5" PointX="2.75" PointY="12.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_DSLoaiSP" Width="1.5" PointX="12.75" PointY="5.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblThoiGianKhau" Width="1.5" PointX="13.375" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

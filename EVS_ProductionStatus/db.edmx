@@ -1,0 +1,1897 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EVS_ProductionStatusModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblBanVe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="mabanve" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="tblContent">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="content" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tblDongGoi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="Start1" Type="datetime" />
+          <Property Name="End1" Type="datetime" />
+          <Property Name="User1" Type="varchar" MaxLength="20" />
+          <Property Name="Start2" Type="datetime" />
+          <Property Name="End2" Type="datetime" />
+          <Property Name="User2" Type="varchar" MaxLength="20" />
+          <Property Name="Start3" Type="datetime" />
+          <Property Name="End3" Type="datetime" />
+          <Property Name="User3" Type="varchar" MaxLength="20" />
+          <Property Name="Start4" Type="datetime" />
+          <Property Name="End4" Type="datetime" />
+          <Property Name="User4" Type="varchar" MaxLength="20" />
+          <Property Name="Start5" Type="datetime" />
+          <Property Name="End5" Type="datetime" />
+          <Property Name="User5" Type="varchar" MaxLength="20" />
+          <Property Name="Start6" Type="datetime" />
+          <Property Name="End6" Type="datetime" />
+          <Property Name="User6" Type="varchar" MaxLength="20" />
+          <Property Name="Start7" Type="datetime" />
+          <Property Name="End7" Type="datetime" />
+          <Property Name="User7" Type="varchar" MaxLength="20" />
+          <Property Name="Start8" Type="datetime" />
+          <Property Name="End8" Type="datetime" />
+          <Property Name="User8" Type="varchar" MaxLength="20" />
+          <Property Name="Start9" Type="datetime" />
+          <Property Name="End9" Type="datetime" />
+          <Property Name="User9" Type="varchar" MaxLength="20" />
+          <Property Name="Start10" Type="datetime" />
+          <Property Name="End10" Type="datetime" />
+          <Property Name="User10" Type="varchar" MaxLength="20" />
+          <Property Name="Start11" Type="datetime" />
+          <Property Name="End11" Type="datetime" />
+          <Property Name="User11" Type="varchar" MaxLength="20" />
+          <Property Name="Start12" Type="datetime" />
+          <Property Name="End12" Type="datetime" />
+          <Property Name="User12" Type="varchar" MaxLength="20" />
+          <Property Name="Start13" Type="datetime" />
+          <Property Name="End13" Type="datetime" />
+          <Property Name="User13" Type="varchar" MaxLength="20" />
+          <Property Name="Start14" Type="datetime" />
+          <Property Name="End14" Type="datetime" />
+          <Property Name="User14" Type="varchar" MaxLength="20" />
+          <Property Name="Start15" Type="datetime" />
+          <Property Name="End15" Type="datetime" />
+          <Property Name="User15" Type="varchar" MaxLength="20" />
+          <Property Name="Mins1" Type="int" />
+          <Property Name="Mins2" Type="int" />
+          <Property Name="Mins3" Type="int" />
+          <Property Name="Mins4" Type="int" />
+          <Property Name="Mins5" Type="int" />
+          <Property Name="Mins6" Type="int" />
+          <Property Name="Mins7" Type="int" />
+          <Property Name="Mins8" Type="int" />
+          <Property Name="Mins9" Type="int" />
+          <Property Name="Mins10" Type="int" />
+          <Property Name="Mins11" Type="int" />
+          <Property Name="Mins12" Type="int" />
+          <Property Name="Mins13" Type="int" />
+          <Property Name="Mins14" Type="int" />
+          <Property Name="Mins15" Type="int" />
+          <Property Name="IsStart" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblInput">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="lot" Type="varchar" MaxLength="20" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="qty" Type="int" />
+          <Property Name="KittingTime_Start" Type="datetime" />
+          <Property Name="KittingTime_End" Type="datetime" />
+          <Property Name="UserKitting" Type="varchar" MaxLength="20" />
+          <Property Name="KittingGroup" Type="varchar" MaxLength="20" />
+          <Property Name="InTime_Start" Type="datetime" />
+          <Property Name="UserIn" Type="varchar" MaxLength="20" />
+          <Property Name="OutTime" Type="datetime" />
+          <Property Name="QCTime_Start" Type="datetime" />
+          <Property Name="QCTime_End" Type="datetime" />
+          <Property Name="UserQC" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="DongGoi_Start" Type="datetime" />
+          <Property Name="DongGoi_End" Type="datetime" />
+          <Property Name="DongGoiGroup" Type="varchar" MaxLength="20" />
+          <Property Name="UserDongGoi" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblKhauIn">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" />
+          <Property Name="InTime_Start" Type="datetime" />
+          <Property Name="InTime_End" Type="datetime" />
+          <Property Name="UserIn" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblNgayNghi">
+          <Key>
+            <PropertyRef Name="NgayNghi" />
+          </Key>
+          <Property Name="NgayNghi" Type="date" Nullable="false" />
+          <Property Name="Thu" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblQC">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" />
+          <Property Name="QCTime_Start" Type="datetime" />
+          <Property Name="QCTime_End" Type="datetime" />
+          <Property Name="UserQC" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblQCDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="Start1" Type="datetime" />
+          <Property Name="End1" Type="datetime" />
+          <Property Name="User1" Type="varchar" MaxLength="20" />
+          <Property Name="Start2" Type="datetime" />
+          <Property Name="End2" Type="datetime" />
+          <Property Name="User2" Type="varchar" MaxLength="20" />
+          <Property Name="Start3" Type="datetime" />
+          <Property Name="End3" Type="datetime" />
+          <Property Name="User3" Type="varchar" MaxLength="20" />
+          <Property Name="Start4" Type="datetime" />
+          <Property Name="End4" Type="datetime" />
+          <Property Name="User4" Type="varchar" MaxLength="20" />
+          <Property Name="Start5" Type="datetime" />
+          <Property Name="End5" Type="datetime" />
+          <Property Name="User5" Type="varchar" MaxLength="20" />
+          <Property Name="Start6" Type="datetime" />
+          <Property Name="End6" Type="datetime" />
+          <Property Name="User6" Type="varchar" MaxLength="20" />
+          <Property Name="Start7" Type="datetime" />
+          <Property Name="End7" Type="datetime" />
+          <Property Name="User7" Type="varchar" MaxLength="20" />
+          <Property Name="Start8" Type="datetime" />
+          <Property Name="End8" Type="datetime" />
+          <Property Name="User8" Type="varchar" MaxLength="20" />
+          <Property Name="Start9" Type="datetime" />
+          <Property Name="End9" Type="datetime" />
+          <Property Name="User9" Type="varchar" MaxLength="20" />
+          <Property Name="Start10" Type="datetime" />
+          <Property Name="End10" Type="datetime" />
+          <Property Name="User10" Type="varchar" MaxLength="20" />
+          <Property Name="Start11" Type="datetime" />
+          <Property Name="End11" Type="datetime" />
+          <Property Name="User11" Type="varchar" MaxLength="20" />
+          <Property Name="Start12" Type="datetime" />
+          <Property Name="End12" Type="datetime" />
+          <Property Name="User12" Type="varchar" MaxLength="20" />
+          <Property Name="Start13" Type="datetime" />
+          <Property Name="End13" Type="datetime" />
+          <Property Name="User13" Type="varchar" MaxLength="20" />
+          <Property Name="Start14" Type="datetime" />
+          <Property Name="End14" Type="datetime" />
+          <Property Name="User14" Type="varchar" MaxLength="20" />
+          <Property Name="Start15" Type="datetime" />
+          <Property Name="End15" Type="datetime" />
+          <Property Name="User15" Type="varchar" MaxLength="20" />
+          <Property Name="Mins1" Type="int" />
+          <Property Name="Mins2" Type="int" />
+          <Property Name="Mins3" Type="int" />
+          <Property Name="Mins4" Type="int" />
+          <Property Name="Mins5" Type="int" />
+          <Property Name="Mins6" Type="int" />
+          <Property Name="Mins7" Type="int" />
+          <Property Name="Mins8" Type="int" />
+          <Property Name="Mins9" Type="int" />
+          <Property Name="Mins10" Type="int" />
+          <Property Name="Mins11" Type="int" />
+          <Property Name="Mins12" Type="int" />
+          <Property Name="Mins13" Type="int" />
+          <Property Name="Mins14" Type="int" />
+          <Property Name="Mins15" Type="int" />
+          <Property Name="IsStart" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblThoiGianKhau">
+          <Key>
+            <PropertyRef Name="itemnumber" />
+          </Key>
+          <Property Name="itemnumber" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="sophut" Type="int" />
+        </EntityType>
+        <EntityType Name="tblThoiGianNghi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CongDoan" Type="nvarchar" MaxLength="30" />
+          <Property Name="BreakStartHour" Type="varchar" MaxLength="2" />
+          <Property Name="BreakStartMin" Type="varchar" MaxLength="2" />
+          <Property Name="BreakEndHour" Type="varchar" MaxLength="2" />
+          <Property Name="BreakEndMin" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="tblURL">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="URL" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblViTriNguoiTT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ViTri" Type="int" Nullable="false" />
+          <Property Name="CongDoan" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nhom" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblWO">
+          <Key>
+            <PropertyRef Name="WOID" />
+          </Key>
+          <Property Name="WOID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="wostatus" Type="varchar" MaxLength="5" />
+          <Property Name="orderdate" Type="date" />
+          <Property Name="lot" Type="varchar" MaxLength="20" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="qty" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_01_Kitting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_01_Kitting">
+          <Key>
+            <PropertyRef Name="workorder" />
+          </Key>
+          <Property Name="STT" Type="bigint" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="lot" Type="varchar" MaxLength="20" />
+          <Property Name="qty" Type="int" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="KittingTime_Start" Type="datetime" />
+          <Property Name="KittingTime_End" Type="datetime" />
+          <Property Name="KittingDongThoi" Type="varchar" MaxLength="20" />
+          <Property Name="OperationMins" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="UserKitting" Type="varchar" MaxLength="20" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="GioTT" Type="int" />
+          <Property Name="PhutTT" Type="decimal" Precision="4" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_04_DongGoi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_04_DongGoi">
+          <Key>
+            <PropertyRef Name="workorder" />
+          </Key>
+          <Property Name="STT" Type="bigint" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="lot" Type="varchar" MaxLength="20" />
+          <Property Name="qty" Type="int" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="DongGoi_Start" Type="datetime" />
+          <Property Name="DongGoi_End" Type="datetime" />
+          <Property Name="DGDongThoi" Type="varchar" MaxLength="20" />
+          <Property Name="OperationMins" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="UserDongGoi" Type="varchar" MaxLength="20" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="GioTT" Type="int" />
+          <Property Name="PhutTT" Type="decimal" Precision="4" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_05_KhauDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_05_KhauDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" />
+          <Property Name="InTime_Start" Type="datetime" />
+          <Property Name="InTime_End" Type="datetime" />
+          <Property Name="UserIn" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="lot" Type="varchar" MaxLength="20" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="qty" Type="int" />
+          <Property Name="OperationMins" Type="int" />
+          <Property Name="userid" Type="varchar" MaxLength="20" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_05_QCDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_05_QCDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="workorder" Type="varchar" MaxLength="20" />
+          <Property Name="QCTime_Start" Type="datetime" />
+          <Property Name="QCTime_End" Type="datetime" />
+          <Property Name="UserQC" Type="varchar" MaxLength="20" />
+          <Property Name="WOID" Type="varchar" MaxLength="20" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="lot" Type="varchar" MaxLength="20" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="qty" Type="int" />
+          <Property Name="OperationMins" Type="int" />
+          <Property Name="userid" Type="varchar" MaxLength="20" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_06_LoaiSP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_06_LoaiSP">
+          <Key>
+            <PropertyRef Name="LoaiSP" />
+          </Key>
+          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
+          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
+          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoaiSP" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_DSLoaiSP">
+          <Key>
+            <PropertyRef Name="loaisp" />
+          </Key>
+          <Property Name="loaisp" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <Function Name="func_01_ThoiGianLamViec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="func_02_SoPhutNghi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="starttime" Type="datetime" Mode="In" />
+          <Parameter Name="endtime" Type="datetime" Mode="In" />
+          <Parameter Name="congdoan" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="pro_01_truncateWO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pro_02_tblInputWithTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+          <Parameter Name="item" Type="varchar" Mode="In" />
+          <Parameter Name="lot" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pro_03_WOBaoLuu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="key_str" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="pro_04_TruncateBanVe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pro_05_TruncateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pro_06_TruncateViTriNguoiTT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pro_07_TimeOverlapRows" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="starthour" Type="varchar" Mode="In" />
+          <Parameter Name="startmin" Type="varchar" Mode="In" />
+          <Parameter Name="endhour" Type="varchar" Mode="In" />
+          <Parameter Name="endmin" Type="varchar" Mode="In" />
+          <Parameter Name="congdoan" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="pro_08_KhauTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+          <Parameter Name="item" Type="varchar" Mode="In" />
+          <Parameter Name="lot" Type="varchar" Mode="In" />
+          <Parameter Name="manv" Type="varchar" Mode="In" />
+          <Parameter Name="wo" Type="varchar" Mode="In" />
+          <Parameter Name="loaisp" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pro_09_QCTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+          <Parameter Name="item" Type="varchar" Mode="In" />
+          <Parameter Name="lot" Type="varchar" Mode="In" />
+          <Parameter Name="manv" Type="varchar" Mode="In" />
+          <Parameter Name="wo" Type="varchar" Mode="In" />
+          <Parameter Name="loaisp" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pro_10_KittingTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+          <Parameter Name="item" Type="varchar" Mode="In" />
+          <Parameter Name="lot" Type="varchar" Mode="In" />
+          <Parameter Name="manv" Type="varchar" Mode="In" />
+          <Parameter Name="wo" Type="varchar" Mode="In" />
+          <Parameter Name="loaisp" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pro_11_DongGoiTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+          <Parameter Name="item" Type="varchar" Mode="In" />
+          <Parameter Name="lot" Type="varchar" Mode="In" />
+          <Parameter Name="manv" Type="varchar" Mode="In" />
+          <Parameter Name="wo" Type="varchar" Mode="In" />
+          <Parameter Name="loaisp" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pro_12_WOChuaDG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="key_str" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="pro_13_getOperationMins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Start" Type="datetime" Mode="In" />
+          <Parameter Name="End" Type="datetime" Mode="In" />
+          <Parameter Name="LoaiSP" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="pro_14_TrangThaiSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LoaiSP" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="EVS_ProductionStatusModelStoreContainer">
+          <EntitySet Name="tblBanVe" EntityType="Self.tblBanVe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblContent" EntityType="Self.tblContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDongGoi" EntityType="Self.tblDongGoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblInput" EntityType="Self.tblInput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKhauIn" EntityType="Self.tblKhauIn" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblNgayNghi" EntityType="Self.tblNgayNghi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblQC" EntityType="Self.tblQC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblQCDetail" EntityType="Self.tblQCDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblThoiGianKhau" EntityType="Self.tblThoiGianKhau" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblThoiGianNghi" EntityType="Self.tblThoiGianNghi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblURL" EntityType="Self.tblURL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblViTriNguoiTT" EntityType="Self.tblViTriNguoiTT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblWO" EntityType="Self.tblWO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_01_Kitting" EntityType="Self.v_01_Kitting" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_01_Kitting].[STT] AS [STT], 
+    [v_01_Kitting].[WOID] AS [WOID], 
+    [v_01_Kitting].[workorder] AS [workorder], 
+    [v_01_Kitting].[itemnumber] AS [itemnumber], 
+    [v_01_Kitting].[lot] AS [lot], 
+    [v_01_Kitting].[qty] AS [qty], 
+    [v_01_Kitting].[desc1] AS [desc1], 
+    [v_01_Kitting].[desc2] AS [desc2], 
+    [v_01_Kitting].[KittingTime_Start] AS [KittingTime_Start], 
+    [v_01_Kitting].[KittingTime_End] AS [KittingTime_End], 
+    [v_01_Kitting].[KittingDongThoi] AS [KittingDongThoi], 
+    [v_01_Kitting].[OperationMins] AS [OperationMins], 
+    [v_01_Kitting].[UserKitting] AS [UserKitting], 
+    [v_01_Kitting].[name] AS [name], 
+    [v_01_Kitting].[GioTT] AS [GioTT], 
+    [v_01_Kitting].[PhutTT] AS [PhutTT]
+    FROM [dbo].[v_01_Kitting] AS [v_01_Kitting]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_04_DongGoi" EntityType="Self.v_04_DongGoi" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_04_DongGoi].[STT] AS [STT], 
+    [v_04_DongGoi].[WOID] AS [WOID], 
+    [v_04_DongGoi].[workorder] AS [workorder], 
+    [v_04_DongGoi].[itemnumber] AS [itemnumber], 
+    [v_04_DongGoi].[lot] AS [lot], 
+    [v_04_DongGoi].[qty] AS [qty], 
+    [v_04_DongGoi].[desc1] AS [desc1], 
+    [v_04_DongGoi].[desc2] AS [desc2], 
+    [v_04_DongGoi].[DongGoi_Start] AS [DongGoi_Start], 
+    [v_04_DongGoi].[DongGoi_End] AS [DongGoi_End], 
+    [v_04_DongGoi].[DGDongThoi] AS [DGDongThoi], 
+    [v_04_DongGoi].[OperationMins] AS [OperationMins], 
+    [v_04_DongGoi].[UserDongGoi] AS [UserDongGoi], 
+    [v_04_DongGoi].[name] AS [name], 
+    [v_04_DongGoi].[GioTT] AS [GioTT], 
+    [v_04_DongGoi].[PhutTT] AS [PhutTT]
+    FROM [dbo].[v_04_DongGoi] AS [v_04_DongGoi]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_05_KhauDetail" EntityType="Self.v_05_KhauDetail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_05_KhauDetail].[id] AS [id], 
+    [v_05_KhauDetail].[workorder] AS [workorder], 
+    [v_05_KhauDetail].[InTime_Start] AS [InTime_Start], 
+    [v_05_KhauDetail].[InTime_End] AS [InTime_End], 
+    [v_05_KhauDetail].[UserIn] AS [UserIn], 
+    [v_05_KhauDetail].[WOID] AS [WOID], 
+    [v_05_KhauDetail].[itemnumber] AS [itemnumber], 
+    [v_05_KhauDetail].[lot] AS [lot], 
+    [v_05_KhauDetail].[desc1] AS [desc1], 
+    [v_05_KhauDetail].[desc2] AS [desc2], 
+    [v_05_KhauDetail].[qty] AS [qty], 
+    [v_05_KhauDetail].[OperationMins] AS [OperationMins], 
+    [v_05_KhauDetail].[userid] AS [userid], 
+    [v_05_KhauDetail].[name] AS [name]
+    FROM [dbo].[v_05_KhauDetail] AS [v_05_KhauDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_05_QCDetail" EntityType="Self.v_05_QCDetail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_05_QCDetail].[id] AS [id], 
+    [v_05_QCDetail].[workorder] AS [workorder], 
+    [v_05_QCDetail].[QCTime_Start] AS [QCTime_Start], 
+    [v_05_QCDetail].[QCTime_End] AS [QCTime_End], 
+    [v_05_QCDetail].[UserQC] AS [UserQC], 
+    [v_05_QCDetail].[WOID] AS [WOID], 
+    [v_05_QCDetail].[itemnumber] AS [itemnumber], 
+    [v_05_QCDetail].[lot] AS [lot], 
+    [v_05_QCDetail].[desc1] AS [desc1], 
+    [v_05_QCDetail].[desc2] AS [desc2], 
+    [v_05_QCDetail].[qty] AS [qty], 
+    [v_05_QCDetail].[OperationMins] AS [OperationMins], 
+    [v_05_QCDetail].[userid] AS [userid], 
+    [v_05_QCDetail].[name] AS [name]
+    FROM [dbo].[v_05_QCDetail] AS [v_05_QCDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_06_LoaiSP" EntityType="Self.v_06_LoaiSP" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_06_LoaiSP].[itemnumber] AS [itemnumber], 
+    [v_06_LoaiSP].[desc1] AS [desc1], 
+    [v_06_LoaiSP].[desc2] AS [desc2], 
+    [v_06_LoaiSP].[LoaiSP] AS [LoaiSP]
+    FROM [dbo].[v_06_LoaiSP] AS [v_06_LoaiSP]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_DSLoaiSP" EntityType="Self.v_DSLoaiSP" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_DSLoaiSP].[loaisp] AS [loaisp]
+    FROM [dbo].[v_DSLoaiSP] AS [v_DSLoaiSP]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EVS_ProductionStatusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblBanVes" EntityType="EVS_ProductionStatusModel.tblBanVe" />
+          <EntitySet Name="tblContents" EntityType="EVS_ProductionStatusModel.tblContent" />
+          <EntitySet Name="tblDongGois" EntityType="EVS_ProductionStatusModel.tblDongGoi" />
+          <EntitySet Name="tblInputs" EntityType="EVS_ProductionStatusModel.tblInput" />
+          <EntitySet Name="tblKhauIns" EntityType="EVS_ProductionStatusModel.tblKhauIn" />
+          <EntitySet Name="tblNgayNghis" EntityType="EVS_ProductionStatusModel.tblNgayNghi" />
+          <EntitySet Name="tblQCs" EntityType="EVS_ProductionStatusModel.tblQC" />
+          <EntitySet Name="tblQCDetails" EntityType="EVS_ProductionStatusModel.tblQCDetail" />
+          <EntitySet Name="tblThoiGianNghis" EntityType="EVS_ProductionStatusModel.tblThoiGianNghi" />
+          <EntitySet Name="tblURLs" EntityType="EVS_ProductionStatusModel.tblURL" />
+          <EntitySet Name="tblUsers" EntityType="EVS_ProductionStatusModel.tblUser" />
+          <EntitySet Name="tblViTriNguoiTTs" EntityType="EVS_ProductionStatusModel.tblViTriNguoiTT" />
+          <EntitySet Name="tblWOes" EntityType="EVS_ProductionStatusModel.tblWO" />
+          <EntitySet Name="v_01_Kitting" EntityType="EVS_ProductionStatusModel.v_01_Kitting" />
+          <EntitySet Name="v_04_DongGoi" EntityType="EVS_ProductionStatusModel.v_04_DongGoi" />
+          <EntitySet Name="v_05_KhauDetail" EntityType="EVS_ProductionStatusModel.v_05_KhauDetail" />
+          <EntitySet Name="v_05_QCDetail" EntityType="EVS_ProductionStatusModel.v_05_QCDetail" />
+          <EntitySet Name="v_06_LoaiSP" EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" />
+          <EntitySet Name="v_DSLoaiSP" EntityType="EVS_ProductionStatusModel.v_DSLoaiSP" />
+          <FunctionImport Name="pro_01_truncateWO" />
+          <FunctionImport Name="pro_02_tblInputWithTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_02_tblInputWithTime_Result)">
+            <Parameter Name="from" Mode="In" Type="DateTime" />
+            <Parameter Name="to" Mode="In" Type="DateTime" />
+            <Parameter Name="item" Mode="In" Type="String" />
+            <Parameter Name="lot" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_03_WOBaoLuu" ReturnType="Collection(EVS_ProductionStatusModel.pro_03_WOBaoLuu_Result)">
+          <Parameter Name="key_str" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_04_TruncateBanVe" />
+          <FunctionImport Name="pro_05_TruncateUser" />
+          <FunctionImport Name="pro_06_TruncateViTriNguoiTT" />
+          <FunctionImport Name="pro_07_TimeOverlapRows" ReturnType="Collection(Int32)">
+            <Parameter Name="starthour" Mode="In" Type="String" />
+            <Parameter Name="startmin" Mode="In" Type="String" />
+            <Parameter Name="endhour" Mode="In" Type="String" />
+            <Parameter Name="endmin" Mode="In" Type="String" />
+            <Parameter Name="congdoan" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_08_KhauTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_08_KhauTime_Result)">
+            <Parameter Name="from" Mode="In" Type="DateTime" />
+            <Parameter Name="to" Mode="In" Type="DateTime" />
+            <Parameter Name="item" Mode="In" Type="String" />
+            <Parameter Name="lot" Mode="In" Type="String" />
+            <Parameter Name="manv" Mode="In" Type="String" />
+            <Parameter Name="wo" Mode="In" Type="String" />
+            <Parameter Name="loaisp" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_09_QCTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_09_QCTime_Result)">
+            <Parameter Name="from" Mode="In" Type="DateTime" />
+            <Parameter Name="to" Mode="In" Type="DateTime" />
+            <Parameter Name="item" Mode="In" Type="String" />
+            <Parameter Name="lot" Mode="In" Type="String" />
+            <Parameter Name="manv" Mode="In" Type="String" />
+            <Parameter Name="wo" Mode="In" Type="String" />
+            <Parameter Name="loaisp" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_10_KittingTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_10_KittingTime_Result)">
+            <Parameter Name="from" Mode="In" Type="DateTime" />
+            <Parameter Name="to" Mode="In" Type="DateTime" />
+            <Parameter Name="item" Mode="In" Type="String" />
+            <Parameter Name="lot" Mode="In" Type="String" />
+            <Parameter Name="manv" Mode="In" Type="String" />
+            <Parameter Name="wo" Mode="In" Type="String" />
+            <Parameter Name="loaisp" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_11_DongGoiTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_11_DongGoiTime_Result)">
+            <Parameter Name="from" Mode="In" Type="DateTime" />
+            <Parameter Name="to" Mode="In" Type="DateTime" />
+            <Parameter Name="item" Mode="In" Type="String" />
+            <Parameter Name="lot" Mode="In" Type="String" />
+            <Parameter Name="manv" Mode="In" Type="String" />
+            <Parameter Name="wo" Mode="In" Type="String" />
+            <Parameter Name="loaisp" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_12_WOChuaDG" ReturnType="Collection(EVS_ProductionStatusModel.pro_12_WOChuaDG_Result)">
+          <Parameter Name="key_str" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pro_13_getOperationMins" ReturnType="Collection(Int32)">
+            <Parameter Name="Start" Mode="In" Type="DateTime" />
+            <Parameter Name="End" Mode="In" Type="DateTime" />
+            <Parameter Name="LoaiSP" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblThoiGianKhaus" EntityType="EVS_ProductionStatusModel.tblThoiGianKhau" />
+          <FunctionImport Name="pro_14_TrangThaiSP" ReturnType="Collection(EVS_ProductionStatusModel.pro_14_TrangThaiSP_Result)">
+            <Parameter Name="LoaiSP" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="tblBanVe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="mabanve" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblContent">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblDongGoi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="workorder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start1" Type="DateTime" Precision="3" />
+          <Property Name="End1" Type="DateTime" Precision="3" />
+          <Property Name="User1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start2" Type="DateTime" Precision="3" />
+          <Property Name="End2" Type="DateTime" Precision="3" />
+          <Property Name="User2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start3" Type="DateTime" Precision="3" />
+          <Property Name="End3" Type="DateTime" Precision="3" />
+          <Property Name="User3" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start4" Type="DateTime" Precision="3" />
+          <Property Name="End4" Type="DateTime" Precision="3" />
+          <Property Name="User4" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start5" Type="DateTime" Precision="3" />
+          <Property Name="End5" Type="DateTime" Precision="3" />
+          <Property Name="User5" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start6" Type="DateTime" Precision="3" />
+          <Property Name="End6" Type="DateTime" Precision="3" />
+          <Property Name="User6" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start7" Type="DateTime" Precision="3" />
+          <Property Name="End7" Type="DateTime" Precision="3" />
+          <Property Name="User7" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start8" Type="DateTime" Precision="3" />
+          <Property Name="End8" Type="DateTime" Precision="3" />
+          <Property Name="User8" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start9" Type="DateTime" Precision="3" />
+          <Property Name="End9" Type="DateTime" Precision="3" />
+          <Property Name="User9" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start10" Type="DateTime" Precision="3" />
+          <Property Name="End10" Type="DateTime" Precision="3" />
+          <Property Name="User10" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start11" Type="DateTime" Precision="3" />
+          <Property Name="End11" Type="DateTime" Precision="3" />
+          <Property Name="User11" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start12" Type="DateTime" Precision="3" />
+          <Property Name="End12" Type="DateTime" Precision="3" />
+          <Property Name="User12" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start13" Type="DateTime" Precision="3" />
+          <Property Name="End13" Type="DateTime" Precision="3" />
+          <Property Name="User13" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start14" Type="DateTime" Precision="3" />
+          <Property Name="End14" Type="DateTime" Precision="3" />
+          <Property Name="User14" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start15" Type="DateTime" Precision="3" />
+          <Property Name="End15" Type="DateTime" Precision="3" />
+          <Property Name="User15" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Mins1" Type="Int32" />
+          <Property Name="Mins2" Type="Int32" />
+          <Property Name="Mins3" Type="Int32" />
+          <Property Name="Mins4" Type="Int32" />
+          <Property Name="Mins5" Type="Int32" />
+          <Property Name="Mins6" Type="Int32" />
+          <Property Name="Mins7" Type="Int32" />
+          <Property Name="Mins8" Type="Int32" />
+          <Property Name="Mins9" Type="Int32" />
+          <Property Name="Mins10" Type="Int32" />
+          <Property Name="Mins11" Type="Int32" />
+          <Property Name="Mins12" Type="Int32" />
+          <Property Name="Mins13" Type="Int32" />
+          <Property Name="Mins14" Type="Int32" />
+          <Property Name="Mins15" Type="Int32" />
+          <Property Name="IsStart" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tblInput">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="workorder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="KittingTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="KittingTime_End" Type="DateTime" Precision="3" />
+          <Property Name="UserKitting" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="KittingGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="UserIn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OutTime" Type="DateTime" Precision="3" />
+          <Property Name="QCTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="QCTime_End" Type="DateTime" Precision="3" />
+          <Property Name="UserQC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DongGoi_Start" Type="DateTime" Precision="3" />
+          <Property Name="DongGoi_End" Type="DateTime" Precision="3" />
+          <Property Name="DongGoiGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UserDongGoi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblKhauIn">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="workorder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="InTime_End" Type="DateTime" Precision="3" />
+          <Property Name="UserIn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblNgayNghi">
+          <Key>
+            <PropertyRef Name="NgayNghi" />
+          </Key>
+          <Property Name="NgayNghi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Thu" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblQC">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="workorder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="QCTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="QCTime_End" Type="DateTime" Precision="3" />
+          <Property Name="UserQC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblQCDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="workorder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start1" Type="DateTime" Precision="3" />
+          <Property Name="End1" Type="DateTime" Precision="3" />
+          <Property Name="User1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start2" Type="DateTime" Precision="3" />
+          <Property Name="End2" Type="DateTime" Precision="3" />
+          <Property Name="User2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start3" Type="DateTime" Precision="3" />
+          <Property Name="End3" Type="DateTime" Precision="3" />
+          <Property Name="User3" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start4" Type="DateTime" Precision="3" />
+          <Property Name="End4" Type="DateTime" Precision="3" />
+          <Property Name="User4" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start5" Type="DateTime" Precision="3" />
+          <Property Name="End5" Type="DateTime" Precision="3" />
+          <Property Name="User5" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start6" Type="DateTime" Precision="3" />
+          <Property Name="End6" Type="DateTime" Precision="3" />
+          <Property Name="User6" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start7" Type="DateTime" Precision="3" />
+          <Property Name="End7" Type="DateTime" Precision="3" />
+          <Property Name="User7" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start8" Type="DateTime" Precision="3" />
+          <Property Name="End8" Type="DateTime" Precision="3" />
+          <Property Name="User8" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start9" Type="DateTime" Precision="3" />
+          <Property Name="End9" Type="DateTime" Precision="3" />
+          <Property Name="User9" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start10" Type="DateTime" Precision="3" />
+          <Property Name="End10" Type="DateTime" Precision="3" />
+          <Property Name="User10" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start11" Type="DateTime" Precision="3" />
+          <Property Name="End11" Type="DateTime" Precision="3" />
+          <Property Name="User11" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start12" Type="DateTime" Precision="3" />
+          <Property Name="End12" Type="DateTime" Precision="3" />
+          <Property Name="User12" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start13" Type="DateTime" Precision="3" />
+          <Property Name="End13" Type="DateTime" Precision="3" />
+          <Property Name="User13" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start14" Type="DateTime" Precision="3" />
+          <Property Name="End14" Type="DateTime" Precision="3" />
+          <Property Name="User14" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Start15" Type="DateTime" Precision="3" />
+          <Property Name="End15" Type="DateTime" Precision="3" />
+          <Property Name="User15" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Mins1" Type="Int32" />
+          <Property Name="Mins2" Type="Int32" />
+          <Property Name="Mins3" Type="Int32" />
+          <Property Name="Mins4" Type="Int32" />
+          <Property Name="Mins5" Type="Int32" />
+          <Property Name="Mins6" Type="Int32" />
+          <Property Name="Mins7" Type="Int32" />
+          <Property Name="Mins8" Type="Int32" />
+          <Property Name="Mins9" Type="Int32" />
+          <Property Name="Mins10" Type="Int32" />
+          <Property Name="Mins11" Type="Int32" />
+          <Property Name="Mins12" Type="Int32" />
+          <Property Name="Mins13" Type="Int32" />
+          <Property Name="Mins14" Type="Int32" />
+          <Property Name="Mins15" Type="Int32" />
+          <Property Name="IsStart" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tblThoiGianNghi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CongDoan" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="BreakStartHour" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="BreakStartMin" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="BreakEndHour" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="BreakEndMin" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblURL">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblViTriNguoiTT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ViTri" Type="Int32" Nullable="false" />
+          <Property Name="CongDoan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nhom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblWO">
+          <Key>
+            <PropertyRef Name="WOID" />
+          </Key>
+          <Property Name="WOID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="workorder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="wostatus" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="orderdate" Type="DateTime" Precision="0" />
+          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="qty" Type="Int32" />
+        </EntityType>
+        <EntityType Name="v_01_Kitting">
+          <Key>
+            <PropertyRef Name="workorder" />
+          </Key>
+          <Property Name="STT" Type="Int64" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="workorder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KittingTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="KittingTime_End" Type="DateTime" Precision="3" />
+          <Property Name="KittingDongThoi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OperationMins" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="UserKitting" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GioTT" Type="Int32" />
+          <Property Name="PhutTT" Type="Decimal" Precision="4" Scale="2" />
+        </EntityType>
+        <EntityType Name="v_04_DongGoi">
+          <Key>
+            <PropertyRef Name="workorder" />
+          </Key>
+          <Property Name="STT" Type="Int64" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="workorder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DongGoi_Start" Type="DateTime" Precision="3" />
+          <Property Name="DongGoi_End" Type="DateTime" Precision="3" />
+          <Property Name="DGDongThoi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OperationMins" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="UserDongGoi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GioTT" Type="Int32" />
+          <Property Name="PhutTT" Type="Decimal" Precision="4" Scale="2" />
+        </EntityType>
+        <EntityType Name="v_05_KhauDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="workorder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="InTime_End" Type="DateTime" Precision="3" />
+          <Property Name="UserIn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="OperationMins" Type="Int32" />
+          <Property Name="userid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="v_05_QCDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="workorder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="QCTime_Start" Type="DateTime" Precision="3" />
+          <Property Name="QCTime_End" Type="DateTime" Precision="3" />
+          <Property Name="UserQC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="qty" Type="Int32" />
+          <Property Name="OperationMins" Type="Int32" />
+          <Property Name="userid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="v_06_LoaiSP">
+          <Key>
+            <PropertyRef Name="LoaiSP" />
+          </Key>
+          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoaiSP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="v_DSLoaiSP">
+          <Key>
+            <PropertyRef Name="loaisp" />
+          </Key>
+          <Property Name="loaisp" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="pro_02_tblInputWithTime_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="workorder" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="itemnumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="lot" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="desc1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="desc2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="qty" Nullable="true" />
+          <Property Type="DateTime" Name="KittingTime_Start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="KittingTime_End" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserKitting" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="KittingGroup" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="InTime_Start" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserIn" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="OutTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="QCTime_Start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="QCTime_End" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UserQC" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="WOID" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="DongGoi_Start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DongGoi_End" Nullable="true" Precision="23" />
+          <Property Type="String" Name="DongGoiGroup" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="UserDongGoi" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="UserNameKitting" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserNameKhau" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserNameQC" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="GioKitting" Nullable="true" />
+          <Property Type="Int32" Name="PhutKitting" Nullable="true" />
+          <Property Type="Int32" Name="GioKhau" Nullable="true" />
+          <Property Type="Int32" Name="PhutKhau" Nullable="true" />
+          <Property Type="Int32" Name="GioQC" Nullable="true" />
+          <Property Type="Int32" Name="PhutQC" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pro_03_WOBaoLuu_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="WOID" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="workorder" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="wostatus" Nullable="true" MaxLength="5" />
+          <Property Type="DateTime" Name="orderdate" Nullable="true" />
+          <Property Type="String" Name="lot" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="itemnumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="desc1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="desc2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="qty" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pro_08_KhauTime_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="Số_WO" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ID" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Mã_chủng_loại" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Số_lô" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Mô_tả_1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Mô_tả_2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_lượng" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_1" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_1" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT1" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT1" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_1" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_1" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_2" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT2" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_2" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_2" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_3" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_3" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT3" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT3" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_3" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_3" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_4" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_4" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT4" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT4" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_4" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_4" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_5" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_5" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT5" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT5" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_5" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_5" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_6" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_6" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT6" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT6" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_6" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_6" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_7" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_7" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT7" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT7" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_7" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_7" Nullable="true" />
+          <Property Type="DateTime" Name="Thời_gian_khâu_out" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Tổng_số_giờ" Nullable="true" />
+          <Property Type="Int32" Name="Tổng_số_phút" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pro_09_QCTime_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="Số_WO" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ID" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Mã_chủng_loại" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Số_lô" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Mô_tả_1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Mô_tả_2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_lượng" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_1" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_1" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT1" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT1" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_1" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_1" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_2" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT2" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_2" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_2" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_3" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_3" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT3" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT3" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_3" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_3" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_4" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_4" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT4" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT4" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_4" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_4" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_5" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_5" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT5" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT5" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_5" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_5" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_6" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_6" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT6" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT6" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_6" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_6" Nullable="true" />
+          <Property Type="DateTime" Name="Bắt_đầu_lần_7" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Kết_thúc_lần_7" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Người_TT7" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Tên_người_TT7" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Số_giờ_7" Nullable="true" />
+          <Property Type="Int32" Name="Số_phút_7" Nullable="true" />
+          <Property Type="DateTime" Name="Kết_thúc_QC" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Tổng_số_giờ" Nullable="true" />
+          <Property Type="Int32" Name="Tổng_số_phút" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pro_10_KittingTime_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="WOID" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="workorder" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="itemnumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="lot" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="qty" Nullable="true" />
+          <Property Type="String" Name="desc1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="desc2" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="KittingTime_Start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="KittingTime_End" Nullable="true" Precision="23" />
+          <Property Type="String" Name="KittingDongThoi" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="OperationMins" Nullable="true" Precision="15" Scale="2" />
+          <Property Type="String" Name="UserKitting" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="GioTT" Nullable="true" />
+          <Property Type="Decimal" Name="PhutTT" Nullable="true" Precision="4" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pro_11_DongGoiTime_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="WOID" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="workorder" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="itemnumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="lot" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="qty" Nullable="true" />
+          <Property Type="String" Name="desc1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="desc2" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DongGoi_Start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DongGoi_End" Nullable="true" Precision="23" />
+          <Property Type="String" Name="DGDongThoi" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="OperationMins" Nullable="true" Precision="15" Scale="2" />
+          <Property Type="String" Name="UserDongGoi" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="GioTT" Nullable="true" />
+          <Property Type="Decimal" Name="PhutTT" Nullable="true" Precision="4" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pro_12_WOChuaDG_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="WOID" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="workorder" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="wostatus" Nullable="true" MaxLength="5" />
+          <Property Type="DateTime" Name="orderdate" Nullable="true" />
+          <Property Type="String" Name="lot" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="itemnumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="desc1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="desc2" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="qty" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblThoiGianKhau">
+          <Key>
+            <PropertyRef Name="itemnumber" />
+          </Key>
+          <Property Name="itemnumber" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="sophut" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="pro_14_TrangThaiSP_Result">
+          <Property Type="Int64" Name="STT" Nullable="true" />
+          <Property Type="String" Name="WOID" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="workorder" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="itemnumber" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="lot" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="desc1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="desc2" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="KittingTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="KhauTime" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="QCTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="TrangThai" Nullable="true" MaxLength="9" />
+          <Property Type="DateTime" Name="StartKhau" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EVS_ProductionStatusModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="tblBanVes">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblBanVe">
+              <MappingFragment StoreEntitySet="tblBanVe">
+                <ScalarProperty Name="mabanve" ColumnName="mabanve" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblContents">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblContent">
+              <MappingFragment StoreEntitySet="tblContent">
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDongGois">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblDongGoi">
+              <MappingFragment StoreEntitySet="tblDongGoi">
+                <ScalarProperty Name="IsStart" ColumnName="IsStart" />
+                <ScalarProperty Name="Mins15" ColumnName="Mins15" />
+                <ScalarProperty Name="Mins14" ColumnName="Mins14" />
+                <ScalarProperty Name="Mins13" ColumnName="Mins13" />
+                <ScalarProperty Name="Mins12" ColumnName="Mins12" />
+                <ScalarProperty Name="Mins11" ColumnName="Mins11" />
+                <ScalarProperty Name="Mins10" ColumnName="Mins10" />
+                <ScalarProperty Name="Mins9" ColumnName="Mins9" />
+                <ScalarProperty Name="Mins8" ColumnName="Mins8" />
+                <ScalarProperty Name="Mins7" ColumnName="Mins7" />
+                <ScalarProperty Name="Mins6" ColumnName="Mins6" />
+                <ScalarProperty Name="Mins5" ColumnName="Mins5" />
+                <ScalarProperty Name="Mins4" ColumnName="Mins4" />
+                <ScalarProperty Name="Mins3" ColumnName="Mins3" />
+                <ScalarProperty Name="Mins2" ColumnName="Mins2" />
+                <ScalarProperty Name="Mins1" ColumnName="Mins1" />
+                <ScalarProperty Name="User15" ColumnName="User15" />
+                <ScalarProperty Name="End15" ColumnName="End15" />
+                <ScalarProperty Name="Start15" ColumnName="Start15" />
+                <ScalarProperty Name="User14" ColumnName="User14" />
+                <ScalarProperty Name="End14" ColumnName="End14" />
+                <ScalarProperty Name="Start14" ColumnName="Start14" />
+                <ScalarProperty Name="User13" ColumnName="User13" />
+                <ScalarProperty Name="End13" ColumnName="End13" />
+                <ScalarProperty Name="Start13" ColumnName="Start13" />
+                <ScalarProperty Name="User12" ColumnName="User12" />
+                <ScalarProperty Name="End12" ColumnName="End12" />
+                <ScalarProperty Name="Start12" ColumnName="Start12" />
+                <ScalarProperty Name="User11" ColumnName="User11" />
+                <ScalarProperty Name="End11" ColumnName="End11" />
+                <ScalarProperty Name="Start11" ColumnName="Start11" />
+                <ScalarProperty Name="User10" ColumnName="User10" />
+                <ScalarProperty Name="End10" ColumnName="End10" />
+                <ScalarProperty Name="Start10" ColumnName="Start10" />
+                <ScalarProperty Name="User9" ColumnName="User9" />
+                <ScalarProperty Name="End9" ColumnName="End9" />
+                <ScalarProperty Name="Start9" ColumnName="Start9" />
+                <ScalarProperty Name="User8" ColumnName="User8" />
+                <ScalarProperty Name="End8" ColumnName="End8" />
+                <ScalarProperty Name="Start8" ColumnName="Start8" />
+                <ScalarProperty Name="User7" ColumnName="User7" />
+                <ScalarProperty Name="End7" ColumnName="End7" />
+                <ScalarProperty Name="Start7" ColumnName="Start7" />
+                <ScalarProperty Name="User6" ColumnName="User6" />
+                <ScalarProperty Name="End6" ColumnName="End6" />
+                <ScalarProperty Name="Start6" ColumnName="Start6" />
+                <ScalarProperty Name="User5" ColumnName="User5" />
+                <ScalarProperty Name="End5" ColumnName="End5" />
+                <ScalarProperty Name="Start5" ColumnName="Start5" />
+                <ScalarProperty Name="User4" ColumnName="User4" />
+                <ScalarProperty Name="End4" ColumnName="End4" />
+                <ScalarProperty Name="Start4" ColumnName="Start4" />
+                <ScalarProperty Name="User3" ColumnName="User3" />
+                <ScalarProperty Name="End3" ColumnName="End3" />
+                <ScalarProperty Name="Start3" ColumnName="Start3" />
+                <ScalarProperty Name="User2" ColumnName="User2" />
+                <ScalarProperty Name="End2" ColumnName="End2" />
+                <ScalarProperty Name="Start2" ColumnName="Start2" />
+                <ScalarProperty Name="User1" ColumnName="User1" />
+                <ScalarProperty Name="End1" ColumnName="End1" />
+                <ScalarProperty Name="Start1" ColumnName="Start1" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblInputs">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblInput">
+              <MappingFragment StoreEntitySet="tblInput">
+                <ScalarProperty Name="UserDongGoi" ColumnName="UserDongGoi" />
+                <ScalarProperty Name="DongGoiGroup" ColumnName="DongGoiGroup" />
+                <ScalarProperty Name="DongGoi_End" ColumnName="DongGoi_End" />
+                <ScalarProperty Name="DongGoi_Start" ColumnName="DongGoi_Start" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="UserQC" ColumnName="UserQC" />
+                <ScalarProperty Name="QCTime_End" ColumnName="QCTime_End" />
+                <ScalarProperty Name="QCTime_Start" ColumnName="QCTime_Start" />
+                <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+                <ScalarProperty Name="UserIn" ColumnName="UserIn" />
+                <ScalarProperty Name="InTime_Start" ColumnName="InTime_Start" />
+                <ScalarProperty Name="KittingGroup" ColumnName="KittingGroup" />
+                <ScalarProperty Name="UserKitting" ColumnName="UserKitting" />
+                <ScalarProperty Name="KittingTime_End" ColumnName="KittingTime_End" />
+                <ScalarProperty Name="KittingTime_Start" ColumnName="KittingTime_Start" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblKhauIns">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblKhauIn">
+              <MappingFragment StoreEntitySet="tblKhauIn">
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="UserIn" ColumnName="UserIn" />
+                <ScalarProperty Name="InTime_End" ColumnName="InTime_End" />
+                <ScalarProperty Name="InTime_Start" ColumnName="InTime_Start" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblNgayNghis">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblNgayNghi">
+              <MappingFragment StoreEntitySet="tblNgayNghi">
+                <ScalarProperty Name="Thu" ColumnName="Thu" />
+                <ScalarProperty Name="NgayNghi" ColumnName="NgayNghi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblQCs">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblQC">
+              <MappingFragment StoreEntitySet="tblQC">
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="UserQC" ColumnName="UserQC" />
+                <ScalarProperty Name="QCTime_End" ColumnName="QCTime_End" />
+                <ScalarProperty Name="QCTime_Start" ColumnName="QCTime_Start" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblQCDetails">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblQCDetail">
+              <MappingFragment StoreEntitySet="tblQCDetail">
+                <ScalarProperty Name="IsStart" ColumnName="IsStart" />
+                <ScalarProperty Name="Mins15" ColumnName="Mins15" />
+                <ScalarProperty Name="Mins14" ColumnName="Mins14" />
+                <ScalarProperty Name="Mins13" ColumnName="Mins13" />
+                <ScalarProperty Name="Mins12" ColumnName="Mins12" />
+                <ScalarProperty Name="Mins11" ColumnName="Mins11" />
+                <ScalarProperty Name="Mins10" ColumnName="Mins10" />
+                <ScalarProperty Name="Mins9" ColumnName="Mins9" />
+                <ScalarProperty Name="Mins8" ColumnName="Mins8" />
+                <ScalarProperty Name="Mins7" ColumnName="Mins7" />
+                <ScalarProperty Name="Mins6" ColumnName="Mins6" />
+                <ScalarProperty Name="Mins5" ColumnName="Mins5" />
+                <ScalarProperty Name="Mins4" ColumnName="Mins4" />
+                <ScalarProperty Name="Mins3" ColumnName="Mins3" />
+                <ScalarProperty Name="Mins2" ColumnName="Mins2" />
+                <ScalarProperty Name="Mins1" ColumnName="Mins1" />
+                <ScalarProperty Name="User15" ColumnName="User15" />
+                <ScalarProperty Name="End15" ColumnName="End15" />
+                <ScalarProperty Name="Start15" ColumnName="Start15" />
+                <ScalarProperty Name="User14" ColumnName="User14" />
+                <ScalarProperty Name="End14" ColumnName="End14" />
+                <ScalarProperty Name="Start14" ColumnName="Start14" />
+                <ScalarProperty Name="User13" ColumnName="User13" />
+                <ScalarProperty Name="End13" ColumnName="End13" />
+                <ScalarProperty Name="Start13" ColumnName="Start13" />
+                <ScalarProperty Name="User12" ColumnName="User12" />
+                <ScalarProperty Name="End12" ColumnName="End12" />
+                <ScalarProperty Name="Start12" ColumnName="Start12" />
+                <ScalarProperty Name="User11" ColumnName="User11" />
+                <ScalarProperty Name="End11" ColumnName="End11" />
+                <ScalarProperty Name="Start11" ColumnName="Start11" />
+                <ScalarProperty Name="User10" ColumnName="User10" />
+                <ScalarProperty Name="End10" ColumnName="End10" />
+                <ScalarProperty Name="Start10" ColumnName="Start10" />
+                <ScalarProperty Name="User9" ColumnName="User9" />
+                <ScalarProperty Name="End9" ColumnName="End9" />
+                <ScalarProperty Name="Start9" ColumnName="Start9" />
+                <ScalarProperty Name="User8" ColumnName="User8" />
+                <ScalarProperty Name="End8" ColumnName="End8" />
+                <ScalarProperty Name="Start8" ColumnName="Start8" />
+                <ScalarProperty Name="User7" ColumnName="User7" />
+                <ScalarProperty Name="End7" ColumnName="End7" />
+                <ScalarProperty Name="Start7" ColumnName="Start7" />
+                <ScalarProperty Name="User6" ColumnName="User6" />
+                <ScalarProperty Name="End6" ColumnName="End6" />
+                <ScalarProperty Name="Start6" ColumnName="Start6" />
+                <ScalarProperty Name="User5" ColumnName="User5" />
+                <ScalarProperty Name="End5" ColumnName="End5" />
+                <ScalarProperty Name="Start5" ColumnName="Start5" />
+                <ScalarProperty Name="User4" ColumnName="User4" />
+                <ScalarProperty Name="End4" ColumnName="End4" />
+                <ScalarProperty Name="Start4" ColumnName="Start4" />
+                <ScalarProperty Name="User3" ColumnName="User3" />
+                <ScalarProperty Name="End3" ColumnName="End3" />
+                <ScalarProperty Name="Start3" ColumnName="Start3" />
+                <ScalarProperty Name="User2" ColumnName="User2" />
+                <ScalarProperty Name="End2" ColumnName="End2" />
+                <ScalarProperty Name="Start2" ColumnName="Start2" />
+                <ScalarProperty Name="User1" ColumnName="User1" />
+                <ScalarProperty Name="End1" ColumnName="End1" />
+                <ScalarProperty Name="Start1" ColumnName="Start1" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblThoiGianNghis">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblThoiGianNghi">
+              <MappingFragment StoreEntitySet="tblThoiGianNghi">
+                <ScalarProperty Name="BreakEndMin" ColumnName="BreakEndMin" />
+                <ScalarProperty Name="BreakEndHour" ColumnName="BreakEndHour" />
+                <ScalarProperty Name="BreakStartMin" ColumnName="BreakStartMin" />
+                <ScalarProperty Name="BreakStartHour" ColumnName="BreakStartHour" />
+                <ScalarProperty Name="CongDoan" ColumnName="CongDoan" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblURLs">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblURL">
+              <MappingFragment StoreEntitySet="tblURL">
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblViTriNguoiTTs">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblViTriNguoiTT">
+              <MappingFragment StoreEntitySet="tblViTriNguoiTT">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Nhom" ColumnName="Nhom" />
+                <ScalarProperty Name="CongDoan" ColumnName="CongDoan" />
+                <ScalarProperty Name="ViTri" ColumnName="ViTri" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWOes">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblWO">
+              <MappingFragment StoreEntitySet="tblWO">
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
+                <ScalarProperty Name="wostatus" ColumnName="wostatus" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_01_Kitting">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_01_Kitting">
+              <MappingFragment StoreEntitySet="v_01_Kitting">
+                <ScalarProperty Name="PhutTT" ColumnName="PhutTT" />
+                <ScalarProperty Name="GioTT" ColumnName="GioTT" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="UserKitting" ColumnName="UserKitting" />
+                <ScalarProperty Name="OperationMins" ColumnName="OperationMins" />
+                <ScalarProperty Name="KittingDongThoi" ColumnName="KittingDongThoi" />
+                <ScalarProperty Name="KittingTime_End" ColumnName="KittingTime_End" />
+                <ScalarProperty Name="KittingTime_Start" ColumnName="KittingTime_Start" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_04_DongGoi">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_04_DongGoi">
+              <MappingFragment StoreEntitySet="v_04_DongGoi">
+                <ScalarProperty Name="PhutTT" ColumnName="PhutTT" />
+                <ScalarProperty Name="GioTT" ColumnName="GioTT" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="UserDongGoi" ColumnName="UserDongGoi" />
+                <ScalarProperty Name="OperationMins" ColumnName="OperationMins" />
+                <ScalarProperty Name="DGDongThoi" ColumnName="DGDongThoi" />
+                <ScalarProperty Name="DongGoi_End" ColumnName="DongGoi_End" />
+                <ScalarProperty Name="DongGoi_Start" ColumnName="DongGoi_Start" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_05_KhauDetail">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_05_KhauDetail">
+              <MappingFragment StoreEntitySet="v_05_KhauDetail">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="OperationMins" ColumnName="OperationMins" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="UserIn" ColumnName="UserIn" />
+                <ScalarProperty Name="InTime_End" ColumnName="InTime_End" />
+                <ScalarProperty Name="InTime_Start" ColumnName="InTime_Start" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_05_QCDetail">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_05_QCDetail">
+              <MappingFragment StoreEntitySet="v_05_QCDetail">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="OperationMins" ColumnName="OperationMins" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="UserQC" ColumnName="UserQC" />
+                <ScalarProperty Name="QCTime_End" ColumnName="QCTime_End" />
+                <ScalarProperty Name="QCTime_Start" ColumnName="QCTime_Start" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_06_LoaiSP">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_06_LoaiSP">
+              <MappingFragment StoreEntitySet="v_06_LoaiSP">
+                <ScalarProperty Name="LoaiSP" ColumnName="LoaiSP" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_DSLoaiSP">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_DSLoaiSP">
+              <MappingFragment StoreEntitySet="v_DSLoaiSP">
+                <ScalarProperty Name="loaisp" ColumnName="loaisp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="pro_01_truncateWO" FunctionName="EVS_ProductionStatusModel.Store.pro_01_truncateWO" />
+          <FunctionImportMapping FunctionImportName="pro_02_tblInputWithTime" FunctionName="EVS_ProductionStatusModel.Store.pro_02_tblInputWithTime">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_02_tblInputWithTime_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="KittingTime_Start" ColumnName="KittingTime_Start" />
+                <ScalarProperty Name="KittingTime_End" ColumnName="KittingTime_End" />
+                <ScalarProperty Name="UserKitting" ColumnName="UserKitting" />
+                <ScalarProperty Name="KittingGroup" ColumnName="KittingGroup" />
+                <ScalarProperty Name="InTime_Start" ColumnName="InTime_Start" />
+                <ScalarProperty Name="UserIn" ColumnName="UserIn" />
+                <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+                <ScalarProperty Name="QCTime_Start" ColumnName="QCTime_Start" />
+                <ScalarProperty Name="QCTime_End" ColumnName="QCTime_End" />
+                <ScalarProperty Name="UserQC" ColumnName="UserQC" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="DongGoi_Start" ColumnName="DongGoi_Start" />
+                <ScalarProperty Name="DongGoi_End" ColumnName="DongGoi_End" />
+                <ScalarProperty Name="DongGoiGroup" ColumnName="DongGoiGroup" />
+                <ScalarProperty Name="UserDongGoi" ColumnName="UserDongGoi" />
+                <ScalarProperty Name="UserNameKitting" ColumnName="UserNameKitting" />
+                <ScalarProperty Name="UserNameKhau" ColumnName="UserNameKhau" />
+                <ScalarProperty Name="UserNameQC" ColumnName="UserNameQC" />
+                <ScalarProperty Name="GioKitting" ColumnName="GioKitting" />
+                <ScalarProperty Name="PhutKitting" ColumnName="PhutKitting" />
+                <ScalarProperty Name="GioKhau" ColumnName="GioKhau" />
+                <ScalarProperty Name="PhutKhau" ColumnName="PhutKhau" />
+                <ScalarProperty Name="GioQC" ColumnName="GioQC" />
+                <ScalarProperty Name="PhutQC" ColumnName="PhutQC" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_03_WOBaoLuu" FunctionName="EVS_ProductionStatusModel.Store.pro_03_WOBaoLuu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_03_WOBaoLuu_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="wostatus" ColumnName="wostatus" />
+                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_04_TruncateBanVe" FunctionName="EVS_ProductionStatusModel.Store.pro_04_TruncateBanVe" />
+          <FunctionImportMapping FunctionImportName="pro_05_TruncateUser" FunctionName="EVS_ProductionStatusModel.Store.pro_05_TruncateUser" />
+          <FunctionImportMapping FunctionImportName="pro_06_TruncateViTriNguoiTT" FunctionName="EVS_ProductionStatusModel.Store.pro_06_TruncateViTriNguoiTT" />
+          <FunctionImportMapping FunctionImportName="pro_07_TimeOverlapRows" FunctionName="EVS_ProductionStatusModel.Store.pro_07_TimeOverlapRows" />
+          <FunctionImportMapping FunctionImportName="pro_08_KhauTime" FunctionName="EVS_ProductionStatusModel.Store.pro_08_KhauTime">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_08_KhauTime_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="Số_WO" ColumnName="Số WO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Mã_chủng_loại" ColumnName="Mã chủng loại" />
+                <ScalarProperty Name="Số_lô" ColumnName="Số lô" />
+                <ScalarProperty Name="Mô_tả_1" ColumnName="Mô tả 1" />
+                <ScalarProperty Name="Mô_tả_2" ColumnName="Mô tả 2" />
+                <ScalarProperty Name="Số_lượng" ColumnName="Số lượng" />
+                <ScalarProperty Name="Bắt_đầu_lần_1" ColumnName="Bắt đầu lần 1" />
+                <ScalarProperty Name="Kết_thúc_lần_1" ColumnName="Kết thúc lần 1" />
+                <ScalarProperty Name="Người_TT1" ColumnName="Người TT1" />
+                <ScalarProperty Name="Tên_người_TT1" ColumnName="Tên người TT1" />
+                <ScalarProperty Name="Số_giờ_1" ColumnName="Số giờ 1" />
+                <ScalarProperty Name="Số_phút_1" ColumnName="Số phút 1" />
+                <ScalarProperty Name="Bắt_đầu_lần_2" ColumnName="Bắt đầu lần 2" />
+                <ScalarProperty Name="Kết_thúc_lần_2" ColumnName="Kết thúc lần 2" />
+                <ScalarProperty Name="Người_TT2" ColumnName="Người TT2" />
+                <ScalarProperty Name="Tên_người_TT2" ColumnName="Tên người TT2" />
+                <ScalarProperty Name="Số_giờ_2" ColumnName="Số giờ 2" />
+                <ScalarProperty Name="Số_phút_2" ColumnName="Số phút 2" />
+                <ScalarProperty Name="Bắt_đầu_lần_3" ColumnName="Bắt đầu lần 3" />
+                <ScalarProperty Name="Kết_thúc_lần_3" ColumnName="Kết thúc lần 3" />
+                <ScalarProperty Name="Người_TT3" ColumnName="Người TT3" />
+                <ScalarProperty Name="Tên_người_TT3" ColumnName="Tên người TT3" />
+                <ScalarProperty Name="Số_giờ_3" ColumnName="Số giờ 3" />
+                <ScalarProperty Name="Số_phút_3" ColumnName="Số phút 3" />
+                <ScalarProperty Name="Bắt_đầu_lần_4" ColumnName="Bắt đầu lần 4" />
+                <ScalarProperty Name="Kết_thúc_lần_4" ColumnName="Kết thúc lần 4" />
+                <ScalarProperty Name="Người_TT4" ColumnName="Người TT4" />
+                <ScalarProperty Name="Tên_người_TT4" ColumnName="Tên người TT4" />
+                <ScalarProperty Name="Số_giờ_4" ColumnName="Số giờ 4" />
+                <ScalarProperty Name="Số_phút_4" ColumnName="Số phút 4" />
+                <ScalarProperty Name="Bắt_đầu_lần_5" ColumnName="Bắt đầu lần 5" />
+                <ScalarProperty Name="Kết_thúc_lần_5" ColumnName="Kết thúc lần 5" />
+                <ScalarProperty Name="Người_TT5" ColumnName="Người TT5" />
+                <ScalarProperty Name="Tên_người_TT5" ColumnName="Tên người TT5" />
+                <ScalarProperty Name="Số_giờ_5" ColumnName="Số giờ 5" />
+                <ScalarProperty Name="Số_phút_5" ColumnName="Số phút 5" />
+                <ScalarProperty Name="Bắt_đầu_lần_6" ColumnName="Bắt đầu lần 6" />
+                <ScalarProperty Name="Kết_thúc_lần_6" ColumnName="Kết thúc lần 6" />
+                <ScalarProperty Name="Người_TT6" ColumnName="Người TT6" />
+                <ScalarProperty Name="Tên_người_TT6" ColumnName="Tên người TT6" />
+                <ScalarProperty Name="Số_giờ_6" ColumnName="Số giờ 6" />
+                <ScalarProperty Name="Số_phút_6" ColumnName="Số phút 6" />
+                <ScalarProperty Name="Bắt_đầu_lần_7" ColumnName="Bắt đầu lần 7" />
+                <ScalarProperty Name="Kết_thúc_lần_7" ColumnName="Kết thúc lần 7" />
+                <ScalarProperty Name="Người_TT7" ColumnName="Người TT7" />
+                <ScalarProperty Name="Tên_người_TT7" ColumnName="Tên người TT7" />
+                <ScalarProperty Name="Số_giờ_7" ColumnName="Số giờ 7" />
+                <ScalarProperty Name="Số_phút_7" ColumnName="Số phút 7" />
+                <ScalarProperty Name="Thời_gian_khâu_out" ColumnName="Thời gian khâu out" />
+                <ScalarProperty Name="Tổng_số_giờ" ColumnName="Tổng số giờ" />
+                <ScalarProperty Name="Tổng_số_phút" ColumnName="Tổng số phút" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_09_QCTime" FunctionName="EVS_ProductionStatusModel.Store.pro_09_QCTime">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_09_QCTime_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="Số_WO" ColumnName="Số WO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Mã_chủng_loại" ColumnName="Mã chủng loại" />
+                <ScalarProperty Name="Số_lô" ColumnName="Số lô" />
+                <ScalarProperty Name="Mô_tả_1" ColumnName="Mô tả 1" />
+                <ScalarProperty Name="Mô_tả_2" ColumnName="Mô tả 2" />
+                <ScalarProperty Name="Số_lượng" ColumnName="Số lượng" />
+                <ScalarProperty Name="Bắt_đầu_lần_1" ColumnName="Bắt đầu lần 1" />
+                <ScalarProperty Name="Kết_thúc_lần_1" ColumnName="Kết thúc lần 1" />
+                <ScalarProperty Name="Người_TT1" ColumnName="Người TT1" />
+                <ScalarProperty Name="Tên_người_TT1" ColumnName="Tên người TT1" />
+                <ScalarProperty Name="Số_giờ_1" ColumnName="Số giờ 1" />
+                <ScalarProperty Name="Số_phút_1" ColumnName="Số phút 1" />
+                <ScalarProperty Name="Bắt_đầu_lần_2" ColumnName="Bắt đầu lần 2" />
+                <ScalarProperty Name="Kết_thúc_lần_2" ColumnName="Kết thúc lần 2" />
+                <ScalarProperty Name="Người_TT2" ColumnName="Người TT2" />
+                <ScalarProperty Name="Tên_người_TT2" ColumnName="Tên người TT2" />
+                <ScalarProperty Name="Số_giờ_2" ColumnName="Số giờ 2" />
+                <ScalarProperty Name="Số_phút_2" ColumnName="Số phút 2" />
+                <ScalarProperty Name="Bắt_đầu_lần_3" ColumnName="Bắt đầu lần 3" />
+                <ScalarProperty Name="Kết_thúc_lần_3" ColumnName="Kết thúc lần 3" />
+                <ScalarProperty Name="Người_TT3" ColumnName="Người TT3" />
+                <ScalarProperty Name="Tên_người_TT3" ColumnName="Tên người TT3" />
+                <ScalarProperty Name="Số_giờ_3" ColumnName="Số giờ 3" />
+                <ScalarProperty Name="Số_phút_3" ColumnName="Số phút 3" />
+                <ScalarProperty Name="Bắt_đầu_lần_4" ColumnName="Bắt đầu lần 4" />
+                <ScalarProperty Name="Kết_thúc_lần_4" ColumnName="Kết thúc lần 4" />
+                <ScalarProperty Name="Người_TT4" ColumnName="Người TT4" />
+                <ScalarProperty Name="Tên_người_TT4" ColumnName="Tên người TT4" />
+                <ScalarProperty Name="Số_giờ_4" ColumnName="Số giờ 4" />
+                <ScalarProperty Name="Số_phút_4" ColumnName="Số phút 4" />
+                <ScalarProperty Name="Bắt_đầu_lần_5" ColumnName="Bắt đầu lần 5" />
+                <ScalarProperty Name="Kết_thúc_lần_5" ColumnName="Kết thúc lần 5" />
+                <ScalarProperty Name="Người_TT5" ColumnName="Người TT5" />
+                <ScalarProperty Name="Tên_người_TT5" ColumnName="Tên người TT5" />
+                <ScalarProperty Name="Số_giờ_5" ColumnName="Số giờ 5" />
+                <ScalarProperty Name="Số_phút_5" ColumnName="Số phút 5" />
+                <ScalarProperty Name="Bắt_đầu_lần_6" ColumnName="Bắt đầu lần 6" />
+                <ScalarProperty Name="Kết_thúc_lần_6" ColumnName="Kết thúc lần 6" />
+                <ScalarProperty Name="Người_TT6" ColumnName="Người TT6" />
+                <ScalarProperty Name="Tên_người_TT6" ColumnName="Tên người TT6" />
+                <ScalarProperty Name="Số_giờ_6" ColumnName="Số giờ 6" />
+                <ScalarProperty Name="Số_phút_6" ColumnName="Số phút 6" />
+                <ScalarProperty Name="Bắt_đầu_lần_7" ColumnName="Bắt đầu lần 7" />
+                <ScalarProperty Name="Kết_thúc_lần_7" ColumnName="Kết thúc lần 7" />
+                <ScalarProperty Name="Người_TT7" ColumnName="Người TT7" />
+                <ScalarProperty Name="Tên_người_TT7" ColumnName="Tên người TT7" />
+                <ScalarProperty Name="Số_giờ_7" ColumnName="Số giờ 7" />
+                <ScalarProperty Name="Số_phút_7" ColumnName="Số phút 7" />
+                <ScalarProperty Name="Kết_thúc_QC" ColumnName="Kết thúc QC" />
+                <ScalarProperty Name="Tổng_số_giờ" ColumnName="Tổng số giờ" />
+                <ScalarProperty Name="Tổng_số_phút" ColumnName="Tổng số phút" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_10_KittingTime" FunctionName="EVS_ProductionStatusModel.Store.pro_10_KittingTime">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_10_KittingTime_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="KittingTime_Start" ColumnName="KittingTime_Start" />
+                <ScalarProperty Name="KittingTime_End" ColumnName="KittingTime_End" />
+                <ScalarProperty Name="KittingDongThoi" ColumnName="KittingDongThoi" />
+                <ScalarProperty Name="OperationMins" ColumnName="OperationMins" />
+                <ScalarProperty Name="UserKitting" ColumnName="UserKitting" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="GioTT" ColumnName="GioTT" />
+                <ScalarProperty Name="PhutTT" ColumnName="PhutTT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_11_DongGoiTime" FunctionName="EVS_ProductionStatusModel.Store.pro_11_DongGoiTime">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_11_DongGoiTime_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="DongGoi_Start" ColumnName="DongGoi_Start" />
+                <ScalarProperty Name="DongGoi_End" ColumnName="DongGoi_End" />
+                <ScalarProperty Name="DGDongThoi" ColumnName="DGDongThoi" />
+                <ScalarProperty Name="OperationMins" ColumnName="OperationMins" />
+                <ScalarProperty Name="UserDongGoi" ColumnName="UserDongGoi" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="GioTT" ColumnName="GioTT" />
+                <ScalarProperty Name="PhutTT" ColumnName="PhutTT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_12_WOChuaDG" FunctionName="EVS_ProductionStatusModel.Store.pro_12_WOChuaDG">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_12_WOChuaDG_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="wostatus" ColumnName="wostatus" />
+                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pro_13_getOperationMins" FunctionName="EVS_ProductionStatusModel.Store.pro_13_getOperationMins" />
+          <EntitySetMapping Name="tblThoiGianKhaus">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblThoiGianKhau">
+              <MappingFragment StoreEntitySet="tblThoiGianKhau">
+                <ScalarProperty Name="sophut" ColumnName="sophut" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="pro_14_TrangThaiSP" FunctionName="EVS_ProductionStatusModel.Store.pro_14_TrangThaiSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_14_TrangThaiSP_Result">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="workorder" ColumnName="workorder" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="desc1" ColumnName="desc1" />
+                <ScalarProperty Name="desc2" ColumnName="desc2" />
+                <ScalarProperty Name="KittingTime" ColumnName="KittingTime" />
+                <ScalarProperty Name="KhauTime" ColumnName="KhauTime" />
+                <ScalarProperty Name="QCTime" ColumnName="QCTime" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="StartKhau" ColumnName="StartKhau" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Manage_evsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EVS_Manage">
+          <Key>
+            <PropertyRef Name="Item_Number" />
+          </Key>
+          <Property Name="Item_Number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description_1" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description_2" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prod_Line" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Item_Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NewInventory_EVS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="SITE" Type="nvarchar" MaxLength="50" />
+          <Property Name="loc" Type="nvarchar" MaxLength="50" />
+          <Property Name="Itemcode" Type="nvarchar" MaxLength="50" />
+          <Property Name="LotNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Qty_Allocate" Type="float" />
+          <Property Name="Qty" Type="float" />
+          <Property Name="ref" Type="nvarchar" MaxLength="50" />
+          <Property Name="um" Type="varchar(max)" />
+          <Property Name="prod_line" Type="varchar(max)" />
+          <Property Name="part_type" Type="varchar(max)" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="connect_status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="Manage_evsModelStoreContainer">
+          <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewInventory_EVS" EntityType="Self.NewInventory_EVS" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Manage_evsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EVS_Manage">
+          <Key>
+            <PropertyRef Name="Item_Number" />
+          </Key>
+          <Property Name="Item_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prod_Line" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Item_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NewInventory_EVS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="SITE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="loc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Itemcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LotNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Qty_Allocate" Type="Double" />
+          <Property Name="Qty" Type="Double" />
+          <Property Name="ref" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="um" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="prod_line" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="part_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="connect_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="Manage_evsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" />
+          <EntitySet Name="NewInventory_EVS" EntityType="Self.NewInventory_EVS" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Manage_evsModelStoreContainer" CdmEntityContainer="Manage_evsEntities">
+          <EntitySetMapping Name="EVS_Manage">
+            <EntityTypeMapping TypeName="Manage_evsModel.EVS_Manage">
+              <MappingFragment StoreEntitySet="EVS_Manage">
+                <ScalarProperty Name="Item_Number" ColumnName="Item_Number" />
+                <ScalarProperty Name="UM" ColumnName="UM" />
+                <ScalarProperty Name="Description_1" ColumnName="Description_1" />
+                <ScalarProperty Name="Description_2" ColumnName="Description_2" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Prod_Line" ColumnName="Prod_Line" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item_Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewInventory_EVS">
+            <EntityTypeMapping TypeName="Manage_evsModel.NewInventory_EVS">
+              <MappingFragment StoreEntitySet="NewInventory_EVS">
+                <ScalarProperty Name="SITE" ColumnName="SITE" />
+                <ScalarProperty Name="loc" ColumnName="loc" />
+                <ScalarProperty Name="Itemcode" ColumnName="Itemcode" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Qty_Allocate" ColumnName="Qty_Allocate" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="ref" ColumnName="ref" />
+                <ScalarProperty Name="um" ColumnName="um" />
+                <ScalarProperty Name="prod_line" ColumnName="prod_line" />
+                <ScalarProperty Name="part_type" ColumnName="part_type" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="connect_status" ColumnName="connect_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
