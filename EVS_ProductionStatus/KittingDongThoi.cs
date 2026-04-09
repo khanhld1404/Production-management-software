@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EVS_ProductionStatus.Controller;
+using EVS_ProductionStatus.Data;
 
 namespace EVS_ProductionStatus
 {
@@ -35,10 +36,10 @@ namespace EVS_ProductionStatus
                     List<string> lst = new List<string>();
                     txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                     wo = lst[0];
-                    woid = lst[1].Substring(0, 8);
+                    woid = lst[1].Substring(0, 10);
 
                     //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
-                    if (wo.Length != 8 || woid.Length != 8)
+                    if (wo.Length != 8 || woid.Length != 10)
                     {
                         lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Mã vạch không phù hợp!"));
                         lbError.Invoke(new Action(() => lbError.Visible = true));
@@ -66,60 +67,66 @@ namespace EVS_ProductionStatus
                         //Nếu không có thì tìm trong bảng workorder
                         else
                         {
-                            var qr = (from s in db.tblWOes
-                                          //where s.workorder == wo
-                                      where s.WOID == woid
-                                      select s).FirstOrDefault();
-                            if (qr == null)
+                            using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                             {
-                                lbError.Text = "Lỗi. Số chỉ thị không tồn tại!";
-                                lbError.Visible = true;
-                                return;
-                            }
-                            else
-                            {
-                                var item_existed = (from s in lstKitting
-                                                        //where s.workorder == wo
-                                                    where s.WOID == woid
-                                                    select s).FirstOrDefault();
 
-                                if (item_existed != null)
+
+                                var qr = (from s in wodb.tblWOes
+                                              //where s.workorder == wo
+                                          where s.WORK_ORDER_ID == woid
+                                          select s).FirstOrDefault();
+                                if (qr == null)
                                 {
-                                    lbError.Text = "Lỗi. Chỉ thị bị trùng";
+                                    lbError.Text = "Lỗi. Số chỉ thị không tồn tại!";
                                     lbError.Visible = true;
-                                    txtMaBanVe.Text = "";
                                     return;
                                 }
                                 else
                                 {
-                                    string product_type_desc_string = qr.desc2.Substring(0, 4);
+                                    var item_existed = (from s in lstKitting
+                                                            //where s.workorder == wo
+                                                        where s.WOID == woid
+                                                        select s).FirstOrDefault();
 
-                                    //Tạm thời bỏ quét mã bản vẽ TREO >> mở lại treo
-                                    if (product_type_desc_string == "Treo" || product_type_desc_string == "Sten")
-                                    //if (product_type_desc_string == "Sten")
+                                    if (item_existed != null)
                                     {
-                                        pnNhanVien.Visible = true;
-                                        txtMaBanVe.Select();
+                                        lbError.Text = "Lỗi. Chỉ thị bị trùng";
+                                        lbError.Visible = true;
+                                        txtMaBanVe.Text = "";
                                         return;
                                     }
                                     else
                                     {
-                                        lstKitting.Add(new clKittingDongThoi()
+                                        string product_type_desc_string = qr.DESCRIPTION_FOR_WO_COMPONENT_EN.Substring(0, 4);
+
+                                        //Tạm thời bỏ quét mã bản vẽ TREO >> mở lại treo
+                                        if (product_type_desc_string == "Treo" || product_type_desc_string == "Sten")
+                                        //if (product_type_desc_string == "Sten")
                                         {
-                                            workorder = qr.workorder,
-                                            itemnumber = qr.itemnumber,
-                                            lot = qr.lot,
-                                            qty = qr.qty,
-                                            desc1 = qr.desc1,
-                                            desc2 = qr.desc2,
-                                            WOID = qr.WOID
-                                        });
-                                        grThongtin.AutoGenerateColumns = false;
-                                        grThongtin.DataSource = lstKitting;
-                                        txtBarcode.Select();
+                                            pnNhanVien.Visible = true;
+                                            txtMaBanVe.Select();
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            int s = int.Parse(qr.ORDER_QTY.Split('.')[0]);
+                                            lstKitting.Add(new clKittingDongThoi()
+                                            {
+                                                workorder = qr.WORK_ORDER,
+                                                itemnumber = qr.WO_PART,
+                                                lot = qr.LOT_SERIAL,
+                                                qty = s,
+                                                desc1 = qr.DESCRIPTION_FOR_WO_COMPONENT_VN,
+                                                desc2 = qr.DESCRIPTION_FOR_WO_COMPONENT_EN,
+                                                WOID = qr.WORK_ORDER_ID
+                                            });
+                                            grThongtin.AutoGenerateColumns = false;
+                                            grThongtin.DataSource = lstKitting;
+                                            txtBarcode.Select();
+                                        }
+
                                     }
-                                    
-                                }                                                              
+                                }
                             }
                         }
                     }
@@ -143,53 +150,57 @@ namespace EVS_ProductionStatus
                     lbScanned.Text = txtMaBanVe.Text;
                     using (Entities db = new Entities(clConnection.connectEntity))
                     {
-                        //Lấy thông tin sản phẩm theo workorder
-                        var qr_dr = (from s in db.tblWOes
-                                         //where s.workorder == wo
-                                     where s.WOID == woid
-                                     select s).FirstOrDefault();
-
-                        //Kiểm tra mã bản vẽ nhập vào so với mã sản phẩm
-                        var qr_banve = (from s in db.tblBanVes
-                                        where s.itemnumber == qr_dr.itemnumber
-                                        select s).FirstOrDefault();
-                        if (qr_banve == null)
+                        using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                         {
-                            lbError.Text = "Lỗi. Sản phẩm chưa thiết lập mã bản vẽ";
-                            lbError.Visible = true;
-                            txtMaBanVe.Text = "";
-                            return;
-                        }
+                            //Lấy thông tin sản phẩm theo workorder
+                            var qr_dr = (from s in wodb.tblWOes
+                                             //where s.workorder == wo
+                                         where s.WORK_ORDER_ID == woid
+                                         select s).FirstOrDefault();
 
-                        if (txtMaBanVe.Text != qr_banve.mabanve)
-                        {
-                            lbError.Text = "Lỗi. Mã bản vẽ không phù hợp";
-                            lbError.Visible = true;
-                            txtMaBanVe.Text = "";
-                            return;
-                        }
-                        else
-                        {
-                            var item_existed = (from s in lstKitting
-                                                    //where s.workorder == wo
-                                                where s.WOID == woid
-                                                select s).FirstOrDefault();
-
-                            if (item_existed != null)
+                            //Kiểm tra mã bản vẽ nhập vào so với mã sản phẩm
+                            var qr_banve = (from s in db.tblBanVes
+                                            where s.itemnumber == qr_dr.WO_PART
+                                            select s).FirstOrDefault();
+                            if (qr_banve == null)
                             {
-                                lbError.Text = "Lỗi. Chỉ thị đã thêm trước đó";
+                                lbError.Text = "Lỗi. Sản phẩm chưa thiết lập mã bản vẽ";
+                                lbError.Visible = true;
+                                txtMaBanVe.Text = "";
+                                return;
+                            }
+
+                            if (txtMaBanVe.Text != qr_banve.mabanve)
+                            {
+                                lbError.Text = "Lỗi. Mã bản vẽ không phù hợp";
                                 lbError.Visible = true;
                                 txtMaBanVe.Text = "";
                                 return;
                             }
                             else
                             {
-                                lstKitting.Add(new clKittingDongThoi() { workorder = qr_dr.workorder, itemnumber = qr_dr.itemnumber, lot = qr_dr.lot,
-                                qty = qr_dr.qty, desc1 = qr_dr.desc1, desc2 = qr_dr.desc2, WOID = qr_dr.WOID});
-                                grThongtin.AutoGenerateColumns = false;
-                                grThongtin.DataSource = lstKitting;
-                                txtMaBanVe.Text = "";
-                            }                            
+                                var item_existed = (from s in lstKitting
+                                                        //where s.workorder == wo
+                                                    where s.WOID == woid
+                                                    select s).FirstOrDefault();
+
+                                if (item_existed != null)
+                                {
+                                    lbError.Text = "Lỗi. Chỉ thị đã thêm trước đó";
+                                    lbError.Visible = true;
+                                    txtMaBanVe.Text = "";
+                                    return;
+                                }
+                                else
+                                {
+                                    int s = int.Parse(qr_dr.ORDER_QTY.Split('.')[0]);
+                                    lstKitting.Add(new clKittingDongThoi() { workorder = qr_dr.WORK_ORDER, itemnumber = qr_dr.WO_PART, lot = qr_dr.LOT_SERIAL,
+                                    qty = s, desc1 = qr_dr.DESCRIPTION_FOR_WO_COMPONENT_VN, desc2 = qr_dr.DESCRIPTION_FOR_WO_COMPONENT_EN, WOID = qr_dr.WORK_ORDER_ID});
+                                    grThongtin.AutoGenerateColumns = false;
+                                    grThongtin.DataSource = lstKitting;
+                                    txtMaBanVe.Text = "";
+                                }                            
+                            }
                         }
                     }
                     pnNhanVien.Visible = false;

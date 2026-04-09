@@ -120,6 +120,7 @@
     <Compile Include="Controller\clKittingDongThoi.cs" />
     <Compile Include="Controller\clMaBanVe.cs" />
     <Compile Include="Controller\clThoiGianKhau.cs" />
+    <Compile Include="Controller\Other_Function.cs" />
     <Compile Include="Data\EVS_Manage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

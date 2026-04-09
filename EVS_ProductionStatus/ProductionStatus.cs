@@ -348,7 +348,9 @@ namespace EVS_ProductionStatus
                                     tb.workorder = qr.WORK_ORDER;
                                     tb.itemnumber = qr.WO_PART;
                                     tb.lot = qr.LOT_SERIAL;
-                                    if(int.TryParse(qr.ORDER_QTY,out int value))
+                                    string s = qr.ORDER_QTY.Split('.')[0];
+                                    MessageBox.Show(s);
+                                    if (int.TryParse(s,out int value))
                                     {
                                         tb.qty = value;
                                     }
@@ -357,7 +359,7 @@ namespace EVS_ProductionStatus
                                         MessageBox.Show("Dữ liệu có vấn đề");
                                         return;
                                     }
-                                        tb.KittingTime_Start = DateTime.Now;
+                                    tb.KittingTime_Start = DateTime.Now;
                                     tb.desc1 = qr.DESCRIPTION_FOR_WO_COMPONENT_VN;
                                     tb.desc2 = qr.DESCRIPTION_FOR_WO_COMPONENT_EN;
                                     db.tblInputs.Add(tb);
@@ -815,7 +817,8 @@ namespace EVS_ProductionStatus
                                     tb.workorder = qr_dr.WORK_ORDER;
                                     tb.itemnumber = qr_dr.WO_PART;
                                     tb.lot = qr_dr.LOT_SERIAL;
-                                    if (int.TryParse(qr_dr.ORDER_QTY, out int value))
+                                    string s = qr_dr.ORDER_QTY.Split('.')[0];
+                                    if (int.TryParse(s, out int value))
                                     {
                                         tb.qty = value;
                                     }

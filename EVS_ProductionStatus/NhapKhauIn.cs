@@ -28,10 +28,10 @@ namespace EVS_ProductionStatus
                     List<string> lst = new List<string>();
                     txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                     wo = lst[0];
-                    woid = lst[1].Substring(0, 8);
+                    woid = lst[1].Substring(0, 10);
 
                     //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
-                    if (wo.Length != 8 || woid.Length != 8)
+                    if (wo.Length != 8 || woid.Length != 10)
                     {
                         lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Mã vạch không phù hợp!"));
                         lbError.Invoke(new Action(() => lbError.Visible = true));
