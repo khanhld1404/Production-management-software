@@ -1,4 +1,5 @@
-﻿using Main_Project_Trainee;
+﻿using EVS_ProductionStatus.Class;
+using Main_Project_Trainee;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -136,6 +137,12 @@ namespace EVS_ProductionStatus
         private void btn_RM_WIP_Click(object sender, EventArgs e)
         {
             ShowUserControlAsForm(new Form_RM_WIP(), "RM_WIP");
+        }
+
+        // Thực hiện việc cập nhật dữ liệu trước khi vào chương trình chính
+        private void HomeForm_Load(object sender, EventArgs e)
+        {
+            Reload_Inventory_Infor.UpdateInventory();
         }
     }
 }

@@ -58,7 +58,7 @@ namespace EVS_ProductionStatus.Class
             }
         }
         //Hàm để gọi một procedure dưới  cơ sở dữ liệu giúp truyền dữ liệu từ cơ sở dữ liệu được bên mes đẩy lên sang bên cơ sở dữ liệu xử lý
-        public void UpdateInventory()
+        public static void UpdateInventory()
         {
             using (SqlConnection conn = new SqlConnection(clConnection.connectString))
             {

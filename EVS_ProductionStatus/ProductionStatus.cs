@@ -1,4 +1,5 @@
-﻿using EVS_ProductionStatus.Update_Inventory.Class;
+﻿using EVS_ProductionStatus.Data;
+using EVS_ProductionStatus.Update_Inventory.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -166,9 +167,9 @@ namespace EVS_ProductionStatus
                 List<string> lst = new List<string>();
                 txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                 wo = lst[0];
-                woid = lst[1].Substring(0, 8);
+                woid = lst[1].Substring(0, 10);
                 //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
-                if (wo.Length != 8 || woid.Length != 8)
+                if (wo.Length != 8 || woid.Length != 10)
                 {
                     lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Mã vạch không phù hợp!"));
                     lbError.Invoke(new Action(() => lbError.Visible = true));
@@ -307,53 +308,63 @@ namespace EVS_ProductionStatus
                     //Nếu không có chỉ thị đã nhập trong tblInput thì tìm trong bảng WO
                     else
                     {
-                        var qr = (from s in db.tblWOes
-                                      //where s.workorder == wo
-                                  where s.WOID == woid
-                                  select s).FirstOrDefault();
-                        //Nếu bảng WO không có thì báo lỗi
-                        if (qr == null)
+                        using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                         {
-                            lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Số chỉ thị không tồn tại!"));
-                            lbError.Invoke(new Action(() => lbError.Visible = true));
-                            return;
-                        }
-                        //Nếu bảng WO có thì thêm mới vào bảng Input >> có thì quét mã bản vẽ  
-                        //Quét bản vẽ với chủng loại TREO vs RELAY
-                        else
-                        {
-                            product_type_desc_string = qr.desc2.Substring(0, 4);
+                            var qr = (from s in wodb.tblWOes
+                                          //where s.workorder == wo
+                                      where (s.WORK_ORDER_ID == woid) 
+                                      select s).FirstOrDefault();
 
-                            //Tạm thời bỏ quét mã bản vẽ TREO >> mở lại quét mã bản vẽ treo
-                            if (product_type_desc_string == "Treo" || product_type_desc_string == "Sten")
-                            //if (product_type_desc_string == "Sten")
+                            //Nếu bảng WO không có thì báo lỗi
+                            if (qr == null)
                             {
-                                pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
-                                lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã bản vẽ"));
-                                isEmployeeScan = false;
-                                txtUsername.Invoke(new Action(() => txtUsername.Select()));
-
-                                //Xử lý tiếp ở sự kiện txtUsername keydown
-
+                                lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Số chỉ thị không tồn tại!"));
+                                lbError.Invoke(new Action(() => lbError.Visible = true));
                                 return;
                             }
+                            //Nếu bảng WO có thì thêm mới vào bảng Input >> có thì quét mã bản vẽ  
+                            //Quét bản vẽ với chủng loại TREO vs RELAY
                             else
                             {
-                                tblInput tb = new tblInput();
-                                tb.WOID = qr.WOID;
-                                tb.workorder = qr.workorder;
-                                tb.itemnumber = qr.itemnumber;
-                                tb.lot = qr.lot;
-                                tb.qty = qr.qty;
-                                tb.KittingTime_Start = DateTime.Now;
-                                tb.desc1 = qr.desc1;
-                                tb.desc2 = qr.desc2;
-                                db.tblInputs.Add(tb);
-                                db.SaveChanges();
-                                current_data = tb;
+                                product_type_desc_string = qr.WORK_ORDER_ID.Substring(0, 1);
+
+                                //Tạm thời bỏ quét mã bản vẽ TREO >> mở lại quét mã bản vẽ treo
+                                if (product_type_desc_string == "T" || product_type_desc_string == "R")
+                                //if (product_type_desc_string == "Sten")
+                                {
+                                    pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
+                                    lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã bản vẽ"));
+                                    isEmployeeScan = false;
+                                    txtUsername.Invoke(new Action(() => txtUsername.Select()));
+
+                                    //Xử lý tiếp ở sự kiện txtUsername keydown
+
+                                    return;
+                                }
+                                else
+                                {
+                                    tblInput tb = new tblInput();
+                                    tb.WOID = qr.WORK_ORDER_ID;
+                                    tb.workorder = qr.WORK_ORDER;
+                                    tb.itemnumber = qr.WO_PART;
+                                    tb.lot = qr.LOT_SERIAL;
+                                    if(int.TryParse(qr.ORDER_QTY,out int value))
+                                    {
+                                        tb.qty = value;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Dữ liệu có vấn đề");
+                                        return;
+                                    }
+                                        tb.KittingTime_Start = DateTime.Now;
+                                    tb.desc1 = qr.DESCRIPTION_FOR_WO_COMPONENT_VN;
+                                    tb.desc2 = qr.DESCRIPTION_FOR_WO_COMPONENT_EN;
+                                    db.tblInputs.Add(tb);
+                                    db.SaveChanges();
+                                    current_data = tb;
+                                }
                             }
-
-
                         }
                     }
                 }
@@ -769,50 +780,62 @@ namespace EVS_ProductionStatus
                         //Quét mã bản vẽ Kitting start
                         else
                         {
-                            //Lấy thông tin sản phẩm theo workorder
-                            var qr_dr = (from s in db.tblWOes
-                                             //where s.workorder == wo
-                                         where s.WOID == woid
-                                         select s).FirstOrDefault();
-
-                            //Kiểm tra mã bản vẽ nhập vào so với mã sản phẩm
-                            var qr_banve = (from s in db.tblBanVes
-                                            where s.itemnumber == qr_dr.itemnumber
-                                            select s).FirstOrDefault();
-
-                            if (qr_banve == null)
+                            using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                             {
-                                lbError.Text = "Lỗi. Sản phẩm chưa thiết lập mã bản vẽ";
-                                lbError.Visible = true;
-                                txtUsername.Text = "";
-                                return;
-                            }
+                                //Lấy thông tin sản phẩm theo workorder
+                                var qr_dr = (from s in wodb.tblWOes
+                                                 //where s.workorder == wo
+                                             where s.WORK_ORDER_ID == woid
+                                             select s).FirstOrDefault();
 
-                            if (txtUsername.Text != qr_banve.mabanve)
-                            {
-                                lbError.Text = "Lỗi. Mã bản vẽ không phù hợp";
-                                lbError.Visible = true;
-                                txtUsername.Text = "";
-                                return;
-                            }
-                            else
-                            {
-                                tblInput tb = new tblInput();
-                                tb.WOID = qr_dr.WOID;
-                                tb.workorder = qr_dr.workorder;
-                                tb.itemnumber = qr_dr.itemnumber;
-                                tb.lot = qr_dr.lot;
-                                tb.qty = qr_dr.qty;
-                                tb.KittingTime_Start = DateTime.Now;
-                                tb.desc1 = qr_dr.desc1;
-                                tb.desc2 = qr_dr.desc2;
-                                db.tblInputs.Add(tb);
-                                db.SaveChanges();
+                                //Kiểm tra mã bản vẽ nhập vào so với mã sản phẩm
+                                var qr_banve = (from s in db.tblBanVes
+                                                where s.itemnumber == qr_dr.WO_PART
+                                                select s).FirstOrDefault();
 
-                                //Them UC vao flowlayout
-                                loadControls(tb);
-                                //Load lại dữ liệu
-                                uc_loaddata();
+                                if (qr_banve == null)
+                                {
+                                    lbError.Text = "Lỗi. Sản phẩm chưa thiết lập mã bản vẽ";
+                                    lbError.Visible = true;
+                                    txtUsername.Text = "";
+                                    return;
+                                }
+
+                                if (txtUsername.Text != qr_banve.mabanve)
+                                {
+                                    lbError.Text = "Lỗi. Mã bản vẽ không phù hợp";
+                                    lbError.Visible = true;
+                                    txtUsername.Text = "";
+                                    return;
+                                }
+                                else
+                                {
+                                    tblInput tb = new tblInput();
+                                    tb.WOID = qr_dr.WORK_ORDER_ID;
+                                    tb.workorder = qr_dr.WORK_ORDER;
+                                    tb.itemnumber = qr_dr.WO_PART;
+                                    tb.lot = qr_dr.LOT_SERIAL;
+                                    if (int.TryParse(qr_dr.ORDER_QTY, out int value))
+                                    {
+                                        tb.qty = value;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Dữ liệu có vấn đề");
+                                        return;
+                                    }
+                                    tb.KittingTime_Start = DateTime.Now;
+                                    tb.desc1 = qr_dr.DESCRIPTION_FOR_WO_COMPONENT_VN;
+                                    tb.desc2 = qr_dr.DESCRIPTION_FOR_WO_COMPONENT_EN;
+
+                                    db.tblInputs.Add(tb);
+                                    db.SaveChanges();
+
+                                    //Them UC vao flowlayout
+                                    loadControls(tb);
+                                    //Load lại dữ liệu
+                                    uc_loaddata();
+                                }
                             }
                         }
                     }

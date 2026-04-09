@@ -6,7 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="0c39e37d217f4c36b05828971d0ec210" Name="Diagram1">
         <EntityTypeShape EntityType="Manage_evsModel.EVS_Manage" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Manage_evsModel.NewInventory_EVS" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Manage_evsModel.NewInventory_EVS" Width="1.5" PointX="2.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Manage_evsModel.tblWO" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

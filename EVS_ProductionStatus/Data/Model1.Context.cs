@@ -27,5 +27,6 @@ namespace EVS_ProductionStatus.Data
     
         public virtual DbSet<EVS_Manage> EVS_Manage { get; set; }
         public virtual DbSet<NewInventory_EVS> NewInventory_EVS { get; set; }
+        public virtual DbSet<tblWO> tblWOes { get; set; }
     }
 }

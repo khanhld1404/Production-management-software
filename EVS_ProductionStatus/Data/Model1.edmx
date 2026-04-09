@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Manage_evsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Manage_evsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EVS_Manage">
           <Key>
             <PropertyRef Name="Item_Number" />
@@ -35,12 +35,50 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="connect_status" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="tblWO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WORK_ORDER_ID" Type="varchar" MaxLength="150" />
+          <Property Name="WORK_ORDER" Type="varchar" MaxLength="150" />
+          <Property Name="STATUS" Type="varchar" MaxLength="150" />
+          <Property Name="ORDER_DATE" Type="varchar" MaxLength="150" />
+          <Property Name="RELEASE_DATE" Type="varchar" MaxLength="150" />
+          <Property Name="DUE_DATE" Type="varchar" MaxLength="150" />
+          <Property Name="LOCATION_ID" Type="varchar" MaxLength="150" />
+          <Property Name="LOT_SERIAL" Type="varchar" MaxLength="150" />
+          <Property Name="WO_PART" Type="varchar" MaxLength="150" />
+          <Property Name="MES_PART" Type="varchar" MaxLength="150" />
+          <Property Name="DESCRIPTION_FOR_WO_PART_EN" Type="varchar" MaxLength="150" />
+          <Property Name="DESCRIPTION_FOR_WO_PART_VN" Type="varchar" MaxLength="150" />
+          <Property Name="DRAWING_REV" Type="varchar" MaxLength="150" />
+          <Property Name="REV" Type="varchar" MaxLength="150" />
+          <Property Name="PROD_LINE" Type="varchar" MaxLength="150" />
+          <Property Name="ORDER_QTY" Type="varchar" MaxLength="150" />
+          <Property Name="COMPLETE_QTY" Type="varchar" MaxLength="150" />
+          <Property Name="REJECT_QTY" Type="varchar" MaxLength="150" />
+          <Property Name="OPEN_QTY" Type="varchar" MaxLength="150" />
+          <Property Name="WO_COMPONENT" Type="varchar" MaxLength="150" />
+          <Property Name="MES_COMPONENT" Type="varchar" MaxLength="150" />
+          <Property Name="DESCRIPTION_FOR_WO_COMPONENT_EN" Type="varchar" MaxLength="150" />
+          <Property Name="DESCRIPTION_FOR_WO_COMPONENT_VN" Type="varchar" MaxLength="150" />
+          <Property Name="ITEM_TYPE" Type="varchar" MaxLength="150" />
+          <Property Name="LOT_SERIAL_ALLOCATE" Type="varchar" MaxLength="150" />
+          <Property Name="REQUIRE_QTY" Type="varchar" MaxLength="150" />
+          <Property Name="STORAGE_LOCATION" Type="varchar" MaxLength="150" />
+          <Property Name="QTY_ISSUED" Type="varchar" MaxLength="150" />
+          <Property Name="CREATED_BY" Type="varchar" MaxLength="150" />
+          <Property Name="CREATION_DATE" Type="datetime" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar" MaxLength="150" />
+          <Property Name="LAST_UPDATE_DATE" Type="datetime" />
+        </EntityType>
         <EntityContainer Name="Manage_evsModelStoreContainer">
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewInventory_EVS" EntityType="Self.NewInventory_EVS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblWO" EntityType="Self.tblWO" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Manage_evsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -77,7 +115,46 @@
         <EntityContainer Name="Manage_evsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" />
           <EntitySet Name="NewInventory_EVS" EntityType="Self.NewInventory_EVS" />
+          <EntitySet Name="tblWOes" EntityType="Manage_evsModel.tblWO" />
         </EntityContainer>
+        <EntityType Name="tblWO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WORK_ORDER_ID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="WORK_ORDER" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ORDER_DATE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RELEASE_DATE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DUE_DATE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LOCATION_ID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LOT_SERIAL" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="WO_PART" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="MES_PART" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION_FOR_WO_PART_EN" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION_FOR_WO_PART_VN" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DRAWING_REV" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="REV" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="PROD_LINE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ORDER_QTY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="COMPLETE_QTY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="REJECT_QTY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="OPEN_QTY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="WO_COMPONENT" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="MES_COMPONENT" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION_FOR_WO_COMPONENT_EN" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION_FOR_WO_COMPONENT_VN" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ITEM_TYPE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LOT_SERIAL_ALLOCATE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="REQUIRE_QTY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="STORAGE_LOCATION" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="QTY_ISSUED" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" Precision="3" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -113,6 +190,45 @@
                 <ScalarProperty Name="part_type" ColumnName="part_type" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="connect_status" ColumnName="connect_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWOes">
+            <EntityTypeMapping TypeName="Manage_evsModel.tblWO">
+              <MappingFragment StoreEntitySet="tblWO">
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="QTY_ISSUED" ColumnName="QTY_ISSUED" />
+                <ScalarProperty Name="STORAGE_LOCATION" ColumnName="STORAGE_LOCATION" />
+                <ScalarProperty Name="REQUIRE_QTY" ColumnName="REQUIRE_QTY" />
+                <ScalarProperty Name="LOT_SERIAL_ALLOCATE" ColumnName="LOT_SERIAL_ALLOCATE" />
+                <ScalarProperty Name="ITEM_TYPE" ColumnName="ITEM_TYPE" />
+                <ScalarProperty Name="DESCRIPTION_FOR_WO_COMPONENT_VN" ColumnName="DESCRIPTION_FOR_WO_COMPONENT_VN" />
+                <ScalarProperty Name="DESCRIPTION_FOR_WO_COMPONENT_EN" ColumnName="DESCRIPTION_FOR_WO_COMPONENT_EN" />
+                <ScalarProperty Name="MES_COMPONENT" ColumnName="MES_COMPONENT" />
+                <ScalarProperty Name="WO_COMPONENT" ColumnName="WO_COMPONENT" />
+                <ScalarProperty Name="OPEN_QTY" ColumnName="OPEN_QTY" />
+                <ScalarProperty Name="REJECT_QTY" ColumnName="REJECT_QTY" />
+                <ScalarProperty Name="COMPLETE_QTY" ColumnName="COMPLETE_QTY" />
+                <ScalarProperty Name="ORDER_QTY" ColumnName="ORDER_QTY" />
+                <ScalarProperty Name="PROD_LINE" ColumnName="PROD_LINE" />
+                <ScalarProperty Name="REV" ColumnName="REV" />
+                <ScalarProperty Name="DRAWING_REV" ColumnName="DRAWING_REV" />
+                <ScalarProperty Name="DESCRIPTION_FOR_WO_PART_VN" ColumnName="DESCRIPTION_FOR_WO_PART_VN" />
+                <ScalarProperty Name="DESCRIPTION_FOR_WO_PART_EN" ColumnName="DESCRIPTION_FOR_WO_PART_EN" />
+                <ScalarProperty Name="MES_PART" ColumnName="MES_PART" />
+                <ScalarProperty Name="WO_PART" ColumnName="WO_PART" />
+                <ScalarProperty Name="LOT_SERIAL" ColumnName="LOT_SERIAL" />
+                <ScalarProperty Name="LOCATION_ID" ColumnName="LOCATION_ID" />
+                <ScalarProperty Name="DUE_DATE" ColumnName="DUE_DATE" />
+                <ScalarProperty Name="RELEASE_DATE" ColumnName="RELEASE_DATE" />
+                <ScalarProperty Name="ORDER_DATE" ColumnName="ORDER_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="WORK_ORDER" ColumnName="WORK_ORDER" />
+                <ScalarProperty Name="WORK_ORDER_ID" ColumnName="WORK_ORDER_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
