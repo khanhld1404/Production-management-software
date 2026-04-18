@@ -12,7 +12,7 @@ namespace EVS_ProductionStatus
 {
     public partial class NhapKhauIn : Form
     {
-        string wo = "", woid = "";
+        string wo = "", woid = "", wo_part = "";
         public NhapKhauIn()
         {
             InitializeComponent();
@@ -29,7 +29,7 @@ namespace EVS_ProductionStatus
                     txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                     wo = lst[0];
                     woid = lst[1].Substring(0, 10);
-
+                    wo_part = lst[2];
                     //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
                     if (wo.Length != 8 || woid.Length != 10)
                     {
@@ -39,7 +39,7 @@ namespace EVS_ProductionStatus
                     }
 
                     lbScanned.Text = "";
-                    inputdata(woid);
+                    inputdata(woid,wo,wo_part);
                     txtBarcode.Text = "";
                 }
             }
@@ -50,7 +50,7 @@ namespace EVS_ProductionStatus
         }
 
 
-        private void inputdata(string _woid)
+        private void inputdata(string _woid, string _wo, string _wopart)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace EVS_ProductionStatus
                     //1. Tìm chỉ thị trong bảng Nhập khâu đã start chưa end
                     //Nếu có thì cập nhật thời gian end
                     var qr_khau = (from s in db.tblKhauIns
-                                   where s.WOID == _woid && s.InTime_End == null
+                                   where s.WOID == _woid && s.workorder == _wo  && s.InTime_End == null
                                    orderby s.id descending
                                    select s).FirstOrDefault();
                     if (qr_khau != null)
@@ -70,15 +70,15 @@ namespace EVS_ProductionStatus
                         db.SaveChanges();
 
                         //3. Load thông tin trạng thái hiện tại và danh sách của WO đã quét
-                        loadControls(_woid);
-                        loadGridView(_woid);
+                        loadControls(_woid,_wo,_wopart);
+                        loadGridView(_woid, _wo);
                     }
                     else
                     //2. Nếu k có thì tìm trong bảng tblInput những chỉ thị đã kitting end mà chưa khâu out
                     //Nếu có thì thêm vào bảng nhập khâu, nếu không có báo lỗi
                     {
                         var qr_input = (from s in db.tblInputs
-                                        where s.WOID == _woid && s.KittingTime_End != null && s.OutTime == null
+                                        where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wopart && s.KittingTime_End != null && s.OutTime == null
                                         select s).FirstOrDefault();
                         if (qr_input == null)
                         {
@@ -105,7 +105,7 @@ namespace EVS_ProductionStatus
         }
 
 
-        private void loadControls(string _woid)
+        private void loadControls(string _woid,string _wo,string _item)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace EVS_ProductionStatus
                 using (Entities db = new Entities(clConnection.connectEntity))
                 {
                     var qr_input = (from s in db.tblInputs
-                                    where s.WOID == _woid
+                                    where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _item
                                     select s).FirstOrDefault();
 
                     if (qr_input != null)
@@ -127,7 +127,7 @@ namespace EVS_ProductionStatus
 
                     var _tb = (from s in db.tblKhauIns
                                //where s.workorder == _wo
-                               where s.WOID == _woid
+                               where s.WOID == _woid && s.workorder == _wo
                                orderby s.id descending
                                select s).FirstOrDefault();
                     if (_tb != null)
@@ -178,8 +178,8 @@ namespace EVS_ProductionStatus
                 using (Entities db = new Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblKhauIns
-                              //where s.workorder == lbWO.Text
-                              where s.WOID == lbID.Text
+                                  //where s.workorder == lbWO.Text
+                              where s.WOID == lbID.Text && s.workorder == lbWO.Text
                               orderby s.id descending
                               select s).ToList();
                     if (qr[0].InTime_End != null)
@@ -192,7 +192,7 @@ namespace EVS_ProductionStatus
 
                         var qr_input = (from s in db.tblInputs
                                         //where s.workorder == lbWO.Text
-                                        where s.WOID == lbID.Text
+                                        where s.WOID == lbID.Text &&  s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
                                         select s).FirstOrDefault();
                         //Nếu là dòng cuối thì xóa ngày Khâu in ở tblInput
                         if (qr.Count == 1 && qr_input != null)
@@ -204,8 +204,8 @@ namespace EVS_ProductionStatus
 
                     db.SaveChanges();
                     //Load lại list và control
-                    loadControls(lbID.Text);
-                    loadGridView(lbID.Text);
+                    loadControls(lbID.Text,lbWO.Text,lbItem.Text);
+                    loadGridView(lbID.Text,lbWO.Text);
 
                 }
             }
@@ -241,7 +241,7 @@ namespace EVS_ProductionStatus
 
                             var qr_input = (from s in db.tblInputs
                                             //where s.workorder == wo && s.KittingTime_End != null && s.InTime_Start == null
-                                            where s.WOID == woid && s.KittingTime_End != null && s.InTime_Start == null
+                                            where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part  && s.KittingTime_End != null && s.InTime_Start == null
                                             select s).FirstOrDefault();
 
                             if (qr_input != null)
@@ -258,8 +258,8 @@ namespace EVS_ProductionStatus
                             db.tblKhauIns.Add(tb);
                             db.SaveChanges();
 
-                            loadControls(woid);
-                            loadGridView(woid);
+                            loadControls(woid, wo, wo_part);
+                            loadGridView(woid, wo);
                         }
                     }
 
@@ -276,7 +276,7 @@ namespace EVS_ProductionStatus
             }
         }
 
-        private void loadGridView(string _woid)
+        private void loadGridView(string _woid, string _wo)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace EVS_ProductionStatus
                     var qr = (from s in db.tblKhauIns
                               join u in db.tblUsers on s.UserIn equals u.userid into tmpU
                               from u1 in tmpU.DefaultIfEmpty()
-                              where s.WOID == _woid
+                              where s.WOID == _woid && s.workorder == _wo
                               orderby s.id
                               select new {
                                   s.WOID,

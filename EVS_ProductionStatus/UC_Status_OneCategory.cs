@@ -50,7 +50,7 @@ namespace EVS_ProductionStatus
                 switch (product_type_code)
                 {
                     case "THORA":
-                        desc_string = "Gen";
+                        desc_string = "H";
                         WOPlanCode = "WO_KH_THORA";
                         WOKittingCode = "KITTING_KH_THORA";
                         WOKhauInCode = "IN_KH_THORA";
@@ -60,7 +60,7 @@ namespace EVS_ProductionStatus
                         WODGCode = "DG_KH_THORA";
                         break;
                     case "TREO":
-                        desc_string = "Treo";
+                        desc_string = "T";
                         WOPlanCode = "WO_KH_TREO";
                         WOKittingCode = "KITTING_KH_TREO";
                         WOKhauInCode = "IN_KH_TREO";
@@ -70,7 +70,7 @@ namespace EVS_ProductionStatus
                         WODGCode = "DG_KH_TREO";
                         break;
                     case "RELAY":
-                        desc_string = "Stent";
+                        desc_string = "R";
                         WOPlanCode = "WO_KH";
                         WOKittingCode = "KITTING_KH";
                         WOKhauInCode = "IN_KH";
@@ -96,13 +96,20 @@ namespace EVS_ProductionStatus
                 {
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
+                        var find_status = new List<string> { "TECO - Technically completed", "REL - Released" };
                         var qr_total = (from s in wodb.tblWOes
-                                        where s.WORK_ORDER.StartsWith(cur_wo_string) && s.DESCRIPTION_FOR_WO_COMPONENT_EN.StartsWith(desc_string)
-                                        select s).Count();
+                                        where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string) && find_status.Contains(s.STATUS)
+                                        select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
 
                         var qr_total_next = (from s in wodb.tblWOes
-                                             where s.WORK_ORDER.StartsWith(next_wo_string) && s.DESCRIPTION_FOR_WO_COMPONENT_EN.StartsWith(desc_string)
-                                             select s).Count();
+                                             where s.WORK_ORDER.Substring(1).StartsWith(next_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string) && find_status.Contains(s.STATUS)
+                                             select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
 
                         //Nếu có 2 tháng gần nhau thì hiển thị phân chia thành 2 tháng Panel
                         if (qr_total_next > 0)
@@ -122,11 +129,17 @@ namespace EVS_ProductionStatus
 
                         //Lấy số lượng WO hoàn thành của 2 tháng
                         var qr_complete = (from s in wodb.tblWOes
-                                           where s.STATUS == "CRTD - Created" && s.WORK_ORDER.StartsWith(cur_wo_string) && s.DESCRIPTION_FOR_WO_COMPONENT_EN.StartsWith(desc_string)
-                                           select s).Count();
+                                           where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string)
+                                           select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
                         var qr_complete_next = (from s in wodb.tblWOes
-                                                where s.STATUS == "CRTD - Created" && s.WORK_ORDER.StartsWith(next_wo_string) && s.DESCRIPTION_FOR_WO_COMPONENT_EN.StartsWith(desc_string)
-                                                select s).Count();
+                                                where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string)
+                                                select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
 
                         //Lấy số WO chưa hoàn thành của 2 tháng
                         int chuaHT = qr_total - qr_complete;
@@ -157,47 +170,47 @@ namespace EVS_ProductionStatus
 
 
                         var qr_TotalKitting = (from tmp in db.tblInputs
-                                               where tmp.KittingTime_End != null && tmp.workorder.StartsWith(cur_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                               where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
                         var qr_TotalKitting_next = (from tmp in db.tblInputs
-                                                    where tmp.KittingTime_End != null && tmp.workorder.StartsWith(next_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                                    where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                     select tmp.qty).Sum();
 
                         var qr_TodayKitting = (from tmp in db.tblInputs
-                                               where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && tmp.desc2.StartsWith(desc_string)
+                                               where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
                         var qr_TotalIn = (from tmp in db.tblInputs
-                                          where tmp.InTime_Start != null && tmp.workorder.StartsWith(cur_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                          where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                           select tmp.qty).Sum();
 
                         var qr_TotalIn_next = (from tmp in db.tblInputs
-                                               where tmp.InTime_Start != null && tmp.workorder.StartsWith(next_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                               where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
                         var qr_TodayIn = (from tmp in db.tblInputs
-                                          where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && tmp.desc2.StartsWith(desc_string)
+                                          where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
                                           select tmp.qty).Sum();
 
                         var qr_TotalOut = (from tmp in db.tblInputs
-                                           where tmp.OutTime != null && tmp.workorder.StartsWith(cur_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                           where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                            select tmp.qty).Sum();
 
                         var qr_TotalOut_next = (from tmp in db.tblInputs
-                                                where tmp.OutTime != null && tmp.workorder.StartsWith(next_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                                where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                 select tmp.qty).Sum();
 
                         var qr_TodayOut = (from tmp in db.tblInputs
-                                           where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && tmp.desc2.StartsWith(desc_string)
+                                           where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
                                            select tmp.qty).Sum();
 
                         var qr_TotalQC = (from tmp in db.tblInputs
-                                          where tmp.QCTime_Start != null && tmp.workorder.StartsWith(cur_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                          where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                           select tmp.qty).Sum();
 
                         var qr_TotalQC_next = (from tmp in db.tblInputs
-                                               where tmp.QCTime_Start != null && tmp.workorder.StartsWith(next_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                               where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
                         //var qr_TodayQC = (from tmp in db.tblInputs
@@ -207,15 +220,15 @@ namespace EVS_ProductionStatus
                         var qr_TodayQC = (from tmp in db.tblInputs
                                           where tmp.QCTime_Start != null &&
                                           (tmp.QCTime_End >= DateTime.Today && tmp.QCTime_End < time_end)
-                                          && tmp.desc2.StartsWith(desc_string)
+                                          && tmp.WOID.StartsWith(desc_string)
                                           select tmp.qty).Sum();
 
                         var qr_TotalDG = (from tmp in db.tblInputs
-                                          where tmp.DongGoi_Start != null && tmp.workorder.StartsWith(cur_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                          where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                           select tmp.qty).Sum();
 
                         var qr_TotalDG_next = (from tmp in db.tblInputs
-                                               where tmp.DongGoi_Start != null && tmp.workorder.StartsWith(next_wo_string) && tmp.desc2.StartsWith(desc_string)
+                                               where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
                         //var qr_TodayDG = (from tmp in db.tblInputs
@@ -224,7 +237,7 @@ namespace EVS_ProductionStatus
                         var qr_TodayDG = (from tmp in db.tblInputs
                                           where tmp.DongGoi_Start != null &&
                                           (tmp.DongGoi_End >= DateTime.Today && tmp.DongGoi_End < time_end) &&
-                                            tmp.desc2.StartsWith(desc_string)
+                                            tmp.WOID.StartsWith(desc_string)
                                           select tmp.qty).Sum();
 
                         //
@@ -319,7 +332,7 @@ namespace EVS_ProductionStatus
 
                         //Số chưa đóng gói = số WO đã chuyển thành C - số đã kết thúc do người dùng quét    
                         //Cập nhật thành: Số chưa đg = số wo thành C của tháng này + tháng sau - (số đã kết thúc DG tháng này + tháng sau)
-                        int chuaDG = qr_complete_next + qr_complete - Convert.ToInt32(qr_TotalDG_next) - Convert.ToInt32(qr_TotalDG);
+                        int chuaDG = (qr_TotalQC ?? 0) + (qr_TotalQC_next ?? 0) - Convert.ToInt32(qr_TotalDG_next) - Convert.ToInt32(qr_TotalDG);
                         lbChuaDG.Invoke(new Action(() => lbChuaDG.Text = chuaDG.ToString()));
 
                         var qr_woplan = (from s in db.tblContents
@@ -400,15 +413,22 @@ namespace EVS_ProductionStatus
                 {
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
+                        var find_status = new List<string> { "TECO - Technically completed", "REL - Released" };
                         var qr_total = (from s in wodb.tblWOes
-                                        where s.WORK_ORDER.StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
-                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R")
-                                        select s).Count();
+                                        where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
+                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R") && find_status.Contains(s.STATUS)
+                                        select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
 
                         var qr_total_next = (from s in wodb.tblWOes
-                                             where s.WORK_ORDER.StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
-                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R")
-                                             select s).Count();
+                                             where s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
+                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R") && find_status.Contains(s.STATUS)
+                                             select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
 
                         //Nếu có 2 tháng gần nhau thì hiển thị phân chia thành 2 tháng Panel
                         if (qr_total_next > 0)
@@ -428,13 +448,19 @@ namespace EVS_ProductionStatus
 
                         //Lấy số lượng WO hoàn thành của 2 tháng
                         var qr_complete = (from s in wodb.tblWOes
-                                           where s.STATUS == "CRTD - Created" && s.WORK_ORDER.StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
+                                           where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
                                          && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R")
-                                           select s).Count();
+                                           select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
                         var qr_complete_next = (from s in wodb.tblWOes
-                                                where s.STATUS == "CRTD - Created" && s.WORK_ORDER.StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
-                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.DESCRIPTION_FOR_WO_COMPONENT_EN.StartsWith("R")
-                                                select s).Count();
+                                                where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
+                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R")
+                                                select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
+                                        )
+                                        .Distinct()
+                                        .Count();
 
                         //Lấy số WO chưa hoàn thành của 2 tháng
                         int chuaHT = qr_total - qr_complete;
@@ -465,78 +491,78 @@ namespace EVS_ProductionStatus
 
 
                         var qr_TotalKitting = (from tmp in db.tblInputs
-                                               where tmp.KittingTime_End != null && tmp.workorder.StartsWith(cur_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                               where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                select tmp.qty).Sum();
 
                         var qr_TotalKitting_next = (from tmp in db.tblInputs
-                                                    where tmp.KittingTime_End != null && tmp.workorder.StartsWith(next_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                                    where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                     select tmp.qty).Sum();
 
                         var qr_TodayKitting = (from tmp in db.tblInputs
-                                               where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                               where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                select tmp.qty).Sum();
 
                         var qr_TotalIn = (from tmp in db.tblInputs
-                                          where tmp.InTime_Start != null && tmp.workorder.StartsWith(cur_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                          where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                           select tmp.qty).Sum();
 
                         var qr_TotalIn_next = (from tmp in db.tblInputs
-                                               where tmp.InTime_Start != null && tmp.workorder.StartsWith(next_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                               where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                select tmp.qty).Sum();
 
                         var qr_TodayIn = (from tmp in db.tblInputs
-                                          where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                          where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                           select tmp.qty).Sum();
 
                         var qr_TotalOut = (from tmp in db.tblInputs
-                                           where tmp.OutTime != null && tmp.workorder.StartsWith(cur_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                           where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                            select tmp.qty).Sum();
 
                         var qr_TotalOut_next = (from tmp in db.tblInputs
-                                                where tmp.OutTime != null && tmp.workorder.StartsWith(next_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                                where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                 select tmp.qty).Sum();
 
                         var qr_TodayOut = (from tmp in db.tblInputs
-                                           where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                           where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                            select tmp.qty).Sum();
 
                         var qr_TotalQC = (from tmp in db.tblInputs
-                                          where tmp.QCTime_Start != null && tmp.workorder.StartsWith(cur_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                          where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                           select tmp.qty).Sum();
 
                         var qr_TotalQC_next = (from tmp in db.tblInputs
-                                               where tmp.QCTime_Start != null && tmp.workorder.StartsWith(next_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                               where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                select tmp.qty).Sum();
 
                         var qr_TodayQC = (from tmp in db.tblInputs
-                                          where tmp.QCTime_Start != null && tmp.QCTime_Start >= DateTime.Today && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                          where tmp.QCTime_Start != null && tmp.QCTime_Start >= DateTime.Today && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                           select tmp.qty).Sum();
 
                         var qr_TotalDG = (from tmp in db.tblInputs
-                                          where tmp.DongGoi_Start != null && tmp.workorder.StartsWith(cur_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                          where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                           select tmp.qty).Sum();
 
                         var qr_TotalDG_next = (from tmp in db.tblInputs
-                                               where tmp.DongGoi_Start != null && tmp.workorder.StartsWith(next_wo_string) && !tmp.desc2.StartsWith("Gen")
-                                            && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                               where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                                select tmp.qty).Sum();
 
                         var qr_TodayDG = (from tmp in db.tblInputs
-                                          where tmp.DongGoi_Start != null && tmp.DongGoi_Start >= DateTime.Today && !tmp.desc2.StartsWith("Gen")
-                                         && !tmp.desc2.StartsWith("Treo") && !tmp.desc2.StartsWith("Stent")
+                                          where tmp.DongGoi_Start != null && tmp.DongGoi_Start >= DateTime.Today && !tmp.WOID.StartsWith("H")
+                                         && !tmp.WOID.StartsWith("T") && !tmp.WOID.StartsWith("R")
                                           select tmp.qty).Sum();
 
                         //
@@ -698,8 +724,6 @@ namespace EVS_ProductionStatus
         {
             event_UCClick();
         }
-
-
         private void lbWOKH_Next_Click(object sender, EventArgs e)
         {
             InputForm f = new InputForm(WOPlanCode_Next);

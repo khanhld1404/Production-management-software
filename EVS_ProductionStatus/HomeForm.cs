@@ -1,4 +1,5 @@
 ﻿using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.Update_Inventory.Class;
 using Main_Project_Trainee;
 using System;
 using System.Collections.Generic;
@@ -143,6 +144,7 @@ namespace EVS_ProductionStatus
         private void HomeForm_Load(object sender, EventArgs e)
         {
             Reload_Inventory_Infor.UpdateInventory();
+            Other_function.UpdateWOdb();
         }
     }
 }

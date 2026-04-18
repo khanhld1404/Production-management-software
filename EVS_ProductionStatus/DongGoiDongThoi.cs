@@ -13,7 +13,7 @@ namespace EVS_ProductionStatus
 {
     public partial class DongGoiDongThoi : Form
     {
-        string wo, woid;
+        string wo, woid,wo_part;
         BindingList<clDongGoiDongThoi> lstDG;
         public DongGoiDongThoi()
         {
@@ -36,7 +36,7 @@ namespace EVS_ProductionStatus
                     txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                     wo = lst[0];
                     woid = lst[1].Substring(0, 10);
-
+                    wo_part = lst[2];
                     //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
                     if (wo.Length != 8 || woid.Length != 10)
                     {
@@ -53,7 +53,7 @@ namespace EVS_ProductionStatus
                         //Đầu tiên tìm trong dữ liệu Input
                         var qr_input = (from s in db.tblInputs
                                             //where s.workorder == wo
-                                        where s.WOID == woid
+                                        where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                         select s).FirstOrDefault();
                         if (qr_input != null)
                         {
@@ -66,7 +66,7 @@ namespace EVS_ProductionStatus
                             {
                                 var item_existed = (from s in lstDG
                                                         //where s.workorder == wo
-                                                    where s.WOID == woid
+                                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                                     select s).FirstOrDefault();
 
                                 if (item_existed != null)
@@ -180,7 +180,7 @@ namespace EVS_ProductionStatus
                     DateTime DGTime = DateTime.Now;
                     foreach (var qr_dr in lstDG)
                     {
-                        if (isExistWO(qr_dr.WOID))
+                        if (isExistWO(qr_dr.WOID,qr_dr.workorder,qr_dr.itemnumber))
                         {
                             MessageBox.Show("Chỉ thị đã được đóng gói trước đó", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             txtBarcode.Text = "";
@@ -188,7 +188,7 @@ namespace EVS_ProductionStatus
                         }
 
                         var qr = (from s in db.tblInputs
-                                  where s.WOID == qr_dr.WOID
+                                  where s.WOID == qr_dr.WOID && s.workorder == qr_dr.workorder && s.itemnumber == qr_dr.itemnumber
                                   select s).FirstOrDefault();
                         qr.DongGoi_Start = DGTime;
                         qr.DongGoiGroup = DGGroup;
@@ -232,9 +232,11 @@ namespace EVS_ProductionStatus
                     {
                         //string selectedwo = grThongtin.Rows[e.RowIndex].Cells["workorder"].Value.ToString();
                         string selectedID = grThongtin.Rows[e.RowIndex].Cells["ID"].Value.ToString();
+                        string selectedWO = grThongtin.Rows[e.RowIndex].Cells["workorder"].Value.ToString();
+                        string selectedItem = grThongtin.Rows[e.RowIndex].Cells["itemnumber"].Value.ToString();
                         var qr = (from s in lstDG
                                       //where s.workorder == selectedwo
-                                  where s.WOID == selectedID
+                                  where s.WOID == selectedID && s.workorder == selectedWO && s.itemnumber == selectedItem
                                   select s).FirstOrDefault();
                         lstDG.Remove(qr);
                     }
@@ -243,14 +245,14 @@ namespace EVS_ProductionStatus
             }
         }
 
-        private bool isExistWO(string _ID)
+        private bool isExistWO(string _ID, string _wo, string _wo_part)
         {
             bool kq = false;
             using (Entities db = new Entities(clConnection.connectEntity))
             {
                 var qr = (from s in db.tblInputs
                               //where s.workorder == _wo
-                          where s.WOID == _ID && s.DongGoi_Start != null
+                          where s.WOID == _ID && s.workorder == _wo && s.itemnumber == _wo_part && s.DongGoi_Start != null
                           select s).FirstOrDefault();
                 if (qr != null)
                     kq = true;

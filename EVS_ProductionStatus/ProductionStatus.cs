@@ -16,7 +16,7 @@ namespace EVS_ProductionStatus
     {
         clMethod cl = new clMethod();
         tblInput current_data = new tblInput();
-        string wo = "", woid = "";
+        string wo = "", woid = "",wo_part = "",dr = "",drNorm = "";
         string type1, type2, type3;
         UC_Status_OneCategory uc;
         UC_Status uc4_1, uc4_2, uc4_3;
@@ -168,6 +168,17 @@ namespace EVS_ProductionStatus
                 txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                 wo = lst[0];
                 woid = lst[1].Substring(0, 10);
+                wo_part = lst[2];
+                dr = lst[3];
+
+                if (!string.IsNullOrEmpty(dr) && dr.Length == 1 && char.IsDigit(dr[0]))
+                {
+                    drNorm = "0" + dr;
+                }
+                else if(dr.Length == 2 && char.IsDigit(dr[0]))
+                {
+                    drNorm = dr.TrimStart('0');
+                }
                 //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
                 if (wo.Length != 8 || woid.Length != 10)
                 {
@@ -190,7 +201,7 @@ namespace EVS_ProductionStatus
                     //Đầu tiên tìm trong dữ liệu Input nếu có thì cập nhật vào
                     var qr_input = (from s in db.tblInputs
                                         //where s.workorder == wo
-                                    where s.WOID == woid
+                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                     select s).FirstOrDefault();
 
                     if (qr_input != null)
@@ -244,7 +255,7 @@ namespace EVS_ProductionStatus
                                     //Thêm thời gian khâu in end bằng thời gian khâu out
                                     var qr_khauin = (from s in db.tblKhauIns
                                                          //where s.workorder == wo
-                                                     where s.WOID == woid
+                                                     where s.WOID == woid && s.workorder == wo
                                                      orderby s.id descending
                                                      select s).FirstOrDefault();
                                     if (qr_khauin != null)
@@ -264,7 +275,7 @@ namespace EVS_ProductionStatus
                                         //Thêm thời gian khâu in end bằng thời gian khâu out
                                         var qr_qc = (from s in db.tblQCs
                                                          //where s.workorder == wo
-                                                     where s.WOID == woid
+                                                     where s.WOID == woid && s.workorder == wo
                                                      orderby s.id descending
                                                      select s).FirstOrDefault();
                                         if (qr_qc != null)
@@ -312,9 +323,9 @@ namespace EVS_ProductionStatus
                         {
                             var qr = (from s in wodb.tblWOes
                                           //where s.workorder == wo
-                                      where (s.WORK_ORDER_ID == woid) 
+                                      where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                       select s).FirstOrDefault();
-
+                            
                             //Nếu bảng WO không có thì báo lỗi
                             if (qr == null)
                             {
@@ -544,20 +555,20 @@ namespace EVS_ProductionStatus
                 {
                     var qr = (from s in db.tblInputs
                                   //where s.workorder == lbWO.Text
-                              where s.WOID == lbID.Text
+                              where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                               select s).FirstOrDefault();
 
                     //Lấy dữ liệu khâu in ở bảng tblKhauIn để cập nhật
                     var qr_khauin = (from s in db.tblKhauIns
                                          //where s.workorder == lbWO.Text
-                                     where s.WOID == lbID.Text
+                                     where s.WOID == lbID.Text && s.workorder == lbWO.Text
                                      orderby s.id descending
                                      select s).ToList();
 
                     //Lấy dữ liệu QC ở bảng tblQC để cập nhật
                     var qr_qc = (from s in db.tblQCs
                                      //where s.workorder == lbWO.Text
-                                 where s.WOID == lbID.Text
+                                 where s.WOID == lbID.Text && s.workorder == lbWO.Text
                                  orderby s.id descending
                                  select s).ToList();
 
@@ -637,7 +648,7 @@ namespace EVS_ProductionStatus
 
                     var qr1 = (from s in db.tblInputs
                                    //where s.workorder == lbWO.Text
-                               where s.WOID == lbID.Text
+                               where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
                                select s).FirstOrDefault();
                     if (qr1 == null)
                     {
@@ -684,7 +695,7 @@ namespace EVS_ProductionStatus
                                 //Đầu tiên tìm trong dữ liệu Input nếu có thì cập nhật vào
                                 var qr_input = (from s in db.tblInputs
                                                     //where s.workorder == wo
-                                                where s.WOID == woid
+                                                where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                                 select s).FirstOrDefault();
                                 // Sử dụng else if thay vì chỉ if để ngăn chặn trường hợp chạy cả hai if
                                 if (qr_input.KittingTime_End == null)
@@ -787,7 +798,7 @@ namespace EVS_ProductionStatus
                                 //Lấy thông tin sản phẩm theo workorder
                                 var qr_dr = (from s in wodb.tblWOes
                                                  //where s.workorder == wo
-                                             where s.WORK_ORDER_ID == woid
+                                             where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                              select s).FirstOrDefault();
 
                                 //Kiểm tra mã bản vẽ nhập vào so với mã sản phẩm

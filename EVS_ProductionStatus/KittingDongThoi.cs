@@ -14,7 +14,7 @@ namespace EVS_ProductionStatus
 {
     public partial class KittingDongThoi : Form
     {
-        string wo, woid;
+        string wo = "", woid = "", wo_part = "", dr = "", drNorm = "";
         BindingList<clKittingDongThoi> lstKitting;
         public KittingDongThoi()
         {
@@ -37,6 +37,16 @@ namespace EVS_ProductionStatus
                     txtBarcode.Invoke(new Action(() => lst = txtBarcode.Text.Split('%').ToList()));
                     wo = lst[0];
                     woid = lst[1].Substring(0, 10);
+                    wo_part = lst[2];
+                    dr = lst[3];
+                    if (!string.IsNullOrEmpty(dr) && dr.Length == 1 && char.IsDigit(dr[0]))
+                    {
+                        drNorm = "0" + dr;
+                    }
+                    else if (dr.Length == 2 && char.IsDigit(dr[0]))
+                    {
+                        drNorm = dr.TrimStart('0');
+                    }
 
                     //Kiểm tra điều kiện chuỗi nhập vào nếu WO và WOID khác 8 ký tự thì báo lỗi
                     if (wo.Length != 8 || woid.Length != 10)
@@ -55,8 +65,8 @@ namespace EVS_ProductionStatus
                     {
                         //Đầu tiên tìm trong dữ liệu Input nếu có nghĩa là đã kitting >> báo lỗi
                         var qr_input = (from s in db.tblInputs
-                                        //where s.workorder == wo
-                                        where s.WOID == woid
+                                            //where s.workorder == wo
+                                        where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                         select s).FirstOrDefault();
                         if (qr_input != null)
                         {
@@ -73,7 +83,7 @@ namespace EVS_ProductionStatus
 
                                 var qr = (from s in wodb.tblWOes
                                               //where s.workorder == wo
-                                          where s.WORK_ORDER_ID == woid
+                                          where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                           select s).FirstOrDefault();
                                 if (qr == null)
                                 {
@@ -85,7 +95,7 @@ namespace EVS_ProductionStatus
                                 {
                                     var item_existed = (from s in lstKitting
                                                             //where s.workorder == wo
-                                                        where s.WOID == woid
+                                                        where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                                         select s).FirstOrDefault();
 
                                     if (item_existed != null)
@@ -97,10 +107,10 @@ namespace EVS_ProductionStatus
                                     }
                                     else
                                     {
-                                        string product_type_desc_string = qr.DESCRIPTION_FOR_WO_COMPONENT_EN.Substring(0, 4);
+                                        string product_type_desc_string = qr.WORK_ORDER_ID.Substring(0, 1);
 
                                         //Tạm thời bỏ quét mã bản vẽ TREO >> mở lại treo
-                                        if (product_type_desc_string == "Treo" || product_type_desc_string == "Sten")
+                                        if (product_type_desc_string == "T" || product_type_desc_string == "R")
                                         //if (product_type_desc_string == "Sten")
                                         {
                                             pnNhanVien.Visible = true;
@@ -155,7 +165,7 @@ namespace EVS_ProductionStatus
                             //Lấy thông tin sản phẩm theo workorder
                             var qr_dr = (from s in wodb.tblWOes
                                              //where s.workorder == wo
-                                         where s.WORK_ORDER_ID == woid
+                                         where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                          select s).FirstOrDefault();
 
                             //Kiểm tra mã bản vẽ nhập vào so với mã sản phẩm
@@ -181,7 +191,7 @@ namespace EVS_ProductionStatus
                             {
                                 var item_existed = (from s in lstKitting
                                                         //where s.workorder == wo
-                                                    where s.WOID == woid
+                                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                                     select s).FirstOrDefault();
 
                                 if (item_existed != null)
@@ -225,7 +235,7 @@ namespace EVS_ProductionStatus
                     DateTime kittingTime = DateTime.Now;
                     foreach (var qr_dr in lstKitting)
                     {
-                        if (isExistWO(qr_dr.WOID))
+                        if (isExistWO(qr_dr.WOID,qr_dr.workorder,qr_dr.itemnumber))
                         {
                             MessageBox.Show("Chỉ thị đã được kitting trước đó", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -280,9 +290,11 @@ namespace EVS_ProductionStatus
                     {
                         //string selectedwo = grThongtin.Rows[e.RowIndex].Cells["workorder"].Value.ToString();
                         string selectedID = grThongtin.Rows[e.RowIndex].Cells["ID"].Value.ToString();
+                        string selectedWO = grThongtin.Rows[e.RowIndex].Cells["workorder"].Value.ToString();
+                        string selectedIN = grThongtin.Rows[e.RowIndex].Cells["itemnumber"].Value.ToString();
                         var qr = (from s in lstKitting
                                   //where s.workorder == selectedwo
-                                  where s.WOID == selectedID
+                                  where s.WOID == selectedID && s.workorder == selectedWO && s.itemnumber == selectedIN
                                   select s).FirstOrDefault();
                         lstKitting.Remove(qr);
                     }
@@ -291,14 +303,14 @@ namespace EVS_ProductionStatus
             }
         }
 
-        private bool isExistWO(string _ID)
+        private bool isExistWO(string _ID, string _WO, string _itemnumber)
         {
             bool kq = false;
             using (Entities db = new Entities(clConnection.connectEntity))
             {
                 var qr = (from s in db.tblInputs
-                          //where s.workorder == _wo
-                          where s.WOID == _ID
+                              //where s.workorder == _wo
+                          where s.WOID == _ID && s.workorder == _WO && s.itemnumber == _itemnumber
                           select s).FirstOrDefault();
                 if (qr != null)
                     kq = true;
