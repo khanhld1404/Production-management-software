@@ -143,7 +143,7 @@ namespace EVS_ProductionStatus
         // Thực hiện việc cập nhật dữ liệu trước khi vào chương trình chính
         private void HomeForm_Load(object sender, EventArgs e)
         {
-            Reload_Inventory_Infor.UpdateInventory();
+            //Reload_Inventory_Infor.UpdateInventory();
             Other_function.UpdateWOdb();
         }
     }

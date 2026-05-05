@@ -97,19 +97,33 @@ namespace EVS_ProductionStatus
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
                         var find_status = new List<string> { "TECO - Technically completed", "REL - Released" };
-                        var qr_total = (from s in wodb.tblWOes
-                                        where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string) && find_status.Contains(s.STATUS)
-                                        select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
-                                        )
-                                        .Distinct()
-                                        .Count();
+                        string locationId =
+                                    desc_string == "T" ? "3008" :
+                                    desc_string == "R" ? "3009" :
+                                    desc_string == "H" ? "3010" :
+                                    null;
+                        var qr_root = wodb.tblWOes
+                                     .Where(s => find_status.Contains(s.STATUS)
+                                     && s.WORK_ORDER_ID.StartsWith(desc_string)
+                                     && s.PROD_LINE == "EVS")
+                                     .AsEnumerable()
+                                     .Where(s => Decimal.TryParse(s.OPEN_QTY, out decimal qty) && qty > 0);
+                        int qr_total = 0, qr_total_next = 0;
 
-                        var qr_total_next = (from s in wodb.tblWOes
-                                             where s.WORK_ORDER.Substring(1).StartsWith(next_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string) && find_status.Contains(s.STATUS)
-                                             select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
-                                        )
-                                        .Distinct()
-                                        .Count();
+                        if (locationId == null)
+                        {
+                            MessageBox.Show("Có lỗi!");
+                        }
+                        qr_total = qr_root
+                            .Where(s => s.LOCATION_ID == locationId && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string))
+                            .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
+                            .Distinct()
+                            .Count();
+                        qr_total_next = qr_root
+                            .Where(s => s.LOCATION_ID == locationId && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string))
+                            .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
+                            .Distinct()
+                            .Count();
 
                         //Nếu có 2 tháng gần nhau thì hiển thị phân chia thành 2 tháng Panel
                         if (qr_total_next > 0)
@@ -128,18 +142,21 @@ namespace EVS_ProductionStatus
                         }
 
                         //Lấy số lượng WO hoàn thành của 2 tháng
-                        var qr_complete = (from s in wodb.tblWOes
-                                           where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string)
-                                           select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
-                                        )
-                                        .Distinct()
-                                        .Count();
-                        var qr_complete_next = (from s in wodb.tblWOes
-                                                where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && s.WORK_ORDER_ID.StartsWith(desc_string)
-                                                select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
-                                        )
-                                        .Distinct()
-                                        .Count();
+                        var qr_root_complete = wodb.tblWOes
+                                              .Where(s => s.STATUS == "TECO - Technically completed"
+                                              && s.PROD_LINE == "EVS" && s.WORK_ORDER_ID.StartsWith(desc_string))
+                                              .AsEnumerable()
+                                              .Where(s => Decimal.TryParse(s.OPEN_QTY, out decimal qty) && qty > 0);
+                        var qr_complete = qr_root_complete
+                                .Where(s => s.LOCATION_ID == locationId && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string))
+                                .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
+                                .Distinct()
+                                .Count();
+                        var qr_complete_next = qr_root_complete
+                                .Where(s => s.LOCATION_ID == locationId && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string))
+                                .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
+                                .Distinct()
+                                .Count();
 
                         //Lấy số WO chưa hoàn thành của 2 tháng
                         int chuaHT = qr_total - qr_complete;
@@ -416,7 +433,7 @@ namespace EVS_ProductionStatus
                         var find_status = new List<string> { "TECO - Technically completed", "REL - Released" };
                         var qr_total = (from s in wodb.tblWOes
                                         where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
-                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R") && find_status.Contains(s.STATUS)
+                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R") && find_status.Contains(s.STATUS) && s.PROD_LINE == "EVS" 
                                         select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
                                         )
                                         .Distinct()
@@ -424,7 +441,7 @@ namespace EVS_ProductionStatus
 
                         var qr_total_next = (from s in wodb.tblWOes
                                              where s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
-                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R") && find_status.Contains(s.STATUS)
+                                         && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R") && find_status.Contains(s.STATUS) && s.PROD_LINE == "EVS" 
                                              select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
                                         )
                                         .Distinct()
@@ -448,14 +465,14 @@ namespace EVS_ProductionStatus
 
                         //Lấy số lượng WO hoàn thành của 2 tháng
                         var qr_complete = (from s in wodb.tblWOes
-                                           where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
+                                           where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && !s.WORK_ORDER_ID.StartsWith("H") && s.PROD_LINE == "EVS" 
                                          && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R")
                                            select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
                                         )
                                         .Distinct()
                                         .Count();
                         var qr_complete_next = (from s in wodb.tblWOes
-                                                where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H")
+                                                where s.STATUS == "TECO - Technically completed" && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && !s.WORK_ORDER_ID.StartsWith("H") && s.PROD_LINE == "EVS" 
                                          && !s.WORK_ORDER_ID.StartsWith("T") && !s.WORK_ORDER_ID.StartsWith("R")
                                                 select s.WORK_ORDER_ID + " - " + s.WORK_ORDER + " - " + s.WO_PART
                                         )

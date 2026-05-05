@@ -76,8 +76,7 @@ namespace EVS_ProductionStatus.Class
                     }
                     catch (SqlException ex)
                     {
-                        // TODO: log ex (ex.Message, ex.Number, ex.Procedure, ex.LineNumber,...)
-                        throw; // hoặc wrap thành exception của domain tuỳ nhu cầu
+                        MessageBox.Show(ex.Message);
                     }
 
                 }
