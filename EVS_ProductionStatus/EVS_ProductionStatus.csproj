@@ -141,6 +141,9 @@
     <Compile Include="Data\NewInventory_EVS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\tblInput_Ring.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\tblWO.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -625,6 +628,11 @@
       <LastGenOutput>db.cs</LastGenOutput>
     </Content>
     <Content Include="icons8-circuit-70.ico" />
+    <None Include="Resources\icons8-circle-70.png" />
+    <None Include="Resources\icons8-circle-1001.png" />
+    <None Include="Resources\icons8-circle-100.png" />
+    <None Include="Resources\icons8-circle-50.png" />
+    <None Include="Resources\rec.png" />
     <None Include="Resources\icons8-idea-32.png" />
     <None Include="Resources\icons8-complete-32.png" />
     <None Include="Resources\icons8-cancel-32.png" />

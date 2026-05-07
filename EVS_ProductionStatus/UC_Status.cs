@@ -20,13 +20,15 @@ namespace EVS_ProductionStatus
         string WOPlanCode = "", WOKittingCode = "", WOKhauInCode = "", WOKhauOutCode = "", 
             WOPlanCode_Next = "", WOQCCode = "", WODGCode = "";
 
-        public UC_Status(string _type)
+        // Kiểm tra có cần phải thực hiện vòng không
+        bool check_ring = false;
+        public UC_Status(string _type, bool _check_ring)
         {
             InitializeComponent();
             product_type_code = _type;
             lbType.Text = _type;
+            check_ring = _check_ring;
         }
-
         public UC_Status()
         {
             InitializeComponent();
@@ -34,7 +36,7 @@ namespace EVS_ProductionStatus
 
         public void loaddata()
         {
-                backgroundWorker1.RunWorkerAsync();
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -101,8 +103,11 @@ namespace EVS_ProductionStatus
                                      .Where(s => find_status.Contains(s.STATUS)
                                      && s.WORK_ORDER_ID.StartsWith(desc_string)
                                      && s.PROD_LINE == "EVS")
-                                     .AsEnumerable()
-                                     .Where(s => Decimal.TryParse(s.OPEN_QTY,out decimal qty) && qty > 0);
+                                     .AsEnumerable();
+                        if (check_ring)
+                        {
+                            qr_root = qr_root.Where(s => s.MES_PART.Contains("EV036"));
+                        }
                         //var qr_root_2 =
                         //            (
                         //                from s in wodb.tblWOes
@@ -149,7 +154,11 @@ namespace EVS_ProductionStatus
                                               .Where(s => s.STATUS == "TECO - Technically completed"
                                               && s.PROD_LINE == "EVS" && s.WORK_ORDER_ID.StartsWith(desc_string))
                                               .AsEnumerable()
-                                              .Where(s => Decimal.TryParse(s.OPEN_QTY, out decimal qty) && qty > 0);
+                                              .Where(s => Decimal.TryParse(s.COMPLETE_QTY, out decimal qty) && qty > 0);
+                        if (check_ring)
+                        {
+                            qr_root_complete = qr_root.Where(x => x.MES_PART.Contains("EV036"));
+                        }
                         //var qr_root_complete_2 =
                         //        (
                         //            from s in wodb.tblWOes
@@ -196,165 +205,325 @@ namespace EVS_ProductionStatus
                         lbChuaHTMonth_Next.Invoke(new Action(() => lbChuaHTMonth_Next.Text = string.Format("{0:00}/{1}", nextmonth, nextyear.ToString().Substring(2))));
                         lbHoanThanhMonth_Next.Invoke(new Action(() => lbHoanThanhMonth_Next.Text = string.Format("{0:00}/{1}", nextmonth, nextyear.ToString().Substring(2))));
 
+                        if (!check_ring)
+                        {
+                            var qr_TotalKitting = (from tmp in db.tblInputs
+                                                   where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
 
-                        var qr_TotalKitting = (from tmp in db.tblInputs
-                                               where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                            var qr_TotalKitting_next = (from tmp in db.tblInputs
+                                                        where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                        select tmp.qty).Sum();
+
+                            var qr_TodayKitting = (from tmp in db.tblInputs
+                                                   where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TotalIn = (from tmp in db.tblInputs
+                                              where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            var qr_TotalIn_next = (from tmp in db.tblInputs
+                                                   where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TodayIn = (from tmp in db.tblInputs
+                                              where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            var qr_TotalOut = (from tmp in db.tblInputs
+                                               where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
-                        var qr_TotalKitting_next = (from tmp in db.tblInputs
-                                                    where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                            var qr_TotalOut_next = (from tmp in db.tblInputs
+                                                    where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                     select tmp.qty).Sum();
 
-                        var qr_TodayKitting = (from tmp in db.tblInputs
-                                               where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                            var qr_TodayOut = (from tmp in db.tblInputs
+                                               where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
-                        var qr_TotalIn = (from tmp in db.tblInputs
-                                          where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                          select tmp.qty).Sum();
+                            var qr_TotalQC = (from tmp in db.tblInputs
+                                              where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
 
-                        var qr_TotalIn_next = (from tmp in db.tblInputs
-                                               where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                            var qr_TotalQC_next = (from tmp in db.tblInputs
+                                                   where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TodayQC = (from tmp in db.tblInputs
+                                              where tmp.QCTime_Start != null && tmp.QCTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            var qr_TotalDG = (from tmp in db.tblInputs
+                                              where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            var qr_TotalDG_next = (from tmp in db.tblInputs
+                                                   where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TodayDG = (from tmp in db.tblInputs
+                                              where tmp.DongGoi_Start != null && tmp.DongGoi_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            //
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalKitting_next) != 0)
+                            {
+                                lbKittingTotal.Invoke(new Action(() => lbKittingTotal.Text = qr_TotalKitting_next.ToString() == "" ? "0" : qr_TotalKitting_next.ToString()));
+                                lbMonthKitting.Invoke(new Action(() => lbMonthKitting.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbKittingTotal.Invoke(new Action(() => lbKittingTotal.Text = qr_TotalKitting.ToString() == "" ? "0" : qr_TotalKitting.ToString()));
+                                lbMonthKitting.Invoke(new Action(() => lbMonthKitting.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalIn_next) != 0)
+                            {
+                                lbInTotal.Invoke(new Action(() => lbInTotal.Text = qr_TotalIn_next.ToString() == "" ? "0" : qr_TotalIn_next.ToString()));
+                                lbMonthIn.Invoke(new Action(() => lbMonthIn.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbInTotal.Invoke(new Action(() => lbInTotal.Text = qr_TotalIn.ToString() == "" ? "0" : qr_TotalIn.ToString()));
+                                lbMonthIn.Invoke(new Action(() => lbMonthIn.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalOut_next) != 0)
+                            {
+                                lbOutTotal.Invoke(new Action(() => lbOutTotal.Text = qr_TotalOut_next.ToString() == "" ? "0" : qr_TotalOut_next.ToString()));
+                                lbMonthOut.Invoke(new Action(() => lbMonthOut.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbOutTotal.Invoke(new Action(() => lbOutTotal.Text = qr_TotalOut.ToString() == "" ? "0" : qr_TotalOut.ToString()));
+                                lbMonthOut.Invoke(new Action(() => lbMonthOut.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalQC_next) != 0)
+                            {
+                                lbQCTotal.Invoke(new Action(() => lbQCTotal.Text = qr_TotalQC_next.ToString() == "" ? "0" : qr_TotalQC_next.ToString()));
+                                lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbQCTotal.Invoke(new Action(() => lbQCTotal.Text = qr_TotalQC.ToString() == "" ? "0" : qr_TotalQC.ToString()));
+                                lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            if (Convert.ToInt32(qr_TotalDG_next) != 0)
+                            {
+                                lbDGTotal.Invoke(new Action(() => lbDGTotal.Text = qr_TotalDG_next.ToString() == "" ? "0" : qr_TotalDG_next.ToString()));
+                                lbMonthDG.Invoke(new Action(() => lbMonthDG.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbDGTotal.Invoke(new Action(() => lbDGTotal.Text = qr_TotalDG.ToString() == "" ? "0" : qr_TotalDG.ToString()));
+                                lbMonthDG.Invoke(new Action(() => lbMonthDG.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            lbKittingToday.Invoke(new Action(() => lbKittingToday.Text = qr_TodayKitting.ToString() == "" ? "0" : qr_TodayKitting.ToString()));
+                            lbInToday.Invoke(new Action(() => lbInToday.Text = qr_TodayIn.ToString() == "" ? "0" : qr_TodayIn.ToString()));
+                            lbOutToday.Invoke(new Action(() => lbOutToday.Text = qr_TodayOut.ToString() == "" ? "0" : qr_TodayOut.ToString()));
+                            lbQCToday.Invoke(new Action(() => lbQCToday.Text = qr_TodayQC.ToString() == "" ? "0" : qr_TodayQC.ToString()));
+                            lbDGToday.Invoke(new Action(() => lbDGToday.Text = qr_TodayDG.ToString() == "" ? "0" : qr_TodayDG.ToString()));
+
+
+                            int chuasx;
+                            //Nếu có tháng mới thì cập nhật theo tháng mới
+                            if (qr_total_next > 0)
+                            {
+                                chuasx = qr_total_next - (qr_TotalKitting_next ?? 0);
+                            }
+                            else
+                            {
+                                chuasx = qr_total - (qr_TotalKitting ?? 0);
+                            }
+
+                            lbNotyetTotal.Invoke(new Action(() => lbNotyetTotal.Text = chuasx.ToString()));
+
+                            int tonkitting = (qr_TotalKitting ?? 0) + (qr_TotalKitting_next ?? 0) - (qr_TotalIn ?? 0) - (qr_TotalIn_next ?? 0);
+                            lbTonKitting.Invoke(new Action(() => lbTonKitting.Text = tonkitting.ToString()));
+
+                            int sodangkhau = (qr_TotalIn ?? 0) + (qr_TotalIn_next ?? 0) - (qr_TotalOut ?? 0) - (qr_TotalOut_next ?? 0);
+                            lbSoDangKhau.Invoke(new Action(() => lbSoDangKhau.Text = sodangkhau.ToString()));
+
+                            //2023-07: thêm số tồn khâu
+                            int tonkhau = (qr_TotalOut ?? 0) + (qr_TotalOut_next ?? 0) - (qr_TotalQC ?? 0) - (qr_TotalQC_next ?? 0);
+                            lbTonKhau.Invoke(new Action(() => lbTonKhau.Text = tonkhau.ToString()));
+
+                            //Số chưa đóng gói = số WO đã chuyển thành C - số đã kết thúc do người dùng quét                   
+                            //Cập nhật thành: Số chưa đg = số wo thành C của tháng này + tháng sau - (số đã kết thúc DG tháng này + tháng sau)
+                            int chuaDG = (qr_TotalQC ?? 0) + (qr_TotalQC_next ?? 0) - Convert.ToInt32(qr_TotalDG_next) - Convert.ToInt32(qr_TotalDG);
+                            lbChuaDG.Invoke(new Action(() => lbChuaDG.Text = chuaDG.ToString()));
+
+                        }
+                        else
+                        {
+                            var qr_TotalKitting = (from tmp in wodb.tblInput_Ring
+                                                   where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TotalKitting_next = (from tmp in wodb.tblInput_Ring
+                                                        where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                        select tmp.qty).Sum();
+
+                            var qr_TodayKitting = (from tmp in wodb.tblInput_Ring
+                                                   where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TotalIn = (from tmp in wodb.tblInput_Ring
+                                              where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            var qr_TotalIn_next = (from tmp in wodb.tblInput_Ring
+                                                   where tmp.InTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TodayIn = (from tmp in wodb.tblInput_Ring
+                                              where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            var qr_TotalOut = (from tmp in wodb.tblInput_Ring
+                                               where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
-                        var qr_TodayIn = (from tmp in db.tblInputs
-                                          where tmp.InTime_Start != null && tmp.InTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
-                                          select tmp.qty).Sum();
+                            var qr_TotalOut_next = (from tmp in wodb.tblInput_Ring
+                                                    where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                    select tmp.qty).Sum();
 
-                        var qr_TotalOut = (from tmp in db.tblInputs
-                                           where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                           select tmp.qty).Sum();
-
-                        var qr_TotalOut_next = (from tmp in db.tblInputs
-                                                where tmp.OutTime != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                                select tmp.qty).Sum();
-
-                        var qr_TodayOut = (from tmp in db.tblInputs
-                                           where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
-                                           select tmp.qty).Sum();
-
-                        var qr_TotalQC = (from tmp in db.tblInputs
-                                          where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                          select tmp.qty).Sum();
-
-                        var qr_TotalQC_next = (from tmp in db.tblInputs
-                                               where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                            var qr_TodayOut = (from tmp in wodb.tblInput_Ring
+                                               where tmp.OutTime != null && tmp.OutTime >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
                                                select tmp.qty).Sum();
 
-                        var qr_TodayQC = (from tmp in db.tblInputs
-                                          where tmp.QCTime_Start != null && tmp.QCTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
-                                          select tmp.qty).Sum();
+                            var qr_TotalQC = (from tmp in wodb.tblInput_Ring
+                                              where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
 
-                        var qr_TotalDG = (from tmp in db.tblInputs
-                                          where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                          select tmp.qty).Sum();
+                            var qr_TotalQC_next = (from tmp in wodb.tblInput_Ring
+                                                   where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
 
-                        var qr_TotalDG_next = (from tmp in db.tblInputs
-                                               where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                               select tmp.qty).Sum();
+                            var qr_TodayQC = (from tmp in wodb.tblInput_Ring
+                                              where tmp.QCTime_Start != null && tmp.QCTime_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
 
-                        var qr_TodayDG = (from tmp in db.tblInputs
-                                          where tmp.DongGoi_Start != null && tmp.DongGoi_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
-                                          select tmp.qty).Sum();
+                            var qr_TotalDG = (from tmp in wodb.tblInput_Ring
+                                              where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
 
-                        //
-                        //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
-                        if (Convert.ToInt32(qr_TotalKitting_next) != 0)
-                        {
-                            lbKittingTotal.Invoke(new Action(() => lbKittingTotal.Text = qr_TotalKitting_next.ToString() == "" ? "0" : qr_TotalKitting_next.ToString()));
-                            lbMonthKitting.Invoke(new Action(() => lbMonthKitting.Text = lbWOKHMonth_Next.Text));
+                            var qr_TotalDG_next = (from tmp in wodb.tblInput_Ring
+                                                   where tmp.DongGoi_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
+                                                   select tmp.qty).Sum();
+
+                            var qr_TodayDG = (from tmp in wodb.tblInput_Ring
+                                              where tmp.DongGoi_Start != null && tmp.DongGoi_Start >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
+                                              select tmp.qty).Sum();
+
+                            //
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalKitting_next) != 0)
+                            {
+                                lbKittingTotal.Invoke(new Action(() => lbKittingTotal.Text = qr_TotalKitting_next.ToString() == "" ? "0" : qr_TotalKitting_next.ToString()));
+                                lbMonthKitting.Invoke(new Action(() => lbMonthKitting.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbKittingTotal.Invoke(new Action(() => lbKittingTotal.Text = qr_TotalKitting.ToString() == "" ? "0" : qr_TotalKitting.ToString()));
+                                lbMonthKitting.Invoke(new Action(() => lbMonthKitting.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalIn_next) != 0)
+                            {
+                                lbInTotal.Invoke(new Action(() => lbInTotal.Text = qr_TotalIn_next.ToString() == "" ? "0" : qr_TotalIn_next.ToString()));
+                                lbMonthIn.Invoke(new Action(() => lbMonthIn.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbInTotal.Invoke(new Action(() => lbInTotal.Text = qr_TotalIn.ToString() == "" ? "0" : qr_TotalIn.ToString()));
+                                lbMonthIn.Invoke(new Action(() => lbMonthIn.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalOut_next) != 0)
+                            {
+                                lbOutTotal.Invoke(new Action(() => lbOutTotal.Text = qr_TotalOut_next.ToString() == "" ? "0" : qr_TotalOut_next.ToString()));
+                                lbMonthOut.Invoke(new Action(() => lbMonthOut.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbOutTotal.Invoke(new Action(() => lbOutTotal.Text = qr_TotalOut.ToString() == "" ? "0" : qr_TotalOut.ToString()));
+                                lbMonthOut.Invoke(new Action(() => lbMonthOut.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
+                            if (Convert.ToInt32(qr_TotalQC_next) != 0)
+                            {
+                                lbQCTotal.Invoke(new Action(() => lbQCTotal.Text = qr_TotalQC_next.ToString() == "" ? "0" : qr_TotalQC_next.ToString()));
+                                lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbQCTotal.Invoke(new Action(() => lbQCTotal.Text = qr_TotalQC.ToString() == "" ? "0" : qr_TotalQC.ToString()));
+                                lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            if (Convert.ToInt32(qr_TotalDG_next) != 0)
+                            {
+                                lbDGTotal.Invoke(new Action(() => lbDGTotal.Text = qr_TotalDG_next.ToString() == "" ? "0" : qr_TotalDG_next.ToString()));
+                                lbMonthDG.Invoke(new Action(() => lbMonthDG.Text = lbWOKHMonth_Next.Text));
+                            }
+                            else
+                            {
+                                lbDGTotal.Invoke(new Action(() => lbDGTotal.Text = qr_TotalDG.ToString() == "" ? "0" : qr_TotalDG.ToString()));
+                                lbMonthDG.Invoke(new Action(() => lbMonthDG.Text = lbWOKHMonth_Cur.Text));
+                            }
+
+                            lbKittingToday.Invoke(new Action(() => lbKittingToday.Text = qr_TodayKitting.ToString() == "" ? "0" : qr_TodayKitting.ToString()));
+                            lbInToday.Invoke(new Action(() => lbInToday.Text = qr_TodayIn.ToString() == "" ? "0" : qr_TodayIn.ToString()));
+                            lbOutToday.Invoke(new Action(() => lbOutToday.Text = qr_TodayOut.ToString() == "" ? "0" : qr_TodayOut.ToString()));
+                            lbQCToday.Invoke(new Action(() => lbQCToday.Text = qr_TodayQC.ToString() == "" ? "0" : qr_TodayQC.ToString()));
+                            lbDGToday.Invoke(new Action(() => lbDGToday.Text = qr_TodayDG.ToString() == "" ? "0" : qr_TodayDG.ToString()));
+
+
+                            int chuasx;
+                            //Nếu có tháng mới thì cập nhật theo tháng mới
+                            if (qr_total_next > 0)
+                            {
+                                chuasx = qr_total_next - (qr_TotalKitting_next ?? 0);
+                            }
+                            else
+                            {
+                                chuasx = qr_total - (qr_TotalKitting ?? 0);
+                            }
+
+                            lbNotyetTotal.Invoke(new Action(() => lbNotyetTotal.Text = chuasx.ToString()));
+
+                            int tonkitting = (qr_TotalKitting ?? 0) + (qr_TotalKitting_next ?? 0) - (qr_TotalIn ?? 0) - (qr_TotalIn_next ?? 0);
+                            lbTonKitting.Invoke(new Action(() => lbTonKitting.Text = tonkitting.ToString()));
+
+                            int sodangkhau = (qr_TotalIn ?? 0) + (qr_TotalIn_next ?? 0) - (qr_TotalOut ?? 0) - (qr_TotalOut_next ?? 0);
+                            lbSoDangKhau.Invoke(new Action(() => lbSoDangKhau.Text = sodangkhau.ToString()));
+
+                            //2023-07: thêm số tồn khâu
+                            int tonkhau = (qr_TotalOut ?? 0) + (qr_TotalOut_next ?? 0) - (qr_TotalQC ?? 0) - (qr_TotalQC_next ?? 0);
+                            lbTonKhau.Invoke(new Action(() => lbTonKhau.Text = tonkhau.ToString()));
+
+                            //Số chưa đóng gói = số WO đã chuyển thành C - số đã kết thúc do người dùng quét                   
+                            //Cập nhật thành: Số chưa đg = số wo thành C của tháng này + tháng sau - (số đã kết thúc DG tháng này + tháng sau)
+                            int chuaDG = (qr_TotalQC ?? 0) + (qr_TotalQC_next ?? 0) - Convert.ToInt32(qr_TotalDG_next) - Convert.ToInt32(qr_TotalDG);
+                            lbChuaDG.Invoke(new Action(() => lbChuaDG.Text = chuaDG.ToString()));
+
                         }
-                        else
-                        {
-                            lbKittingTotal.Invoke(new Action(() => lbKittingTotal.Text = qr_TotalKitting.ToString() == "" ? "0" : qr_TotalKitting.ToString()));
-                            lbMonthKitting.Invoke(new Action(() => lbMonthKitting.Text = lbWOKHMonth_Cur.Text));
-                        }
-
-                        //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
-                        if (Convert.ToInt32(qr_TotalIn_next) != 0)
-                        {
-                            lbInTotal.Invoke(new Action(() => lbInTotal.Text = qr_TotalIn_next.ToString() == "" ? "0" : qr_TotalIn_next.ToString()));
-                            lbMonthIn.Invoke(new Action(() => lbMonthIn.Text = lbWOKHMonth_Next.Text));
-                        }
-                        else
-                        {
-                            lbInTotal.Invoke(new Action(() => lbInTotal.Text = qr_TotalIn.ToString() == "" ? "0" : qr_TotalIn.ToString()));
-                            lbMonthIn.Invoke(new Action(() => lbMonthIn.Text = lbWOKHMonth_Cur.Text));
-                        }
-
-                        //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
-                        if (Convert.ToInt32(qr_TotalOut_next) != 0)
-                        {
-                            lbOutTotal.Invoke(new Action(() => lbOutTotal.Text = qr_TotalOut_next.ToString() == "" ? "0" : qr_TotalOut_next.ToString()));
-                            lbMonthOut.Invoke(new Action(() => lbMonthOut.Text = lbWOKHMonth_Next.Text));
-                        }
-                        else
-                        {
-                            lbOutTotal.Invoke(new Action(() => lbOutTotal.Text = qr_TotalOut.ToString() == "" ? "0" : qr_TotalOut.ToString()));
-                            lbMonthOut.Invoke(new Action(() => lbMonthOut.Text = lbWOKHMonth_Cur.Text));
-                        }
-
-                        //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
-                        if (Convert.ToInt32(qr_TotalQC_next) != 0)
-                        {
-                            lbQCTotal.Invoke(new Action(() => lbQCTotal.Text = qr_TotalQC_next.ToString() == "" ? "0" : qr_TotalQC_next.ToString()));
-                            lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Next.Text));
-                        }
-                        else
-                        {
-                            lbQCTotal.Invoke(new Action(() => lbQCTotal.Text = qr_TotalQC.ToString() == "" ? "0" : qr_TotalQC.ToString()));
-                            lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Cur.Text));
-                        }
-
-                        if (Convert.ToInt32(qr_TotalDG_next) != 0)
-                        {
-                            lbDGTotal.Invoke(new Action(() => lbDGTotal.Text = qr_TotalDG_next.ToString() == "" ? "0" : qr_TotalDG_next.ToString()));
-                            lbMonthDG.Invoke(new Action(() => lbMonthDG.Text = lbWOKHMonth_Next.Text));
-                        }
-                        else
-                        {
-                            lbDGTotal.Invoke(new Action(() => lbDGTotal.Text = qr_TotalDG.ToString() == "" ? "0" : qr_TotalDG.ToString()));
-                            lbMonthDG.Invoke(new Action(() => lbMonthDG.Text = lbWOKHMonth_Cur.Text));
-                        }
-
-                        lbKittingToday.Invoke(new Action(() => lbKittingToday.Text = qr_TodayKitting.ToString() == "" ? "0" : qr_TodayKitting.ToString()));
-                        lbInToday.Invoke(new Action(() => lbInToday.Text = qr_TodayIn.ToString() == "" ? "0" : qr_TodayIn.ToString()));
-                        lbOutToday.Invoke(new Action(() => lbOutToday.Text = qr_TodayOut.ToString() == "" ? "0" : qr_TodayOut.ToString()));
-                        lbQCToday.Invoke(new Action(() => lbQCToday.Text = qr_TodayQC.ToString() == "" ? "0" : qr_TodayQC.ToString()));
-                        lbDGToday.Invoke(new Action(() => lbDGToday.Text = qr_TodayDG.ToString() == "" ? "0" : qr_TodayDG.ToString()));
-
-
-                        int chuasx;
-                        //Nếu có tháng mới thì cập nhật theo tháng mới
-                        if (qr_total_next > 0)
-                        {
-                            chuasx = qr_total_next - (qr_TotalKitting_next ?? 0);
-                        }
-                        else
-                        {
-                            chuasx = qr_total - (qr_TotalKitting ?? 0);
-                        }
-
-                        lbNotyetTotal.Invoke(new Action(() => lbNotyetTotal.Text = chuasx.ToString()));
-
-                        int tonkitting = (qr_TotalKitting ?? 0) + (qr_TotalKitting_next ?? 0) - (qr_TotalIn ?? 0) - (qr_TotalIn_next ?? 0);
-                        lbTonKitting.Invoke(new Action(() => lbTonKitting.Text = tonkitting.ToString()));
-
-                        int sodangkhau = (qr_TotalIn ?? 0) + (qr_TotalIn_next ?? 0) - (qr_TotalOut ?? 0) - (qr_TotalOut_next ?? 0);
-                        lbSoDangKhau.Invoke(new Action(() => lbSoDangKhau.Text = sodangkhau.ToString()));
-
-                        //2023-07: thêm số tồn khâu
-                        int tonkhau = (qr_TotalOut ?? 0) + (qr_TotalOut_next ?? 0) - (qr_TotalQC ?? 0) - (qr_TotalQC_next ?? 0);
-                        lbTonKhau.Invoke(new Action(() => lbTonKhau.Text = tonkhau.ToString()));
-
-                        //Số chưa đóng gói = số WO đã chuyển thành C - số đã kết thúc do người dùng quét                   
-                        //Cập nhật thành: Số chưa đg = số wo thành C của tháng này + tháng sau - (số đã kết thúc DG tháng này + tháng sau)
-                        int chuaDG = (qr_TotalQC ?? 0) + (qr_TotalQC_next ?? 0) - Convert.ToInt32(qr_TotalDG_next) - Convert.ToInt32(qr_TotalDG);
-                        lbChuaDG.Invoke(new Action(() => lbChuaDG.Text = chuaDG.ToString()));
-
                         var qr_woplan = (from s in db.tblContents
-                                         where s.code == WOPlanCode
-                                         select s.content).FirstOrDefault();
+                                             where s.code == WOPlanCode
+                                             select s.content).FirstOrDefault();
                         lbWOKH.Invoke(new Action(() => lbWOKH.Text = qr_woplan));
                         lbWOKH_Cur.Invoke(new Action(() => lbWOKH_Cur.Text = qr_woplan));
 

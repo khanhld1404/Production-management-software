@@ -106,8 +106,7 @@ namespace EVS_ProductionStatus
                                      .Where(s => find_status.Contains(s.STATUS)
                                      && s.WORK_ORDER_ID.StartsWith(desc_string)
                                      && s.PROD_LINE == "EVS")
-                                     .AsEnumerable()
-                                     .Where(s => Decimal.TryParse(s.OPEN_QTY, out decimal qty) && qty > 0);
+                                     .AsEnumerable();
                         int qr_total = 0, qr_total_next = 0;
 
                         if (locationId == null)
@@ -146,7 +145,7 @@ namespace EVS_ProductionStatus
                                               .Where(s => s.STATUS == "TECO - Technically completed"
                                               && s.PROD_LINE == "EVS" && s.WORK_ORDER_ID.StartsWith(desc_string))
                                               .AsEnumerable()
-                                              .Where(s => Decimal.TryParse(s.OPEN_QTY, out decimal qty) && qty > 0);
+                                              .Where(s => Decimal.TryParse(s.COMPLETE_QTY, out decimal qty) && qty > 0);
                         var qr_complete = qr_root_complete
                                 .Where(s => s.LOCATION_ID == locationId && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string))
                                 .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)

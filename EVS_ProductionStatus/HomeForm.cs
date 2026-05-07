@@ -146,5 +146,11 @@ namespace EVS_ProductionStatus
             //Reload_Inventory_Infor.UpdateInventory();
             Other_function.UpdateWOdb();
         }
+
+        private void btn_Ring_Click(object sender, EventArgs e)
+        {
+            ProductionStatus f = new ProductionStatus();
+            f.Show();
+        }
     }
 }
