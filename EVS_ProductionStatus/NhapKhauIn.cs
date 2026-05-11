@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EVS_ProductionStatus.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,15 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using EVS_ProductionStatus.Data;
 namespace EVS_ProductionStatus
 {
     public partial class NhapKhauIn : Form
     {
         string wo = "", woid = "", wo_part = "";
-        public NhapKhauIn()
+        //Kiểm tra mã vòng
+        bool check_ring;
+        public NhapKhauIn(bool _check_ring)
         {
             InitializeComponent();
+            check_ring = _check_ring;
         }
 
         private void txtBarcode_KeyDown(object sender, KeyEventArgs e)
@@ -58,6 +62,7 @@ namespace EVS_ProductionStatus
                 lbError.Visible = false;
                 using (Entities db = new Entities(clConnection.connectEntity))
                 {
+                    
                     //1. Tìm chỉ thị trong bảng Nhập khâu đã start chưa end
                     //Nếu có thì cập nhật thời gian end
                     var qr_khau = (from s in db.tblKhauIns
@@ -77,21 +82,47 @@ namespace EVS_ProductionStatus
                     //2. Nếu k có thì tìm trong bảng tblInput những chỉ thị đã kitting end mà chưa khâu out
                     //Nếu có thì thêm vào bảng nhập khâu, nếu không có báo lỗi
                     {
-                        var qr_input = (from s in db.tblInputs
-                                        where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wopart && s.KittingTime_End != null && s.OutTime == null
-                                        select s).FirstOrDefault();
-                        if (qr_input == null)
+                        // Kiểm tra theo thiết bị
+                        if (!check_ring)
                         {
-                            lbError.Text = "Lỗi. Số chỉ thị đã quét không thể bắt đầu khâu in!";
-                            lbError.Visible = true;
-                            return;
+                            var qr_input = (from s in db.tblInputs
+                                            where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wopart && s.KittingTime_End != null && s.OutTime == null
+                                            select s).FirstOrDefault();
+                            if (qr_input == null)
+                            {
+                                lbError.Text = "Lỗi. Số chỉ thị đã quét không thể bắt đầu khâu in!";
+                                lbError.Visible = true;
+                                return;
+                            }
+                            else
+                            {
+                                //Muốn bắt đầu phải quét mã nhân viên đã
+                                pnNhanVien.Visible = true;
+                                txtUsername.Select();
+                                //Xử lý tiếp tại sự kiện txtUsername_KeyDown
+                            }
                         }
-                        else
+                        else //theo mã vòng
                         {
-                            //Muốn bắt đầu phải quét mã nhân viên đã
-                            pnNhanVien.Visible = true;
-                            txtUsername.Select();
-                            //Xử lý tiếp tại sự kiện txtUsername_KeyDown
+                            using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                            {
+                                var qr_input = (from s in wodb.tblInput_Ring
+                                                where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wopart && s.KittingTime_End != null && s.OutTime == null
+                                                select s).FirstOrDefault();
+                                if (qr_input == null)
+                                {
+                                    lbError.Text = "Lỗi. Số chỉ thị đã quét không thể bắt đầu khâu in!";
+                                    lbError.Visible = true;
+                                    return;
+                                }
+                                else
+                                {
+                                    //Muốn bắt đầu phải quét mã nhân viên đã
+                                    pnNhanVien.Visible = true;
+                                    txtUsername.Select();
+                                    //Xử lý tiếp tại sự kiện txtUsername_KeyDown
+                                }
+                            }       
                         }
                     }
 
@@ -110,41 +141,89 @@ namespace EVS_ProductionStatus
             try
             {
                 pnData.Visible = false;
-                using (Entities db = new Entities(clConnection.connectEntity))
+                // theo thiết bị
+                if (!check_ring)
                 {
-                    var qr_input = (from s in db.tblInputs
-                                    where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _item
-                                    select s).FirstOrDefault();
-
-                    if (qr_input != null)
+                    using (Entities db = new Entities(clConnection.connectEntity))
                     {
-                        lbWO.Invoke(new Action(() => lbWO.Text = qr_input.workorder));
-                        lbItem.Invoke(new Action(() => lbItem.Text = qr_input.itemnumber));
-                        lbLot.Invoke(new Action(() => lbLot.Text = qr_input.lot));
-                        lbQty.Invoke(new Action(() => lbQty.Text = qr_input.qty.ToString()));
-                        lbID.Invoke(new Action(() => lbID.Text = qr_input.WOID.ToString()));
-                    }
+                        var qr_input = (from s in db.tblInputs
+                                        where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _item
+                                        select s).FirstOrDefault();
 
-                    var _tb = (from s in db.tblKhauIns
-                               //where s.workorder == _wo
-                               where s.WOID == _woid && s.workorder == _wo
-                               orderby s.id descending
-                               select s).FirstOrDefault();
-                    if (_tb != null)
-                    {
-                        //Cập nhật luôn tên người thao tác nếu có
-                        lbTenNguoiTT.Text = getUserName(_tb.UserIn);
-                        pnData.Invoke(new Action(() => pnData.Visible = true));
-
-                        if (_tb.InTime_End != null)
+                        if (qr_input != null)
                         {
-                            lbCongdoan.Text = "KHÂU IN _ END";
-                            pnCongDoan.BackColor = Color.Aquamarine;
+                            lbWO.Invoke(new Action(() => lbWO.Text = qr_input.workorder));
+                            lbItem.Invoke(new Action(() => lbItem.Text = qr_input.itemnumber));
+                            lbLot.Invoke(new Action(() => lbLot.Text = qr_input.lot));
+                            lbQty.Invoke(new Action(() => lbQty.Text = qr_input.qty.ToString()));
+                            lbID.Invoke(new Action(() => lbID.Text = qr_input.WOID.ToString()));
                         }
-                        else
+
+                        var _tb = (from s in db.tblKhauIns
+                                       //where s.workorder == _wo
+                                   where s.WOID == _woid && s.workorder == _wo
+                                   orderby s.id descending
+                                   select s).FirstOrDefault();
+                        if (_tb != null)
                         {
-                            lbCongdoan.Text = "KHÂU IN _ START";
-                            pnCongDoan.BackColor = Color.LawnGreen;
+                            //Cập nhật luôn tên người thao tác nếu có
+                            lbTenNguoiTT.Text = getUserName(_tb.UserIn);
+                            pnData.Invoke(new Action(() => pnData.Visible = true));
+
+                            if (_tb.InTime_End != null)
+                            {
+                                lbCongdoan.Text = "KHÂU IN _ END";
+                                pnCongDoan.BackColor = Color.Aquamarine;
+                            }
+                            else
+                            {
+                                lbCongdoan.Text = "KHÂU IN _ START";
+                                pnCongDoan.BackColor = Color.LawnGreen;
+                            }
+                        }
+                    }
+                }
+                else // theo mã vòng 
+                {
+                    using (Entities db = new Entities(clConnection.connectEntity))
+                    {
+                        using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                        {
+                            var qr_input = (from s in wodb.tblInput_Ring
+                                            where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _item
+                                            select s).FirstOrDefault();
+
+                            if (qr_input != null)
+                            {
+                                lbWO.Invoke(new Action(() => lbWO.Text = qr_input.workorder));
+                                lbItem.Invoke(new Action(() => lbItem.Text = qr_input.itemnumber));
+                                lbLot.Invoke(new Action(() => lbLot.Text = qr_input.lot));
+                                lbQty.Invoke(new Action(() => lbQty.Text = qr_input.qty.ToString()));
+                                lbID.Invoke(new Action(() => lbID.Text = qr_input.WOID.ToString()));
+                            }
+
+                            var _tb = (from s in db.tblKhauIns
+                                           //where s.workorder == _wo
+                                       where s.WOID == _woid && s.workorder == _wo
+                                       orderby s.id descending
+                                       select s).FirstOrDefault();
+                            if (_tb != null)
+                            {
+                                //Cập nhật luôn tên người thao tác nếu có
+                                lbTenNguoiTT.Text = getUserName(_tb.UserIn);
+                                pnData.Invoke(new Action(() => pnData.Visible = true));
+
+                                if (_tb.InTime_End != null)
+                                {
+                                    lbCongdoan.Text = "KHÂU IN _ END";
+                                    pnCongDoan.BackColor = Color.Aquamarine;
+                                }
+                                else
+                                {
+                                    lbCongdoan.Text = "KHÂU IN _ START";
+                                    pnCongDoan.BackColor = Color.LawnGreen;
+                                }
+                            }
                         }
                     }
                 }
@@ -177,36 +256,55 @@ namespace EVS_ProductionStatus
                 //Bỏ thời gian trong tblInput
                 using (Entities db = new Entities(clConnection.connectEntity))
                 {
-                    var qr = (from s in db.tblKhauIns
-                                  //where s.workorder == lbWO.Text
-                              where s.WOID == lbID.Text && s.workorder == lbWO.Text
-                              orderby s.id descending
-                              select s).ToList();
-                    if (qr[0].InTime_End != null)
+                    using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
-                        qr[0].InTime_End = null;
-                    }
-                    else
-                    {
-                        db.tblKhauIns.Remove(qr[0]);                        
-
-                        var qr_input = (from s in db.tblInputs
-                                        //where s.workorder == lbWO.Text
-                                        where s.WOID == lbID.Text &&  s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
-                                        select s).FirstOrDefault();
-                        //Nếu là dòng cuối thì xóa ngày Khâu in ở tblInput
-                        if (qr.Count == 1 && qr_input != null)
+                        var qr = (from s in db.tblKhauIns
+                                      //where s.workorder == lbWO.Text
+                                  where s.WOID == lbID.Text && s.workorder == lbWO.Text
+                                  orderby s.id descending
+                                  select s).ToList();
+                        if (qr[0].InTime_End != null)
                         {
-                            qr_input.InTime_Start = null;
-                            qr_input.UserIn = null;
+                            qr[0].InTime_End = null;
                         }
+                        else
+                        {
+                            db.tblKhauIns.Remove(qr[0]);
+                            //Theo thiết bị
+                            if (!check_ring)
+                            {
+                                var qr_input = (from s in db.tblInputs
+                                                    //where s.workorder == lbWO.Text
+                                                where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
+                                                select s).FirstOrDefault();
+                                //Nếu là dòng cuối thì xóa ngày Khâu in ở tblInput
+                                if (qr.Count == 1 && qr_input != null)
+                                {
+                                    qr_input.InTime_Start = null;
+                                    qr_input.UserIn = null;
+                                }
+                            }
+                            else // theo mã vòng
+                            {
+                                var qr_input = (from s in wodb.tblInput_Ring
+                                                    //where s.workorder == lbWO.Text
+                                                where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
+                                                select s).FirstOrDefault();
+                                //Nếu là dòng cuối thì xóa ngày Khâu in ở tblInput
+                                if (qr.Count == 1 && qr_input != null)
+                                {
+                                    qr_input.InTime_Start = null;
+                                    qr_input.UserIn = null;
+                                }
+                            }
+                        }
+
+                        wodb.SaveChanges();
+                        db.SaveChanges();
+                        //Load lại list và control
+                        loadControls(lbID.Text, lbWO.Text, lbItem.Text);
+                        loadGridView(lbID.Text, lbWO.Text);
                     }
-
-                    db.SaveChanges();
-                    //Load lại list và control
-                    loadControls(lbID.Text,lbWO.Text,lbItem.Text);
-                    loadGridView(lbID.Text,lbWO.Text);
-
                 }
             }
             //Chọn lại ô quét mã vạch
@@ -223,43 +321,63 @@ namespace EVS_ProductionStatus
                     lbScanned.Text = txtUsername.Text;
                     using (Entities db = new Entities(clConnection.connectEntity))
                     {
-                        //Kiểm tra thông tin người thao tác có tồn tại không
-                        var qr_user = (from s in db.tblUsers
-                                       where s.userid == txtUsername.Text
-                                       select s).FirstOrDefault();
-                        if (qr_user == null)
+                        using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                         {
-                            lbError.Text = "Lỗi. Người thao tác không tồn tại";
-                            lbError.Visible = true;
-                            txtUsername.Text = "";
-                            return;
-                        }
-                        else
-                        {
-                            //Nếu tblInput chưa nhập thì cần thêm cả thời gian khâu in vào tblInput
-                            DateTime KhauInTime = DateTime.Now;
-
-                            var qr_input = (from s in db.tblInputs
-                                            //where s.workorder == wo && s.KittingTime_End != null && s.InTime_Start == null
-                                            where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part  && s.KittingTime_End != null && s.InTime_Start == null
-                                            select s).FirstOrDefault();
-
-                            if (qr_input != null)
+                            //Kiểm tra thông tin người thao tác có tồn tại không
+                            var qr_user = (from s in db.tblUsers
+                                           where s.userid == txtUsername.Text
+                                           select s).FirstOrDefault();
+                            if (qr_user == null)
                             {
-                                qr_input.InTime_Start = KhauInTime;
-                                qr_input.UserIn = txtUsername.Text;
+                                lbError.Text = "Lỗi. Người thao tác không tồn tại";
+                                lbError.Visible = true;
+                                txtUsername.Text = "";
+                                return;
                             }
+                            else
+                            {
+                                //Nếu tblInput chưa nhập thì cần thêm cả thời gian khâu in vào tblInput
+                                DateTime KhauInTime = DateTime.Now;
 
-                            tblKhauIn tb = new tblKhauIn();
-                            tb.WOID = woid;
-                            tb.workorder = wo;
-                            tb.InTime_Start = KhauInTime;
-                            tb.UserIn = txtUsername.Text;
-                            db.tblKhauIns.Add(tb);
-                            db.SaveChanges();
+                                //Theo thiết bị
+                                if (!check_ring)
+                                {
+                                    var qr_input = (from s in db.tblInputs
+                                                        //where s.workorder == wo && s.KittingTime_End != null && s.InTime_Start == null
+                                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part && s.KittingTime_End != null && s.InTime_Start == null
+                                                    select s).FirstOrDefault();
 
-                            loadControls(woid, wo, wo_part);
-                            loadGridView(woid, wo);
+                                    if (qr_input != null)
+                                    {
+                                        qr_input.InTime_Start = KhauInTime;
+                                        qr_input.UserIn = txtUsername.Text;
+                                    }
+                                }
+                                else // theo mã vòng
+                                {
+                                    var qr_input = (from s in wodb.tblInput_Ring
+                                                        //where s.workorder == wo && s.KittingTime_End != null && s.InTime_Start == null
+                                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part && s.KittingTime_End != null && s.InTime_Start == null
+                                                    select s).FirstOrDefault();
+
+                                    if (qr_input != null)
+                                    {
+                                        qr_input.InTime_Start = KhauInTime;
+                                        qr_input.UserIn = txtUsername.Text;
+                                    }
+
+                                }
+                                tblKhauIn tb = new tblKhauIn();
+                                tb.WOID = woid;
+                                tb.workorder = wo;
+                                tb.InTime_Start = KhauInTime;
+                                tb.UserIn = txtUsername.Text;
+                                db.tblKhauIns.Add(tb);
+                                db.SaveChanges();
+                                wodb.SaveChanges();
+                                loadControls(woid, wo, wo_part);
+                                loadGridView(woid, wo);
+                            }
                         }
                     }
 

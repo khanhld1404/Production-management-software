@@ -7,15 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using EVS_ProductionStatus.Data;
 namespace EVS_ProductionStatus
 {
     public partial class NhapQCDoDang : Form
     {
         string wo = "", woid = "", wo_part = "";
-        public NhapQCDoDang()
+
+        // Kiểm tra xem có làm mã vòng không
+        bool check_ring;
+        public NhapQCDoDang(bool _check_ring)
         {
             InitializeComponent();
+            check_ring = _check_ring;     
         }
 
         private void txtBarcode_KeyDown(object sender, KeyEventArgs e)
@@ -76,21 +80,47 @@ namespace EVS_ProductionStatus
                     //2. Nếu k có thì tìm trong bảng tblInput những chỉ thị đã khâu out mà chưa QC end
                     //Nếu có thì thêm vào bảng nhập khâu, nếu không có báo lỗi
                     {
-                        var qr_input = (from s in db.tblInputs
-                                        where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part && s.OutTime != null && s.QCTime_End == null
-                                        select s).FirstOrDefault();
-                        if (qr_input == null)
+                        //theo thiết bị
+                        if (!check_ring)
                         {
-                            lbError.Text = "Lỗi. Số chỉ thị đã quét không thể bắt đầu QC!";
-                            lbError.Visible = true;
-                            return;
+                            var qr_input = (from s in db.tblInputs
+                                            where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part && s.OutTime != null && s.QCTime_End == null
+                                            select s).FirstOrDefault();
+                            if (qr_input == null)
+                            {
+                                lbError.Text = "Lỗi. Số chỉ thị đã quét không thể bắt đầu QC!";
+                                lbError.Visible = true;
+                                return;
+                            }
+                            else
+                            {
+                                //Muốn bắt đầu phải quét mã nhân viên đã
+                                pnNhanVien.Visible = true;
+                                txtUsername.Select();
+                                //Xử lý tiếp tại sự kiện txtUsername_KeyDown
+                            }
                         }
-                        else
+                        else // theo mã vòng
                         {
-                            //Muốn bắt đầu phải quét mã nhân viên đã
-                            pnNhanVien.Visible = true;
-                            txtUsername.Select();
-                            //Xử lý tiếp tại sự kiện txtUsername_KeyDown
+                            using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                            {
+                                var qr_input = (from s in wodb.tblInput_Ring
+                                                where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part && s.OutTime != null && s.QCTime_End == null
+                                                select s).FirstOrDefault();
+                                if (qr_input == null)
+                                {
+                                    lbError.Text = "Lỗi. Số chỉ thị đã quét không thể bắt đầu QC!";
+                                    lbError.Visible = true;
+                                    return;
+                                }
+                                else
+                                {
+                                    //Muốn bắt đầu phải quét mã nhân viên đã
+                                    pnNhanVien.Visible = true;
+                                    txtUsername.Select();
+                                    //Xử lý tiếp tại sự kiện txtUsername_KeyDown
+                                }
+                            }
                         }
                     }
 
@@ -111,38 +141,82 @@ namespace EVS_ProductionStatus
                 pnData.Visible = false;
                 using (Entities db = new Entities(clConnection.connectEntity))
                 {
-                    var qr_input = (from s in db.tblInputs
-                                    where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part
-                                    select s).FirstOrDefault();
-
-                    if (qr_input != null)
+                    // theo thiết bị
+                    if (!check_ring)
                     {
-                        lbWO.Invoke(new Action(() => lbWO.Text = qr_input.workorder));
-                        lbItem.Invoke(new Action(() => lbItem.Text = qr_input.itemnumber));
-                        lbLot.Invoke(new Action(() => lbLot.Text = qr_input.lot));
-                        lbQty.Invoke(new Action(() => lbQty.Text = qr_input.qty.ToString()));
-                        lbID.Invoke(new Action(() => lbID.Text = qr_input.WOID.ToString()));
-                    }
+                        var qr_input = (from s in db.tblInputs
+                                        where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part
+                                        select s).FirstOrDefault();
 
-                    var _tb = (from s in db.tblQCs
-                               where s.WOID == _woid && s.workorder == _wo
-                               orderby s.id descending
-                               select s).FirstOrDefault();
-                    if (_tb != null)
-                    {
-                        //Cập nhật luôn tên người thao tác nếu có
-                        lbTenNguoiTT.Text = getUserName(_tb.UserQC);
-                        pnData.Invoke(new Action(() => pnData.Visible = true));
-
-                        if (_tb.QCTime_End != null)
+                        if (qr_input != null)
                         {
-                            lbCongdoan.Text = "QC _ END";
-                            pnCongDoan.BackColor = Color.Tomato;
+                            lbWO.Invoke(new Action(() => lbWO.Text = qr_input.workorder));
+                            lbItem.Invoke(new Action(() => lbItem.Text = qr_input.itemnumber));
+                            lbLot.Invoke(new Action(() => lbLot.Text = qr_input.lot));
+                            lbQty.Invoke(new Action(() => lbQty.Text = qr_input.qty.ToString()));
+                            lbID.Invoke(new Action(() => lbID.Text = qr_input.WOID.ToString()));
                         }
-                        else
+
+                        var _tb = (from s in db.tblQCs
+                                   where s.WOID == _woid && s.workorder == _wo
+                                   orderby s.id descending
+                                   select s).FirstOrDefault();
+                        if (_tb != null)
                         {
-                            lbCongdoan.Text = "QC _ START";
-                            pnCongDoan.BackColor = Color.Wheat;
+                            //Cập nhật luôn tên người thao tác nếu có
+                            lbTenNguoiTT.Text = getUserName(_tb.UserQC);
+                            pnData.Invoke(new Action(() => pnData.Visible = true));
+
+                            if (_tb.QCTime_End != null)
+                            {
+                                lbCongdoan.Text = "QC _ END";
+                                pnCongDoan.BackColor = Color.Tomato;
+                            }
+                            else
+                            {
+                                lbCongdoan.Text = "QC _ START";
+                                pnCongDoan.BackColor = Color.Wheat;
+                            }
+                        }
+                    }
+                    else  //Theo mã vòng
+                    {
+                        using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                        {
+                            var qr_input = (from s in wodb.tblInput_Ring
+                                            where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part
+                                            select s).FirstOrDefault();
+
+                            if (qr_input != null)
+                            {
+                                lbWO.Invoke(new Action(() => lbWO.Text = qr_input.workorder));
+                                lbItem.Invoke(new Action(() => lbItem.Text = qr_input.itemnumber));
+                                lbLot.Invoke(new Action(() => lbLot.Text = qr_input.lot));
+                                lbQty.Invoke(new Action(() => lbQty.Text = qr_input.qty.ToString()));
+                                lbID.Invoke(new Action(() => lbID.Text = qr_input.WOID.ToString()));
+                            }
+
+                            var _tb = (from s in db.tblQCs
+                                       where s.WOID == _woid && s.workorder == _wo
+                                       orderby s.id descending
+                                       select s).FirstOrDefault();
+                            if (_tb != null)
+                            {
+                                //Cập nhật luôn tên người thao tác nếu có
+                                lbTenNguoiTT.Text = getUserName(_tb.UserQC);
+                                pnData.Invoke(new Action(() => pnData.Visible = true));
+
+                                if (_tb.QCTime_End != null)
+                                {
+                                    lbCongdoan.Text = "QC _ END";
+                                    pnCongDoan.BackColor = Color.Tomato;
+                                }
+                                else
+                                {
+                                    lbCongdoan.Text = "QC _ START";
+                                    pnCongDoan.BackColor = Color.Wheat;
+                                }
+                            }
                         }
                     }
                 }
@@ -175,33 +249,53 @@ namespace EVS_ProductionStatus
                 //Bỏ thời gian trong tblInput
                 using (Entities db = new Entities(clConnection.connectEntity))
                 {
-                    var qr = (from s in db.tblQCs
-                              where s.WOID == lbID.Text && s.workorder == lbWO.Text
-                              orderby s.id descending
-                              select s).ToList();
-                    if (qr[0].QCTime_End != null)
+                    using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
-                        qr[0].QCTime_End = null;
-                    }
-                    else
-                    {
-                        db.tblQCs.Remove(qr[0]);                        
-
-                        var qr_input = (from s in db.tblInputs
-                                        where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
-                                        select s).FirstOrDefault();
-
-                        if (qr.Count == 1 && qr_input != null)
+                        var qr = (from s in db.tblQCs
+                                  where s.WOID == lbID.Text && s.workorder == lbWO.Text
+                                  orderby s.id descending
+                                  select s).ToList();
+                        if (qr[0].QCTime_End != null)
                         {
-                            qr_input.QCTime_Start = null;
-                            qr_input.UserQC = null;
+                            qr[0].QCTime_End = null;
                         }
-                    }
+                        else
+                        {
+                            db.tblQCs.Remove(qr[0]);
+                            // Theo thiết bị
+                            if (!check_ring)
+                            {
+                                var qr_input = (from s in db.tblInputs
+                                                where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
+                                                select s).FirstOrDefault();
 
-                    db.SaveChanges();
-                    //Load lại list và control
-                    loadControls(lbID.Text, lbWO.Text, lbItem.Text);
-                    loadGridView(lbID.Text, lbWO.Text);
+                                if (qr.Count == 1 && qr_input != null)
+                                {
+                                    qr_input.QCTime_Start = null;
+                                    qr_input.UserQC = null;
+                                }
+                            }
+                            else //theo mã vòng
+                            {
+                                var qr_input = (from s in wodb.tblInput_Ring
+                                                where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
+                                                select s).FirstOrDefault();
+
+                                if (qr.Count == 1 && qr_input != null)
+                                {
+                                    qr_input.QCTime_Start = null;
+                                    qr_input.UserQC = null;
+                                }
+                            }
+                        }
+
+                        wodb.SaveChanges();
+                        db.SaveChanges();
+
+                        //Load lại list và control
+                        loadControls(lbID.Text, lbWO.Text, lbItem.Text);
+                        loadGridView(lbID.Text, lbWO.Text);
+                    }
 
                 }
             }
@@ -219,6 +313,7 @@ namespace EVS_ProductionStatus
                     lbScanned.Text = txtUsername.Text;
                     using (Entities db = new Entities(clConnection.connectEntity))
                     {
+                        
                         //Kiểm tra thông tin người thao tác có tồn tại không
                         var qr_user = (from s in db.tblUsers
                                        where s.userid == txtUsername.Text
@@ -232,29 +327,48 @@ namespace EVS_ProductionStatus
                         }
                         else
                         {
-                            //Nếu tblInput chưa nhập thì cần thêm cả thời gian khâu in vào tblInput
-                            DateTime KhauInTime = DateTime.Now;
-
-                            var qr_input = (from s in db.tblInputs
-                                            where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part && s.OutTime != null && s.QCTime_Start == null
-                                            select s).FirstOrDefault();
-
-                            if (qr_input != null)
+                            using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                             {
-                                qr_input.QCTime_Start = KhauInTime;
-                                qr_input.UserQC = txtUsername.Text;
+                                //Nếu tblInput chưa nhập thì cần thêm cả thời gian khâu in vào tblInput
+                                DateTime KhauInTime = DateTime.Now;
+
+                                //theo thiết bị
+                                if (!check_ring)
+                                {
+                                    var qr_input = (from s in db.tblInputs
+                                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part && s.OutTime != null && s.QCTime_Start == null
+                                                    select s).FirstOrDefault();
+
+                                    if (qr_input != null)
+                                    {
+                                        qr_input.QCTime_Start = KhauInTime;
+                                        qr_input.UserQC = txtUsername.Text;
+                                    }
+                                }
+                                else
+                                {
+                                    var qr_input = (from s in wodb.tblInput_Ring
+                                                    where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part && s.OutTime != null && s.QCTime_Start == null
+                                                    select s).FirstOrDefault();
+
+                                    if (qr_input != null)
+                                    {
+                                        qr_input.QCTime_Start = KhauInTime;
+                                        qr_input.UserQC = txtUsername.Text;
+                                    }
+                                }
+
+                                tblQC tb = new tblQC();
+                                tb.WOID = woid;
+                                tb.workorder = wo;
+                                tb.QCTime_Start = KhauInTime;
+                                tb.UserQC = txtUsername.Text;
+                                db.tblQCs.Add(tb);
+                                db.SaveChanges();
+                                wodb.SaveChanges();
+                                loadControls(woid, wo, wo_part);
+                                loadGridView(woid, wo);
                             }
-
-                            tblQC tb = new tblQC();
-                            tb.WOID = woid;
-                            tb.workorder = wo;
-                            tb.QCTime_Start = KhauInTime;
-                            tb.UserQC = txtUsername.Text;
-                            db.tblQCs.Add(tb);
-                            db.SaveChanges();
-
-                            loadControls(woid,wo,wo_part);
-                            loadGridView(woid,wo);
                         }
                     }
 

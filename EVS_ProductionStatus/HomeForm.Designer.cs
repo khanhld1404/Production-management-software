@@ -44,14 +44,14 @@
             this.itemMaBanVe = new System.Windows.Forms.ToolStripMenuItem();
             this.itemThoiGianKhau = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolInput = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolPacking = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.btn_Ring = new System.Windows.Forms.Button();
             this.btn_RM_WIP = new System.Windows.Forms.Button();
             this.btn_HFG = new System.Windows.Forms.Button();
-            this.toolInput = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolPacking = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.btnOperatorStatus = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnTrangthaiSX_Treo = new System.Windows.Forms.Button();
@@ -182,74 +182,6 @@
             this.toolStrip1.TabIndex = 9;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "warehouse-storage.png");
-            // 
-            // imageList2
-            // 
-            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
-            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList2.Images.SetKeyName(0, "warehouse.png");
-            // 
-            // btn_Ring
-            // 
-            this.btn_Ring.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_Ring.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_Ring.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Ring.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Ring.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Ring.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circle_70;
-            this.btn_Ring.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Ring.Location = new System.Drawing.Point(487, 435);
-            this.btn_Ring.Name = "btn_Ring";
-            this.btn_Ring.Size = new System.Drawing.Size(162, 132);
-            this.btn_Ring.TabIndex = 12;
-            this.btn_Ring.Text = "Quét mã vòng";
-            this.btn_Ring.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_Ring.UseVisualStyleBackColor = true;
-            this.btn_Ring.Click += new System.EventHandler(this.btn_Ring_Click);
-            // 
-            // btn_RM_WIP
-            // 
-            this.btn_RM_WIP.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_RM_WIP.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_RM_WIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_RM_WIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_RM_WIP.ForeColor = System.Drawing.Color.Navy;
-            this.btn_RM_WIP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_RM_WIP.ImageIndex = 0;
-            this.btn_RM_WIP.ImageList = this.imageList2;
-            this.btn_RM_WIP.Location = new System.Drawing.Point(266, 435);
-            this.btn_RM_WIP.Name = "btn_RM_WIP";
-            this.btn_RM_WIP.Size = new System.Drawing.Size(181, 132);
-            this.btn_RM_WIP.TabIndex = 11;
-            this.btn_RM_WIP.Text = "Tồn RM WIP";
-            this.btn_RM_WIP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_RM_WIP.UseVisualStyleBackColor = true;
-            this.btn_RM_WIP.Click += new System.EventHandler(this.btn_RM_WIP_Click);
-            // 
-            // btn_HFG
-            // 
-            this.btn_HFG.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_HFG.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_HFG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_HFG.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_HFG.ForeColor = System.Drawing.Color.Navy;
-            this.btn_HFG.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_HFG.ImageIndex = 0;
-            this.btn_HFG.ImageList = this.imageList1;
-            this.btn_HFG.Location = new System.Drawing.Point(64, 435);
-            this.btn_HFG.Name = "btn_HFG";
-            this.btn_HFG.Size = new System.Drawing.Size(162, 132);
-            this.btn_HFG.TabIndex = 10;
-            this.btn_HFG.Text = "Tồn HFG";
-            this.btn_HFG.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_HFG.UseVisualStyleBackColor = true;
-            this.btn_HFG.Click += new System.EventHandler(this.btn_HFG_Click);
-            // 
             // toolInput
             // 
             this.toolInput.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -279,6 +211,74 @@
             this.toolTrangThaiSP.Text = "Trạng thái thiết bị";
             this.toolTrangThaiSP.Click += new System.EventHandler(this.toolTrangThaiSP_Click);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "warehouse-storage.png");
+            // 
+            // imageList2
+            // 
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "warehouse.png");
+            // 
+            // btn_Ring
+            // 
+            this.btn_Ring.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Ring.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Ring.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Ring.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Ring.ForeColor = System.Drawing.Color.Navy;
+            this.btn_Ring.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circle_70;
+            this.btn_Ring.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Ring.Location = new System.Drawing.Point(287, 272);
+            this.btn_Ring.Name = "btn_Ring";
+            this.btn_Ring.Size = new System.Drawing.Size(181, 132);
+            this.btn_Ring.TabIndex = 12;
+            this.btn_Ring.Text = "Trạng thái sản xuất vòng";
+            this.btn_Ring.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Ring.UseVisualStyleBackColor = true;
+            this.btn_Ring.Click += new System.EventHandler(this.btn_Ring_Click);
+            // 
+            // btn_RM_WIP
+            // 
+            this.btn_RM_WIP.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_RM_WIP.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_RM_WIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_RM_WIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_RM_WIP.ForeColor = System.Drawing.Color.Navy;
+            this.btn_RM_WIP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_RM_WIP.ImageIndex = 0;
+            this.btn_RM_WIP.ImageList = this.imageList2;
+            this.btn_RM_WIP.Location = new System.Drawing.Point(287, 435);
+            this.btn_RM_WIP.Name = "btn_RM_WIP";
+            this.btn_RM_WIP.Size = new System.Drawing.Size(181, 132);
+            this.btn_RM_WIP.TabIndex = 11;
+            this.btn_RM_WIP.Text = "Tồn RM WIP";
+            this.btn_RM_WIP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_RM_WIP.UseVisualStyleBackColor = true;
+            this.btn_RM_WIP.Click += new System.EventHandler(this.btn_RM_WIP_Click);
+            // 
+            // btn_HFG
+            // 
+            this.btn_HFG.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_HFG.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_HFG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_HFG.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_HFG.ForeColor = System.Drawing.Color.Navy;
+            this.btn_HFG.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_HFG.ImageIndex = 0;
+            this.btn_HFG.ImageList = this.imageList1;
+            this.btn_HFG.Location = new System.Drawing.Point(64, 435);
+            this.btn_HFG.Name = "btn_HFG";
+            this.btn_HFG.Size = new System.Drawing.Size(162, 132);
+            this.btn_HFG.TabIndex = 10;
+            this.btn_HFG.Text = "Tồn HFG";
+            this.btn_HFG.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_HFG.UseVisualStyleBackColor = true;
+            this.btn_HFG.Click += new System.EventHandler(this.btn_HFG_Click);
+            // 
             // btnOperatorStatus
             // 
             this.btnOperatorStatus.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -288,9 +288,9 @@
             this.btnOperatorStatus.ForeColor = System.Drawing.Color.Navy;
             this.btnOperatorStatus.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_user_groups_64;
             this.btnOperatorStatus.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnOperatorStatus.Location = new System.Drawing.Point(266, 124);
+            this.btnOperatorStatus.Location = new System.Drawing.Point(525, 435);
             this.btnOperatorStatus.Name = "btnOperatorStatus";
-            this.btnOperatorStatus.Size = new System.Drawing.Size(181, 132);
+            this.btnOperatorStatus.Size = new System.Drawing.Size(162, 132);
             this.btnOperatorStatus.TabIndex = 8;
             this.btnOperatorStatus.Text = "Tình trạng người thao tác";
             this.btnOperatorStatus.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -306,7 +306,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.Navy;
             this.btnExport.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnExport.Location = new System.Drawing.Point(487, 124);
+            this.btnExport.Location = new System.Drawing.Point(525, 272);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(162, 132);
             this.btnExport.TabIndex = 5;
@@ -342,7 +342,7 @@
             this.btnTrangthaiSX_AnaThora.ForeColor = System.Drawing.Color.Navy;
             this.btnTrangthaiSX_AnaThora.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor2;
             this.btnTrangthaiSX_AnaThora.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTrangthaiSX_AnaThora.Location = new System.Drawing.Point(266, 272);
+            this.btnTrangthaiSX_AnaThora.Location = new System.Drawing.Point(287, 124);
             this.btnTrangthaiSX_AnaThora.Name = "btnTrangthaiSX_AnaThora";
             this.btnTrangthaiSX_AnaThora.Size = new System.Drawing.Size(181, 132);
             this.btnTrangthaiSX_AnaThora.TabIndex = 4;
@@ -378,7 +378,7 @@
             this.btnTrangthaiSX_Relay.ForeColor = System.Drawing.Color.Navy;
             this.btnTrangthaiSX_Relay.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor;
             this.btnTrangthaiSX_Relay.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTrangthaiSX_Relay.Location = new System.Drawing.Point(487, 272);
+            this.btnTrangthaiSX_Relay.Location = new System.Drawing.Point(525, 124);
             this.btnTrangthaiSX_Relay.Name = "btnTrangthaiSX_Relay";
             this.btnTrangthaiSX_Relay.Size = new System.Drawing.Size(162, 132);
             this.btnTrangthaiSX_Relay.TabIndex = 4;

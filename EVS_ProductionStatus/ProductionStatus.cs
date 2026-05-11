@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace EVS_ProductionStatus
         string type1, type2, type3;
         UC_Status_OneCategory uc;
         UC_Status uc4_1, uc4_2, uc4_3;
-        UC_Status r1,r2,r3;
+        UC_Status_Ring r1;
         bool isEmployeeScan;
         int NumberOfUC;
         string product_type_desc_string = "";
@@ -33,6 +34,7 @@ namespace EVS_ProductionStatus
         {
             InitializeComponent();
             NumberOfUC = 0;
+            lbType.Text = "Vòng";
             check_ring = true;
         }
 
@@ -69,20 +71,10 @@ namespace EVS_ProductionStatus
             switch (NumberOfUC)
             {
                 case 0:
-                    r1 = new UC_Status("THORA",true);
-                    r1.Location = new Point(7, 43);
+                    r1 = new UC_Status_Ring("Ring");
+                    r1.Location = new Point(43, 43);
                     r1.event_UCClick += UC_Clicked;
                     this.Controls.Add(r1);
-
-                    r2 = new UC_Status("TREO",true);
-                    r2.Location = new Point(325, 43);
-                    r2.event_UCClick += UC_Clicked;
-                    this.Controls.Add(r2);
-
-                    r3 = new UC_Status("RELAY", true);
-                    r3.Location = new Point(644, 43);
-                    r3.event_UCClick += UC_Clicked;
-                    this.Controls.Add(r3);
                     break;
 
                 case 1:
@@ -92,17 +84,17 @@ namespace EVS_ProductionStatus
                     this.Controls.Add(uc);
                     break;
                 case 3:
-                    uc4_1 = new UC_Status(type1,false);
+                    uc4_1 = new UC_Status(type1);
                     uc4_1.Location = new Point(7, 43);
                     uc4_1.event_UCClick += UC_Clicked;
                     this.Controls.Add(uc4_1);
 
-                    uc4_2 = new UC_Status(type2,false);
+                    uc4_2 = new UC_Status(type2);
                     uc4_2.Location = new Point(325, 43);
                     uc4_2.event_UCClick += UC_Clicked;
                     this.Controls.Add(uc4_2);
 
-                    uc4_3 = new UC_Status(type3, false);
+                    uc4_3 = new UC_Status(type3);
                     uc4_3.Location = new Point(644, 43);
                     uc4_3.event_UCClick += UC_Clicked;
                     this.Controls.Add(uc4_3);
@@ -125,28 +117,34 @@ namespace EVS_ProductionStatus
         {
             uc_loaddata();
         }
-
+        // kiểm tra có đang loadata() nếu dang chạy thì dừng timer()
+        private bool _loadingStatus;
         private void uc_loaddata()
         {
-            switch (NumberOfUC)
+
+            if (_loadingStatus) return;
+            _loadingStatus = true;
+
+            timer1.Stop();
+            try
             {
-                case 0:
-                    r1.loaddata();
-                    r2.loaddata();
-                    r3.loaddata();
-                    btn_Kitting.Hide();
-                    btnDongGoiDongThoi.Hide();
-                    break;
-                case 1:
-                    uc.loaddata();
-                    break;
-                case 3:
-                    uc4_1.loaddata();
-                    uc4_2.loaddata();
-                    uc4_3.loaddata();
-                    btn_Kitting.Hide();
-                    break;
+                switch (NumberOfUC)
+                {
+                    case 0: r1.loaddata(); break;
+                    case 1: uc.loaddata(); break;
+                    case 3:
+                        uc4_1.loaddata();
+                        uc4_2.loaddata();
+                        uc4_3.loaddata();
+                        break;
+                }
             }
+            finally
+            {
+                timer1.Start();
+                _loadingStatus = false;
+            }
+
 
         }
 
@@ -187,6 +185,7 @@ namespace EVS_ProductionStatus
             {
                 if (e.KeyCode == Keys.Enter)
                 {
+                    txtBarcode.Enabled = false;
                     backgroundWorker3.RunWorkerAsync();
                 }
             }
@@ -403,85 +402,44 @@ namespace EVS_ProductionStatus
                     if (qr_input != null)
                     {
                         //Nếu quét đến công đoạn cuối rồi thì không quét nữa
-                        if (qr_input.DongGoi_End != null)
+                        ring_data = qr_input;
+                        //Hiển thị cửa sổ nhập mã nhân viên với các bước:
+                        //1.Kitting end
+                        //3.QC out -> thành công
+
+                        if (qr_input.KittingTime_End == null || qr_input.InTime_Start == null ||
+                            (qr_input.QCTime_Start == null && qr_input.OutTime != null))
                         {
-                            lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Chỉ thị sản xuất đã hoàn thành!"));
-                            lbError.Invoke(new Action(() => lbError.Visible = true));
+                            pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
+                            lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã nhân viên"));
+                            isEmployeeScan = true;
+                            txtUsername.Invoke(new Action(() => txtUsername.Select()));
                             return;
+
+                            //Xử lý tiếp ở sự kiện txtUsername keydown
+
+
                         }
+                        //Thêm thời gian trường hợp khâu out, qc end mà k cần quét mã nhân viên: Thêm ĐG (start)
                         else
                         {
-                            ring_data = qr_input;
-                            //Hiển thị cửa sổ nhập mã nhân viên với các bước:
-                            //1.Kitting end
-                            //2.Khâu in
-                            //3.QC in
-                            //4. Đóng gói in >> 230814 thay đổi thành Đóng gói out
-                            if ((qr_input.DongGoi_End == null && qr_input.DongGoi_Start != null))
+                            if (qr_input.QCTime_End == null)
                             {
-                                pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
-                                lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã nhân viên"));
-                                isEmployeeScan = true;
-                                txtUsername.Invoke(new Action(() => txtUsername.Select()));
-                                return;
+                                DateTime QCEndTime = DateTime.Now;
+                                qr_input.QCTime_End = QCEndTime;
 
-                            }
-
-                            if (qr_input.KittingTime_End == null || qr_input.InTime_Start == null ||
-                                (qr_input.QCTime_Start == null && qr_input.OutTime != null))
-                            {
-                                pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
-                                lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã nhân viên"));
-                                isEmployeeScan = true;
-                                txtUsername.Invoke(new Action(() => txtUsername.Select()));
-                                return;
-
-                                //Xử lý tiếp ở sự kiện txtUsername keydown
-
-
-                            }
-                            //Thêm thời gian trường hợp khâu out, qc end mà k cần quét mã nhân viên: Thêm ĐG (start)
-                            else
-                            {
-                                if (qr_input.OutTime == null)
+                                //Thêm thời gian khâu in end bằng thời gian khâu out
+                                var qr_qc = (from s in db.tblQCs
+                                                 //where s.workorder == wo
+                                             where s.WOID == woid && s.workorder == wo
+                                             orderby s.id descending
+                                             select s).FirstOrDefault();
+                                if (qr_qc != null)
                                 {
-                                    DateTime KhauEnd = DateTime.Now;
-                                    qr_input.OutTime = KhauEnd;
-
-                                    //Thêm thời gian khâu in end bằng thời gian khâu out
-                                    var qr_khauin = (from s in db.tblKhauIns
-                                                         //where s.workorder == wo
-                                                     where s.WOID == woid && s.workorder == wo
-                                                     orderby s.id descending
-                                                     select s).FirstOrDefault();
-                                    if (qr_khauin != null)
-                                    {
-                                        qr_khauin.InTime_End = KhauEnd;
-                                    }
-
-                                    db.SaveChanges();
+                                    qr_qc.QCTime_End = QCEndTime;
                                 }
-                                else
-                                {
-                                    if (qr_input.QCTime_End == null)
-                                    {
-                                        DateTime QCEndTime = DateTime.Now;
-                                        qr_input.QCTime_End = QCEndTime;
 
-                                        //Thêm thời gian khâu in end bằng thời gian khâu out
-                                        var qr_qc = (from s in db.tblQCs
-                                                         //where s.workorder == wo
-                                                     where s.WOID == woid && s.workorder == wo
-                                                     orderby s.id descending
-                                                     select s).FirstOrDefault();
-                                        if (qr_qc != null)
-                                        {
-                                            qr_qc.QCTime_End = QCEndTime;
-                                        }
-
-                                        db.SaveChanges();
-                                    }
-                                }
+                                db.SaveChanges();
                             }
                         }
                     }
@@ -618,6 +576,7 @@ namespace EVS_ProductionStatus
         //Kết thúc xử lý quét mã chỉ thị
         private void backgroundWorker3_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            txtBarcode.Enabled = true;
             txtBarcode.Invoke(new Action(() => txtBarcode.Text = ""));
         }
 
@@ -782,35 +741,9 @@ namespace EVS_ProductionStatus
                     return;
                 }
 
-                if (_tb.OutTime != null)
-                {
-                    lbCongdoan.Invoke(new Action(() => lbCongdoan.Text = "KHÂU _ OUT"));
-                    pnCongDoan.Invoke(new Action(() => pnCongDoan.BackColor = Color.Aquamarine));
-                    if (getUserName(_tb.UserIn) != "")
-                    {
-                        lbTenNguoiTT.Invoke(new Action(() => lbTenNguoiTT.Text = getUserName(_tb.UserIn)));
-                        lbTenNguoiTT.Invoke(new Action(() => lbTenNguoiTT.Visible = true));
-                        lbNguoiTT.Invoke(new Action(() => lbNguoiTT.Visible = true));
-                    }
-                    return;
-                }
-
-                if (_tb.InTime_Start != null)
-                {
-                    lbCongdoan.Invoke(new Action(() => lbCongdoan.Text = "KHÂU _ IN"));
-                    pnCongDoan.Invoke(new Action(() => pnCongDoan.BackColor = Color.LawnGreen));
-                    if (getUserName(_tb.UserIn) != "")
-                    {
-                        lbTenNguoiTT.Invoke(new Action(() => lbTenNguoiTT.Text = getUserName(_tb.UserIn)));
-                        lbTenNguoiTT.Invoke(new Action(() => lbTenNguoiTT.Visible = true));
-                        lbNguoiTT.Invoke(new Action(() => lbNguoiTT.Visible = true));
-                    }
-                    return;
-                }
-
                 if (_tb.KittingTime_End != null)
                 {
-                    lbCongdoan.Invoke(new Action(() => lbCongdoan.Text = "KITTING _ END"));
+                    lbCongdoan.Invoke(new Action(() => lbCongdoan.Text = "KẾT THÚC TẠO VÒNG"));
                     pnCongDoan.Invoke(new Action(() => pnCongDoan.BackColor = Color.Olive));
                     if (getUserName(_tb.UserKitting) != "")
                     {
@@ -821,7 +754,7 @@ namespace EVS_ProductionStatus
                     return;
                 }
 
-                lbCongdoan.Invoke(new Action(() => lbCongdoan.Text = "KITTING _ START"));
+                lbCongdoan.Invoke(new Action(() => lbCongdoan.Text = "BẮT ĐẦU TẠO VÒNG"));
                 pnCongDoan.Invoke(new Action(() => pnCongDoan.BackColor = Color.Yellow));
 
             }
@@ -864,6 +797,7 @@ namespace EVS_ProductionStatus
             if (rs == DialogResult.Yes)
             {
                 //Bỏ thời gian trong tblInput
+                // Theo thiết bị
                 if (!check_ring)
                 {
                     using (Entities db = new Entities(clConnection.connectEntity))
@@ -975,7 +909,7 @@ namespace EVS_ProductionStatus
                         }
                     }
                 }
-                else
+                else // Theo mã vòng
                 {
                     using (Entities db = new Entities(clConnection.connectEntity))
                     {
@@ -985,13 +919,6 @@ namespace EVS_ProductionStatus
                                           //where s.workorder == lbWO.Text
                                       where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                       select s).FirstOrDefault();
-
-                            //Lấy dữ liệu khâu in ở bảng tblKhauIn để cập nhật
-                            var qr_khauin = (from s in db.tblKhauIns
-                                                 //where s.workorder == lbWO.Text
-                                             where s.WOID == lbID.Text && s.workorder == lbWO.Text
-                                             orderby s.id descending
-                                             select s).ToList();
 
                             //Lấy dữ liệu QC ở bảng tblQC để cập nhật
                             var qr_qc = (from s in db.tblQCs
@@ -1018,29 +945,6 @@ namespace EVS_ProductionStatus
                                 {
                                     db.tblQCs.RemoveRange(qr_qc);
                                 }
-                                goto save_point;
-                            }
-                            if (qr.OutTime != null)
-                            {
-                                qr.OutTime = null;
-                                //Xoa khau in end o bang tblKhau                        
-                                if (qr_khauin.Count > 0)
-                                {
-                                    qr_khauin[0].InTime_End = null;
-                                }
-
-                                goto save_point;
-                            }
-                            if (qr.InTime_Start != null)
-                            {
-                                qr.InTime_Start = null;
-                                qr.UserIn = null;
-                                //Xoa khau in start o bang tblKhau                        
-                                if (qr_khauin.Count > 0)
-                                {
-                                    db.tblKhauIns.RemoveRange(qr_khauin);
-                                }
-
                                 goto save_point;
                             }
                             if (qr.KittingTime_End != null)
@@ -1329,24 +1233,6 @@ namespace EVS_ProductionStatus
 
                                             goto user_save_point;
                                         }
-
-
-                                        //Sau khi khâu thì lưu lại
-                                        else if (qr_input.InTime_Start == null)
-                                        {
-                                            DateTime KhauInTime = DateTime.Now;
-                                            qr_input.UserIn = txtUsername.Text;
-                                            qr_input.InTime_Start = KhauInTime;
-                                            //Thêm vào bảng tblKhauIn
-                                            tblInput_Ring tb = new tblInput_Ring();
-                                            tb.WOID = woid;
-                                            tb.workorder = wo;
-                                            tb.InTime_Start = KhauInTime;
-                                            tb.UserIn = txtUsername.Text;
-                                            wodb.tblInput_Ring.Add(tb);
-
-                                            goto user_save_point;
-                                        }
                                         //Sau khi qc thì lưu lại
                                         else if (qr_input.QCTime_Start == null)
                                         {
@@ -1360,31 +1246,6 @@ namespace EVS_ProductionStatus
                                             tb.QCTime_Start = QCTime;
                                             tb.UserQC = txtUsername.Text;
                                             db.tblQCs.Add(tb);
-
-                                            goto user_save_point;
-                                        }
-                                        //230814 Chuyen tu dong goi start > dong goi end
-                                        else if (qr_input.DongGoi_End == null)
-                                        {
-                                            DateTime dgTime = DateTime.Now;
-                                            //Neu k dong goi dong thoi thi ket thuc id nao cap nhat id day
-                                            if (qr_input.DongGoiGroup == null)
-                                            {
-                                                qr_input.UserDongGoi = txtUsername.Text;
-                                                qr_input.DongGoi_End = dgTime;
-                                            }
-                                            else
-                                            {
-                                                var qrDG = (from s in wodb.tblInput_Ring
-                                                            where s.DongGoiGroup == qr_input.DongGoiGroup
-                                                            select s).ToList();
-                                                foreach (var tmp in qrDG)
-                                                {
-                                                    tmp.UserDongGoi = txtUsername.Text;
-                                                    tmp.DongGoi_End = dgTime;
-                                                }
-                                            }
-
 
                                             goto user_save_point;
                                         }
@@ -1497,7 +1358,7 @@ namespace EVS_ProductionStatus
 
         private void btnNhapKhau_Click(object sender, EventArgs e)
         {
-            NhapKhauIn f = new NhapKhauIn();
+            NhapKhauIn f = new NhapKhauIn(check_ring);
             if (f.ShowDialog() == DialogResult.Cancel)
             {
                 txtBarcode.Select();
@@ -1506,7 +1367,7 @@ namespace EVS_ProductionStatus
 
         private void btnQCDoDang_Click(object sender, EventArgs e)
         {
-            NhapQCDoDang f = new NhapQCDoDang();
+            NhapQCDoDang f = new NhapQCDoDang(check_ring);
             if (f.ShowDialog() == DialogResult.Cancel)
             {
                 txtBarcode.Select();
@@ -1515,7 +1376,7 @@ namespace EVS_ProductionStatus
 
         private void btnKittingDongThoi_Click(object sender, EventArgs e)
         {
-            KittingDongThoi f = new KittingDongThoi();
+            KittingDongThoi f = new KittingDongThoi(check_ring);
             if (f.ShowDialog() == DialogResult.Cancel)
             {
                 txtBarcode.Select();

@@ -386,6 +386,12 @@
     <Compile Include="UC_Status_OneCategory.Designer.cs">
       <DependentUpon>UC_Status_OneCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="UC_Status_Ring.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Status_Ring.Designer.cs">
+      <DependentUpon>UC_Status_Ring.cs</DependentUpon>
+    </Compile>
     <Compile Include="UC_Status_TwoCategory.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -556,6 +562,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC_Status_OneCategory.resx">
       <DependentUpon>UC_Status_OneCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Status_Ring.resx">
+      <DependentUpon>UC_Status_Ring.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC_Status_TwoCategory.resx">
       <DependentUpon>UC_Status_TwoCategory.cs</DependentUpon>
