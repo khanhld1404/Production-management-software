@@ -256,20 +256,6 @@
           <Property Name="Nhom" Type="nvarchar" MaxLength="50" />
           <Property Name="UserID" Type="varchar" MaxLength="20" />
         </EntityType>
-        <EntityType Name="tblWO">
-          <Key>
-            <PropertyRef Name="WOID" />
-          </Key>
-          <Property Name="WOID" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="workorder" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="wostatus" Type="varchar" MaxLength="5" />
-          <Property Name="orderdate" Type="date" />
-          <Property Name="lot" Type="varchar" MaxLength="20" />
-          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
-          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
-          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
-          <Property Name="qty" Type="int" />
-        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_01_Kitting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_01_Kitting">
@@ -467,7 +453,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="tblURL" EntityType="Self.tblURL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblViTriNguoiTT" EntityType="Self.tblViTriNguoiTT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblWO" EntityType="Self.tblWO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="v_01_Kitting" EntityType="Self.v_01_Kitting" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_01_Kitting].[STT] AS [STT], 
@@ -575,7 +560,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="tblURLs" EntityType="EVS_ProductionStatusModel.tblURL" />
           <EntitySet Name="tblUsers" EntityType="EVS_ProductionStatusModel.tblUser" />
           <EntitySet Name="tblViTriNguoiTTs" EntityType="EVS_ProductionStatusModel.tblViTriNguoiTT" />
-          <EntitySet Name="tblWOes" EntityType="EVS_ProductionStatusModel.tblWO" />
           <EntitySet Name="v_01_Kitting" EntityType="EVS_ProductionStatusModel.v_01_Kitting" />
           <EntitySet Name="v_04_DongGoi" EntityType="EVS_ProductionStatusModel.v_04_DongGoi" />
           <EntitySet Name="v_05_KhauDetail" EntityType="EVS_ProductionStatusModel.v_05_KhauDetail" />
@@ -894,20 +878,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="CongDoan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Nhom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="tblWO">
-          <Key>
-            <PropertyRef Name="WOID" />
-          </Key>
-          <Property Name="WOID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="workorder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="wostatus" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="orderdate" Type="DateTime" Precision="0" />
-          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="qty" Type="Int32" />
         </EntityType>
         <EntityType Name="v_01_Kitting">
           <Key>
@@ -1488,21 +1458,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
                 <ScalarProperty Name="CongDoan" ColumnName="CongDoan" />
                 <ScalarProperty Name="ViTri" ColumnName="ViTri" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblWOes">
-            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblWO">
-              <MappingFragment StoreEntitySet="tblWO">
-                <ScalarProperty Name="qty" ColumnName="qty" />
-                <ScalarProperty Name="desc2" ColumnName="desc2" />
-                <ScalarProperty Name="desc1" ColumnName="desc1" />
-                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
-                <ScalarProperty Name="lot" ColumnName="lot" />
-                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
-                <ScalarProperty Name="wostatus" ColumnName="wostatus" />
-                <ScalarProperty Name="workorder" ColumnName="workorder" />
-                <ScalarProperty Name="WOID" ColumnName="WOID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

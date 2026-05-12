@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblURL" Width="1.5" PointX="8.75" PointY="3.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblUser" Width="1.5" PointX="8.75" PointY="6.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblViTriNguoiTT" Width="1.5" PointX="2.75" PointY="9.75" />
-        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblWO" Width="1.5" PointX="8.75" PointY="9.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_01_Kitting" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_04_DongGoi" Width="1.5" PointX="10.75" PointY="5.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_05_KhauDetail" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />

@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using EVS_ProductionStatus.Data;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -222,142 +223,144 @@ namespace EVS_ProductionStatus.Settings
 
                     cur_wo_string = thisyear.ToString().Substring(2) + thismonth.ToString("00");
                     next_wo_string = nextyear.ToString().Substring(2) + nextmonth.ToString("00");
-
-                    var qr_total = (from s in db.tblWOes
-                                    join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                    where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
-                                    select s).Count();
-
-                    var qr_total_next = (from s in db.tblWOes
-                                         join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                         where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
-                                         select s).Count();
-
-
-                    //Bỏ đóng gói
-                    ////Dong goi
-                    //var dg_ht = (from s in db.tblInputs
-                    //             join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                    //             where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
-                    //             select s).Count();
-
-                    //var dg_ht_next = (from s in db.tblInputs
-                    //                  join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                    //                  where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
-                    //                  select s).Count();
-
-                    //var dg_sx = (from s in db.tblInputs
-                    //             join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                    //             where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
-                    //             && s.DongGoi_End == null && s.DongGoi_Start != null
-                    //             select s).Count();
-
-                    //var dg_sx_next = (from s in db.tblInputs
-                    //                  join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                    //                  where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
-                    //                  && s.DongGoi_End == null && s.DongGoi_Start != null
-                    //                  select s).Count();
-
-
-                    //QC
-                    var qc_ht = (from s in db.tblInputs
-                                 join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                 where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
-                                 select s).Count();
-
-                    var qc_ht_next = (from s in db.tblInputs
-                                      join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                      where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
-                                      select s).Count();
-
-                    var qc_sx = (from s in db.tblInputs
-                                 join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                 where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
-                                 && s.QCTime_End == null && s.QCTime_Start != null
-                                 select s).Count();
-
-                    var qc_sx_next = (from s in db.tblInputs
-                                      join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                      where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
-                                      && s.QCTime_End == null && s.QCTime_Start != null
-                                      select s).Count();
-
-
-                    //khau
-                    var khau_ht = (from s in db.tblInputs
-                                   join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                   where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
-                                   select s).Count();
-
-                    var khau_ht_next = (from s in db.tblInputs
-                                        join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                        where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
-                                        select s).Count();
-
-                    var khau_sx = (from s in db.tblInputs
-                                   join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                   where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
-                                   && s.OutTime == null && s.InTime_Start != null
-                                   select s).Count();
-
-                    var khau_sx_next = (from s in db.tblInputs
-                                        join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                        where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
-                                        && s.OutTime == null && s.InTime_Start != null
-                                        select s).Count();
-
-
-                    //kitting
-                    var kitting_ht = (from s in db.tblInputs
-                                      join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                      where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
-                                      select s).Count();
-
-                    var kitting_ht_next = (from s in db.tblInputs
-                                           join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                           where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
-                                           select s).Count();
-
-                    var kitting_sx = (from s in db.tblInputs
-                                      join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                      where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
-                                      && s.KittingTime_End == null && s.KittingTime_Start != null
-                                      select s).Count();
-
-                    var kitting_sx_next = (from s in db.tblInputs
-                                           join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                           where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
-                                           && s.KittingTime_End == null && s.KittingTime_Start != null
-                                           select s).Count();
-
-                    grTotal.Invoke(new Action(() =>
+                    using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
-                        grTotal.Rows.Clear();
-                        grTotal.Rows.Add(qr_total, qr_total_next, qr_total, qr_total_next, qr_total, qr_total_next, qr_total, qr_total_next);
-                        grTotal.Rows.Add(kitting_ht, kitting_ht_next, khau_ht, khau_ht_next, qc_ht, qc_ht_next);
-                        grTotal.Rows.Add(kitting_sx, kitting_sx_next, khau_sx, khau_sx_next, qc_sx, qc_sx_next);
-                        grTotal.Rows.Add(qr_total - kitting_ht - kitting_sx, qr_total_next - kitting_ht_next - kitting_sx_next,
-                            qr_total - khau_ht - khau_sx, qr_total_next - khau_ht_next - khau_sx_next,
-                            qr_total - qc_ht - qc_sx, qr_total_next - qc_ht_next - qc_sx_next);
-                        grTotal.Rows.Add(((double)kitting_ht / (qr_total == 0 ? 1 : qr_total)).ToString("0.## %"), ((double)kitting_ht_next / (qr_total_next == 0 ? 1 : qr_total_next)).ToString("0.## %"),
-                            ((double)khau_ht / (qr_total == 0 ? 1 : qr_total)).ToString("0.## %"), ((double)khau_ht_next / (qr_total_next == 0 ? 1 : qr_total_next)).ToString("0.## %"),
-                            ((double)qc_ht / (qr_total == 0 ? 1 : qr_total)).ToString("0.## %"), ((double)qc_ht_next / (qr_total_next == 0 ? 1 : qr_total_next)).ToString("0.## %"));
+                        var qr_total = (from s in wodb.tblWOes
+                                        join l in db.v_06_LoaiSP on s.MES_PART equals l.itemnumber
+                                        where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                        select s).Count();
 
-                        if (qr_total_next > 0)
+                        var qr_total_next = (from s in wodb.tblWOes
+                                             join l in db.v_06_LoaiSP on s.MES_PART equals l.itemnumber
+                                             where s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                             select s).Count();
+
+
+                        //Bỏ đóng gói
+                        ////Dong goi
+                        //var dg_ht = (from s in db.tblInputs
+                        //             join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                        //             where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
+                        //             select s).Count();
+
+                        //var dg_ht_next = (from s in db.tblInputs
+                        //                  join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                        //                  where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
+                        //                  select s).Count();
+
+                        //var dg_sx = (from s in db.tblInputs
+                        //             join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                        //             where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                        //             && s.DongGoi_End == null && s.DongGoi_Start != null
+                        //             select s).Count();
+
+                        //var dg_sx_next = (from s in db.tblInputs
+                        //                  join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                        //                  where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                        //                  && s.DongGoi_End == null && s.DongGoi_Start != null
+                        //                  select s).Count();
+
+
+                        //QC
+                        var qc_ht = (from s in db.tblInputs
+                                     join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                     where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
+                                     select s).Count();
+
+                        var qc_ht_next = (from s in db.tblInputs
+                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                          where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
+                                          select s).Count();
+
+                        var qc_sx = (from s in db.tblInputs
+                                     join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                     where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                     && s.QCTime_End == null && s.QCTime_Start != null
+                                     select s).Count();
+
+                        var qc_sx_next = (from s in db.tblInputs
+                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                          where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                          && s.QCTime_End == null && s.QCTime_Start != null
+                                          select s).Count();
+
+
+                        //khau
+                        var khau_ht = (from s in db.tblInputs
+                                       join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                       where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
+                                       select s).Count();
+
+                        var khau_ht_next = (from s in db.tblInputs
+                                            join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                            where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
+                                            select s).Count();
+
+                        var khau_sx = (from s in db.tblInputs
+                                       join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                       where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                       && s.OutTime == null && s.InTime_Start != null
+                                       select s).Count();
+
+                        var khau_sx_next = (from s in db.tblInputs
+                                            join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                            where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                            && s.OutTime == null && s.InTime_Start != null
+                                            select s).Count();
+
+
+                        //kitting
+                        var kitting_ht = (from s in db.tblInputs
+                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                          where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
+                                          select s).Count();
+
+                        var kitting_ht_next = (from s in db.tblInputs
+                                               join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                               where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
+                                               select s).Count();
+
+                        var kitting_sx = (from s in db.tblInputs
+                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                          where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                          && s.KittingTime_End == null && s.KittingTime_Start != null
+                                          select s).Count();
+
+                        var kitting_sx_next = (from s in db.tblInputs
+                                               join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                               where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                               && s.KittingTime_End == null && s.KittingTime_Start != null
+                                               select s).Count();
+
+                        grTotal.Invoke(new Action(() =>
                         {
-                            grTotal.Columns["totalKittingNext"].Visible = true;
-                            grTotal.Columns["totalKhauNext"].Visible = true;
-                            grTotal.Columns["totalQCNext"].Visible = true;
-                            //grTotal.Columns["totalDongGoiNext"].Visible = true;
-                        }
-                        else
-                        {
-                            grTotal.Columns["totalKittingNext"].Visible = false;
-                            grTotal.Columns["totalKhauNext"].Visible = false;
-                            grTotal.Columns["totalQCNext"].Visible = false;
-                            //grTotal.Columns["totalDongGoiNext"].Visible = false;
-                        }
-                    }));
+                            grTotal.Rows.Clear();
+                            grTotal.Rows.Add(qr_total, qr_total_next, qr_total, qr_total_next, qr_total, qr_total_next, qr_total, qr_total_next);
+                            grTotal.Rows.Add(kitting_ht, kitting_ht_next, khau_ht, khau_ht_next, qc_ht, qc_ht_next);
+                            grTotal.Rows.Add(kitting_sx, kitting_sx_next, khau_sx, khau_sx_next, qc_sx, qc_sx_next);
+                            grTotal.Rows.Add(qr_total - kitting_ht - kitting_sx, qr_total_next - kitting_ht_next - kitting_sx_next,
+                                qr_total - khau_ht - khau_sx, qr_total_next - khau_ht_next - khau_sx_next,
+                                qr_total - qc_ht - qc_sx, qr_total_next - qc_ht_next - qc_sx_next);
+                            grTotal.Rows.Add(((double)kitting_ht / (qr_total == 0 ? 1 : qr_total)).ToString("0.## %"), ((double)kitting_ht_next / (qr_total_next == 0 ? 1 : qr_total_next)).ToString("0.## %"),
+                                ((double)khau_ht / (qr_total == 0 ? 1 : qr_total)).ToString("0.## %"), ((double)khau_ht_next / (qr_total_next == 0 ? 1 : qr_total_next)).ToString("0.## %"),
+                                ((double)qc_ht / (qr_total == 0 ? 1 : qr_total)).ToString("0.## %"), ((double)qc_ht_next / (qr_total_next == 0 ? 1 : qr_total_next)).ToString("0.## %"));
+
+                            if (qr_total_next > 0)
+                            {
+                                grTotal.Columns["totalKittingNext"].Visible = true;
+                                grTotal.Columns["totalKhauNext"].Visible = true;
+                                grTotal.Columns["totalQCNext"].Visible = true;
+                                //grTotal.Columns["totalDongGoiNext"].Visible = true;
+                            }
+                            else
+                            {
+                                grTotal.Columns["totalKittingNext"].Visible = false;
+                                grTotal.Columns["totalKhauNext"].Visible = false;
+                                grTotal.Columns["totalQCNext"].Visible = false;
+                                //grTotal.Columns["totalDongGoiNext"].Visible = false;
+                            }
+                        }));
+                    }
                 }
             }
             catch (Exception ex)

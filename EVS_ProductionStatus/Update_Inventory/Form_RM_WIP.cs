@@ -208,28 +208,28 @@ namespace EVS_ProductionStatus
         }
 
         //Dữ liệu được truyền lên
-        private async Task Set_Eink()
-        {
-            using (var mb = new Manage_evsEntities(clConnection.connectString2))
-            {
-                var ListProduct = mb.NewInventory_EVS
-                .Where(x => x.loc == "04010" || x.loc == "04015")
-                .Select(item => new Product_Eink
-                {
-                    ItemCode = item.Itemcode,
-                    LotNo = item.LotNo,
-                    R_float1 = item.Qty,
-                    R_float2 = item.Qty_Allocate
-                })
-                .ToList();
-                await PostDataAsync("api/product/Stock/", ListProduct);
-            }
-        }
+        //private async Task Set_Eink()
+        //{
+        //    using (var mb = new Manage_evsEntities(clConnection.connectString2))
+        //    {
+        //        var ListProduct = mb.EVS_Stock
+        //        .Where(x => x.STORAGE_LOCATION == "04010" || x.STORAGE_LOCATION == "04015")
+        //        .Select(item => new Product_Eink
+        //        {
+        //            ItemCode = item.MATERIAL_CODE,
+        //            LotNo = item.LotNo,
+        //            R_float1 = item.Qty,
+        //            R_float2 = item.Qty_Allocate
+        //        })
+        //        .ToList();
+        //        await PostDataAsync("api/product/Stock/", ListProduct);
+        //    }
+        //}
 
         //Load dữ liệu ban đầu
         private void Form_RM_WIP_Load(object sender, EventArgs e)
         {
-            Set_Eink();
+            //Set_Eink();
             Load_Data();
             Placeholder.SetupPlaceholder(txt_Search_ItemCode,"ItemCode");
             Placeholder.SetupPlaceholder(txt_Search_Lotno, "LotNo");
@@ -240,21 +240,21 @@ namespace EVS_ProductionStatus
             txt_Search_Lotno.AutoSize = false;
             Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
 
-            var summary1 = mb.NewInventory_EVS
-                .Where(x => x.part_type == "RM" || x.part_type == "WIP")
+            var summary1 = mb.EVS_Stock
+                .Where(x => x.MATERIAL_TYPE == "RM" || x.MATERIAL_TYPE == "WIP")
                 .Select(p => new
                 {
-                    Qty = p.Qty,                  // giả định decimal?
-                    status = p.status,            // string
-                    Qty_Allocate = p.Qty_Allocate,
-                    loc = p.loc                   // string
+                    Qty = p.STOCK_QUANTITY,                  // giả định decimal?
+                    status = p.STOCK_TYPE,            // string
+                    //Qty_Allocate = p.Qty_Allocate,
+                    STORAGE_LOCATION = p.STORAGE_LOCATION                   // string
                 })
                 .ToList();
 
             // Tổng ngoài SX
             var Total_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.loc))
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION))
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
                 2
@@ -263,7 +263,7 @@ namespace EVS_ProductionStatus
             // Under QA ngoài SX
             var UnderQA_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.loc) && NormalizeStatus(x.status) == "UNDER QA")
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "UNDER QA")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
                 2
@@ -272,7 +272,7 @@ namespace EVS_ProductionStatus
             // Passed ngoài SX
             var Pass_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.loc) && NormalizeStatus(x.status) == "PASSED")
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "PASSED")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
                 2
@@ -281,7 +281,7 @@ namespace EVS_ProductionStatus
             // Hold ngoài SX
             var Hold_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.loc) && NormalizeStatus(x.status) == "HOLD")
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "HOLD")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
                 2
@@ -290,7 +290,7 @@ namespace EVS_ProductionStatus
             // Tổng trong SX (EVS)
             var Total_EVS = Math.Round(
                 summary1
-                    .Where(x => IsTargetLoc(x.loc))
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION))
                     .Where(x =>
                     {
                         var st = NormalizeStatus(x.status);
@@ -304,7 +304,7 @@ namespace EVS_ProductionStatus
             // Pass trong SX
             var Pass = Math.Round(
                 summary1
-                    .Where(x => IsTargetLoc(x.loc) && NormalizeStatus(x.status) == "PASSED")
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "PASSED")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
                 2
@@ -313,7 +313,7 @@ namespace EVS_ProductionStatus
             // Hold trong SX
             var Hold = Math.Round(
                 summary1
-                    .Where(x => IsTargetLoc(x.loc) && NormalizeStatus(x.status) == "HOLD")
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "HOLD")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
                 2
@@ -376,80 +376,80 @@ namespace EVS_ProductionStatus
             string sum_type = Dgv_Main_RM_WIP.Columns[column].Name;
             var targetLocs = new[] { "04015", "04010" };
 
-            Data_Overview = (from in_e in mb.NewInventory_EVS
-                        where (in_e.part_type == "RM" || in_e.part_type == "WIP") &&
+            Data_Overview = (from in_e in mb.EVS_Stock
+                        where (in_e.MATERIAL_TYPE == "RM" || in_e.MATERIAL_TYPE == "WIP") &&
                                 (
-                                (sum_type == "Total_EVS" && targetLocs.Contains(in_e.loc)) ||
+                                (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
                                 (sum_type == "Total_TVC") ||
-                                (sum_type == "Pass" && in_e.status.ToUpper() == "PASSED" && targetLocs.Contains(in_e.loc)) ||
-                                (sum_type == "Hold" && in_e.status.ToUpper() == "HOLD" && targetLocs.Contains(in_e.loc)) ||
+                                (sum_type == "Pass" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
 
-                                (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.loc)) ||
-                                (sum_type == "UnderQA_NSX" && in_e.status.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.loc)) ||
-                                (sum_type == "Pass_NSX" && in_e.status.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.loc)) ||
-                                (sum_type == "Hold_NSX" && in_e.status.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.loc))
+                                (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "UnderQA_NSX" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "Pass_NSX" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "Hold_NSX" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
                                 )
-                        group new { in_e } by in_e.Itemcode into g
+                        group new { in_e } by in_e.MATERIAL_CODE into g
                         orderby g.Key
                         select new RM_WIP_Overview
                         {
                             ItemCode = g.Key,
-                            Total = Math.Round(g.Sum(x => x.in_e.Qty) ?? 0, 2),
-                            Total_Allocate = Math.Round(g.Sum(x => x.in_e.Qty_Allocate) ?? 0, 2),
-                            Total_khả_dụng = Math.Round(g.Sum(x => (x.in_e.status != "HOLD") ? ((x.in_e.Qty - x.in_e.Qty_Allocate) ?? 0) : 0), 2)
+                            Total = (double)Math.Round(g.Sum(x => x.in_e.STOCK_QUANTITY) ?? 0, 2),
+                            //Total_Allocate = Math.Round(g.Sum(x => x.in_e.Qty_Allocate) ?? 0, 2),
+                            //Total_khả_dụng = Math.Round(g.Sum(x => (x.in_e.status != "HOLD") ? ((x.in_e.Qty - x.in_e.Qty_Allocate) ?? 0) : 0), 2)
                         }
                         ).ToList();
             if (column >= 1 && column <= 3)
             {
-                Data_Eink = (from in_e in mb.NewInventory_EVS
-                                 where (in_e.part_type == "RM" || in_e.part_type == "WIP") &&
+                Data_Eink = (from in_e in mb.EVS_Stock
+                                 where (in_e.MATERIAL_TYPE == "RM" || in_e.MATERIAL_TYPE == "WIP") &&
                                          (
-                                         (sum_type == "Total_EVS" && targetLocs.Contains(in_e.loc)) ||
+                                         (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
                                          (sum_type == "Total_TVC") ||
-                                         (sum_type == "Pass" && in_e.status.ToUpper() == "PASSED" && targetLocs.Contains(in_e.loc)) ||
-                                         (sum_type == "Hold" && in_e.status.ToUpper() == "HOLD" && targetLocs.Contains(in_e.loc)) ||
+                                         (sum_type == "Pass" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                         (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
 
-                                         (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.loc)) ||
-                                         (sum_type == "UnderQA_NSX" && in_e.status.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.loc)) ||
-                                         (sum_type == "Pass_NSX" && in_e.status.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.loc)) ||
-                                         (sum_type == "Hold_NSX" && in_e.status.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.loc))
+                                         (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                         (sum_type == "UnderQA_NSX" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                         (sum_type == "Pass_NSX" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                         (sum_type == "Hold_NSX" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
                                          )
-                                 orderby in_e.Itemcode
+                                 orderby in_e.MATERIAL_CODE
                                  select new RM_WIP_Elink
                                  {
-                                     ItemCode = in_e.Itemcode,
-                                     Lotno = in_e.LotNo,
-                                     Status = in_e.status,
-                                     Tồn = in_e.Qty ?? 0,
-                                     Allocate = in_e.Qty_Allocate ?? 0,
-                                     Khả_dụng = Math.Round((in_e.status != "HOLD") ? ((in_e.Qty - in_e.Qty_Allocate) ?? 0) : 0, 2),
-                                     Connect_Eink = in_e.connect_status
+                                     ItemCode = in_e.MATERIAL_TYPE,
+                                     Lotno = in_e.BATCH_NUMBER,
+                                     Status = in_e.STOCK_TYPE,
+                                     Tồn = (double)(in_e.STOCK_QUANTITY ?? 0),
+                                     //Allocate = in_e.Qty_Allocate ?? 0,
+                                     //Khả_dụng = Math.Round((in_e.status != "HOLD") ? ((in_e.Qty - in_e.Qty_Allocate) ?? 0) : 0, 2),
+                                     Connect_Eink = in_e.CONNECT_STATUS
                                  }).ToList();
             }
             else
             {
-                Data_Detail = (from in_e in mb.NewInventory_EVS
-                            where (in_e.part_type == "RM" || in_e.part_type == "WIP") &&
+                Data_Detail = (from in_e in mb.EVS_Stock
+                            where (in_e.MATERIAL_TYPE == "RM" || in_e.MATERIAL_TYPE == "WIP") &&
                                     (
-                                    (sum_type == "Total_EVS" && targetLocs.Contains(in_e.loc)) ||
+                                    (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
                                     (sum_type == "Total_TVC") ||
-                                    (sum_type == "Pass" && in_e.status.ToUpper() == "PASSED" && targetLocs.Contains(in_e.loc)) ||
-                                    (sum_type == "Hold" && in_e.status.ToUpper() == "HOLD" && targetLocs.Contains(in_e.loc)) ||
+                                    (sum_type == "Pass" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
 
-                                    (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.loc)) ||
-                                    (sum_type == "UnderQA_NSX" && in_e.status.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.loc)) ||
-                                    (sum_type == "Pass_NSX" && in_e.status.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.loc)) ||
-                                    (sum_type == "Hold_NSX" && in_e.status.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.loc))
+                                    (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "UnderQA_NSX" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "Pass_NSX" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "Hold_NSX" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
                                     )
-                            orderby in_e.Itemcode
+                            orderby in_e.MATERIAL_CODE
                             select new RM_WIP_Detail
                             {
-                                ItemCode = in_e.Itemcode,
-                                Lotno = in_e.LotNo,
-                                Status = in_e.status,
-                                Tồn = in_e.Qty ?? 0,
-                                Allocate = in_e.Qty_Allocate ?? 0,
-                                Khả_dụng = Math.Round((in_e.status != "HOLD") ? ((in_e.Qty - in_e.Qty_Allocate) ?? 0) : 0, 2)
+                                ItemCode = in_e.MATERIAL_CODE,
+                                Lotno = in_e.BATCH_NUMBER,
+                                Status = in_e.STOCK_TYPE,
+                                Tồn = (double)(in_e.STOCK_QUANTITY ?? 0),
+                                //Allocate = in_e.Qty_Allocate ?? 0,
+                                //Khả_dụng = Math.Round((in_e.status != "HOLD") ? ((in_e.Qty - in_e.Qty_Allocate) ?? 0) : 0, 2)
                             }).ToList();
             }
             if (Dgv_Details_RM_WIP.DataSource == null || Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Overview" || Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Overview_elink")

@@ -19,6 +19,9 @@ namespace EVS_ProductionStatus
         string product_type_code;
         string WOPlanCode = "", WOKittingCode = "", WOKhauInCode = "", WOKhauOutCode = "", WOPlanCode_Next = "", WOQCCode = "", WODGCode = "";
 
+        // Kiểm tra có cần phải  load lại ko
+        private bool _needReload;
+
         public UC_Status_OneCategory(string _type)
         {
             InitializeComponent();
@@ -32,14 +35,13 @@ namespace EVS_ProductionStatus
 
         public void loaddata()
         {
-            if (product_type_code == "ANA")
+            if (backgroundWorker1.IsBusy)
             {
-                backgroundWorker2.RunWorkerAsync();
+                _needReload = true;   // ĐÁNH DẤU: khi rảnh thì chạy lại
+                return;
             }
-            else
-            {
-                backgroundWorker1.RunWorkerAsync();
-            }
+
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -749,6 +751,18 @@ namespace EVS_ProductionStatus
         {
             event_UCClick();
         }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+            if (_needReload)
+            {
+                _needReload = false;
+                loaddata();   // 👉 CHẠY LẠI NGAY KHI RẢNH
+            }
+
+        }
+
         private void lbWOKH_Next_Click(object sender, EventArgs e)
         {
             InputForm f = new InputForm(WOPlanCode_Next);

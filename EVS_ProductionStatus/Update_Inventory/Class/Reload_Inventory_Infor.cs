@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EVS_ProductionStatus.Update_Inventory.Class;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -52,33 +53,8 @@ namespace EVS_ProductionStatus.Class
                 else
                 {
                     MessageBox.Show($"Cập nhật dữ liệu thành công !");
-                    UpdateInventory();
+                    Other_function.Call_Procedure(clConnection.connectString,"Update_Inventory");
                     return true;
-                }
-            }
-        }
-        //Hàm để gọi một procedure dưới  cơ sở dữ liệu giúp truyền dữ liệu từ cơ sở dữ liệu được bên mes đẩy lên sang bên cơ sở dữ liệu xử lý
-        public static void UpdateInventory()
-        {
-            using (SqlConnection conn = new SqlConnection(clConnection.connectString))
-            {
-                using (SqlCommand cmd = new SqlCommand("Update_Inventory", conn))
-                {
-                    //Xác định đóng gói logic phía  sql, giống với câu lệnh gọi rpocedure excec
-                    cmd.CommandType = CommandType.StoredProcedure; // Quan trọng
-                    cmd.CommandTimeout = 150;                      // 150 giây
-
-                    try
-                    {
-                        conn.Open();  
-                        //Dùng excute non query để không lấy kết quả trả về như select, insert các thứ// Quan trọng
-                        cmd.ExecuteNonQuery();     // Gọi thủ tục
-                    }
-                    catch (SqlException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-
                 }
             }
         }

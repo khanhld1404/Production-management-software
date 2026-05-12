@@ -39,10 +39,10 @@ namespace Main_Project_Trainee
             Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
 
             var summary2 = (from em in mb.EVS_Manage
-                            join in_e in mb.NewInventory_EVS
+                            join in_e in mb.EVS_Stock
                             // Xét on trên nhiều điều kiện chứ không dùng trong where vì nếu dùng trong where sẽ không lấy được các dòng không đủ dữ liệu 
                             on new { Item_Number = em.Item_Number, Part = "HFG", Loc = "04020" }
-                            equals new { Item_Number = in_e.Itemcode, Part = in_e.part_type, Loc = in_e.loc }
+                            equals new { Item_Number = in_e.MATERIAL_CODE, Part = in_e.MATERIAL_TYPE, Loc = in_e.STORAGE_LOCATION }
                             into group_check
                             // Giúp hiện ra cả những thông tin không khớp với cái on bên trên, ở đó các giá trị thiếu sẽ là null (Ở đây nếu thiếu thì Qty = null)
                             from in_e in group_check.DefaultIfEmpty() 
@@ -51,9 +51,9 @@ namespace Main_Project_Trainee
                             {
                                 ItemType = g.Key,
                                 //Nếu thiếu sẽ ra kết quả bằng 0 vì nếu không thuộc trạng thái sẽ bằng 0
-                                Total = g.Sum(x => (x.in_e.status.ToUpper() == "HOLD" || x.in_e.status.ToUpper() == "UNDER QA") ? x.in_e.Qty : 0),
-                                Hold = g.Sum(x => x.in_e.status.ToUpper() == "HOLD" ? x.in_e.Qty : 0),
-                                Under_QA = g.Sum(x => x.in_e.status.ToUpper() == "UNDER QA" ? x.in_e.Qty : 0)
+                                Total = g.Sum(x => (x.in_e.STOCK_TYPE.ToUpper() == "HOLD" || x.in_e.STOCK_TYPE.ToUpper() == "UNDER QA") ? x.in_e.STOCK_QUANTITY : 0),
+                                Hold = g.Sum(x => x.in_e.STOCK_TYPE.ToUpper() == "HOLD" ? x.in_e.STOCK_QUANTITY : 0),
+                                Under_QA = g.Sum(x => x.in_e.STOCK_TYPE.ToUpper() == "UNDER QA" ? x.in_e.STOCK_QUANTITY : 0)
                             }).ToList();
             Dgv_Main_HFG.DataSource = summary2;
             // Tính chiều cao dựa trên số dòng + header (Giúp cho bảng hiện thị không bị thừa và cũng không bị thiếu)
@@ -81,15 +81,15 @@ namespace Main_Project_Trainee
                 string sum_type = Dgv_Main_HFG.Columns[e.ColumnIndex].Name;
 
                 Data_Overview = (from em in mb.EVS_Manage
-                            join in_e in mb.NewInventory_EVS
-                            on em.Item_Number equals in_e.Itemcode
-                            where in_e.part_type == "HFG" &&
+                            join in_e in mb.EVS_Stock
+                            on em.Item_Number equals in_e.MATERIAL_CODE
+                            where in_e.MATERIAL_TYPE == "HFG" &&
                                   (
-                                  (sum_type == "Total" && (in_e.status.ToUpper() == "HOLD" || in_e.status.ToUpper() == "UNDER QA")) ||
-                                  (sum_type == "Hold" && in_e.status.ToUpper() == "HOLD") ||
-                                  (sum_type == "Under_QA" && in_e.status.ToUpper() == "UNDER QA")
+                                  (sum_type == "Total" && (in_e.STOCK_TYPE.ToUpper() == "HOLD" || in_e.STOCK_TYPE.ToUpper() == "UNDER QA")) ||
+                                  (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD") ||
+                                  (sum_type == "Under_QA" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA")
                                   ) &&
-                                  in_e.loc == "04020"
+                                  in_e.STORAGE_LOCATION == "04020"
                                   &&
                                   em.Item_Type == Item_type
                             group new { em, in_e } by em.Item_Number into g
@@ -97,27 +97,27 @@ namespace Main_Project_Trainee
                             select new HFG_Overview
                             {
                                 ItemNumber = g.Key,
-                                Total = g.Sum(x => x.in_e.Qty ?? 0),
+                                Total = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
                             }).ToList();
                 Data_Detail = (from em in mb.EVS_Manage
-                            join in_e in mb.NewInventory_EVS
-                            on em.Item_Number equals in_e.Itemcode
-                            where in_e.part_type == "HFG" &&
+                            join in_e in mb.EVS_Stock
+                            on em.Item_Number equals in_e.MATERIAL_CODE
+                            where in_e.MATERIAL_TYPE == "HFG" &&
                                   (
-                                  (sum_type == "Total" && (in_e.status.ToUpper() == "HOLD" || in_e.status.ToUpper() == "UNDER QA")) ||
-                                  (sum_type == "Hold" && in_e.status.ToUpper() == "HOLD") ||
-                                  (sum_type == "Under_QA" && in_e.status.ToUpper() == "UNDER QA")
+                                  (sum_type == "Total" && (in_e.STOCK_TYPE.ToUpper() == "HOLD" || in_e.STOCK_TYPE.ToUpper() == "UNDER QA")) ||
+                                  (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD") ||
+                                  (sum_type == "Under_QA" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA")
                                   ) &&
-                                  in_e.loc == "04020"
+                                  in_e.STORAGE_LOCATION == "04020"
                                   &&
                                   em.Item_Type == Item_type
-                            group new { em, in_e } by new { em.Item_Number, in_e.LotNo } into g
+                            group new { em, in_e } by new { em.Item_Number, in_e.BATCH_NUMBER } into g
                             orderby g.Key
                             select new HFG_Detail
                             {
                                 ItemNumber = g.Key.Item_Number,
-                                ID = g.Key.LotNo,
-                                Số_Lượng = g.Sum(x => x.in_e.Qty ?? 0),
+                                ID = g.Key.BATCH_NUMBER,
+                                Số_Lượng = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
                             }).ToList();
                 //Xác định bảng nào sẽ được hiển thị 
                 if (Dgv_Details_HFG.DataSource == null || Dgv_Details_HFG.Tag.ToString() == "HFG_Overview")

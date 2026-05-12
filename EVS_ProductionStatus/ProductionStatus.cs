@@ -210,6 +210,7 @@ namespace EVS_ProductionStatus
                     //Nếu quét đến công đoạn cuối rồi thì không quét nữa
                     if (qr_input.DongGoi_End != null)
                     {
+                        current_data = null;
                         lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Chỉ thị sản xuất đã hoàn thành!"));
                         lbError.Invoke(new Action(() => lbError.Visible = true));
                         return;
@@ -333,6 +334,7 @@ namespace EVS_ProductionStatus
                         //Nếu bảng WO không có thì báo lỗi
                         if (qr == null)
                         {
+                            current_data = null;
                             lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Số chỉ thị không tồn tại!"));
                             lbError.Invoke(new Action(() => lbError.Visible = true));
                             return;
@@ -402,44 +404,55 @@ namespace EVS_ProductionStatus
                     if (qr_input != null)
                     {
                         //Nếu quét đến công đoạn cuối rồi thì không quét nữa
-                        ring_data = qr_input;
-                        //Hiển thị cửa sổ nhập mã nhân viên với các bước:
-                        //1.Kitting end
-                        //3.QC out -> thành công
-
-                        if (qr_input.KittingTime_End == null || qr_input.InTime_Start == null ||
-                            (qr_input.QCTime_Start == null && qr_input.OutTime != null))
+                        if (qr_input.QCTime_End != null)
                         {
-                            pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
-                            lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã nhân viên"));
-                            isEmployeeScan = true;
-                            txtUsername.Invoke(new Action(() => txtUsername.Select()));
+                            ring_data = null;
+                            lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Chỉ thị sản xuất đã hoàn thành!"));
+                            lbError.Invoke(new Action(() => lbError.Visible = true));
                             return;
-
-                            //Xử lý tiếp ở sự kiện txtUsername keydown
-
-
                         }
-                        //Thêm thời gian trường hợp khâu out, qc end mà k cần quét mã nhân viên: Thêm ĐG (start)
                         else
                         {
-                            if (qr_input.QCTime_End == null)
+                            //Nếu quét đến công đoạn cuối rồi thì không quét nữa
+                            ring_data = qr_input;
+                            //Hiển thị cửa sổ nhập mã nhân viên với các bước:
+                            //1.Kitting end
+                            //3.QC out -> thành công
+
+                            if (qr_input.KittingTime_End == null || qr_input.InTime_Start == null ||
+                                (qr_input.QCTime_Start == null && qr_input.OutTime != null))
                             {
-                                DateTime QCEndTime = DateTime.Now;
-                                qr_input.QCTime_End = QCEndTime;
+                                pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
+                                lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã nhân viên"));
+                                isEmployeeScan = true;
+                                txtUsername.Invoke(new Action(() => txtUsername.Select()));
+                                return;
 
-                                //Thêm thời gian khâu in end bằng thời gian khâu out
-                                var qr_qc = (from s in db.tblQCs
-                                                 //where s.workorder == wo
-                                             where s.WOID == woid && s.workorder == wo
-                                             orderby s.id descending
-                                             select s).FirstOrDefault();
-                                if (qr_qc != null)
+                                //Xử lý tiếp ở sự kiện txtUsername keydown
+
+
+                            }
+                            //Thêm thời gian trường hợp khâu out, qc end mà k cần quét mã nhân viên: Thêm ĐG (start)
+                            else
+                            {
+                                if (qr_input.QCTime_End == null)
                                 {
-                                    qr_qc.QCTime_End = QCEndTime;
-                                }
+                                    DateTime QCEndTime = DateTime.Now;
+                                    qr_input.QCTime_End = QCEndTime;
 
-                                db.SaveChanges();
+                                    //Thêm thời gian khâu in end bằng thời gian khâu out
+                                    var qr_qc = (from s in db.tblQCs
+                                                     //where s.workorder == wo
+                                                 where s.WOID == woid && s.workorder == wo
+                                                 orderby s.id descending
+                                                 select s).FirstOrDefault();
+                                    if (qr_qc != null)
+                                    {
+                                        qr_qc.QCTime_End = QCEndTime;
+                                    }
+
+                                    db.SaveChanges();
+                                }
                             }
                         }
                     }
@@ -458,6 +471,7 @@ namespace EVS_ProductionStatus
                         //Nếu bảng WO không có thì báo lỗi
                         if (qr == null)
                         {
+                            ring_data = null;
                             lbError.Invoke(new Action(() => lbError.Text = "Lỗi. Số chỉ thị không tồn tại!"));
                             lbError.Invoke(new Action(() => lbError.Visible = true));
                             return;
@@ -555,17 +569,24 @@ namespace EVS_ProductionStatus
                 {
                     Device_Kitting();
                     //Hiển thị dữ liệu với công đoạn kitting và khâu out, khâu in sẽ hiển thị riêng sau khi quét mã nv
-                    loadControls(current_data);
+                    if(current_data != null)
+                    {
+                        loadControls(current_data);
+                        //Load lại dữ liệu
+                        uc_loaddata();
+                    }
                 }
                 else
                 {
                     Ring_Kitting();
                     //Hiển thị dữ liệu với công đoạn kitting và khâu out, khâu in sẽ hiển thị riêng sau khi quét mã nv
-                    loadControl_Ring(ring_data);
+                    if (ring_data != null)
+                    {
+                        loadControl_Ring(ring_data);
+                        //Load lại dữ liệu
+                        uc_loaddata();
+                    }
                 }
-
-                //Load lại dữ liệu
-                uc_loaddata();
             }
             catch (Exception ex)
             {

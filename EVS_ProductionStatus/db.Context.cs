@@ -39,7 +39,6 @@ namespace EVS_ProductionStatus
         public virtual DbSet<tblURL> tblURLs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblViTriNguoiTT> tblViTriNguoiTTs { get; set; }
-        public virtual DbSet<tblWO> tblWOes { get; set; }
         public virtual DbSet<v_01_Kitting> v_01_Kitting { get; set; }
         public virtual DbSet<v_04_DongGoi> v_04_DongGoi { get; set; }
         public virtual DbSet<v_05_KhauDetail> v_05_KhauDetail { get; set; }

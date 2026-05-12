@@ -43,11 +43,11 @@ namespace EVS_ProductionStatus
                 //Đọc phiên bản version trên server
                 using (WebClient w = new WebClient())
                 {
-                    Stream s = w.OpenRead(server_file_version);
-                    StreamReader r = new StreamReader(s);
-                    server_ver = r.ReadToEnd();
+                    w.Proxy = null;
+                    w.UseDefaultCredentials = true;
+                    w.Headers.Add("User-Agent", "EVS-AutoUpdater");
+                    server_ver = w.DownloadString(server_file_version).Trim();
                 }
-
                 if (path_ver != server_ver)
                 {
                     //Nếu khác phiên bản thì tải file package 

@@ -1,119 +1,219 @@
-﻿using OfficeOpenXml;
+﻿using EVS_ProductionStatus.Data;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.Update_Inventory.Class;
 namespace EVS_ProductionStatus
 {
     class clMethod
     {
-
         public void DongBoDL()
         {
             try
             {
                 string file_url = "";
-                using (Entities db = new Entities(clConnection.connectEntity))
+
+                // 1) Lấy đường dẫn file excel từ bảng URL (DB EVS_ProductionStatus)
+                using (Entities dbUrl = new Entities(clConnection.connectEntity))
                 {
-                    var qr = (from s in db.tblURLs
-                              where s.Code == "FILE_URL"
-                              select s).FirstOrDefault();
-                    if (qr != null)
+                    var qr = dbUrl.tblURLs.FirstOrDefault(x => x.Code == "FILE_URL");
+                    if (qr == null || string.IsNullOrWhiteSpace(qr.URL))
                     {
-                        file_url = qr.URL;
-                        if (!File.Exists(file_url))
+                        MessageBox.Show("Không tìm thấy cấu hình FILE_URL", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    file_url = qr.URL.Trim();
+
+                    if (!File.Exists(file_url))
+                    {
+                        MessageBox.Show($"Không tìm thấy file \n{file_url}", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                // EPPlus license (nếu bạn dùng EPPlus 5+)
+                // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                FileInfo inf = new FileInfo(file_url);
+                using (ExcelPackage p = new ExcelPackage(inf))
+                {
+                    var ws = p.Workbook.Worksheets["Data"];
+                    if (ws == null)
+                    {
+                        MessageBox.Show("Không tìm thấy sheet 'Data'", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    int colCount = ws.Dimension.End.Column;
+                    int rowCount = ws.Dimension.End.Row;
+
+                    // 2) Tạo map: HEADER -> INDEX
+                    var col = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                    for (int i = 1; i <= colCount; i++)
+                    {
+                        var header = ws.Cells[1, i].Text?.Trim();
+                        if (!string.IsNullOrEmpty(header) && !col.ContainsKey(header))
+                            col.Add(header, i);
+                    }
+
+                    // 3) Danh sách cột bắt buộc (bạn có thể thêm/bớt tuỳ yêu cầu)
+                    // ID thường identity => không bắt buộc
+                    string[] requiredHeaders = new[]
+                    {
+                        "WORK_ORDER_ID",
+                        "WORK_ORDER",
+                        "STATUS",
+                        "LOT_SERIAL",
+                        "WO_PART",
+                        "ORDER_QTY"
+                        // nếu cần bắt buộc thêm cột nào thì thêm vào đây
+                    };
+
+                    var missing = requiredHeaders.Where(h => !col.ContainsKey(h)).ToList();
+                    if (missing.Count > 0)
+                    {
+                        MessageBox.Show("File Excel thiếu các cột: " + string.Join(", ", missing),
+                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Helper đọc text
+                    string GetText(int r, string header)
+                    {
+                        if (!col.TryGetValue(header, out int c)) return null;
+                        var t = ws.Cells[r, c].Text;
+                        return string.IsNullOrWhiteSpace(t) ? null : t.Trim();
+                    }
+
+                    // Helper parse datetime an toàn (Excel có thể là DateTime, string, hoặc số)
+                    DateTime? GetDateTime(int r, string header)
+                    {
+                        if (!col.TryGetValue(header, out int c)) return null;
+
+                        object v = ws.Cells[r, c].Value;
+                        if (v == null) return null;
+
+                        if (v is DateTime dt) return dt;
+
+                        // Excel đôi khi lưu ngày dạng số OADate
+                        if (v is double d)
                         {
-                            MessageBox.Show(String.Format("Không tìm thấy file \n {0}", file_url), "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
+                            try { return DateTime.FromOADate(d); } catch { return null; }
                         }
-                        FileInfo inf = new FileInfo(qr.URL);
-                        using (ExcelPackage p = new ExcelPackage(inf))
+
+                        // string
+                        if (DateTime.TryParse(v.ToString(), out DateTime parsed))
+                            return parsed;
+
+                        return null;
+                    }
+
+                    // 4) Ghi vào DB mới: Manage_evs.dbo.tblWO
+                    using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                    {
+                        // Truncate dữ liệu cũ (proc của DB Manage_evs)
+                        Other_function.Call_Procedure(clConnection.connectString3, "truncate_tblWO");
+
+                        // Tối ưu insert nhiều dòng
+                        wodb.Configuration.AutoDetectChangesEnabled = false;
+                        wodb.Configuration.ValidateOnSaveEnabled = false;
+
+                        var buffer = new List<tblWO>(capacity: 1000);
+
+                        for (int r = 2; r <= rowCount; r++)
                         {
-                            var ws = p.Workbook.Worksheets["Data"];
-                            int colCount = ws.Dimension.End.Column;
-                            int rowCount = ws.Dimension.End.Row;
+                            // Nếu WORK_ORDER rỗng coi như dòng trống
+                            if (string.IsNullOrWhiteSpace(GetText(r, "WORK_ORDER")))
+                                continue;
 
-                            int wo_index = 0, status_index = 0, id_index = 0,
-                                lot_index = 0, item_index = 0, desc1_index = 0, desc2_index = 0, qty_index = 0;
-                            //Lay chi so cot cua cac truong can lay gia tri
-                            for (int i = 1; i <= colCount; i++)
+                            var tb = new tblWO();
+
+                            // --- VARCHAR(150) ---
+                            // tb.ID: thường identity -> không set
+                            tb.WORK_ORDER_ID = GetText(r, "WORK_ORDER_ID");
+                            tb.WORK_ORDER = GetText(r, "WORK_ORDER");
+                            tb.STATUS = GetText(r, "STATUS");
+
+                            tb.ORDER_DATE = GetText(r, "ORDER_DATE");
+                            tb.RELEASE_DATE = GetText(r, "RELEASE_DATE");
+                            tb.DUE_DATE = GetText(r, "DUE_DATE");
+
+                            tb.LOCATION_ID = GetText(r, "LOCATION_ID");
+                            tb.LOT_SERIAL = GetText(r, "LOT_SERIAL");
+
+                            tb.WO_PART = GetText(r, "WO_PART");
+                            tb.MES_PART = GetText(r, "MES_PART");
+
+                            tb.DESCRIPTION_FOR_WO_PART_EN = GetText(r, "DESCRIPTION_FOR_WO_PART_EN");
+                            tb.DESCRIPTION_FOR_WO_PART_VN = GetText(r, "DESCRIPTION_FOR_WO_PART_VN");
+
+                            tb.DRAWING_REV = GetText(r, "DRAWING_REV");
+                            tb.REV = GetText(r, "REV");
+
+                            tb.PROD_LINE = GetText(r, "PROD_LINE");
+
+                            tb.ORDER_QTY = GetText(r, "ORDER_QTY");
+                            tb.COMPLETE_QTY = GetText(r, "COMPLETE_QTY");
+                            tb.REJECT_QTY = GetText(r, "REJECT_QTY");
+                            tb.OPEN_QTY = GetText(r, "OPEN_QTY");
+
+                            tb.WO_COMPONENT = GetText(r, "WO_COMPONENT");
+                            tb.MES_COMPONENT = GetText(r, "MES_COMPONENT");
+
+                            tb.DESCRIPTION_FOR_WO_COMPONENT_EN = GetText(r, "DESCRIPTION_FOR_WO_COMPONENT_EN");
+                            tb.DESCRIPTION_FOR_WO_COMPONENT_VN = GetText(r, "DESCRIPTION_FOR_WO_COMPONENT_VN");
+
+                            tb.ITEM_TYPE = GetText(r, "ITEM_TYPE");
+                            tb.LOT_SERIAL_ALLOCATE = GetText(r, "LOT_SERIAL_ALLOCATE");
+                            tb.REQUIRE_QTY = GetText(r, "REQUIRE_QTY");
+
+                            tb.STORAGE_LOCATION = GetText(r, "STORAGE_LOCATION");
+                            tb.QTY_ISSUED = GetText(r, "QTY_ISSUED");
+
+                            tb.CREATED_BY = GetText(r, "CREATED_BY");
+                            tb.LAST_UPDATED_BY = GetText(r, "LAST_UPDATED_BY");
+
+                            // --- DATETIME ---
+                            tb.CREATION_DATE = GetDateTime(r, "CREATION_DATE");
+                            tb.LAST_UPDATE_DATE = GetDateTime(r, "LAST_UPDATE_DATE");
+
+                            buffer.Add(tb);
+
+                            // Batch insert
+                            if (buffer.Count >= 1000)
                             {
-                                switch (ws.Cells[1, i].Value.ToString())
-                                {
-                                    case "ID":
-                                        id_index = i;
-                                        break;
-                                    case "Work Order":
-                                        wo_index = i;
-                                        break;
-                                    case "Work Order Status":
-                                        status_index = i;
-                                        break;
-                                    //case "Order Date":
-                                    //    orderdate_index = i;
-                                    //    break;
-                                    case "Lot/Serial":
-                                        lot_index = i;
-                                        break;
-                                    case "Item Number":
-                                        item_index = i;
-                                        break;
-                                    case "Description 1":
-                                        desc1_index = i;
-                                        break;
-                                    case "Description 2":
-                                        desc2_index = i;
-                                        break;
-                                    case "Order Qty":
-                                        qty_index = i;
-                                        break;
-                                }
+                                wodb.tblWOes.AddRange(buffer);
+                                wodb.SaveChanges();
+                                buffer.Clear();
                             }
-
-                            if (wo_index == 0 || status_index == 0 || id_index == 0 ||
-                                lot_index == 0 || item_index == 0 || desc1_index == 0 || desc2_index == 0 || qty_index == 0)
-                            {
-                                MessageBox.Show("Định dạng file không phù hợp", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-
-                            //Truncate bang chua du lieu cu
-                            db.pro_01_truncateWO();
-
-                            //Lay gia tri vao bang luu WO
-                            for (int i = 2; i <= rowCount; i++)
-                            {
-                                if (ws.Cells[i, wo_index].Value != null)
-                                {
-                                    tblWO tb = new tblWO();
-                                    tb.WOID = ws.Cells[i, id_index].Value.ToString();
-                                    tb.workorder = ws.Cells[i, wo_index].Value.ToString();
-                                    tb.wostatus = ws.Cells[i, status_index].Value.ToString();
-                                    //tb.orderdate = Convert.ToDateTime(ws.Cells[i, orderdate_index].Value);
-                                    tb.lot = ws.Cells[i, lot_index].Value.ToString();
-                                    tb.itemnumber = ws.Cells[i, item_index].Value.ToString();
-                                    tb.desc1 = ws.Cells[i, desc1_index].Value.ToString();
-                                    tb.desc2 = ws.Cells[i, desc2_index].Value.ToString();
-                                    tb.qty = Convert.ToInt32(ws.Cells[i, qty_index].Value);
-                                    db.tblWOes.Add(tb);
-                                }
-                            }
-                            db.SaveChanges();
-                            MessageBox.Show("Đồng bộ thành công");
-
                         }
+
+                        // flush batch cuối
+                        if (buffer.Count > 0)
+                        {
+                            wodb.tblWOes.AddRange(buffer);
+                            wodb.SaveChanges();
+                            buffer.Clear();
+                        }
+
+                        MessageBox.Show("Đồng bộ WO thành công", "OK",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), "Exception",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

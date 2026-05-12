@@ -30,9 +30,16 @@ namespace EVS_ProductionStatus
         {
             InitializeComponent();
         }
-
+        // Kiểm tra có cần phải  load lại ko
+        private bool _needReload;
         public void loaddata()
         {
+            if (backgroundWorker1.IsBusy)
+            {
+                _needReload = true;   // ĐÁNH DẤU: khi rảnh thì chạy lại
+                return;
+            }
+
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -418,7 +425,16 @@ namespace EVS_ProductionStatus
         private void UC_Status_Click(object sender, EventArgs e)
         {
             event_UCClick();
-        }        
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (_needReload)
+            {
+                _needReload = false;
+                loaddata();   // 👉 CHẠY LẠI NGAY KHI RẢNH
+            }
+        }
 
         private void lbWOKH_Next_Click(object sender, EventArgs e)
         {

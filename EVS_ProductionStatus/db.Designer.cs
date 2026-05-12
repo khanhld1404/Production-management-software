@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Khanh_Project\EVS_ProductionStatus - ver2303\EVS_ProductionStatus\db.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Khanh_Project\EVS_production_management\EVS_ProductionStatus\db.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
