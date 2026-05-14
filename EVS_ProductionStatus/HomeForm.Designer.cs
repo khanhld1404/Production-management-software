@@ -207,8 +207,8 @@
             this.toolTrangThaiSP.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_idea_32;
             this.toolTrangThaiSP.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTrangThaiSP.Name = "toolTrangThaiSP";
-            this.toolTrangThaiSP.Size = new System.Drawing.Size(136, 36);
-            this.toolTrangThaiSP.Text = "Trạng thái thiết bị";
+            this.toolTrangThaiSP.Size = new System.Drawing.Size(151, 36);
+            this.toolTrangThaiSP.Text = "Trạng thái sản phẩm";
             this.toolTrangThaiSP.Click += new System.EventHandler(this.toolTrangThaiSP_Click);
             // 
             // imageList1

@@ -185,7 +185,6 @@ namespace EVS_ProductionStatus
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    txtBarcode.Enabled = false;
                     backgroundWorker3.RunWorkerAsync();
                 }
             }
@@ -597,7 +596,6 @@ namespace EVS_ProductionStatus
         //Kết thúc xử lý quét mã chỉ thị
         private void backgroundWorker3_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            txtBarcode.Enabled = true;
             txtBarcode.Invoke(new Action(() => txtBarcode.Text = ""));
         }
 

@@ -43,9 +43,9 @@ namespace EVS_ProductionStatus
         public virtual DbSet<v_04_DongGoi> v_04_DongGoi { get; set; }
         public virtual DbSet<v_05_KhauDetail> v_05_KhauDetail { get; set; }
         public virtual DbSet<v_05_QCDetail> v_05_QCDetail { get; set; }
-        public virtual DbSet<v_06_LoaiSP> v_06_LoaiSP { get; set; }
         public virtual DbSet<v_DSLoaiSP> v_DSLoaiSP { get; set; }
         public virtual DbSet<tblThoiGianKhau> tblThoiGianKhaus { get; set; }
+        public virtual DbSet<v_06_LoaiSP> v_06_LoaiSP { get; set; }
     
         public virtual int pro_01_truncateWO()
         {

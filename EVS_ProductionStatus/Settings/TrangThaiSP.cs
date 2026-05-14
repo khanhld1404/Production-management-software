@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -153,6 +154,7 @@ namespace EVS_ProductionStatus.Settings
             }
         }
 
+
         private void addContent()
         {
             grContent.Rows.Clear();
@@ -207,6 +209,30 @@ namespace EVS_ProductionStatus.Settings
             backgroundWorker1.RunWorkerAsync();
         }
 
+
+        // Gọi kết quả tổng nhận được từ procedure
+        private int GetTotalWO(string loaiSP, string yymm)
+        {
+            int result = 0;
+
+            using (SqlConnection conn = new SqlConnection(clConnection.connectString))
+            using (SqlCommand cmd = new SqlCommand("pro_15_Join2database", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@LoaiSP", loaiSP);
+                cmd.Parameters.AddWithValue("@YYMM", yymm);
+
+                conn.Open();
+                object val = cmd.ExecuteScalar();
+
+                if (val != null && val != DBNull.Value)
+                    result = Convert.ToInt32(val);
+            }
+
+            return result;
+        }
+
         private void loaddata(string _loaisp)
         {
             try
@@ -225,110 +251,103 @@ namespace EVS_ProductionStatus.Settings
                     next_wo_string = nextyear.ToString().Substring(2) + nextmonth.ToString("00");
                     using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
-                        var qr_total = (from s in wodb.tblWOes
-                                        join l in db.v_06_LoaiSP on s.MES_PART equals l.itemnumber
-                                        where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
-                                        select s).Count();
+                        var qr_total = GetTotalWO(_loaisp,cur_wo_string);
 
-                        var qr_total_next = (from s in wodb.tblWOes
-                                             join l in db.v_06_LoaiSP on s.MES_PART equals l.itemnumber
-                                             where s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
-                                             select s).Count();
-
+                        var qr_total_next = GetTotalWO(_loaisp,next_wo_string);
 
                         //Bỏ đóng gói
                         ////Dong goi
                         //var dg_ht = (from s in db.tblInputs
                         //             join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                        //             where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
+                        //             where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
                         //             select s).Count();
 
                         //var dg_ht_next = (from s in db.tblInputs
                         //                  join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                        //                  where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
+                        //                  where s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.DongGoi_End != null
                         //                  select s).Count();
 
                         //var dg_sx = (from s in db.tblInputs
                         //             join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                        //             where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                        //             where s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                         //             && s.DongGoi_End == null && s.DongGoi_Start != null
                         //             select s).Count();
 
                         //var dg_sx_next = (from s in db.tblInputs
                         //                  join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                        //                  where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                        //                  where s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                         //                  && s.DongGoi_End == null && s.DongGoi_Start != null
                         //                  select s).Count();
 
 
                         //QC
                         var qc_ht = (from s in db.tblInputs
-                                     join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                     where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
+                                     join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                     where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
                                      select s).Count();
 
                         var qc_ht_next = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                          where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
                                           select s).Count();
 
                         var qc_sx = (from s in db.tblInputs
-                                     join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                     where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                     join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                     where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                                      && s.QCTime_End == null && s.QCTime_Start != null
                                      select s).Count();
 
                         var qc_sx_next = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                          where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                                           && s.QCTime_End == null && s.QCTime_Start != null
                                           select s).Count();
 
 
                         //khau
                         var khau_ht = (from s in db.tblInputs
-                                       join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                       where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
+                                       join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                       where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
                                        select s).Count();
 
                         var khau_ht_next = (from s in db.tblInputs
-                                            join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                            where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
+                                            join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                            where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
                                             select s).Count();
 
                         var khau_sx = (from s in db.tblInputs
-                                       join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                       where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                       join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                       where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                                        && s.OutTime == null && s.InTime_Start != null
                                        select s).Count();
 
                         var khau_sx_next = (from s in db.tblInputs
-                                            join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                            where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                            join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                            where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                                             && s.OutTime == null && s.InTime_Start != null
                                             select s).Count();
 
 
                         //kitting
                         var kitting_ht = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                          where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
                                           select s).Count();
 
                         var kitting_ht_next = (from s in db.tblInputs
-                                               join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                               where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
+                                               join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                               where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
                                                select s).Count();
 
                         var kitting_sx = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                          where s.workorder.StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                                           && s.KittingTime_End == null && s.KittingTime_Start != null
                                           select s).Count();
 
                         var kitting_sx_next = (from s in db.tblInputs
-                                               join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
-                                               where s.workorder.StartsWith(next_wo_string) && l.LoaiSP == _loaisp
+                                               join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                               where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                                                && s.KittingTime_End == null && s.KittingTime_Start != null
                                                select s).Count();
 

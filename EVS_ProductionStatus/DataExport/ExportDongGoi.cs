@@ -36,6 +36,7 @@ namespace EVS_ProductionStatus
             _manv = txtNguoiTT.Text;
             _wo = txtWO.Text;
             _loaisp = cbLoaiSP.Text;
+
             if (backgroundWorker1.IsBusy)
             {
                 MessageBox.Show("Đang tìm kiếm dữ liệu, vui lòng đợi đến khi hoàn thành!");

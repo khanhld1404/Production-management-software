@@ -110,14 +110,6 @@ namespace EVS_ProductionStatus
                                      && s.LOCATION_ID == locationId
                                      && !s.MES_PART.Contains("EV036"))
                                      .AsEnumerable();
-                        //var qr_root_2 =
-                        //            (
-                        //                from s in wodb.tblWOes
-                        //                where
-                        //                    find_status.Contains(s.STATUS)
-                        //                    && s.PROD_LINE == "EVS" && s.WORK_ORDER_ID.StartsWith(desc_string)
-                        //                select s
-                        //            );
                         int qr_total = 0, qr_total_next = 0;
 
                         if (locationId == null)

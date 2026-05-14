@@ -350,9 +350,8 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_06_LoaiSP' does not hav
           <Key>
             <PropertyRef Name="LoaiSP" />
           </Key>
-          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
-          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
-          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
+          <Property Name="itemnumber" Type="varchar" MaxLength="150" />
+          <Property Name="WOID" Type="varchar" MaxLength="150" />
           <Property Name="LoaiSP" Type="varchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -532,8 +531,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="v_06_LoaiSP" EntityType="Self.v_06_LoaiSP" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_06_LoaiSP].[itemnumber] AS [itemnumber], 
-    [v_06_LoaiSP].[desc1] AS [desc1], 
-    [v_06_LoaiSP].[desc2] AS [desc2], 
+    [v_06_LoaiSP].[WOID] AS [WOID], 
     [v_06_LoaiSP].[LoaiSP] AS [LoaiSP]
     FROM [dbo].[v_06_LoaiSP] AS [v_06_LoaiSP]</DefiningQuery>
           </EntitySet>
@@ -564,7 +562,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="v_04_DongGoi" EntityType="EVS_ProductionStatusModel.v_04_DongGoi" />
           <EntitySet Name="v_05_KhauDetail" EntityType="EVS_ProductionStatusModel.v_05_KhauDetail" />
           <EntitySet Name="v_05_QCDetail" EntityType="EVS_ProductionStatusModel.v_05_QCDetail" />
-          <EntitySet Name="v_06_LoaiSP" EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" />
           <EntitySet Name="v_DSLoaiSP" EntityType="EVS_ProductionStatusModel.v_DSLoaiSP" />
           <FunctionImport Name="pro_01_truncateWO" />
           <FunctionImport Name="pro_02_tblInputWithTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_02_tblInputWithTime_Result)">
@@ -632,8 +629,9 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           </FunctionImport>
           <EntitySet Name="tblThoiGianKhaus" EntityType="EVS_ProductionStatusModel.tblThoiGianKhau" />
           <FunctionImport Name="pro_14_TrangThaiSP" ReturnType="Collection(EVS_ProductionStatusModel.pro_14_TrangThaiSP_Result)">
-            <Parameter Name="LoaiSP" Mode="In" Type="String" />
+          <Parameter Name="LoaiSP" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="v_06_LoaiSP" EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" />
         </EntityContainer>
         <EntityType Name="tblBanVe">
           <Key>
@@ -959,15 +957,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="userid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="v_06_LoaiSP">
-          <Key>
-            <PropertyRef Name="LoaiSP" />
-          </Key>
-          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LoaiSP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="v_DSLoaiSP">
           <Key>
             <PropertyRef Name="loaisp" />
@@ -1199,6 +1188,14 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Type="String" Name="TrangThai" Nullable="true" MaxLength="9" />
           <Property Type="DateTime" Name="StartKhau" Nullable="true" Precision="23" />
         </ComplexType>
+        <EntityType Name="v_06_LoaiSP">
+          <Key>
+            <PropertyRef Name="LoaiSP" />
+          </Key>
+          <Property Name="itemnumber" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="WOID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LoaiSP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1545,16 +1542,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="v_06_LoaiSP">
-            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_06_LoaiSP">
-              <MappingFragment StoreEntitySet="v_06_LoaiSP">
-                <ScalarProperty Name="LoaiSP" ColumnName="LoaiSP" />
-                <ScalarProperty Name="desc2" ColumnName="desc2" />
-                <ScalarProperty Name="desc1" ColumnName="desc1" />
-                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="v_DSLoaiSP">
             <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_DSLoaiSP">
               <MappingFragment StoreEntitySet="v_DSLoaiSP">
@@ -1826,6 +1813,15 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="v_06_LoaiSP">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_06_LoaiSP">
+              <MappingFragment StoreEntitySet="v_06_LoaiSP">
+                <ScalarProperty Name="LoaiSP" ColumnName="LoaiSP" />
+                <ScalarProperty Name="WOID" ColumnName="WOID" />
+                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
