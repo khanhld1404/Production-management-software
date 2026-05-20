@@ -408,7 +408,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "HomeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Trang chủ";
+            this.Text = "nhưn";
             this.Load += new System.EventHandler(this.HomeForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

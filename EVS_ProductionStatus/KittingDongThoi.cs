@@ -158,7 +158,7 @@ namespace EVS_ProductionStatus
                                             select s).FirstOrDefault();
                             if (qr_input != null)
                             {
-                                lbError.Text = "Lỗi. Chỉ thị đã kitting trước đó!";
+                                lbError.Text = "Lỗi. Chỉ thị đã tạo vòng trước đó!";
                                 lbError.Visible = true;
                                 return;
                             }

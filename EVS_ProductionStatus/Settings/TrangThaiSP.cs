@@ -166,6 +166,7 @@ namespace EVS_ProductionStatus.Settings
 
             string strThisMonth = thismonth.ToString("00") + "-" + thisyear.ToString("0000");
             string strNextMonth = nextmonth.ToString("00") + "-" + nextyear.ToString("0000");
+   
             grTotal.Columns["totalKitting"].HeaderText = strThisMonth;
             grTotal.Columns["totalKhau"].HeaderText = strThisMonth;
             grTotal.Columns["totalQC"].HeaderText = strThisMonth;
@@ -254,7 +255,6 @@ namespace EVS_ProductionStatus.Settings
                         var qr_total = GetTotalWO(_loaisp,cur_wo_string);
 
                         var qr_total_next = GetTotalWO(_loaisp,next_wo_string);
-
                         //Bỏ đóng gói
                         ////Dong goi
                         //var dg_ht = (from s in db.tblInputs

@@ -105,20 +105,20 @@ namespace EVS_ProductionStatus
                     switch (_cd)
                     {
                         case "RELAY":
-                            desc_string = "Stent";
+                            desc_string = "R";
                             break;
                         case "TREO":
-                            desc_string = "Treo";
+                            desc_string = "T";
                             break;
                         case "THORA":
-                            desc_string = "Gen";
+                            desc_string = "H";
                             break;
                     }
 
                     var qr = (from s in db.tblViTriNguoiTTs
                               join khau in db.tblKhauIns on s.UserID equals khau.UserIn
                               join ip in db.tblInputs on khau.WOID equals ip.WOID
-                              where s.ViTri == _vitri && ip.desc2.StartsWith(desc_string)
+                              where s.ViTri == _vitri && ip.WOID.StartsWith(desc_string)
                               && khau.InTime_Start != null && khau.InTime_End == null
                               //orderby khau.id descending
                               select khau).FirstOrDefault();
@@ -246,7 +246,7 @@ namespace EVS_ProductionStatus
                         }
 
                         var congDoan = c2.ToUpperInvariant();
-                        var allowed = new[] { "RELAY", "TREO", "ANA", "THORA" };
+                        var allowed = new[] { "RELAY", "TREO", "THORA" };
                         if (!allowed.Contains(congDoan))
                         {
                             MessageBox.Show(

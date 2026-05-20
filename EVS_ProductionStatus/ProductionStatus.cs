@@ -35,6 +35,9 @@ namespace EVS_ProductionStatus
             InitializeComponent();
             NumberOfUC = 0;
             lbType.Text = "Vòng";
+            btnKittingDongThoi.Text = "Tạo vòng đồng thời";
+            btnDongGoiDongThoi.Visible = false;
+            btnNhapKhau.Visible = false;
             check_ring = true;
         }
 
@@ -418,8 +421,8 @@ namespace EVS_ProductionStatus
                             //1.Kitting end
                             //3.QC out -> thành công
 
-                            if (qr_input.KittingTime_End == null || qr_input.InTime_Start == null ||
-                                (qr_input.QCTime_Start == null && qr_input.OutTime != null))
+                            if (qr_input.KittingTime_End == null ||
+                                (qr_input.QCTime_Start == null && qr_input.KittingTime_End != null) )
                             {
                                 pnNhanVien.Invoke(new Action(() => pnNhanVien.Visible = true));
                                 lbBarcode2.Invoke(new Action(() => lbBarcode2.Text = "Quét mã nhân viên"));
@@ -436,6 +439,7 @@ namespace EVS_ProductionStatus
                             {
                                 if (qr_input.QCTime_End == null)
                                 {
+
                                     DateTime QCEndTime = DateTime.Now;
                                     qr_input.QCTime_End = QCEndTime;
 
@@ -449,7 +453,7 @@ namespace EVS_ProductionStatus
                                     {
                                         qr_qc.QCTime_End = QCEndTime;
                                     }
-
+                                    wodb.SaveChanges();
                                     db.SaveChanges();
                                 }
                             }
@@ -517,6 +521,7 @@ namespace EVS_ProductionStatus
                                 tb.desc2 = qr.DESCRIPTION_FOR_WO_COMPONENT_EN;
                                 wodb.tblInput_Ring.Add(tb);
                                 wodb.SaveChanges();
+                                db.SaveChanges();
                                 ring_data = tb;
                             }
                         }
@@ -980,7 +985,7 @@ namespace EVS_ProductionStatus
 
                         //Điểm nhảy đến thực hiện lưu dữ liệu
                         save_point:
-
+                            wodb.SaveChanges();
                             db.SaveChanges();
                             //Load lại list và control
 
@@ -1272,6 +1277,7 @@ namespace EVS_ProductionStatus
                                     user_save_point:
 
                                         wodb.SaveChanges();
+                                        db.SaveChanges();
                                         //Them UC vao flowlayout
                                         loadControl_Ring(qr_input);
                                         //Load lại dữ liệu
@@ -1334,7 +1340,7 @@ namespace EVS_ProductionStatus
 
                                         wodb.tblInput_Ring.Add(tb);
                                         wodb.SaveChanges();
-
+                                        db.SaveChanges();
                                         //Them UC vao flowlayout
                                         loadControl_Ring(tb);
                                         //Load lại dữ liệu

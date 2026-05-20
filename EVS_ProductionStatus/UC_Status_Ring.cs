@@ -42,16 +42,6 @@ namespace EVS_ProductionStatus
                 string desc_string = "";
                 switch (product_type_code)
                 {
-                    case "THORA":
-                        desc_string = "H";
-                        WOPlanCode = "WO_KH_THORA";
-                        WOKittingCode = "KITTING_KH_THORA";
-                        WOKhauInCode = "IN_KH_THORA";
-                        WOKhauOutCode = "OUT_KH_THORA";
-                        WOPlanCode_Next = "WO_KH_NEXT_THORA";
-                        WOQCCode = "QC_KH_THORA";
-                        WODGCode = "DG_KH_THORA";
-                        break;
                     case "Ring":
                         desc_string = "S";
                         WOPlanCode = "WO_KH_R";
@@ -80,32 +70,14 @@ namespace EVS_ProductionStatus
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
                         var find_status = new List<string> { "TECO - Technically completed", "REL - Released" };
-                        string locationId =
-                                    desc_string == "T" ? "3008" :
-                                    desc_string == "R" ? "3009" :
-                                    desc_string == "H" ? "3010" :
-                                    "";
 
                         var qr_root = wodb.tblWOes
                                      .Where(s => find_status.Contains(s.STATUS)
-                                     && s.PROD_LINE == "EVS")
+                                     && s.PROD_LINE == "EVS"
+                                     && s.MES_PART.Contains("EV036"))
                                      .AsEnumerable();
-                        if (desc_string != "S")
-                        {
-                            qr_root = qr_root.Where(s => s.WORK_ORDER_ID.StartsWith(desc_string)
-                                     && !s.MES_PART.Contains("EV036")
-                                     && s.LOCATION_ID == locationId);
-                        }
-                        else
-                        {
-                            qr_root = qr_root.Where(s => s.MES_PART.Contains("EV036"));
-                        }
                         int qr_total = 0, qr_total_next = 0;
 
-                        if (locationId == null)
-                        {
-                            MessageBox.Show("Có lỗi!");
-                        }
                         qr_total = qr_root
                             .Where(s => s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string))
                             .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
@@ -136,20 +108,10 @@ namespace EVS_ProductionStatus
                         //Lấy số lượng WO hoàn thành của 2 tháng
                         var qr_root_complete = wodb.tblWOes
                                               .Where(s => s.STATUS == "TECO - Technically completed"
-                                              && s.PROD_LINE == "EVS")
+                                              && s.PROD_LINE == "EVS"
+                                              && s.MES_PART.Contains("EV036"))
                                               .AsEnumerable()
                                               .Where(s => Decimal.TryParse(s.COMPLETE_QTY, out decimal qty) && qty > 0);
-                        // Kiểm tra điều kiện theo mã vòng
-                        if (desc_string != "S")
-                        {
-                            qr_root_complete = qr_root_complete.Where(s => s.WORK_ORDER_ID.StartsWith(desc_string)
-                                     && !s.MES_PART.Contains("EV036")
-                                     && s.LOCATION_ID == locationId);
-                        }
-                        else
-                        {
-                            qr_root_complete = qr_root_complete.Where(s => s.MES_PART.Contains("EV036"));
-                        }
                         var qr_complete = qr_root_complete
                                 .Where(s => s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string))
                                 .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
@@ -188,36 +150,32 @@ namespace EVS_ProductionStatus
                         lbChuaHTMonth_Next.Invoke(new Action(() => lbChuaHTMonth_Next.Text = string.Format("{0:00}-{1}", nextmonth, nextyear)));
                         lbHoanThanhMonth_Next.Invoke(new Action(() => lbHoanThanhMonth_Next.Text = string.Format("{0:00}-{1}", nextmonth, nextyear)));
 
-                        var qr_TotalKitting = (from tmp in wodb.tblInput_Ring
-                                                where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                                select tmp.qty).Sum();
+                        var qr_TotalKitting = wodb.tblInput_Ring
+                                              .Where(x => x.KittingTime_End != null && x.WOID.Substring(1).StartsWith(cur_wo_string))
+                                              .Count();
 
-                        var qr_TotalKitting_next = (from tmp in wodb.tblInput_Ring
-                                                    where tmp.KittingTime_End != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                                    select tmp.qty).Sum();
+                        var qr_TotalKitting_next = wodb.tblInput_Ring
+                                              .Where(x => x.KittingTime_End != null && x.WOID.Substring(1).StartsWith(next_wo_string))
+                                              .Count();
 
-                        var qr_TodayKitting = (from tmp in wodb.tblInput_Ring
-                                                where tmp.KittingTime_End != null && tmp.KittingTime_End >= DateTime.Today && tmp.WOID.StartsWith(desc_string)
-                                                select tmp.qty).Sum();
+                        var qr_TodayKitting = wodb.tblInput_Ring
+                                              .Where(x => x.KittingTime_End != null && x.KittingTime_End >= DateTime.Today)
+                                              .Count();
 
-                        var qr_TotalQC = (from tmp in wodb.tblInput_Ring
-                                            where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(cur_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                            select tmp.qty).Sum();
+                        var qr_TotalQC = wodb.tblInput_Ring
+                                              .Where(x => x.QCTime_Start != null && x.WOID.Substring(1).StartsWith(cur_wo_string))
+                                              .Count();
 
-                        var qr_TotalQC_next = (from tmp in wodb.tblInput_Ring
-                                                where tmp.QCTime_Start != null && tmp.WOID.Substring(1).StartsWith(next_wo_string) && tmp.WOID.StartsWith(desc_string)
-                                                select tmp.qty).Sum();
+                        var qr_TotalQC_next = wodb.tblInput_Ring
+                                              .Where(x => x.QCTime_Start != null && x.WOID.Substring(1).StartsWith(next_wo_string))
+                                              .Count();
 
-                        //var qr_TodayQC = (from tmp in db.tblInputs
-                        //                  where tmp.QCTime_Start != null && tmp.QCTime_Start >= DateTime.Today && tmp.desc2.StartsWith(desc_string)
-                        //                  select tmp.qty).Sum();
                         DateTime time_end = DateTime.Today.AddDays(1);
-                        var qr_TodayQC = (from tmp in wodb.tblInput_Ring
-                                            where tmp.QCTime_Start != null &&
-                                            (tmp.QCTime_End >= DateTime.Today && tmp.QCTime_End < time_end)
-                                            && tmp.WOID.StartsWith(desc_string)
-                                            select tmp.qty).Sum();
 
+                        var qr_TodayQC = wodb.tblInput_Ring
+                                              .Where(x => x.QCTime_Start != null 
+                                              && x.QCTime_End >= DateTime.Today && x.QCTime_End < time_end)
+                                              .Count();
                         //
                         //Nếu có số tháng tiếp thì lấy k thì lấy tháng hiện tại
                         if (Convert.ToInt32(qr_TotalKitting_next) != 0)
@@ -243,15 +201,19 @@ namespace EVS_ProductionStatus
                             lbMonthQC.Invoke(new Action(() => lbMonthQC.Text = lbWOKHMonth_Cur.Text));
                         }
 
+
+                        lbKittingToday.Invoke(new Action(() => lbKittingToday.Text = qr_TodayKitting.ToString() == "" ? "0" : qr_TodayKitting.ToString()));
+                        lbQCToday.Invoke(new Action(() => lbQCToday.Text = qr_TodayQC.ToString() == "" ? "0" : qr_TodayQC.ToString()));
+
                         int chuasx;
                         //Nếu có tháng mới thì cập nhật theo tháng mới
                         if (qr_total_next > 0)
                         {
-                            chuasx = qr_total_next - (qr_TotalKitting_next ?? 0);
+                            chuasx = qr_total_next - qr_TotalKitting_next;
                         }
                         else
                         {
-                            chuasx = qr_total - (qr_TotalKitting ?? 0);
+                            chuasx = qr_total - qr_TotalKitting;
                         }
 
                         lbNotyetTotal.Invoke(new Action(() => lbNotyetTotal.Text = chuasx.ToString()));

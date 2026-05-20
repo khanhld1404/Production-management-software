@@ -87,8 +87,6 @@
             this.lbMonthQC = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
             this.label25 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.lbChuaDG = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel3.SuspendLayout();
             this.pnChuaHT.SuspendLayout();
@@ -241,7 +239,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(155, 53);
             this.label12.TabIndex = 57;
-            this.label12.Text = "Tồn Kitting";
+            this.label12.Text = "Tồn Chưa QC";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label14
@@ -793,32 +791,6 @@
             this.label25.TabIndex = 0;
             this.label25.Text = "QC";
             // 
-            // label29
-            // 
-            this.label29.BackColor = System.Drawing.Color.Peru;
-            this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.ForeColor = System.Drawing.Color.Black;
-            this.label29.Location = new System.Drawing.Point(454, 419);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(158, 53);
-            this.label29.TabIndex = 56;
-            this.label29.Text = "Chưa ĐG";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbChuaDG
-            // 
-            this.lbChuaDG.BackColor = System.Drawing.Color.White;
-            this.lbChuaDG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbChuaDG.Font = new System.Drawing.Font("Microsoft Sans Serif", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbChuaDG.ForeColor = System.Drawing.Color.SaddleBrown;
-            this.lbChuaDG.Location = new System.Drawing.Point(611, 419);
-            this.lbChuaDG.Name = "lbChuaDG";
-            this.lbChuaDG.Size = new System.Drawing.Size(266, 53);
-            this.lbChuaDG.TabIndex = 77;
-            this.lbChuaDG.Text = "0000";
-            this.lbChuaDG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.SkyBlue;
@@ -843,7 +815,6 @@
             this.Controls.Add(this.lbWOKitting);
             this.Controls.Add(this.lbKittingToday);
             this.Controls.Add(this.lbQCTotal);
-            this.Controls.Add(this.lbChuaDG);
             this.Controls.Add(this.lbTonKitting);
             this.Controls.Add(this.lbKittingTotal);
             this.Controls.Add(this.label24);
@@ -852,7 +823,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label21);
-            this.Controls.Add(this.label29);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label14);
@@ -948,8 +918,6 @@
         private System.Windows.Forms.Label lbMonthQC;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label lbChuaDG;
         private System.Windows.Forms.Panel panel7;
     }
 }
