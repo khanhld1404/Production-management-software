@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EVS_ProductionStatus.Data
+namespace EVS_ProductionStatus
 {
     using System;
     using System.Collections.Generic;

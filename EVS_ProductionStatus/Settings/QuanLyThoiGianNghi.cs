@@ -27,7 +27,7 @@ namespace EVS_ProductionStatus
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblThoiGianNghis
                               where s.CongDoan == _cd
@@ -82,7 +82,7 @@ namespace EVS_ProductionStatus
                         return;
                     }
 
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {                     
                         var qr = db.pro_07_TimeOverlapRows(startHour, startMin, endHour, endMin, cbCongDoan.Text).FirstOrDefault();
 
@@ -121,7 +121,7 @@ namespace EVS_ProductionStatus
                     if (rs == DialogResult.Yes)
                     {
                         int tmpID = Convert.ToInt32(grThongtin.Rows[e.RowIndex].Cells["id"].Value);
-                        using (Entities db = new Entities(clConnection.connectEntity))
+                        using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
                             var qr = (from s in db.tblThoiGianNghis
                                       where s.id == tmpID

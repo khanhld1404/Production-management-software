@@ -14,14 +14,38 @@ namespace EVS_ProductionStatus
     public partial class pro_12_WOChuaDG_Result
     {
         public Nullable<long> STT { get; set; }
-        public string WOID { get; set; }
-        public string workorder { get; set; }
-        public string wostatus { get; set; }
-        public Nullable<System.DateTime> orderdate { get; set; }
-        public string lot { get; set; }
-        public string itemnumber { get; set; }
-        public string desc1 { get; set; }
-        public string desc2 { get; set; }
-        public Nullable<int> qty { get; set; }
+        public int ID { get; set; }
+        public string WORK_ORDER_ID { get; set; }
+        public string WORK_ORDER { get; set; }
+        public string STATUS { get; set; }
+        public string ORDER_DATE { get; set; }
+        public string RELEASE_DATE { get; set; }
+        public string DUE_DATE { get; set; }
+        public string LOCATION_ID { get; set; }
+        public string LOT_SERIAL { get; set; }
+        public string WO_PART { get; set; }
+        public string MES_PART { get; set; }
+        public string DESCRIPTION_FOR_WO_PART_EN { get; set; }
+        public string DESCRIPTION_FOR_WO_PART_VN { get; set; }
+        public string DRAWING_REV { get; set; }
+        public string REV { get; set; }
+        public string PROD_LINE { get; set; }
+        public string ORDER_QTY { get; set; }
+        public string COMPLETE_QTY { get; set; }
+        public string REJECT_QTY { get; set; }
+        public string OPEN_QTY { get; set; }
+        public string WO_COMPONENT { get; set; }
+        public string MES_COMPONENT { get; set; }
+        public string DESCRIPTION_FOR_WO_COMPONENT_EN { get; set; }
+        public string DESCRIPTION_FOR_WO_COMPONENT_VN { get; set; }
+        public string ITEM_TYPE { get; set; }
+        public string LOT_SERIAL_ALLOCATE { get; set; }
+        public string REQUIRE_QTY { get; set; }
+        public string STORAGE_LOCATION { get; set; }
+        public string QTY_ISSUED { get; set; }
+        public string CREATED_BY { get; set; }
+        public Nullable<System.DateTime> CREATION_DATE { get; set; }
+        public string LAST_UPDATED_BY { get; set; }
+        public Nullable<System.DateTime> LAST_UPDATE_DATE { get; set; }
     }
 }

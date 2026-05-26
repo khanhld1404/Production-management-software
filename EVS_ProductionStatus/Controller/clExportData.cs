@@ -16,7 +16,7 @@ namespace EVS_ProductionStatus.Controller
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_10_KittingTime(_from, _to, _masp, _lot, _manv, _wo, _loaisp).ToList();
 
@@ -48,7 +48,7 @@ namespace EVS_ProductionStatus.Controller
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_08_KhauTime(_from, _to, _masp, _lot, _manv, _wo, _loaisp).ToList();
 
@@ -79,7 +79,7 @@ namespace EVS_ProductionStatus.Controller
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_09_QCTime(_from, _to, _masp, _lot, _manv, _wo, _loaisp).ToList();
 
@@ -110,7 +110,7 @@ namespace EVS_ProductionStatus.Controller
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_11_DongGoiTime(_from, _to, _masp, _lot, _manv, _wo, _loaisp).ToList();
 
@@ -206,13 +206,74 @@ namespace EVS_ProductionStatus.Controller
         }
 
 
+        // Xử lý mã vòng
+        public void LoadRing(DataGridView gr, DateTime _from, DateTime _to, string _masp, string _lot, string _manv, string _wo)
+        {
+            try
+            {
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
+                {
+                    var qr = db.pro_16_KittingRing(_from, _to, _masp, _lot, _manv, _wo).ToList();
 
+                    typeof(DataGridView).InvokeMember(
+                                                    "DoubleBuffered",
+                                                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                                                    null,
+                                                    gr,
+                                                    new object[] { true });
+
+                    gr.Invoke(new Action(() =>
+                    {
+                        gr.AutoGenerateColumns = false;
+                        gr.DataSource = qr;
+                        gr.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+                    }));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void LoadQCRing(DataGridView gr, DateTime _from, DateTime _to, string _masp, string _lot, string _manv, string _wo)
+        {
+            try
+            {
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
+                {
+                    var qr = db.pro_17_QCRing(_from, _to, _masp, _lot, _manv, _wo).ToList();
+
+                    typeof(DataGridView).InvokeMember(
+                                                    "DoubleBuffered",
+                                                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                                                    null,
+                                                    gr,
+                                                    new object[] { true });
+
+                    gr.Invoke(new Action(() =>
+                    {
+                        //gr.AutoGenerateColumns = false;
+                        gr.DataSource = qr;
+                        gr.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+
+                    }));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
         public void loadcbLoai(ComboBox cb)
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.v_DSLoaiSP select s).ToList();
                     qr.Insert(0, new v_DSLoaiSP { loaisp = "" });

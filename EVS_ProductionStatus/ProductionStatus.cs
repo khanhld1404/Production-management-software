@@ -200,7 +200,7 @@ namespace EVS_ProductionStatus
         // Code xử lý mã quét và quy trình kitting theo thiết bị
         public void Device_Kitting()
         {
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 //Đầu tiên tìm trong dữ liệu Input nếu có thì cập nhật vào
                 var qr_input = (from s in db.tblInputs
@@ -394,12 +394,12 @@ namespace EVS_ProductionStatus
         // Code xử lý mã quét và quy trình kitting theo mã vòng
         public void Ring_Kitting()
         {
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                 {
                     //Đầu tiên tìm trong dữ liệu Input nếu có thì cập nhật vào
-                    var qr_input = (from s in wodb.tblInput_Ring
+                    var qr_input = (from s in db.tblInput_Ring
                                         //where s.workorder == wo
                                     where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                     select s).FirstOrDefault();
@@ -519,7 +519,7 @@ namespace EVS_ProductionStatus
                                 tb.KittingTime_Start = DateTime.Now;
                                 tb.desc1 = qr.DESCRIPTION_FOR_WO_COMPONENT_VN;
                                 tb.desc2 = qr.DESCRIPTION_FOR_WO_COMPONENT_EN;
-                                wodb.tblInput_Ring.Add(tb);
+                                db.tblInput_Ring.Add(tb);
                                 wodb.SaveChanges();
                                 db.SaveChanges();
                                 ring_data = tb;
@@ -802,7 +802,7 @@ namespace EVS_ProductionStatus
         private string getUserName(string _uid)
         {
             string kq = "";
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 var qr_user = (from s in db.tblUsers
                                where s.userid == _uid
@@ -824,7 +824,7 @@ namespace EVS_ProductionStatus
                 // Theo thiết bị
                 if (!check_ring)
                 {
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         var qr = (from s in db.tblInputs
                                       //where s.workorder == lbWO.Text
@@ -935,11 +935,11 @@ namespace EVS_ProductionStatus
                 }
                 else // Theo mã vòng
                 {
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                         {
-                            var qr = (from s in wodb.tblInput_Ring
+                            var qr = (from s in db.tblInput_Ring
                                           //where s.workorder == lbWO.Text
                                       where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                       select s).FirstOrDefault();
@@ -979,7 +979,7 @@ namespace EVS_ProductionStatus
                             //Mới đến kitting start thì xóa dữ liệu luôn
                             else
                             {
-                                wodb.tblInput_Ring.Remove(qr);
+                                db.tblInput_Ring.Remove(qr);
                             }
 
 
@@ -989,7 +989,7 @@ namespace EVS_ProductionStatus
                             db.SaveChanges();
                             //Load lại list và control
 
-                            var qr1 = (from s in wodb.tblInput_Ring
+                            var qr1 = (from s in db.tblInput_Ring
                                            //where s.workorder == lbWO.Text
                                        where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
                                        select s).FirstOrDefault();
@@ -1022,7 +1022,7 @@ namespace EVS_ProductionStatus
                     // Theo thiết bị
                     if (!check_ring)
                     {
-                        using (Entities db = new Entities(clConnection.connectEntity))
+                        using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
                             //Quét mã người dùng
                             if (isEmployeeScan)
@@ -1208,7 +1208,7 @@ namespace EVS_ProductionStatus
                     else
                     {
                         // quét mã vòng
-                        using (Entities db = new Entities(clConnection.connectEntity))
+                        using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
                             using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                             {
@@ -1229,7 +1229,7 @@ namespace EVS_ProductionStatus
                                     else
                                     {
                                         //Đầu tiên tìm trong dữ liệu Input nếu có thì cập nhật vào
-                                        var qr_input = (from s in wodb.tblInput_Ring
+                                        var qr_input = (from s in db.tblInput_Ring
                                                             //where s.workorder == wo
                                                         where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part
                                                         select s).FirstOrDefault();
@@ -1240,7 +1240,7 @@ namespace EVS_ProductionStatus
                                             //Kiểm tra xem có kitting đồng thời không
                                             if (qr_input.KittingGroup != null)
                                             {
-                                                var qrKitting = (from s in wodb.tblInput_Ring
+                                                var qrKitting = (from s in db.tblInput_Ring
                                                                  where s.KittingGroup == qr_input.KittingGroup
                                                                  select s).ToList();
                                                 foreach (var tmp in qrKitting)
@@ -1338,7 +1338,7 @@ namespace EVS_ProductionStatus
                                         tb.desc1 = qr_dr.DESCRIPTION_FOR_WO_COMPONENT_VN;
                                         tb.desc2 = qr_dr.DESCRIPTION_FOR_WO_COMPONENT_EN;
 
-                                        wodb.tblInput_Ring.Add(tb);
+                                        db.tblInput_Ring.Add(tb);
                                         wodb.SaveChanges();
                                         db.SaveChanges();
                                         //Them UC vao flowlayout

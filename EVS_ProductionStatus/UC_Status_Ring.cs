@@ -65,7 +65,7 @@ namespace EVS_ProductionStatus
                 next_wo_string = nextyear.ToString().Substring(2) + nextmonth.ToString("00");
 
 
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
@@ -150,29 +150,29 @@ namespace EVS_ProductionStatus
                         lbChuaHTMonth_Next.Invoke(new Action(() => lbChuaHTMonth_Next.Text = string.Format("{0:00}-{1}", nextmonth, nextyear)));
                         lbHoanThanhMonth_Next.Invoke(new Action(() => lbHoanThanhMonth_Next.Text = string.Format("{0:00}-{1}", nextmonth, nextyear)));
 
-                        var qr_TotalKitting = wodb.tblInput_Ring
+                        var qr_TotalKitting = db.tblInput_Ring
                                               .Where(x => x.KittingTime_End != null && x.WOID.Substring(1).StartsWith(cur_wo_string))
                                               .Count();
 
-                        var qr_TotalKitting_next = wodb.tblInput_Ring
+                        var qr_TotalKitting_next = db.tblInput_Ring
                                               .Where(x => x.KittingTime_End != null && x.WOID.Substring(1).StartsWith(next_wo_string))
                                               .Count();
 
-                        var qr_TodayKitting = wodb.tblInput_Ring
+                        var qr_TodayKitting = db.tblInput_Ring
                                               .Where(x => x.KittingTime_End != null && x.KittingTime_End >= DateTime.Today)
                                               .Count();
 
-                        var qr_TotalQC = wodb.tblInput_Ring
+                        var qr_TotalQC = db.tblInput_Ring
                                               .Where(x => x.QCTime_Start != null && x.WOID.Substring(1).StartsWith(cur_wo_string))
                                               .Count();
 
-                        var qr_TotalQC_next = wodb.tblInput_Ring
+                        var qr_TotalQC_next = db.tblInput_Ring
                                               .Where(x => x.QCTime_Start != null && x.WOID.Substring(1).StartsWith(next_wo_string))
                                               .Count();
 
                         DateTime time_end = DateTime.Today.AddDays(1);
 
-                        var qr_TodayQC = wodb.tblInput_Ring
+                        var qr_TodayQC = db.tblInput_Ring
                                               .Where(x => x.QCTime_Start != null 
                                               && x.QCTime_End >= DateTime.Today && x.QCTime_End < time_end)
                                               .Count();

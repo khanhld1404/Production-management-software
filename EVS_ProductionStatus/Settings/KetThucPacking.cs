@@ -32,7 +32,7 @@ namespace EVS_ProductionStatus.Settings
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     //Kiểm tra thông tin người thao tác có tồn tại không
                     var qr_user = (from s in db.tblUsers

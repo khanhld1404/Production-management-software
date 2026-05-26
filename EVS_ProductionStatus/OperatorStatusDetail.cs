@@ -33,7 +33,7 @@ namespace EVS_ProductionStatus
 
         private void loaddata()
         {
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 string desc_string = "";
                 if (CD != "ANA")

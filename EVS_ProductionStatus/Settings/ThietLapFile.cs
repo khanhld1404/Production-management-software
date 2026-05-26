@@ -26,7 +26,7 @@ namespace EVS_ProductionStatus
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblURLs
                               where s.Code == "FILE_URL"
@@ -69,7 +69,7 @@ namespace EVS_ProductionStatus
                 }
                 else
                 {
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         var qr = (from s in db.tblURLs
                                   where s.Code == "FILE_URL"

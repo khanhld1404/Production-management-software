@@ -15,9 +15,9 @@ namespace EVS_ProductionStatus
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class Entities : DbContext
+    public partial class DB_Entities : DbContext
     {
-        public Entities(string conn)
+        public DB_Entities(string conn)
             : base(conn)
         {
         }
@@ -35,6 +35,7 @@ namespace EVS_ProductionStatus
         public virtual DbSet<tblNgayNghi> tblNgayNghis { get; set; }
         public virtual DbSet<tblQC> tblQCs { get; set; }
         public virtual DbSet<tblQCDetail> tblQCDetails { get; set; }
+        public virtual DbSet<tblThoiGianKhau> tblThoiGianKhaus { get; set; }
         public virtual DbSet<tblThoiGianNghi> tblThoiGianNghis { get; set; }
         public virtual DbSet<tblURL> tblURLs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
@@ -43,9 +44,9 @@ namespace EVS_ProductionStatus
         public virtual DbSet<v_04_DongGoi> v_04_DongGoi { get; set; }
         public virtual DbSet<v_05_KhauDetail> v_05_KhauDetail { get; set; }
         public virtual DbSet<v_05_QCDetail> v_05_QCDetail { get; set; }
-        public virtual DbSet<v_DSLoaiSP> v_DSLoaiSP { get; set; }
-        public virtual DbSet<tblThoiGianKhau> tblThoiGianKhaus { get; set; }
         public virtual DbSet<v_06_LoaiSP> v_06_LoaiSP { get; set; }
+        public virtual DbSet<v_DSLoaiSP> v_DSLoaiSP { get; set; }
+        public virtual DbSet<tblInput_Ring> tblInput_Ring { get; set; }
     
         public virtual int pro_01_truncateWO()
         {
@@ -287,6 +288,77 @@ namespace EVS_ProductionStatus
                 new ObjectParameter("LoaiSP", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pro_14_TrangThaiSP_Result>("pro_14_TrangThaiSP", loaiSPParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> pro_15_Join2database(string loaiSP, string yYMM)
+        {
+            var loaiSPParameter = loaiSP != null ?
+                new ObjectParameter("LoaiSP", loaiSP) :
+                new ObjectParameter("LoaiSP", typeof(string));
+    
+            var yYMMParameter = yYMM != null ?
+                new ObjectParameter("YYMM", yYMM) :
+                new ObjectParameter("YYMM", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("pro_15_Join2database", loaiSPParameter, yYMMParameter);
+        }
+    
+        public virtual ObjectResult<pro_16_KittingRing_Result> pro_16_KittingRing(Nullable<System.DateTime> from, Nullable<System.DateTime> to, string item, string lot, string manv, string wo)
+        {
+            var fromParameter = from.HasValue ?
+                new ObjectParameter("from", from) :
+                new ObjectParameter("from", typeof(System.DateTime));
+    
+            var toParameter = to.HasValue ?
+                new ObjectParameter("to", to) :
+                new ObjectParameter("to", typeof(System.DateTime));
+    
+            var itemParameter = item != null ?
+                new ObjectParameter("item", item) :
+                new ObjectParameter("item", typeof(string));
+    
+            var lotParameter = lot != null ?
+                new ObjectParameter("lot", lot) :
+                new ObjectParameter("lot", typeof(string));
+    
+            var manvParameter = manv != null ?
+                new ObjectParameter("manv", manv) :
+                new ObjectParameter("manv", typeof(string));
+    
+            var woParameter = wo != null ?
+                new ObjectParameter("wo", wo) :
+                new ObjectParameter("wo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pro_16_KittingRing_Result>("pro_16_KittingRing", fromParameter, toParameter, itemParameter, lotParameter, manvParameter, woParameter);
+        }
+    
+        public virtual ObjectResult<pro_17_QCRing_Result> pro_17_QCRing(Nullable<System.DateTime> from, Nullable<System.DateTime> to, string item, string lot, string manv, string wo)
+        {
+            var fromParameter = from.HasValue ?
+                new ObjectParameter("from", from) :
+                new ObjectParameter("from", typeof(System.DateTime));
+    
+            var toParameter = to.HasValue ?
+                new ObjectParameter("to", to) :
+                new ObjectParameter("to", typeof(System.DateTime));
+    
+            var itemParameter = item != null ?
+                new ObjectParameter("item", item) :
+                new ObjectParameter("item", typeof(string));
+    
+            var lotParameter = lot != null ?
+                new ObjectParameter("lot", lot) :
+                new ObjectParameter("lot", typeof(string));
+    
+            var manvParameter = manv != null ?
+                new ObjectParameter("manv", manv) :
+                new ObjectParameter("manv", typeof(string));
+    
+            var woParameter = wo != null ?
+                new ObjectParameter("wo", wo) :
+                new ObjectParameter("wo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pro_17_QCRing_Result>("pro_17_QCRing", fromParameter, toParameter, itemParameter, lotParameter, manvParameter, woParameter);
         }
     }
 }

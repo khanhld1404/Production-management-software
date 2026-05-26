@@ -18,7 +18,7 @@ namespace EVS_ProductionStatus
                 string file_url = "";
 
                 // 1) Lấy đường dẫn file excel từ bảng URL (DB EVS_ProductionStatus)
-                using (Entities dbUrl = new Entities(clConnection.connectEntity))
+                using (DB_Entities dbUrl = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = dbUrl.tblURLs.FirstOrDefault(x => x.Code == "FILE_URL");
                     if (qr == null || string.IsNullOrWhiteSpace(qr.URL))

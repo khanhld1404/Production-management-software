@@ -38,7 +38,7 @@ namespace EVS_ProductionStatus
         {
             try
             { 
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_03_WOBaoLuu(_key).ToList();
 

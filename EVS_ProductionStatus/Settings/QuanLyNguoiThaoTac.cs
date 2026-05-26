@@ -28,7 +28,7 @@ namespace EVS_ProductionStatus
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblUsers
                               orderby s.userid
@@ -45,7 +45,7 @@ namespace EVS_ProductionStatus
 
         private void loaddata(string _timkiem)
         {
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 var qr = (from s in db.tblUsers
                           where s.userid.Contains(_timkiem) || s.name.Contains(_timkiem)
@@ -66,7 +66,7 @@ namespace EVS_ProductionStatus
                     return;
                 }
 
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     if (isExistUserID(txtUserID.Text))
                         MessageBox.Show("Mã người thao tác đã tồn tại");
@@ -103,7 +103,7 @@ namespace EVS_ProductionStatus
                     if (rs == DialogResult.Yes)
                     {
                         string _uid = grThongtin.Rows[e.RowIndex].Cells["userid"].Value.ToString();
-                        using (Entities db = new Entities(clConnection.connectEntity))
+                        using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
                             var qr = (from s in db.tblUsers
                                       where s.userid == _uid
@@ -157,7 +157,7 @@ namespace EVS_ProductionStatus
                             var ws = p.Workbook.Worksheets[1];
                             int rowCount = ws.Dimension.End.Row;     //get row count
 
-                            using (Entities db = new Entities(clConnection.connectEntity))
+                            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                             {
                                 db.pro_05_TruncateUser();
                                 for (int i = 2; i <= rowCount; i++)
@@ -193,7 +193,7 @@ namespace EVS_ProductionStatus
         private bool isExistUserID(string _userid)
         {
             bool kq = false;
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 var qr = (from s in db.tblUsers
                           where s.userid == _userid

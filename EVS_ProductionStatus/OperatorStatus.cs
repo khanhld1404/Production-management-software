@@ -31,7 +31,7 @@ namespace EVS_ProductionStatus
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblViTriNguoiTTs       
                               orderby s.CongDoan
@@ -55,7 +55,7 @@ namespace EVS_ProductionStatus
                 if (!string.IsNullOrEmpty(_congdoan))
                 {
                     grThongtin.Rows.Clear();
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         var qr = (from s in db.tblViTriNguoiTTs
                                   where s.CongDoan == _congdoan
@@ -97,7 +97,7 @@ namespace EVS_ProductionStatus
         private bool isDangKhau(int _vitri, string _cd)
         {
             bool kq = false;
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 string desc_string = "";
                 if (_cd != "ANA")
@@ -155,7 +155,7 @@ namespace EVS_ProductionStatus
         //private int LaySoNguoiTrongNhom(string _nhom, string _congdoan)
         //{
         //    int kq = 0;
-        //    using (Entities db = new Entities())
+        //    using (DB_Entities db = new DB_Entities())
         //    {
         //        int qr = (from s in db.tblViTriNguoiTTs
         //                  where s.CongDoan == _congdoan && s.Nhom == _nhom
@@ -210,7 +210,7 @@ namespace EVS_ProductionStatus
 
                 int rowCount = ws.Dimension.End.Row;
 
-                using (var db = new Entities(clConnection.connectEntity))
+                using (var db = new DB_Entities(clConnection.connectEntity))
                 {
                     db.pro_06_TruncateViTriNguoiTT();
 

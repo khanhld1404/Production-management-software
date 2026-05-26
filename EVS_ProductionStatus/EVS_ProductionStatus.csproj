@@ -120,6 +120,18 @@
     <Compile Include="Controller\clKittingDongThoi.cs" />
     <Compile Include="Controller\clMaBanVe.cs" />
     <Compile Include="Controller\clThoiGianKhau.cs" />
+    <Compile Include="DataExport\ExportQCRing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportQCRing.Designer.cs">
+      <DependentUpon>ExportQCRing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataExport\ExportRing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataExport\ExportRing.Designer.cs">
+      <DependentUpon>ExportRing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\EVS_Manage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -142,9 +154,6 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Data\NewInventory_EVS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\tblInput_Ring.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\tblWO.cs">
@@ -275,6 +284,12 @@
     <Compile Include="pro_14_TrangThaiSP_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
+    <Compile Include="pro_16_KittingRing_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="pro_17_QCRing_Result.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Settings\InputPacking.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -329,6 +344,12 @@
     <Compile Include="Settings\WOChamDongGoi.Designer.cs">
       <DependentUpon>WOChamDongGoi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings\ThietLapFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\ThietLapFile.Designer.cs">
+      <DependentUpon>ThietLapFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="tblBanVe.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
@@ -339,6 +360,9 @@
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="tblInput.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblInput_Ring.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="tblKhauIn.cs">
@@ -367,12 +391,6 @@
     </Compile>
     <Compile Include="tblViTriNguoiTT.cs">
       <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Settings\ThietLapFile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Settings\ThietLapFile.Designer.cs">
-      <DependentUpon>ThietLapFile.cs</DependentUpon>
     </Compile>
     <Compile Include="UC_Status.cs">
       <SubType>UserControl</SubType>
@@ -468,6 +486,12 @@
     </Compile>
     <EmbeddedResource Include="CheckVersion.resx">
       <DependentUpon>CheckVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportQCRing.resx">
+      <DependentUpon>ExportQCRing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataExport\ExportRing.resx">
+      <DependentUpon>ExportRing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DongGoiDongThoi.resx">
       <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
@@ -578,10 +602,6 @@
     <EmbeddedResource Include="Update_Inventory\Form_RM_WIP.resx">
       <DependentUpon>Form_RM_WIP.cs</DependentUpon>
     </EmbeddedResource>
-    <EntityDeploy Include="db.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>db.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="Data\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -589,6 +609,10 @@
     <None Include="Data\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="db.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="db.edmx.diagram">
       <DependentUpon>db.edmx</DependentUpon>
     </None>
@@ -619,8 +643,8 @@
     </Content>
     <Content Include="db.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>db.Context.cs</LastGenOutput>
       <DependentUpon>db.edmx</DependentUpon>
+      <LastGenOutput>db.Context.cs</LastGenOutput>
     </Content>
     <Content Include="db.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

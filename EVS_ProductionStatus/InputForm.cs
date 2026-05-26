@@ -23,7 +23,7 @@ namespace EVS_ProductionStatus
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr_woplan = (from s in db.tblContents
                                      where s.code == code
@@ -48,7 +48,7 @@ namespace EVS_ProductionStatus
             {
                 //Chỉ lưu số nguyên, tránh nhập sai định dạng
                 int kq = Convert.ToInt32(txtWOKH.Text);
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr_woplan = (from s in db.tblContents
                                      where s.code == code

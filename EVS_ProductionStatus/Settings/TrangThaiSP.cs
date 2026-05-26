@@ -39,7 +39,7 @@ namespace EVS_ProductionStatus.Settings
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qrSX1 = (from s in db.tblContents
                               where s.code == "TT_SX_1"
@@ -105,7 +105,7 @@ namespace EVS_ProductionStatus.Settings
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     sx1 = Convert.ToInt32(txtSX1.Text);
                     sx2 = Convert.ToInt32(txtSX2.Text);
@@ -238,7 +238,7 @@ namespace EVS_ProductionStatus.Settings
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_14_TrangThaiSP(_loaisp).ToList();
                     grThongtin.Invoke(new Action(() => grThongtin.AutoGenerateColumns = false));

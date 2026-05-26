@@ -48,7 +48,7 @@ namespace EVS_ProductionStatus
                     lbError.Visible = false;
                     txtBarcode.Text = "";
 
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         //Đầu tiên tìm trong dữ liệu Input
                         var qr_input = (from s in db.tblInputs
@@ -121,7 +121,7 @@ namespace EVS_ProductionStatus
             //        lbError.Visible = false;
             //        lbScanned.Text = txtMaBanVe.Text;
 
-            //        using (Entities db = new Entities())
+            //        using (DB_Entities db = new DB_Entities())
             //        {
             //            //Kiểm tra thông tin người thao tác có tồn tại không
             //            var qr_user = (from s in db.tblUsers
@@ -174,7 +174,7 @@ namespace EVS_ProductionStatus
             try
             {
                 //Lưu dữ liệu
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     string DGGroup = DateTime.Now.ToString("yyMMddHHmmssff");
                     DateTime DGTime = DateTime.Now;
@@ -248,7 +248,7 @@ namespace EVS_ProductionStatus
         private bool isExistWO(string _ID, string _wo, string _wo_part)
         {
             bool kq = false;
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 var qr = (from s in db.tblInputs
                               //where s.workorder == _wo

@@ -59,7 +59,7 @@ namespace EVS_ProductionStatus
             {
                 pnData.Visible = false;
                 lbError.Visible = false;
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     //1. Tìm chỉ thị trong bảng QC đã start chưa end
                     //Nếu có thì cập nhật thời gian end
@@ -104,7 +104,7 @@ namespace EVS_ProductionStatus
                         {
                             using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                             {
-                                var qr_input = (from s in wodb.tblInput_Ring
+                                var qr_input = (from s in db.tblInput_Ring
                                                 where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part && s.OutTime != null && s.QCTime_End == null
                                                 select s).FirstOrDefault();
                                 if (qr_input == null)
@@ -139,7 +139,7 @@ namespace EVS_ProductionStatus
             try
             {
                 pnData.Visible = false;
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     // theo thiết bị
                     if (!check_ring)
@@ -183,7 +183,7 @@ namespace EVS_ProductionStatus
                     {
                         using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                         {
-                            var qr_input = (from s in wodb.tblInput_Ring
+                            var qr_input = (from s in db.tblInput_Ring
                                             where s.WOID == _woid && s.workorder == _wo && s.itemnumber == _wo_part
                                             select s).FirstOrDefault();
 
@@ -230,7 +230,7 @@ namespace EVS_ProductionStatus
         private string getUserName(string _uid)
         {
             string kq = "";
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 var qr_user = (from s in db.tblUsers
                                where s.userid == _uid
@@ -247,7 +247,7 @@ namespace EVS_ProductionStatus
             if (rs == DialogResult.Yes)
             {
                 //Bỏ thời gian trong tblInput
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
@@ -277,7 +277,7 @@ namespace EVS_ProductionStatus
                             }
                             else //theo mã vòng
                             {
-                                var qr_input = (from s in wodb.tblInput_Ring
+                                var qr_input = (from s in db.tblInput_Ring
                                                 where s.WOID == lbID.Text && s.workorder == lbWO.Text && s.itemnumber == lbItem.Text
                                                 select s).FirstOrDefault();
 
@@ -311,7 +311,7 @@ namespace EVS_ProductionStatus
                 {
                     lbError.Visible = false;
                     lbScanned.Text = txtUsername.Text;
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         
                         //Kiểm tra thông tin người thao tác có tồn tại không
@@ -347,7 +347,7 @@ namespace EVS_ProductionStatus
                                 }
                                 else
                                 {
-                                    var qr_input = (from s in wodb.tblInput_Ring
+                                    var qr_input = (from s in db.tblInput_Ring
                                                     where s.WOID == woid && s.workorder == wo && s.itemnumber == wo_part && s.OutTime != null && s.QCTime_Start == null
                                                     select s).FirstOrDefault();
 
@@ -389,7 +389,7 @@ namespace EVS_ProductionStatus
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblQCs
                               join u in db.tblUsers on s.UserQC equals u.userid into tmpU

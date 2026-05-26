@@ -17,7 +17,7 @@ namespace EVS_ProductionStatus.Controller
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblBanVes
                               select s).ToList();
@@ -45,7 +45,7 @@ namespace EVS_ProductionStatus.Controller
                         var ws = p.Workbook.Worksheets[1];
                         int rowCount = ws.Dimension.End.Row;     //get row count                      
                         
-                        using (Entities db = new Entities(clConnection.connectEntity))
+                        using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
                             db.pro_04_TruncateBanVe();
 

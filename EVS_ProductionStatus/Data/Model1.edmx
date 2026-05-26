@@ -50,33 +50,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="connect_status" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="tblInput_Ring">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="workorder" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="itemnumber" Type="varchar" MaxLength="30" />
-          <Property Name="lot" Type="varchar" MaxLength="20" />
-          <Property Name="desc1" Type="nvarchar" MaxLength="50" />
-          <Property Name="desc2" Type="nvarchar" MaxLength="50" />
-          <Property Name="qty" Type="int" />
-          <Property Name="KittingTime_Start" Type="datetime" />
-          <Property Name="KittingTime_End" Type="datetime" />
-          <Property Name="UserKitting" Type="varchar" MaxLength="20" />
-          <Property Name="KittingGroup" Type="varchar" MaxLength="20" />
-          <Property Name="InTime_Start" Type="datetime" />
-          <Property Name="UserIn" Type="varchar" MaxLength="20" />
-          <Property Name="OutTime" Type="datetime" />
-          <Property Name="QCTime_Start" Type="datetime" />
-          <Property Name="QCTime_End" Type="datetime" />
-          <Property Name="UserQC" Type="varchar" MaxLength="20" />
-          <Property Name="WOID" Type="varchar" MaxLength="20" />
-          <Property Name="DongGoi_Start" Type="datetime" />
-          <Property Name="DongGoi_End" Type="datetime" />
-          <Property Name="DongGoiGroup" Type="varchar" MaxLength="20" />
-          <Property Name="UserDongGoi" Type="varchar" MaxLength="20" />
-        </EntityType>
         <EntityType Name="tblWO">
           <Key>
             <PropertyRef Name="ID" />
@@ -119,7 +92,6 @@
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVS_Stock" EntityType="Self.EVS_Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewInventory_EVS" EntityType="Self.NewInventory_EVS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblInput_Ring" EntityType="Self.tblInput_Ring" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblWO" EntityType="Self.tblWO" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -140,38 +112,10 @@
         </EntityType>
         <EntityContainer Name="Manage_evsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" />
-          <EntitySet Name="tblInput_Ring" EntityType="Manage_evsModel.tblInput_Ring" />
           <EntitySet Name="tblWOes" EntityType="Manage_evsModel.tblWO" />
           <EntitySet Name="EVS_Stock" EntityType="Manage_evsModel.EVS_Stock" />
           <EntitySet Name="NewInventory_EVS" EntityType="Manage_evsModel.NewInventory_EVS" />
         </EntityContainer>
-        <EntityType Name="tblInput_Ring">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="workorder" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="itemnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="lot" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="desc1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="desc2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="qty" Type="Int32" />
-          <Property Name="KittingTime_Start" Type="DateTime" Precision="3" />
-          <Property Name="KittingTime_End" Type="DateTime" Precision="3" />
-          <Property Name="UserKitting" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="KittingGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="InTime_Start" Type="DateTime" Precision="3" />
-          <Property Name="UserIn" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="OutTime" Type="DateTime" Precision="3" />
-          <Property Name="QCTime_Start" Type="DateTime" Precision="3" />
-          <Property Name="QCTime_End" Type="DateTime" Precision="3" />
-          <Property Name="UserQC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="WOID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DongGoi_Start" Type="DateTime" Precision="3" />
-          <Property Name="DongGoi_End" Type="DateTime" Precision="3" />
-          <Property Name="DongGoiGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="UserDongGoi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="tblWO">
           <Key>
             <PropertyRef Name="ID" />
@@ -259,34 +203,6 @@
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="Prod_Line" ColumnName="Prod_Line" />
                 <ScalarProperty Name="Item_Type" ColumnName="Item_Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblInput_Ring">
-            <EntityTypeMapping TypeName="Manage_evsModel.tblInput_Ring">
-              <MappingFragment StoreEntitySet="tblInput_Ring">
-                <ScalarProperty Name="UserDongGoi" ColumnName="UserDongGoi" />
-                <ScalarProperty Name="DongGoiGroup" ColumnName="DongGoiGroup" />
-                <ScalarProperty Name="DongGoi_End" ColumnName="DongGoi_End" />
-                <ScalarProperty Name="DongGoi_Start" ColumnName="DongGoi_Start" />
-                <ScalarProperty Name="WOID" ColumnName="WOID" />
-                <ScalarProperty Name="UserQC" ColumnName="UserQC" />
-                <ScalarProperty Name="QCTime_End" ColumnName="QCTime_End" />
-                <ScalarProperty Name="QCTime_Start" ColumnName="QCTime_Start" />
-                <ScalarProperty Name="OutTime" ColumnName="OutTime" />
-                <ScalarProperty Name="UserIn" ColumnName="UserIn" />
-                <ScalarProperty Name="InTime_Start" ColumnName="InTime_Start" />
-                <ScalarProperty Name="KittingGroup" ColumnName="KittingGroup" />
-                <ScalarProperty Name="UserKitting" ColumnName="UserKitting" />
-                <ScalarProperty Name="KittingTime_End" ColumnName="KittingTime_End" />
-                <ScalarProperty Name="KittingTime_Start" ColumnName="KittingTime_Start" />
-                <ScalarProperty Name="qty" ColumnName="qty" />
-                <ScalarProperty Name="desc2" ColumnName="desc2" />
-                <ScalarProperty Name="desc1" ColumnName="desc1" />
-                <ScalarProperty Name="lot" ColumnName="lot" />
-                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
-                <ScalarProperty Name="workorder" ColumnName="workorder" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

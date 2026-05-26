@@ -38,10 +38,9 @@ namespace EVS_ProductionStatus.Settings
         {
             try
             {
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = db.pro_12_WOChuaDG(_key).ToList();
-
                     grThongtin.Invoke(new Action(() => grThongtin.AutoGenerateColumns = false));
                     grThongtin.Invoke(new Action(() => grThongtin.DataSource = qr));
                 }

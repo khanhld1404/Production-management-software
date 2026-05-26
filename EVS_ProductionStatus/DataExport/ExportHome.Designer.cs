@@ -33,8 +33,8 @@
             this.btnExportQC = new System.Windows.Forms.Button();
             this.btnExportKhau = new System.Windows.Forms.Button();
             this.btnExportKitting = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnExportRing = new System.Windows.Forms.Button();
+            this.btnExportQCRing = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -120,47 +120,49 @@
             this.btnExportKitting.UseVisualStyleBackColor = true;
             this.btnExportKitting.Click += new System.EventHandler(this.btnExportKitting_Click);
             // 
-            // button1
+            // btnExportRing
             // 
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Navy;
-            this.button1.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.Location = new System.Drawing.Point(227, 241);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(153, 132);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Xuất dữ liệu tạo vòng";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnExportRing.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnExportRing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnExportRing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportRing.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportRing.ForeColor = System.Drawing.Color.Navy;
+            this.btnExportRing.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportRing.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnExportRing.Location = new System.Drawing.Point(227, 241);
+            this.btnExportRing.Name = "btnExportRing";
+            this.btnExportRing.Size = new System.Drawing.Size(153, 132);
+            this.btnExportRing.TabIndex = 8;
+            this.btnExportRing.Text = "Xuất dữ liệu tạo vòng";
+            this.btnExportRing.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnExportRing.UseVisualStyleBackColor = true;
+            this.btnExportRing.Click += new System.EventHandler(this.btnExportRing_Click);
             // 
-            // button2
+            // btnExportQCRing
             // 
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.Navy;
-            this.button2.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button2.Location = new System.Drawing.Point(426, 241);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(153, 132);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Xuất dữ liệu QC (Vòng)";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnExportQCRing.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnExportQCRing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnExportQCRing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportQCRing.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportQCRing.ForeColor = System.Drawing.Color.Navy;
+            this.btnExportQCRing.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportQCRing.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnExportQCRing.Location = new System.Drawing.Point(426, 241);
+            this.btnExportQCRing.Name = "btnExportQCRing";
+            this.btnExportQCRing.Size = new System.Drawing.Size(153, 132);
+            this.btnExportQCRing.TabIndex = 9;
+            this.btnExportQCRing.Text = "Xuất dữ liệu QC (Vòng)";
+            this.btnExportQCRing.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnExportQCRing.UseVisualStyleBackColor = true;
+            this.btnExportQCRing.Click += new System.EventHandler(this.btnExportQCRing_Click);
             // 
             // ExportHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 385);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnExportQCRing);
+            this.Controls.Add(this.btnExportRing);
             this.Controls.Add(this.btnExportDG);
             this.Controls.Add(this.btnExportQC);
             this.Controls.Add(this.btnExportKhau);
@@ -181,7 +183,7 @@
         private System.Windows.Forms.Button btnExportKhau;
         private System.Windows.Forms.Button btnExportQC;
         private System.Windows.Forms.Button btnExportDG;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnExportRing;
+        private System.Windows.Forms.Button btnExportQCRing;
     }
 }

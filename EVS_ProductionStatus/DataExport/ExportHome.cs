@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,6 +41,17 @@ namespace EVS_ProductionStatus
             ExportDongGoi f = new ExportDongGoi();
             f.Show();
         }
-       
+
+        private void btnExportQCRing_Click(object sender, EventArgs e)
+        {
+            ExportQCRing qr = new ExportQCRing();
+            qr.Show();
+        }
+
+        private void btnExportRing_Click(object sender, EventArgs e)
+        {
+            ExportRing er = new ExportRing();
+            er.Show();
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace EVS_ProductionStatus
             {
                 pnData.Visible = false;
                 lbError.Visible = false;
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     //Đầu tiên tìm trong dữ liệu Input nếu có thì cập nhật vào
                     var qr_input = (from s in db.tblInputs
@@ -197,7 +197,7 @@ namespace EVS_ProductionStatus
         private string getUserName(string _uid)
         {
             string kq = "";
-            using (Entities db = new Entities(clConnection.connectEntity))
+            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
                 var qr_user = (from s in db.tblUsers
                                where s.userid == _uid
@@ -214,7 +214,7 @@ namespace EVS_ProductionStatus
             if (rs == DialogResult.Yes)
             {
                 //Bỏ thời gian trong tblInput
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = (from s in db.tblInputs
                               //where s.workorder == lbWO.Text

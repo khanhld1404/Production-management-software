@@ -33,6 +33,8 @@
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.grThongtin = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WOID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.workorder = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,8 +44,6 @@
             this.desc1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.desc2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.grThongtin)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,6 +115,17 @@
             this.grThongtin.Size = new System.Drawing.Size(1263, 565);
             this.grThongtin.TabIndex = 48;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Navy;
+            this.label1.Location = new System.Drawing.Point(375, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(527, 26);
+            this.label1.TabIndex = 49;
+            this.label1.Text = "DANH SÁCH WORK ORDER CHẬM ĐÓNG GÓI";
+            // 
             // STT
             // 
             this.STT.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -127,7 +138,7 @@
             // WOID
             // 
             this.WOID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.WOID.DataPropertyName = "WOID";
+            this.WOID.DataPropertyName = "WORK_ORDER_ID";
             this.WOID.HeaderText = "ID";
             this.WOID.Name = "WOID";
             this.WOID.ReadOnly = true;
@@ -135,7 +146,7 @@
             // workorder
             // 
             this.workorder.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.workorder.DataPropertyName = "workorder";
+            this.workorder.DataPropertyName = "WORK_ORDER";
             this.workorder.HeaderText = "Số chỉ thị";
             this.workorder.Name = "workorder";
             this.workorder.ReadOnly = true;
@@ -143,7 +154,7 @@
             // wostatus
             // 
             this.wostatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.wostatus.DataPropertyName = "wostatus";
+            this.wostatus.DataPropertyName = "STATUS";
             this.wostatus.FillWeight = 50F;
             this.wostatus.HeaderText = "Trạng thái WO";
             this.wostatus.Name = "wostatus";
@@ -152,7 +163,7 @@
             // itemnumber
             // 
             this.itemnumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.itemnumber.DataPropertyName = "itemnumber";
+            this.itemnumber.DataPropertyName = "MES_PART";
             this.itemnumber.HeaderText = "Mã sản phẩm";
             this.itemnumber.Name = "itemnumber";
             this.itemnumber.ReadOnly = true;
@@ -160,7 +171,7 @@
             // lot
             // 
             this.lot.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.lot.DataPropertyName = "lot";
+            this.lot.DataPropertyName = "LOT_SERIAL";
             this.lot.HeaderText = "Số lô";
             this.lot.Name = "lot";
             this.lot.ReadOnly = true;
@@ -168,7 +179,7 @@
             // desc1
             // 
             this.desc1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.desc1.DataPropertyName = "desc1";
+            this.desc1.DataPropertyName = "DESCRIPTION_FOR_WO_COMPONENT_VN";
             this.desc1.FillWeight = 300F;
             this.desc1.HeaderText = "Mô tả sản phẩm 1";
             this.desc1.Name = "desc1";
@@ -177,7 +188,7 @@
             // desc2
             // 
             this.desc2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.desc2.DataPropertyName = "desc2";
+            this.desc2.DataPropertyName = "DESCRIPTION_FOR_WO_COMPONENT_EN";
             this.desc2.FillWeight = 300F;
             this.desc2.HeaderText = "Mô tả sản phẩm 2";
             this.desc2.Name = "desc2";
@@ -186,22 +197,11 @@
             // qty
             // 
             this.qty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.qty.DataPropertyName = "qty";
+            this.qty.DataPropertyName = "ORDER_QTY";
             this.qty.FillWeight = 50F;
             this.qty.HeaderText = "Số lượng";
             this.qty.Name = "qty";
             this.qty.ReadOnly = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Navy;
-            this.label1.Location = new System.Drawing.Point(375, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(527, 26);
-            this.label1.TabIndex = 49;
-            this.label1.Text = "DANH SÁCH WORK ORDER CHẬM ĐÓNG GÓI";
             // 
             // WOChamDongGoi
             // 
@@ -230,6 +230,8 @@
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.TextBox txtTimKiem;
         private System.Windows.Forms.DataGridView grThongtin;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.DataGridViewTextBoxColumn STT;
         private System.Windows.Forms.DataGridViewTextBoxColumn WOID;
         private System.Windows.Forms.DataGridViewTextBoxColumn workorder;
@@ -239,7 +241,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn desc1;
         private System.Windows.Forms.DataGridViewTextBoxColumn desc2;
         private System.Windows.Forms.DataGridViewTextBoxColumn qty;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

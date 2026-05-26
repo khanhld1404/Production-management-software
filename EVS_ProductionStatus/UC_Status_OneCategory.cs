@@ -94,7 +94,7 @@ namespace EVS_ProductionStatus
                 next_wo_string = nextyear.ToString().Substring(2) + nextmonth.ToString("00");
 
 
-                using (Entities db = new Entities(clConnection.connectEntity))
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {

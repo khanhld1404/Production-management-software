@@ -47,7 +47,7 @@ namespace EVS_ProductionStatus.Settings
                     grKetThuc.Rows.Clear();
                     DateTime currentTime = DateTime.Now;
 
-                    using (Entities db = new Entities(clConnection.connectEntity))
+                    using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                     {
                         var qr_wo = (from s in db.tblInputs
                                      where s.WOID == woid
@@ -133,7 +133,7 @@ namespace EVS_ProductionStatus.Settings
                     {
                         lbError.Visible = false;
                         string _woid = grBatDau.Rows[0].Cells[0].Value.ToString();
-                        using (Entities db = new Entities(clConnection.connectEntity))
+                        using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {                            
                             var qr_input = (from s in db.tblInputs
                                             where s.WOID == _woid
