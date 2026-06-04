@@ -167,14 +167,14 @@ namespace EVS_ProductionStatus.Settings
             string strThisMonth = thismonth.ToString("00") + "-" + thisyear.ToString("0000");
             string strNextMonth = nextmonth.ToString("00") + "-" + nextyear.ToString("0000");
    
-            grTotal.Columns["totalKitting"].HeaderText = strThisMonth;
-            grTotal.Columns["totalKhau"].HeaderText = strThisMonth;
-            grTotal.Columns["totalQC"].HeaderText = strThisMonth;
+            grTotal.Columns["totalKitting"].HeaderText = "Kitting " + strThisMonth;
+            grTotal.Columns["totalKhau"].HeaderText = "Khâu " + strThisMonth; 
+            grTotal.Columns["totalQC"].HeaderText = "QC " + strThisMonth; 
             //grTotal.Columns["totalDongGoi"].HeaderText = strThisMonth;
 
-            grTotal.Columns["totalKittingNext"].HeaderText = strNextMonth;
-            grTotal.Columns["totalKhauNext"].HeaderText = strNextMonth;
-            grTotal.Columns["totalQCNext"].HeaderText = strNextMonth;
+            grTotal.Columns["totalKittingNext"].HeaderText = "Kitting " + strNextMonth;
+            grTotal.Columns["totalKhauNext"].HeaderText = "Khâu " + strNextMonth; 
+            grTotal.Columns["totalQCNext"].HeaderText = "QC " + strNextMonth ;
             //grTotal.Columns["totalDongGoiNext"].HeaderText = strNextMonth;
 
             grTotal.Columns["totalKittingNext"].Visible = false;
@@ -210,30 +210,6 @@ namespace EVS_ProductionStatus.Settings
             backgroundWorker1.RunWorkerAsync();
         }
 
-
-        // Gọi kết quả tổng nhận được từ procedure
-        private int GetTotalWO(string loaiSP, string yymm)
-        {
-            int result = 0;
-
-            using (SqlConnection conn = new SqlConnection(clConnection.connectString))
-            using (SqlCommand cmd = new SqlCommand("pro_15_Join2database", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@LoaiSP", loaiSP);
-                cmd.Parameters.AddWithValue("@YYMM", yymm);
-
-                conn.Open();
-                object val = cmd.ExecuteScalar();
-
-                if (val != null && val != DBNull.Value)
-                    result = Convert.ToInt32(val);
-            }
-
-            return result;
-        }
-
         private void loaddata(string _loaisp)
         {
             try
@@ -252,9 +228,11 @@ namespace EVS_ProductionStatus.Settings
                     next_wo_string = nextyear.ToString().Substring(2) + nextmonth.ToString("00");
                     using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
                     {
-                        var qr_total = GetTotalWO(_loaisp,cur_wo_string);
 
-                        var qr_total_next = GetTotalWO(_loaisp,next_wo_string);
+                        int qr_total =  db.pro_15_GetTotalWO(_loaisp,cur_wo_string).FirstOrDefault() ?? 0;
+
+                        int qr_total_next = db.pro_15_GetTotalWO(_loaisp, next_wo_string).FirstOrDefault() ?? 0;
+
                         //Bỏ đóng gói
                         ////Dong goi
                         //var dg_ht = (from s in db.tblInputs
@@ -282,23 +260,23 @@ namespace EVS_ProductionStatus.Settings
 
                         //QC
                         var qc_ht = (from s in db.tblInputs
-                                     join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                     join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                      where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
                                      select s).Count();
 
                         var qc_ht_next = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                           where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.QCTime_End != null
                                           select s).Count();
 
                         var qc_sx = (from s in db.tblInputs
-                                     join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                     join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                      where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                                      && s.QCTime_End == null && s.QCTime_Start != null
                                      select s).Count();
 
                         var qc_sx_next = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                           where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                                           && s.QCTime_End == null && s.QCTime_Start != null
                                           select s).Count();
@@ -306,23 +284,23 @@ namespace EVS_ProductionStatus.Settings
 
                         //khau
                         var khau_ht = (from s in db.tblInputs
-                                       join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                       join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                        where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
                                        select s).Count();
 
                         var khau_ht_next = (from s in db.tblInputs
-                                            join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                            join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                             where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.OutTime != null
                                             select s).Count();
 
                         var khau_sx = (from s in db.tblInputs
-                                       join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                       join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                        where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                                        && s.OutTime == null && s.InTime_Start != null
                                        select s).Count();
 
                         var khau_sx_next = (from s in db.tblInputs
-                                            join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                            join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                             where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                                             && s.OutTime == null && s.InTime_Start != null
                                             select s).Count();
@@ -330,23 +308,23 @@ namespace EVS_ProductionStatus.Settings
 
                         //kitting
                         var kitting_ht = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                           where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
                                           select s).Count();
 
                         var kitting_ht_next = (from s in db.tblInputs
-                                               join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                               join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                                where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp && s.KittingTime_End != null
                                                select s).Count();
 
                         var kitting_sx = (from s in db.tblInputs
-                                          join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                          join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                           where s.WOID.Substring(1).StartsWith(cur_wo_string) && l.LoaiSP == _loaisp
                                           && s.KittingTime_End == null && s.KittingTime_Start != null
                                           select s).Count();
 
                         var kitting_sx_next = (from s in db.tblInputs
-                                               join l in db.v_06_LoaiSP on s.WOID equals l.WOID
+                                               join l in db.v_06_LoaiSP on s.WOID equals l.WORK_ORDER_ID
                                                where s.WOID.Substring(1).StartsWith(next_wo_string) && l.LoaiSP == _loaisp
                                                && s.KittingTime_End == null && s.KittingTime_Start != null
                                                select s).Count();
@@ -354,7 +332,7 @@ namespace EVS_ProductionStatus.Settings
                         grTotal.Invoke(new Action(() =>
                         {
                             grTotal.Rows.Clear();
-                            grTotal.Rows.Add(qr_total, qr_total_next, qr_total, qr_total_next, qr_total, qr_total_next, qr_total, qr_total_next);
+                            grTotal.Rows.Add(qr_total, qr_total_next,qr_total, qr_total_next, qr_total, qr_total_next);
                             grTotal.Rows.Add(kitting_ht, kitting_ht_next, khau_ht, khau_ht_next, qc_ht, qc_ht_next);
                             grTotal.Rows.Add(kitting_sx, kitting_sx_next, khau_sx, khau_sx_next, qc_sx, qc_sx_next);
                             grTotal.Rows.Add(qr_total - kitting_ht - kitting_sx, qr_total_next - kitting_ht_next - kitting_sx_next,

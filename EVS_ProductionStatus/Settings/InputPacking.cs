@@ -85,11 +85,11 @@ namespace EVS_ProductionStatus.Settings
 
                             //Lay loai san pham
                             var qr_loaisp = (from s in db.v_06_LoaiSP
-                                             where s.itemnumber == qr_wo.itemnumber
+                                             where s.MES_PART == qr_wo.itemnumber
                                              select s.LoaiSP).FirstOrDefault();
 
                             var qr_kt = (from s in db.tblInputs
-                                         join l in db.v_06_LoaiSP on s.itemnumber equals l.itemnumber
+                                         join l in db.v_06_LoaiSP on s.itemnumber equals l.MES_PART
                                          where l.LoaiSP == qr_loaisp && s.DongGoi_Start != null && s.DongGoi_End == null
                                          select s).ToList();
                             if (qr_kt.Count > 0)

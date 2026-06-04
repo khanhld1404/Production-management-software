@@ -1,6 +1,5 @@
 ﻿using EVS_ProductionStatus.Class;
 using EVS_ProductionStatus.Update_Inventory.Class;
-using Main_Project_Trainee;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,18 +68,6 @@ namespace EVS_ProductionStatus
             f.Show();
         }
 
-        private void btnTrangthaiSX_Treo_Click(object sender, EventArgs e)
-        {
-            ProductionStatus f = new ProductionStatus("TREO");
-            f.Show();
-        }
-
-        private void btnTrangthaiSX_AnaThora_Click(object sender, EventArgs e)
-        {
-            ProductionStatus f = new ProductionStatus("THORA");
-            f.Show();
-        }
-
         private void itemMaBanVe_Click(object sender, EventArgs e)
         {
             View_MasterBanVe f = new View_MasterBanVe();
@@ -117,29 +104,6 @@ namespace EVS_ProductionStatus
             f.Show();
         }
 
-        public static void ShowUserControlAsForm(UserControl uc, string title)
-        {
-            Form frm = new Form();
-            frm.Text = title;
-            frm.StartPosition = FormStartPosition.CenterScreen;
-            frm.Size = uc.Size; // hoặc frm.AutoSize = true;
-            frm.Controls.Add(uc);
-            frm.WindowState = FormWindowState.Maximized;
-            uc.Dock = DockStyle.Fill; // Cho vừa form
-
-            frm.Show(); // hoặc frm.Show();
-        }
-
-        private void btn_HFG_Click(object sender, EventArgs e)
-        {
-            ShowUserControlAsForm(new Form_HFG(),"HFG");
-        }
-
-        private void btn_RM_WIP_Click(object sender, EventArgs e)
-        {
-            ShowUserControlAsForm(new Form_RM_WIP(), "RM_WIP");
-        }
-
         // Thực hiện việc cập nhật dữ liệu trước khi vào chương trình chính
         private void HomeForm_Load(object sender, EventArgs e)
         {
@@ -150,6 +114,22 @@ namespace EVS_ProductionStatus
         private void btn_Ring_Click(object sender, EventArgs e)
         {
             ProductionStatus f = new ProductionStatus();
+            f.Show();
+        }
+
+        private void btn_Inventory_Click(object sender, EventArgs e)
+        {
+            EVS_Inventory f = new EVS_Inventory();
+            f.Show();
+        }
+
+        private void btn_Box_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btn_Status_Details_Production_Click(object sender, EventArgs e)
+        {
+            Status_Details_Menu f = new Status_Details_Menu();
             f.Show();
         }
     }

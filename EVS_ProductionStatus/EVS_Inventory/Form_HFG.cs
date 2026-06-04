@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 // Dùng UserControl để giúp không tạo ra một form hay một tab mới
-namespace Main_Project_Trainee
+namespace EVS_ProductionStatus
 {
     public partial class Form_HFG : UserControl
     {
@@ -28,6 +28,7 @@ namespace Main_Project_Trainee
             InitializeComponent();
         }
         string entityConnString = clConnection.connectString2;
+        List<string> HFG_Location = new List<string>{"9999", "3010", "3008", "3009", "2001", "2101"};
         private void Load_Data()
         {
             // Thiết lập comment cho ô tìm kiếm
@@ -41,19 +42,18 @@ namespace Main_Project_Trainee
             var summary2 = (from em in mb.EVS_Manage
                             join in_e in mb.EVS_Stock
                             // Xét on trên nhiều điều kiện chứ không dùng trong where vì nếu dùng trong where sẽ không lấy được các dòng không đủ dữ liệu 
-                            on new { Item_Number = em.Item_Number, Part = "HFG", Loc = "04020" }
-                            equals new { Item_Number = in_e.MATERIAL_CODE, Part = in_e.MATERIAL_TYPE, Loc = in_e.STORAGE_LOCATION }
-                            into group_check
-                            // Giúp hiện ra cả những thông tin không khớp với cái on bên trên, ở đó các giá trị thiếu sẽ là null (Ở đây nếu thiếu thì Qty = null)
-                            from in_e in group_check.DefaultIfEmpty() 
-                            group new { em, in_e } by em.Item_Type into g
+                            on em.Item_Number equals in_e.MATERIAL_CODE
+                            where in_e.MATERIAL_TYPE == "ZHAL" && !in_e.MATERIAL_TYPE.Contains("EV036") && HFG_Location.Contains(in_e.STORAGE_LOCATION)
+                            group in_e by em.Item_Type into g
                             select new
                             {
                                 ItemType = g.Key,
                                 //Nếu thiếu sẽ ra kết quả bằng 0 vì nếu không thuộc trạng thái sẽ bằng 0
-                                Total = g.Sum(x => (x.in_e.STOCK_TYPE.ToUpper() == "HOLD" || x.in_e.STOCK_TYPE.ToUpper() == "UNDER QA") ? x.in_e.STOCK_QUANTITY : 0),
-                                Hold = g.Sum(x => x.in_e.STOCK_TYPE.ToUpper() == "HOLD" ? x.in_e.STOCK_QUANTITY : 0),
-                                Under_QA = g.Sum(x => x.in_e.STOCK_TYPE.ToUpper() == "UNDER QA" ? x.in_e.STOCK_QUANTITY : 0)
+                                Total = (double)g.Sum(x => x.STOCK_QUANTITY ),
+                                Blocked = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0),
+                                UU = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0),
+                                QI = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0),
+                                Restricted = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0)
                             }).ToList();
             Dgv_Main_HFG.DataSource = summary2;
             // Tính chiều cao dựa trên số dòng + header (Giúp cho bảng hiện thị không bị thừa và cũng không bị thiếu)
@@ -83,13 +83,15 @@ namespace Main_Project_Trainee
                 Data_Overview = (from em in mb.EVS_Manage
                             join in_e in mb.EVS_Stock
                             on em.Item_Number equals in_e.MATERIAL_CODE
-                            where in_e.MATERIAL_TYPE == "HFG" &&
+                            where in_e.MATERIAL_TYPE == "ZHAL" && !in_e.MATERIAL_CODE.Contains("EV036") &&
                                   (
-                                  (sum_type == "Total" && (in_e.STOCK_TYPE.ToUpper() == "HOLD" || in_e.STOCK_TYPE.ToUpper() == "UNDER QA")) ||
-                                  (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD") ||
-                                  (sum_type == "Under_QA" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA")
+                                  (sum_type == "Total" ) ||
+                                  (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED") ||
+                                  (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU") ||
+                                  (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI") ||
+                                  (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED")
                                   ) &&
-                                  in_e.STORAGE_LOCATION == "04020"
+                                  HFG_Location.Contains(in_e.STORAGE_LOCATION)
                                   &&
                                   em.Item_Type == Item_type
                             group new { em, in_e } by em.Item_Number into g
@@ -102,13 +104,15 @@ namespace Main_Project_Trainee
                 Data_Detail = (from em in mb.EVS_Manage
                             join in_e in mb.EVS_Stock
                             on em.Item_Number equals in_e.MATERIAL_CODE
-                            where in_e.MATERIAL_TYPE == "HFG" &&
+                            where in_e.MATERIAL_TYPE == "ZHAL" && !in_e.MATERIAL_CODE.Contains("EV036") &&
                                   (
-                                  (sum_type == "Total" && (in_e.STOCK_TYPE.ToUpper() == "HOLD" || in_e.STOCK_TYPE.ToUpper() == "UNDER QA")) ||
-                                  (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD") ||
-                                  (sum_type == "Under_QA" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA")
+                                  (sum_type == "Total") ||
+                                  (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED") ||
+                                  (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU") ||
+                                  (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI") ||
+                                  (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED")
                                   ) &&
-                                  in_e.STORAGE_LOCATION == "04020"
+                                  HFG_Location.Contains(in_e.STORAGE_LOCATION)
                                   &&
                                   em.Item_Type == Item_type
                             group new { em, in_e } by new { em.Item_Number, in_e.BATCH_NUMBER } into g
@@ -135,7 +139,6 @@ namespace Main_Project_Trainee
                     Dgv_Details_HFG.DataSource = Data_Detail;
                     Dgv_Details_HFG.Tag = "HFG_Detail";
                 }
-
             }
         }
 

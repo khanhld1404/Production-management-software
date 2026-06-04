@@ -377,8 +377,8 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_06_LoaiSP' does not hav
           <Key>
             <PropertyRef Name="LoaiSP" />
           </Key>
-          <Property Name="itemnumber" Type="varchar" MaxLength="150" />
-          <Property Name="WOID" Type="varchar" MaxLength="150" />
+          <Property Name="MES_PART" Type="varchar" MaxLength="150" />
+          <Property Name="WORK_ORDER_ID" Type="varchar" MaxLength="150" />
           <Property Name="LoaiSP" Type="varchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -465,7 +465,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
         <Function Name="pro_14_TrangThaiSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LoaiSP" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="pro_15_Join2database" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="pro_15_GetTotalWO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LoaiSP" Type="nvarchar" Mode="In" />
           <Parameter Name="YYMM" Type="char" Mode="In" />
         </Function>
@@ -578,8 +578,8 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           </EntitySet>
           <EntitySet Name="v_06_LoaiSP" EntityType="Self.v_06_LoaiSP" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [v_06_LoaiSP].[itemnumber] AS [itemnumber], 
-    [v_06_LoaiSP].[WOID] AS [WOID], 
+    [v_06_LoaiSP].[MES_PART] AS [MES_PART], 
+    [v_06_LoaiSP].[WORK_ORDER_ID] AS [WORK_ORDER_ID], 
     [v_06_LoaiSP].[LoaiSP] AS [LoaiSP]
     FROM [dbo].[v_06_LoaiSP] AS [v_06_LoaiSP]</DefiningQuery>
           </EntitySet>
@@ -924,14 +924,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="userid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="v_06_LoaiSP">
-          <Key>
-            <PropertyRef Name="LoaiSP" />
-          </Key>
-          <Property Name="itemnumber" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="WOID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="LoaiSP" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
         <EntityType Name="v_DSLoaiSP">
           <Key>
             <PropertyRef Name="loaisp" />
@@ -956,7 +948,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="v_04_DongGoi" EntityType="Self.v_04_DongGoi" />
           <EntitySet Name="v_05_KhauDetail" EntityType="Self.v_05_KhauDetail" />
           <EntitySet Name="v_05_QCDetail" EntityType="Self.v_05_QCDetail" />
-          <EntitySet Name="v_06_LoaiSP" EntityType="Self.v_06_LoaiSP" />
           <EntitySet Name="v_DSLoaiSP" EntityType="Self.v_DSLoaiSP" />
           <FunctionImport Name="pro_01_truncateWO" />
           <FunctionImport Name="pro_02_tblInputWithTime" ReturnType="Collection(EVS_ProductionStatusModel.pro_02_tblInputWithTime_Result)">
@@ -1025,10 +1016,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <FunctionImport Name="pro_14_TrangThaiSP" ReturnType="Collection(EVS_ProductionStatusModel.pro_14_TrangThaiSP_Result)">
           <Parameter Name="LoaiSP" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="pro_15_Join2database" ReturnType="Collection(Int32)">
-            <Parameter Name="LoaiSP" Mode="In" Type="String" />
-            <Parameter Name="YYMM" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="pro_16_KittingRing" ReturnType="Collection(EVS_ProductionStatusModel.pro_16_KittingRing_Result)">
             <Parameter Name="from" Mode="In" Type="DateTime" />
             <Parameter Name="to" Mode="In" Type="DateTime" />
@@ -1046,6 +1033,11 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
             <Parameter Name="wo" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="tblInput_Ring" EntityType="EVS_ProductionStatusModel.tblInput_Ring" />
+          <FunctionImport Name="pro_15_GetTotalWO" ReturnType="Collection(Int32)">
+            <Parameter Name="LoaiSP" Mode="In" Type="String" />
+            <Parameter Name="YYMM" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="v_06_LoaiSP" EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" />
         </EntityContainer>
         <ComplexType Name="pro_02_tblInputWithTime_Result">
           <Property Type="Int64" Name="STT" Nullable="true" />
@@ -1364,6 +1356,14 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="DongGoi_End" Type="DateTime" Precision="3" />
           <Property Name="DongGoiGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="UserDongGoi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="v_06_LoaiSP">
+          <Key>
+            <PropertyRef Name="LoaiSP" />
+          </Key>
+          <Property Name="MES_PART" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="WORK_ORDER_ID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="LoaiSP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1719,15 +1719,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="v_06_LoaiSP">
-            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_06_LoaiSP">
-              <MappingFragment StoreEntitySet="v_06_LoaiSP">
-                <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
-                <ScalarProperty Name="WOID" ColumnName="WOID" />
-                <ScalarProperty Name="LoaiSP" ColumnName="LoaiSP" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="v_DSLoaiSP">
             <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_DSLoaiSP">
               <MappingFragment StoreEntitySet="v_DSLoaiSP">
@@ -2015,7 +2006,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="pro_15_Join2database" FunctionName="EVS_ProductionStatusModel.Store.pro_15_Join2database" />
           <FunctionImportMapping FunctionImportName="pro_16_KittingRing" FunctionName="EVS_ProductionStatusModel.Store.pro_16_KittingRing">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_16_KittingRing_Result">
@@ -2098,6 +2088,16 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
                 <ScalarProperty Name="itemnumber" ColumnName="itemnumber" />
                 <ScalarProperty Name="workorder" ColumnName="workorder" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="pro_15_GetTotalWO" FunctionName="EVS_ProductionStatusModel.Store.pro_15_GetTotalWO" />
+          <EntitySetMapping Name="v_06_LoaiSP">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.v_06_LoaiSP">
+              <MappingFragment StoreEntitySet="v_06_LoaiSP">
+                <ScalarProperty Name="LoaiSP" ColumnName="LoaiSP" />
+                <ScalarProperty Name="WORK_ORDER_ID" ColumnName="WORK_ORDER_ID" />
+                <ScalarProperty Name="MES_PART" ColumnName="MES_PART" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

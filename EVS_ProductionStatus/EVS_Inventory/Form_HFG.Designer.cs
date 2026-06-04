@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Main_Project_Trainee
+namespace EVS_ProductionStatus
 {
     partial class Form_HFG
     {

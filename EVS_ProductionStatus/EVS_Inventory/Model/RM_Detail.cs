@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace EVS_ProductionStatus.Update_Inventory.Model
 {
-    internal class RM_WIP_Elink
+    internal class RM_Detail
     {
         public string ItemCode { get; set; }
         public string Lotno { get; set; }
         public string Status { get; set; }
-        public double Tồn { get; set; }
-        public double Allocate { get; set; }
-        public double Khả_dụng { get; set; }
-        public string Connect_Eink { get; set; }
+        public decimal Total { get; set; }
+        public decimal Total_Blocked { get; set; }
+        public decimal Total_UU { get; set; }
+
+        public decimal Total_QI { get; set; }
+
+        public decimal Total_Restricted { get; set; }
     }
 }

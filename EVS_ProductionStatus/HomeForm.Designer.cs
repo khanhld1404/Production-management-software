@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeForm));
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.thiếtLậpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,15 +48,14 @@
             this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.btn_check_category = new System.Windows.Forms.Button();
             this.btn_Ring = new System.Windows.Forms.Button();
-            this.btn_RM_WIP = new System.Windows.Forms.Button();
-            this.btn_HFG = new System.Windows.Forms.Button();
+            this.btn_Box = new System.Windows.Forms.Button();
+            this.btn_Inventory = new System.Windows.Forms.Button();
             this.btnOperatorStatus = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
-            this.btnTrangthaiSX_Treo = new System.Windows.Forms.Button();
-            this.btnTrangthaiSX_AnaThora = new System.Windows.Forms.Button();
+            this.btn_Status_Details_Production = new System.Windows.Forms.Button();
             this.btnTrangthaiSXOther = new System.Windows.Forms.Button();
-            this.btnTrangthaiSX_Relay = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -186,11 +184,10 @@
             // 
             this.toolInput.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolPacking});
-            this.toolInput.Image = ((System.Drawing.Image)(resources.GetObject("toolInput.Image")));
             this.toolInput.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolInput.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolInput.Name = "toolInput";
-            this.toolInput.Size = new System.Drawing.Size(120, 36);
+            this.toolInput.Size = new System.Drawing.Size(88, 36);
             this.toolInput.Text = "Nhập dữ liệu";
             // 
             // toolPacking
@@ -213,15 +210,32 @@
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "warehouse-storage.png");
             // 
             // imageList2
             // 
-            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList2.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList2.Images.SetKeyName(0, "warehouse.png");
+            // 
+            // btn_check_category
+            // 
+            this.btn_check_category.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_check_category.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_check_category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_check_category.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_check_category.ForeColor = System.Drawing.Color.Navy;
+            this.btn_check_category.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_category_68;
+            this.btn_check_category.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_check_category.Location = new System.Drawing.Point(525, 282);
+            this.btn_check_category.Name = "btn_check_category";
+            this.btn_check_category.Size = new System.Drawing.Size(162, 132);
+            this.btn_check_category.TabIndex = 13;
+            this.btn_check_category.Text = "Theo dõi hạng mục kiểm tra";
+            this.btn_check_category.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_check_category.UseVisualStyleBackColor = true;
             // 
             // btn_Ring
             // 
@@ -232,52 +246,50 @@
             this.btn_Ring.ForeColor = System.Drawing.Color.Navy;
             this.btn_Ring.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circle_70;
             this.btn_Ring.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Ring.Location = new System.Drawing.Point(287, 272);
+            this.btn_Ring.Location = new System.Drawing.Point(525, 124);
             this.btn_Ring.Name = "btn_Ring";
-            this.btn_Ring.Size = new System.Drawing.Size(181, 132);
+            this.btn_Ring.Size = new System.Drawing.Size(162, 132);
             this.btn_Ring.TabIndex = 12;
             this.btn_Ring.Text = "Trạng thái sản xuất vòng";
             this.btn_Ring.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Ring.UseVisualStyleBackColor = true;
             this.btn_Ring.Click += new System.EventHandler(this.btn_Ring_Click);
             // 
-            // btn_RM_WIP
+            // btn_Box
             // 
-            this.btn_RM_WIP.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_RM_WIP.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_RM_WIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_RM_WIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_RM_WIP.ForeColor = System.Drawing.Color.Navy;
-            this.btn_RM_WIP.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_RM_WIP.ImageIndex = 0;
-            this.btn_RM_WIP.ImageList = this.imageList2;
-            this.btn_RM_WIP.Location = new System.Drawing.Point(287, 435);
-            this.btn_RM_WIP.Name = "btn_RM_WIP";
-            this.btn_RM_WIP.Size = new System.Drawing.Size(181, 132);
-            this.btn_RM_WIP.TabIndex = 11;
-            this.btn_RM_WIP.Text = "Tồn RM WIP";
-            this.btn_RM_WIP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_RM_WIP.UseVisualStyleBackColor = true;
-            this.btn_RM_WIP.Click += new System.EventHandler(this.btn_RM_WIP_Click);
+            this.btn_Box.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Box.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Box.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Box.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Box.ForeColor = System.Drawing.Color.Navy;
+            this.btn_Box.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_box_70;
+            this.btn_Box.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Box.Location = new System.Drawing.Point(287, 282);
+            this.btn_Box.Name = "btn_Box";
+            this.btn_Box.Size = new System.Drawing.Size(181, 132);
+            this.btn_Box.TabIndex = 11;
+            this.btn_Box.Text = "Thông tin đóng thùng";
+            this.btn_Box.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Box.UseVisualStyleBackColor = true;
+            this.btn_Box.Click += new System.EventHandler(this.btn_Box_Click);
             // 
-            // btn_HFG
+            // btn_Inventory
             // 
-            this.btn_HFG.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_HFG.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_HFG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_HFG.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_HFG.ForeColor = System.Drawing.Color.Navy;
-            this.btn_HFG.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_HFG.ImageIndex = 0;
-            this.btn_HFG.ImageList = this.imageList1;
-            this.btn_HFG.Location = new System.Drawing.Point(64, 435);
-            this.btn_HFG.Name = "btn_HFG";
-            this.btn_HFG.Size = new System.Drawing.Size(162, 132);
-            this.btn_HFG.TabIndex = 10;
-            this.btn_HFG.Text = "Tồn HFG";
-            this.btn_HFG.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_HFG.UseVisualStyleBackColor = true;
-            this.btn_HFG.Click += new System.EventHandler(this.btn_HFG_Click);
+            this.btn_Inventory.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Inventory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Inventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Inventory.ForeColor = System.Drawing.Color.Navy;
+            this.btn_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_warehouse_70;
+            this.btn_Inventory.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Inventory.Location = new System.Drawing.Point(64, 282);
+            this.btn_Inventory.Name = "btn_Inventory";
+            this.btn_Inventory.Size = new System.Drawing.Size(162, 132);
+            this.btn_Inventory.TabIndex = 10;
+            this.btn_Inventory.Text = "Thông tin tồn kho";
+            this.btn_Inventory.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Inventory.UseVisualStyleBackColor = true;
+            this.btn_Inventory.Click += new System.EventHandler(this.btn_Inventory_Click);
             // 
             // btnOperatorStatus
             // 
@@ -288,9 +300,9 @@
             this.btnOperatorStatus.ForeColor = System.Drawing.Color.Navy;
             this.btnOperatorStatus.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_user_groups_64;
             this.btnOperatorStatus.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnOperatorStatus.Location = new System.Drawing.Point(525, 435);
+            this.btnOperatorStatus.Location = new System.Drawing.Point(287, 435);
             this.btnOperatorStatus.Name = "btnOperatorStatus";
-            this.btnOperatorStatus.Size = new System.Drawing.Size(162, 132);
+            this.btnOperatorStatus.Size = new System.Drawing.Size(181, 132);
             this.btnOperatorStatus.TabIndex = 8;
             this.btnOperatorStatus.Text = "Tình trạng người thao tác";
             this.btnOperatorStatus.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -306,7 +318,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.Navy;
             this.btnExport.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnExport.Location = new System.Drawing.Point(525, 272);
+            this.btnExport.Location = new System.Drawing.Point(64, 435);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(162, 132);
             this.btnExport.TabIndex = 5;
@@ -315,41 +327,23 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
-            // btnTrangthaiSX_Treo
+            // btn_Status_Details_Production
             // 
-            this.btnTrangthaiSX_Treo.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnTrangthaiSX_Treo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnTrangthaiSX_Treo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTrangthaiSX_Treo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTrangthaiSX_Treo.ForeColor = System.Drawing.Color.Navy;
-            this.btnTrangthaiSX_Treo.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor1;
-            this.btnTrangthaiSX_Treo.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTrangthaiSX_Treo.Location = new System.Drawing.Point(64, 272);
-            this.btnTrangthaiSX_Treo.Name = "btnTrangthaiSX_Treo";
-            this.btnTrangthaiSX_Treo.Size = new System.Drawing.Size(162, 132);
-            this.btnTrangthaiSX_Treo.TabIndex = 4;
-            this.btnTrangthaiSX_Treo.Text = "Trạng thái sản xuất - TREO";
-            this.btnTrangthaiSX_Treo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTrangthaiSX_Treo.UseVisualStyleBackColor = true;
-            this.btnTrangthaiSX_Treo.Click += new System.EventHandler(this.btnTrangthaiSX_Treo_Click);
-            // 
-            // btnTrangthaiSX_AnaThora
-            // 
-            this.btnTrangthaiSX_AnaThora.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnTrangthaiSX_AnaThora.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnTrangthaiSX_AnaThora.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTrangthaiSX_AnaThora.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTrangthaiSX_AnaThora.ForeColor = System.Drawing.Color.Navy;
-            this.btnTrangthaiSX_AnaThora.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor2;
-            this.btnTrangthaiSX_AnaThora.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTrangthaiSX_AnaThora.Location = new System.Drawing.Point(287, 124);
-            this.btnTrangthaiSX_AnaThora.Name = "btnTrangthaiSX_AnaThora";
-            this.btnTrangthaiSX_AnaThora.Size = new System.Drawing.Size(181, 132);
-            this.btnTrangthaiSX_AnaThora.TabIndex = 4;
-            this.btnTrangthaiSX_AnaThora.Text = "Trạng thái sản xuất - THORA";
-            this.btnTrangthaiSX_AnaThora.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTrangthaiSX_AnaThora.UseVisualStyleBackColor = true;
-            this.btnTrangthaiSX_AnaThora.Click += new System.EventHandler(this.btnTrangthaiSX_AnaThora_Click);
+            this.btn_Status_Details_Production.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Status_Details_Production.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Status_Details_Production.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Status_Details_Production.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Status_Details_Production.ForeColor = System.Drawing.Color.Navy;
+            this.btn_Status_Details_Production.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor2;
+            this.btn_Status_Details_Production.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Status_Details_Production.Location = new System.Drawing.Point(287, 124);
+            this.btn_Status_Details_Production.Name = "btn_Status_Details_Production";
+            this.btn_Status_Details_Production.Size = new System.Drawing.Size(181, 132);
+            this.btn_Status_Details_Production.TabIndex = 4;
+            this.btn_Status_Details_Production.Text = "Trạng thái sản xuất chi tiết";
+            this.btn_Status_Details_Production.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Status_Details_Production.UseVisualStyleBackColor = true;
+            this.btn_Status_Details_Production.Click += new System.EventHandler(this.btn_Status_Details_Production_Click);
             // 
             // btnTrangthaiSXOther
             // 
@@ -369,46 +363,27 @@
             this.btnTrangthaiSXOther.UseVisualStyleBackColor = true;
             this.btnTrangthaiSXOther.Click += new System.EventHandler(this.btnTrangthaiSXOther_Click);
             // 
-            // btnTrangthaiSX_Relay
-            // 
-            this.btnTrangthaiSX_Relay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnTrangthaiSX_Relay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnTrangthaiSX_Relay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTrangthaiSX_Relay.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTrangthaiSX_Relay.ForeColor = System.Drawing.Color.Navy;
-            this.btnTrangthaiSX_Relay.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor;
-            this.btnTrangthaiSX_Relay.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnTrangthaiSX_Relay.Location = new System.Drawing.Point(525, 124);
-            this.btnTrangthaiSX_Relay.Name = "btnTrangthaiSX_Relay";
-            this.btnTrangthaiSX_Relay.Size = new System.Drawing.Size(162, 132);
-            this.btnTrangthaiSX_Relay.TabIndex = 4;
-            this.btnTrangthaiSX_Relay.Text = "Trạng thái sản xuất - RELAY";
-            this.btnTrangthaiSX_Relay.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTrangthaiSX_Relay.UseVisualStyleBackColor = true;
-            this.btnTrangthaiSX_Relay.Click += new System.EventHandler(this.btnTrangthaiSX_Click);
-            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 623);
+            this.Controls.Add(this.btn_check_category);
             this.Controls.Add(this.btn_Ring);
-            this.Controls.Add(this.btn_RM_WIP);
-            this.Controls.Add(this.btn_HFG);
+            this.Controls.Add(this.btn_Box);
+            this.Controls.Add(this.btn_Inventory);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.btnOperatorStatus);
             this.Controls.Add(this.btnExport);
-            this.Controls.Add(this.btnTrangthaiSX_Treo);
-            this.Controls.Add(this.btnTrangthaiSX_AnaThora);
+            this.Controls.Add(this.btn_Status_Details_Production);
             this.Controls.Add(this.btnTrangthaiSXOther);
-            this.Controls.Add(this.btnTrangthaiSX_Relay);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "HomeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "nhưn";
+            this.Text = "Quản lý sản xuất EVS";
             this.Load += new System.EventHandler(this.HomeForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -420,8 +395,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnTrangthaiSX_Relay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -433,8 +406,7 @@
         private System.Windows.Forms.ToolStripMenuItem itemNguoiThaoTac;
         private System.Windows.Forms.Button btnTrangthaiSXOther;
         private System.Windows.Forms.ToolStripMenuItem itemWOBaoLuu;
-        private System.Windows.Forms.Button btnTrangthaiSX_AnaThora;
-        private System.Windows.Forms.Button btnTrangthaiSX_Treo;
+        private System.Windows.Forms.Button btn_Status_Details_Production;
         private System.Windows.Forms.ToolStripMenuItem masterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem itemMaBanVe;
         private System.Windows.Forms.Button btnOperatorStatus;
@@ -444,11 +416,11 @@
         private System.Windows.Forms.ToolStripMenuItem toolPacking;
         private System.Windows.Forms.ToolStripButton toolTrangThaiSP;
         private System.Windows.Forms.ToolStripMenuItem itemThoiGianKhau;
-        private System.Windows.Forms.Button btn_HFG;
+        private System.Windows.Forms.Button btn_Inventory;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.Button btn_RM_WIP;
+        private System.Windows.Forms.Button btn_Box;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.Button btn_Ring;
+        private System.Windows.Forms.Button btn_check_category;
     }
 }
-

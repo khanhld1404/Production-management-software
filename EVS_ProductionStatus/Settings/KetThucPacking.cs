@@ -47,7 +47,7 @@ namespace EVS_ProductionStatus.Settings
                     {
                         //Cap nhat toan bo workorder da end ma chua co ma nhan vien
                         var qr_userdonggoi = (from s in db.tblInputs
-                                              join v in db.v_06_LoaiSP on s.itemnumber equals v.itemnumber
+                                              join v in db.v_06_LoaiSP on s.itemnumber equals v.MES_PART
                                               where s.DongGoi_End != null && s.UserDongGoi == null
                                               && v.LoaiSP == cbLoaiSP.Text
                                               select s).ToList();

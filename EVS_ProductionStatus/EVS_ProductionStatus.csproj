@@ -210,6 +210,12 @@
     <Compile Include="DataExport\ExportQC.Designer.cs">
       <DependentUpon>ExportQC.cs</DependentUpon>
     </Compile>
+    <Compile Include="EVS_Inventory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EVS_Inventory.Designer.cs">
+      <DependentUpon>EVS_Inventory.cs</DependentUpon>
+    </Compile>
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +266,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="pro_02_tblInputWithTime_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
@@ -350,6 +361,12 @@
     <Compile Include="Settings\ThietLapFile.Designer.cs">
       <DependentUpon>ThietLapFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Status_Details_Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Status_Details_Menu.Designer.cs">
+      <DependentUpon>Status_Details_Menu.cs</DependentUpon>
+    </Compile>
     <Compile Include="tblBanVe.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
@@ -392,22 +409,22 @@
     <Compile Include="tblViTriNguoiTT.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="UC_Status.cs">
+    <Compile Include="UC_Status\UC_Status.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC_Status.Designer.cs">
+    <Compile Include="UC_Status\UC_Status.Designer.cs">
       <DependentUpon>UC_Status.cs</DependentUpon>
     </Compile>
-    <Compile Include="UC_Status_OneCategory.cs">
+    <Compile Include="UC_Status\UC_Status_OneCategory.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC_Status_OneCategory.Designer.cs">
+    <Compile Include="UC_Status\UC_Status_OneCategory.Designer.cs">
       <DependentUpon>UC_Status_OneCategory.cs</DependentUpon>
     </Compile>
-    <Compile Include="UC_Status_Ring.cs">
+    <Compile Include="UC_Status\UC_Status_Ring.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC_Status_Ring.Designer.cs">
+    <Compile Include="UC_Status\UC_Status_Ring.Designer.cs">
       <DependentUpon>UC_Status_Ring.cs</DependentUpon>
     </Compile>
     <Compile Include="UC_ViTriThaoTac.cs">
@@ -422,50 +439,50 @@
     <Compile Include="Settings\View_MasterBanVe.Designer.cs">
       <DependentUpon>View_MasterBanVe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Update_Inventory\Class\Excel_Multi_Sheet.cs" />
-    <Compile Include="Update_Inventory\Class\Excel_Only_Sheet.cs" />
-    <Compile Include="Update_Inventory\Class\Other_function.cs" />
-    <Compile Include="Update_Inventory\Class\Placeholder.cs" />
-    <Compile Include="Update_Inventory\Class\Reload_Inventory_Infor.cs" />
-    <Compile Include="Update_Inventory\Elink_NVL.cs">
+    <Compile Include="EVS_Inventory\Class\Excel_Multi_Sheet.cs" />
+    <Compile Include="EVS_Inventory\Class\Excel_Only_Sheet.cs" />
+    <Compile Include="EVS_Inventory\Class\Other_function.cs" />
+    <Compile Include="EVS_Inventory\Class\Placeholder.cs" />
+    <Compile Include="EVS_Inventory\Class\Reload_Inventory_Infor.cs" />
+    <Compile Include="EVS_Inventory\Elink_NVL.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Update_Inventory\Elink_NVL.Designer.cs">
+    <Compile Include="EVS_Inventory\Elink_NVL.Designer.cs">
       <DependentUpon>Elink_NVL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Update_Inventory\Form_HFG.cs">
+    <Compile Include="EVS_Inventory\Form_HFG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Update_Inventory\Form_HFG.Designer.cs">
+    <Compile Include="EVS_Inventory\Form_HFG.Designer.cs">
       <DependentUpon>Form_HFG.cs</DependentUpon>
     </Compile>
-    <Compile Include="Update_Inventory\Form_Kitting.cs">
+    <Compile Include="EVS_Inventory\Form_Kitting.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Update_Inventory\Form_Kitting.Designer.cs">
+    <Compile Include="EVS_Inventory\Form_Kitting.Designer.cs">
       <DependentUpon>Form_Kitting.cs</DependentUpon>
     </Compile>
-    <Compile Include="Update_Inventory\Form_RM_WIP.cs">
+    <Compile Include="EVS_Inventory\Form_RM.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Update_Inventory\Form_RM_WIP.Designer.cs">
-      <DependentUpon>Form_RM_WIP.cs</DependentUpon>
+    <Compile Include="EVS_Inventory\Form_RM.Designer.cs">
+      <DependentUpon>Form_RM.cs</DependentUpon>
     </Compile>
-    <Compile Include="Update_Inventory\LoadingOverlay.cs">
+    <Compile Include="EVS_Inventory\LoadingOverlay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Update_Inventory\LoadingOverlay.Designer.cs">
+    <Compile Include="EVS_Inventory\LoadingOverlay.Designer.cs">
       <DependentUpon>LoadingOverlay.cs</DependentUpon>
     </Compile>
-    <Compile Include="Update_Inventory\Model\Get_Link.cs" />
-    <Compile Include="Update_Inventory\Model\HFG_Detail.cs" />
-    <Compile Include="Update_Inventory\Model\HFG_Overview.cs" />
-    <Compile Include="Update_Inventory\Model\Kitting_Type.cs" />
-    <Compile Include="Update_Inventory\Model\Link_Eink.cs" />
-    <Compile Include="Update_Inventory\Model\Product_Eink.cs" />
-    <Compile Include="Update_Inventory\Model\RM_WIP_Detail.cs" />
-    <Compile Include="Update_Inventory\Model\RM_WIP_Elink.cs" />
-    <Compile Include="Update_Inventory\Model\RM_WIP_Overview.cs" />
+    <Compile Include="EVS_Inventory\Model\Get_Link.cs" />
+    <Compile Include="EVS_Inventory\Model\HFG_Detail.cs" />
+    <Compile Include="EVS_Inventory\Model\HFG_Overview.cs" />
+    <Compile Include="EVS_Inventory\Model\Kitting_Type.cs" />
+    <Compile Include="EVS_Inventory\Model\Link_Eink.cs" />
+    <Compile Include="EVS_Inventory\Model\Product_Eink.cs" />
+    <Compile Include="EVS_Inventory\Model\RM_Detail.cs" />
+    <Compile Include="EVS_Inventory\Model\RM_Elink.cs" />
+    <Compile Include="EVS_Inventory\Model\RM_Overview.cs" />
     <Compile Include="v_01_Kitting.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
@@ -511,6 +528,9 @@
     <EmbeddedResource Include="DataExport\ExportQC.resx">
       <DependentUpon>ExportQC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EVS_Inventory.resx">
+      <DependentUpon>EVS_Inventory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -537,14 +557,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Settings\InputPacking.resx">
       <DependentUpon>InputPacking.cs</DependentUpon>
     </EmbeddedResource>
@@ -575,13 +590,16 @@
     <EmbeddedResource Include="Settings\WOChamDongGoi.resx">
       <DependentUpon>WOChamDongGoi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC_Status.resx">
+    <EmbeddedResource Include="Status_Details_Menu.resx">
+      <DependentUpon>Status_Details_Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Status\UC_Status.resx">
       <DependentUpon>UC_Status.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC_Status_OneCategory.resx">
+    <EmbeddedResource Include="UC_Status\UC_Status_OneCategory.resx">
       <DependentUpon>UC_Status_OneCategory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC_Status_Ring.resx">
+    <EmbeddedResource Include="UC_Status\UC_Status_Ring.resx">
       <DependentUpon>UC_Status_Ring.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC_ViTriThaoTac.resx">
@@ -590,17 +608,17 @@
     <EmbeddedResource Include="Settings\View_MasterBanVe.resx">
       <DependentUpon>View_MasterBanVe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Update_Inventory\Elink_NVL.resx">
+    <EmbeddedResource Include="EVS_Inventory\Elink_NVL.resx">
       <DependentUpon>Elink_NVL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Update_Inventory\Form_HFG.resx">
+    <EmbeddedResource Include="EVS_Inventory\Form_HFG.resx">
       <DependentUpon>Form_HFG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Update_Inventory\Form_Kitting.resx">
+    <EmbeddedResource Include="EVS_Inventory\Form_Kitting.resx">
       <DependentUpon>Form_Kitting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Update_Inventory\Form_RM_WIP.resx">
-      <DependentUpon>Form_RM_WIP.cs</DependentUpon>
+    <EmbeddedResource Include="EVS_Inventory\Form_RM.resx">
+      <DependentUpon>Form_RM.cs</DependentUpon>
     </EmbeddedResource>
     <EntityDeploy Include="Data\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -652,6 +670,16 @@
       <LastGenOutput>db.cs</LastGenOutput>
     </Content>
     <Content Include="icons8-circuit-70.ico" />
+    <None Include="Resources\icons8-book-70 %282%29.png" />
+    <None Include="Resources\icons8-book-70 %281%29.png" />
+    <None Include="Resources\icons8-book-70.png" />
+    <None Include="Resources\anh3.png" />
+    <None Include="Resources\anh2.png" />
+    <None Include="Resources\anh1.png" />
+    <None Include="Resources\icons8-category-68.png" />
+    <None Include="Resources\icons8-category-70.png" />
+    <None Include="Resources\icons8-box-70.png" />
+    <None Include="Resources\icons8-warehouse-70.png" />
     <None Include="Resources\icons8-circle-70.png" />
     <None Include="Resources\icons8-circle-1001.png" />
     <None Include="Resources\icons8-circle-100.png" />

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cce37936ca544ced9d5dabafe8020b24" Name="Diagram1">
+      <Diagram DiagramId="cce37936ca544ced9d5dabafe8020b24" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblBanVe" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblContent" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblDongGoi" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
@@ -22,9 +22,9 @@
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_04_DongGoi" Width="1.5" PointX="10.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_05_KhauDetail" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_05_QCDetail" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" Width="1.5" PointX="2.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_DSLoaiSP" Width="1.5" PointX="12.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblInput_Ring" Width="1.5" PointX="13.375" PointY="7.75" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" Width="1.5" PointX="3.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

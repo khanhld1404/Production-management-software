@@ -24,9 +24,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace EVS_ProductionStatus
 {
-    public partial class Form_RM_WIP : UserControl
+    public partial class Form_RM : UserControl
     {
-        public Form_RM_WIP()
+        public Form_RM()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace EVS_ProductionStatus
         bool IsTargetLoc(string loc)
         {
             var l = loc?.Trim();
-            return l == "04015" || l == "04010";
+            return l == "9999" || l == "3010" || l == "3008" || l == "3009" || l == "1001" || l == "1101";
         }
         // Kiểm tra trạng thái, do trạng thái có thể viết là Passed hoặc PASSED thì ta cần phải cho in hoa hết hoặc in thường hết  để kiểm tra được chính xác
         string NormalizeStatus(string status)
@@ -54,12 +54,12 @@ namespace EVS_ProductionStatus
         // Danh sách nhóm cho grid RM/WIP
         private readonly List<HeaderGroup> _rmwipGroups = new List<HeaderGroup>
         {
-            new HeaderGroup { Text = "Sản xuất", ColumnNames = new [] { "Total_EVS","Pass","Hold" } },
-            new HeaderGroup { Text = "Ngoài sản xuất", ColumnNames = new [] { "Total_NSX","UnderQA_NSX ","Pass_NSX","Hold_NSX" } }
+            new HeaderGroup { Text = "Bộ Phận EVS", ColumnNames = new [] { "Total_EVS","Blocked","UU","QI","Restricted" } },
+            new HeaderGroup { Text = "Ngoài EVS", ColumnNames = new [] { "Total_NSX","Blocked_NSX","UU_NSX","QI_NSX","Restricted_NSX" } }
         };
 
         // Vẽ lại "nhãn cột" ở nửa dưới header
-        private void Data_Main_RM_WIP_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        private void Data_Main_RM_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == -1 && e.ColumnIndex >= 0)
             {
@@ -91,7 +91,7 @@ namespace EVS_ProductionStatus
         }
 
         // Vẽ "nhóm" ở nửa trên header
-        private void Data_Main_RM_WIP_Paint(object sender, PaintEventArgs e)
+        private void Data_Main_RM_Paint(object sender, PaintEventArgs e)
         {
             var dgv = (DataGridView)sender;
             int topHeight = dgv.ColumnHeadersHeight / 2;
@@ -153,7 +153,7 @@ namespace EVS_ProductionStatus
         }
 
         // Bắt sự kiện để vẽ lại khi cuộn / đổi width
-        private void Data_Main_RM_WIP_Scroll(object sender, ScrollEventArgs e) => ((DataGridView)sender).Invalidate();
+        private void Data_Main_RM_Scroll(object sender, ScrollEventArgs e) => ((DataGridView)sender).Invalidate();
 
 
         //Xây dựng và  gọi api để load và  cập nhật dữ liệu lên thẻ eink
@@ -227,7 +227,7 @@ namespace EVS_ProductionStatus
         //}
 
         //Load dữ liệu ban đầu
-        private void Form_RM_WIP_Load(object sender, EventArgs e)
+        private void Form_RM_Load(object sender, EventArgs e)
         {
             //Set_Eink();
             Load_Data();
@@ -241,7 +241,7 @@ namespace EVS_ProductionStatus
             Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
 
             var summary1 = mb.EVS_Stock
-                .Where(x => x.MATERIAL_TYPE == "RM" || x.MATERIAL_TYPE == "WIP")
+                .Where(x => x.MATERIAL_TYPE == "ZROH")
                 .Select(p => new
                 {
                     Qty = p.STOCK_QUANTITY,                  // giả định decimal?
@@ -257,232 +257,264 @@ namespace EVS_ProductionStatus
                     .Where(x => !IsTargetLoc(x.STORAGE_LOCATION))
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
             );
 
-            // Under QA ngoài SX
-            var UnderQA_NSX = Math.Round(
+            // Blocked ngoài SX
+            var Blocked_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "UNDER QA")
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "BLOCKED")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
             );
 
-            // Passed ngoài SX
-            var Pass_NSX = Math.Round(
+            // UU ngoài SX
+            var UU_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "PASSED")
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "UU")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
             );
 
-            // Hold ngoài SX
-            var Hold_NSX = Math.Round(
+            // QI ngoài SX
+            var QI_NSX = Math.Round(
                 summary1
-                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "HOLD")
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "QI")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
+            );
+            // Restricted ngoài SX
+            var Restricted_NSX = Math.Round(
+                summary1
+                    .Where(x => !IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "RESTRICTED")
+                    .Select(x => x.Qty.GetValueOrDefault())
+                    .Sum(),
+                1
             );
 
             // Tổng trong SX (EVS)
             var Total_EVS = Math.Round(
                 summary1
                     .Where(x => IsTargetLoc(x.STORAGE_LOCATION))
-                    .Where(x =>
-                    {
-                        var st = NormalizeStatus(x.status);
-                        return st == "PASSED" || st == "HOLD";
-                    })
+                    //.Where(x =>
+                    //{
+                    //    var st = NormalizeStatus(x.status);
+                    //    return st == "PASSED" || st == "HOLD";
+                    //})
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
             );
 
-            // Pass trong SX
-            var Pass = Math.Round(
+            // Blocked trong SX
+            var Blocked = Math.Round(
                 summary1
-                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "PASSED")
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "BLOCKED")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
             );
 
-            // Hold trong SX
-            var Hold = Math.Round(
+            // UU trong SX
+            var UU = Math.Round(
                 summary1
-                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "HOLD")
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "UU")
                     .Select(x => x.Qty.GetValueOrDefault())
                     .Sum(),
-                2
+                1
+            );
+
+            // QI trong SX
+            var QI = Math.Round(
+                summary1
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "QI")
+                    .Select(x => x.Qty.GetValueOrDefault())
+                    .Sum(),
+                1
+            );
+            // Restricted trong SX
+            var Restricted = Math.Round(
+                summary1
+                    .Where(x => IsTargetLoc(x.STORAGE_LOCATION) && NormalizeStatus(x.status) == "RESTRICTED")
+                    .Select(x => x.Qty.GetValueOrDefault())
+                    .Sum(),
+                1
             );
 
             // Tổng chung
-            var Total_TVC = Math.Round(summary1.Select(x => x.Qty.GetValueOrDefault()).Sum(), 2);
+            var Total_TVC = Math.Round(summary1.Select(x => x.Qty.GetValueOrDefault()).Sum(), 1);
 
             var result = new
             {
                 Total_TVC,
                 Total_EVS,
-                Pass,
-                Hold,
+                Blocked,
+                UU,
+                QI,
+                Restricted,
                 Total_NSX,
-                UnderQA_NSX,
-                Pass_NSX,
-                Hold_NSX
+                Blocked_NSX,
+                UU_NSX,
+                QI_NSX,
+                Restricted_NSX
             };
 
-            Dgv_Main_RM_WIP.DataSource = new List<object> { result };
+            Dgv_Main_RM.DataSource = new List<object> { result };
 
 
 
-            Dgv_Main_RM_WIP.Height = Dgv_Main_RM_WIP.ColumnHeadersHeight +
-                                  Dgv_Main_RM_WIP.Rows.GetRowsHeight(DataGridViewElementStates.Visible) + 2;
+            Dgv_Main_RM.Height = Dgv_Main_RM.ColumnHeadersHeight +
+                                  Dgv_Main_RM.Rows.GetRowsHeight(DataGridViewElementStates.Visible) + 2;
 
             // Header 2 tầng: nửa trên cho nhóm, nửa dưới cho nhãn cột
-            Dgv_Main_RM_WIP.EnableHeadersVisualStyles = false;
-            Dgv_Main_RM_WIP.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            Dgv_Main_RM_WIP.ColumnHeadersHeight = 52;
+            Dgv_Main_RM.EnableHeadersVisualStyles = false;
+            Dgv_Main_RM.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            Dgv_Main_RM.ColumnHeadersHeight = 52;
 
             // Căn giữa nhãn cột
-            Dgv_Main_RM_WIP.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            Dgv_Main_RM.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             // Gắn event owner-draw
-            Dgv_Main_RM_WIP.CellPainting += Data_Main_RM_WIP_CellPainting;
-            Dgv_Main_RM_WIP.Paint += Data_Main_RM_WIP_Paint;
-            Dgv_Main_RM_WIP.Scroll += Data_Main_RM_WIP_Scroll;
+            Dgv_Main_RM.CellPainting += Data_Main_RM_CellPainting;
+            Dgv_Main_RM.Paint += Data_Main_RM_Paint;
+            Dgv_Main_RM.Scroll += Data_Main_RM_Scroll;
 
         }
 
         int a = 0; //Xác định chỗ thêm cột ( từ cột 1 đến 3 là có thêm còn lại ko với a = 1 là thêm, a = 0 là ko thêm)
-        int b = 0; //Xác định giá  trị tìm kiếm (b = 0 là bảng ko tìm kiếm, b = 1 là có)
+        int b = 0; //Xác định giá  trị tìm kiếm (b = 0 là bảng ko tìm kiếm, b = 1 là có do ở đây có 2 loại bảng là tổng quan với chi tiết)
         int c = 0; //Xác định cột được bấm
         int r = 0; //Xác định hàng được bấm
 
         //Danh sách dữ liệu 
-        private List<RM_WIP_Overview> Data_Overview;
-        private List<RM_WIP_Detail> Data_Detail;
-        private List<RM_WIP_Elink> Data_Eink;
+        private List<RM_Overview> Data_Overview;
+        private List<RM_Detail> Data_Detail;
+        private List<RM_Elink> Data_Eink;
 
 
-        private List<RM_WIP_Overview> Data_Search_Overview;
-        private List<RM_WIP_Detail> Data_Search_Detail;
-        private List<RM_WIP_Elink> Data_Search_Eink;
+        private List<RM_Overview> Data_Search_Overview;
+        private List<RM_Detail> Data_Search_Detail;
+        private List<RM_Elink> Data_Search_Eink;
         private void Data_Details_Load(int row, int column)
         {
             Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
-            string sum_type = Dgv_Main_RM_WIP.Columns[column].Name;
-            var targetLocs = new[] { "04015", "04010" };
+            string sum_type = Dgv_Main_RM.Columns[column].Name;
+            var targetLocs = new[] { "9999", "3010","3008","3009","1001","1101" };
 
             Data_Overview = (from in_e in mb.EVS_Stock
-                        where (in_e.MATERIAL_TYPE == "RM" || in_e.MATERIAL_TYPE == "WIP") &&
+                        where (in_e.MATERIAL_TYPE == "ZROH") &&
                                 (
                                 (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
                                 (sum_type == "Total_TVC") ||
-                                (sum_type == "Pass" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
 
                                 (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                (sum_type == "UnderQA_NSX" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                (sum_type == "Pass_NSX" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                (sum_type == "Hold_NSX" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
+                                (sum_type == "Blocked_NSX" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "UU_NSX" && in_e.STOCK_TYPE.ToUpper() == "UU" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "QI_NSX" && in_e.STOCK_TYPE.ToUpper() == "QI" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                (sum_type == "Restricted_NSX" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) 
                                 )
-                        group new { in_e } by in_e.MATERIAL_CODE into g
+                        group in_e by in_e.MATERIAL_CODE into g
                         orderby g.Key
-                        select new RM_WIP_Overview
+                        select new RM_Overview
                         {
                             ItemCode = g.Key,
-                            Total = (double)Math.Round(g.Sum(x => x.in_e.STOCK_QUANTITY) ?? 0, 2),
-                            //Total_Allocate = Math.Round(g.Sum(x => x.in_e.Qty_Allocate) ?? 0, 2),
-                            //Total_khả_dụng = Math.Round(g.Sum(x => (x.in_e.status != "HOLD") ? ((x.in_e.Qty - x.in_e.Qty_Allocate) ?? 0) : 0), 2)
+                            Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
+                            Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                            UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                            QI = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                            Restricted = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0m) ?? 0m)
                         }
                         ).ToList();
-            if (column >= 1 && column <= 3)
+            if (column >= 1 && column <= 5)
             {
                 Data_Eink = (from in_e in mb.EVS_Stock
-                                 where (in_e.MATERIAL_TYPE == "RM" || in_e.MATERIAL_TYPE == "WIP") &&
+                                 where (in_e.MATERIAL_TYPE == "ZROH") &&
                                          (
-                                         (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                         (sum_type == "Total_TVC") ||
-                                         (sum_type == "Pass" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                         (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-
-                                         (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                         (sum_type == "UnderQA_NSX" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                         (sum_type == "Pass_NSX" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                         (sum_type == "Hold_NSX" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
+                                        (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                        (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                        (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                        (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                        (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) 
                                          )
-                                 orderby in_e.MATERIAL_CODE
-                                 select new RM_WIP_Elink
+                                 group in_e by new {in_e.MATERIAL_CODE,in_e.BATCH_NUMBER,in_e.STOCK_TYPE,in_e.CONNECT_STATUS} into g
+                                 orderby g.Key.MATERIAL_CODE
+                                 select new RM_Elink
                                  {
-                                     ItemCode = in_e.MATERIAL_TYPE,
-                                     Lotno = in_e.BATCH_NUMBER,
-                                     Status = in_e.STOCK_TYPE,
-                                     Tồn = (double)(in_e.STOCK_QUANTITY ?? 0),
-                                     //Allocate = in_e.Qty_Allocate ?? 0,
-                                     //Khả_dụng = Math.Round((in_e.status != "HOLD") ? ((in_e.Qty - in_e.Qty_Allocate) ?? 0) : 0, 2),
-                                     Connect_Eink = in_e.CONNECT_STATUS
+                                     ItemCode = g.Key.MATERIAL_CODE,
+                                     Lotno = g.Key.BATCH_NUMBER,
+                                     Status = g.Key.STOCK_TYPE,
+                                     Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
+                                     Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                     UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                     QI = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                     Restricted = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                     Eink = g.Key.CONNECT_STATUS
                                  }).ToList();
             }
-            else
+            else 
             {
                 Data_Detail = (from in_e in mb.EVS_Stock
-                            where (in_e.MATERIAL_TYPE == "RM" || in_e.MATERIAL_TYPE == "WIP") &&
+                            where (in_e.MATERIAL_TYPE == "ZROH") &&
                                     (
-                                    (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
                                     (sum_type == "Total_TVC") ||
-                                    (sum_type == "Pass" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                    (sum_type == "Hold" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-
                                     (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                    (sum_type == "UnderQA_NSX" && in_e.STOCK_TYPE.ToUpper() == "UNDER QA" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                    (sum_type == "Pass_NSX" && in_e.STOCK_TYPE.ToUpper() == "PASSED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-                                    (sum_type == "Hold_NSX" && in_e.STOCK_TYPE.ToUpper() == "HOLD" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
+                                    (sum_type == "Blocked_NSX" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "UU_NSX" && in_e.STOCK_TYPE.ToUpper() == "UU" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "QI_NSX" && in_e.STOCK_TYPE.ToUpper() == "QI" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
+                                    (sum_type == "Restricted_NSX" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
                                     )
-                            orderby in_e.MATERIAL_CODE
-                            select new RM_WIP_Detail
+                            group in_e by new { in_e.MATERIAL_CODE, in_e.BATCH_NUMBER, in_e.STOCK_TYPE} into g
+                            orderby g.Key.MATERIAL_CODE
+                            select new RM_Detail
                             {
-                                ItemCode = in_e.MATERIAL_CODE,
-                                Lotno = in_e.BATCH_NUMBER,
-                                Status = in_e.STOCK_TYPE,
-                                Tồn = (double)(in_e.STOCK_QUANTITY ?? 0),
-                                //Allocate = in_e.Qty_Allocate ?? 0,
-                                //Khả_dụng = Math.Round((in_e.status != "HOLD") ? ((in_e.Qty - in_e.Qty_Allocate) ?? 0) : 0, 2)
+                                ItemCode = g.Key.MATERIAL_CODE,
+                                Lotno = g.Key.BATCH_NUMBER,
+                                Status = g.Key.STOCK_TYPE,
+                                Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
+                                Total_Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                Total_UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                Total_QI = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0m) ?? 0m),
+                                Total_Restricted = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0m) ?? 0m)
                             }).ToList();
             }
-            if (Dgv_Details_RM_WIP.DataSource == null || Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Overview" || Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Overview_elink")
+            if (Dgv_Details_RM.DataSource == null || Dgv_Details_RM.Tag.ToString() == "RM_Overview" || Dgv_Details_RM.Tag.ToString() == "RM_Overview_elink")
             {
-                Lab_Details_RM_WIP.Text = "Thông tin RM và WIP (Tổng Quan)";
-                Dgv_Details_RM_WIP.DataSource = null;
-                Dgv_Details_RM_WIP.Columns.Clear();
-                Dgv_Details_RM_WIP.Refresh();
+                Lab_Details_RM.Text = "Thông tin RM (Tổng Quan)";
+                Dgv_Details_RM.DataSource = null;
+                Dgv_Details_RM.Columns.Clear();
+                Dgv_Details_RM.Refresh();
                 if(b == 0)
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Overview;
+                    Dgv_Details_RM.DataSource = Data_Overview;
                 }
                 else
                 {
                     Search();
                 }
-                Dgv_Details_RM_WIP.Tag = "RM_WIP_Overview";
-                if (column >= 1 && column <= 3)
+                Dgv_Details_RM.Tag = "RM_Overview";
+                if (column >= 1 && column <= 5)
                 {
                     a = 1;
                 }
             }
-            else if (Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Detail")
+            else if (Dgv_Details_RM.Tag.ToString() == "RM_Detail")
             {
-                Dgv_Details_RM_WIP.DataSource = null;
-                Dgv_Details_RM_WIP.Columns.Clear();
-                Dgv_Details_RM_WIP.Refresh();
+                Dgv_Details_RM.DataSource = null;
+                Dgv_Details_RM.Columns.Clear();
+                Dgv_Details_RM.Refresh();
 
-                if (column >= 1 && column <= 3)
+                if (column >= 1 && column <= 5)
                 {
                     if (b == 0)
                     {
-                        Dgv_Details_RM_WIP.DataSource = Data_Eink;
+                        Dgv_Details_RM.DataSource = Data_Eink;
                     }
                     else
                     {
@@ -497,17 +529,17 @@ namespace EVS_ProductionStatus
                     btnCol.HeaderText = "Thao tác";          // Tiêu đề cột hiển thị
                     btnCol.Text = "Xử lý";                    // Text của nút (áp dụng cho tất cả hàng)
                     btnCol.UseColumnTextForButtonValue = true;
-                    Dgv_Details_RM_WIP.Columns.Add(btnCol);
+                    Dgv_Details_RM.Columns.Add(btnCol);
                     a = 1;
                 }
                 else
                 {
                     label_suggest.Text = null;
-                    Dgv_Details_RM_WIP.DataSource = Data_Detail;
+                    Dgv_Details_RM.DataSource = Data_Detail;
                 }
             }
         }
-        private void Data_Main_RM_WIP_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void Data_Main_RM_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -520,85 +552,85 @@ namespace EVS_ProductionStatus
 
         private void Btn_Total_Click(object sender, EventArgs e)
         {
-            if (Dgv_Details_RM_WIP.DataSource == null)
+            if (Dgv_Details_RM.DataSource == null)
             {
                 MessageBox.Show("Chưa có dữ liệu. Mời bạn nhấn bên trên");
                 return;
             }
-            Lab_Details_RM_WIP.Text = "Thông tin RM và WIP (Tổng Quan)";
+            Lab_Details_RM.Text = "Thông tin RM (Tổng Quan)";
             label_suggest.Text = "";
-            Dgv_Details_RM_WIP.DataSource = null;
-            Dgv_Details_RM_WIP.Columns.Clear();
-            Dgv_Details_RM_WIP.Refresh();
+            Dgv_Details_RM.DataSource = null;
+            Dgv_Details_RM.Columns.Clear();
+            Dgv_Details_RM.Refresh();
             if (b != 1)
             {
-                Dgv_Details_RM_WIP.DataSource = Data_Overview;
+                Dgv_Details_RM.DataSource = Data_Overview;
             }
             else
             {
-                Dgv_Details_RM_WIP.DataSource = Data_Search_Overview;
+                Dgv_Details_RM.DataSource = Data_Search_Overview;
             }
-            Dgv_Details_RM_WIP.Tag = "RM_WIP_Overview";
+            Dgv_Details_RM.Tag = "RM_Overview";
         }
 
 
         private void Btn_Details_Click(object sender, EventArgs e)
         {
-            if (Dgv_Details_RM_WIP.DataSource == null)
+            if (Dgv_Details_RM.DataSource == null)
             {
                 MessageBox.Show("Chưa có dữ liệu. Mời bạn nhấn bên trên");
                 return;
             }
-            Lab_Details_RM_WIP.Text = "Thông tin RM và WIP (Chi Tiết)";
+            Lab_Details_RM.Text = "Thông tin RM và WIP (Chi Tiết)";
             label_suggest.Text = @"
             Lưu ý : Khi click vào allocate thì sẽ hiện ra thêm các id
             của lot đó
             ";
             label_suggest.ForeColor = Color.Red;
             label_suggest.Font = new Font("Arial", 10);
-            Dgv_Details_RM_WIP.DataSource = null;
-            Dgv_Details_RM_WIP.Columns.Clear();
-            Dgv_Details_RM_WIP.Refresh();
-            Dgv_Details_RM_WIP.Tag = "RM_WIP_Detail";
+            Dgv_Details_RM.DataSource = null;
+            Dgv_Details_RM.Columns.Clear();
+            Dgv_Details_RM.Refresh();
+            Dgv_Details_RM.Tag = "RM_Detail";
             if (b != 1)
             {
                 if (a == 0)
                 {
                     label_suggest.Text = null;
-                    Dgv_Details_RM_WIP.DataSource = Data_Detail;
+                    Dgv_Details_RM.DataSource = Data_Detail;
                 }else if(a == 1)
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Eink;
+                    Dgv_Details_RM.DataSource = Data_Eink;
                     var btnCol = new DataGridViewButtonColumn();
                     btnCol.Name = "Action";                  // Tên nội bộ cột
                     btnCol.HeaderText = "Thao tác";          // Tiêu đề cột hiển thị
                     btnCol.Text = "Xử lý";                    // Text của nút (áp dụng cho tất cả hàng)
                     btnCol.UseColumnTextForButtonValue = true;
-                    Dgv_Details_RM_WIP.Columns.Add(btnCol);
+                    Dgv_Details_RM.Columns.Add(btnCol);
                 }
             }
             else
             {
                 if(a == 0)
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Search_Detail;
+                    Dgv_Details_RM.DataSource = Data_Search_Detail;
                 }
                 else
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Search_Eink;
+                    Dgv_Details_RM.DataSource = Data_Search_Eink;
                     var btnCol = new DataGridViewButtonColumn();
                     btnCol.Name = "Action";                  // Tên nội bộ cột
                     btnCol.HeaderText = "Thao tác";          // Tiêu đề cột hiển thị
                     btnCol.Text = "Xử lý";                    // Text của nút (áp dụng cho tất cả hàng)
                     btnCol.UseColumnTextForButtonValue = true;
-                    Dgv_Details_RM_WIP.Columns.Add(btnCol);
+                    Dgv_Details_RM.Columns.Add(btnCol);
                 }
             }
         }
         // Xuất ra file excel
         private void Btn_Excel_Click(object sender, EventArgs e)
         {
-            if (Dgv_Details_RM_WIP.DataSource != null)
+            if (Dgv_Details_RM.DataSource != null)
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "Excel Files|*.xlsx|All Files|*.*";
@@ -616,130 +648,18 @@ namespace EVS_ProductionStatus
                 MessageBox.Show("Chưa có dữ liệu trong bảng, mời bạn nhấn bên trên");
             }
         }
-        private async void Data_Details_RM_WIP_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void Data_Details_RM_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            var col = Dgv_Details_RM_WIP.Columns[e.ColumnIndex];
+            var col = Dgv_Details_RM.Columns[e.ColumnIndex];
             if (col == null) return;
 
-            // So khớp theo Name để ổn định
-            if (col.Name == "Allocate" && a == 1)
-            {
-                object value = Dgv_Details_RM_WIP.Rows[e.RowIndex].Cells["Lotno"].Value;
-                string lot = value.ToString();
-                using (var loading = new Form
-                {
-                    Text = "Đang tải dữ liệu...",
-                    StartPosition = FormStartPosition.CenterScreen,
-                    ControlBox = false,
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    ClientSize = new Size(320, 100),
-                    TopMost = true
-                })
-                {
-                    var lbl = new Label
-                    {
-                        Text = $"Đang tải dữ liệu cho lot: {lot}\nVui lòng chờ…",
-                        Dock = DockStyle.Fill,
-                        TextAlign = ContentAlignment.MiddleCenter,
-
-                        Font = new Font("Arial", 10, FontStyle.Regular)
-                    };
-                    loading.Controls.Add(lbl);
-                    loading.Show();       // show modeless để không block await
-                    loading.Refresh();
-
-                    DataTable dt = null;
-
-                    try
-                    {
-                        // Load dữ liệu ở chế độ async (không đơ UI)
-                        dt = await LoadAllowByLotAsync(lot);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Có lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    finally
-                    {
-                        loading.Close();
-                    }
-
-
-                    Form Form_ID_Allocate = new Form
-                    {
-                        Text = "Thông tin các ID đang được allocate của lot " + lot,
-                        BackColor = Color.White,
-                        StartPosition = FormStartPosition.CenterParent,
-                        ClientSize = new Size(1100, 450)
-                    };
-
-                    DataGridView Data_ID_Allocate = new DataGridView
-                    {
-                        DataSource = dt,
-                        RowHeadersVisible = false,
-                        BackgroundColor = Color.White,
-                        AllowUserToAddRows = false,
-                        EnableHeadersVisualStyles = false,
-                        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                        Height = 360,
-                        ColumnHeadersHeight = 40,
-                        Width = Form_ID_Allocate.ClientSize.Width,
-                        Location = new Point(0, 0),
-                        Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom// tràn ngang, cao cố định
-                    };
-                    Data_ID_Allocate.ColumnHeadersDefaultCellStyle.BackColor = Color.ForestGreen;
-                    Data_ID_Allocate.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-                    Data_ID_Allocate.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
-                    Data_ID_Allocate.DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Regular);
-                    Data_ID_Allocate.RowTemplate.Height = 30;
-                    //Data_ID_Allocate.ColumnHeadersDefaultCellStyle.Padding = new Padding(7, 10, 0, 10);
-                    Button Btn_Excel_ID = new Button
-                    {
-                        Text = "Xuất Excel",
-                        Size = new Size(120, 40),
-                        ForeColor = Color.White,
-                        Font = new Font("Arial", 12, FontStyle.Bold),
-                        BackColor = Color.Green,
-                        Anchor = AnchorStyles.Right | AnchorStyles.Bottom,
-                        Location = new Point(900, Data_ID_Allocate.Bottom + 30)
-                    };
-
-                    Btn_Excel_ID.Click += (s, a) =>
-                    {
-                        if (Data_ID_Allocate.DataSource != null)
-                        {
-                            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                            saveFileDialog1.Filter = "Excel Files|*.xlsx|All Files|*.*";
-                            saveFileDialog1.Title = "Chọn nơi lưu file Excel";
-                            saveFileDialog1.DefaultExt = "xlsx";
-
-                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                            {
-                                //gọi hàm ToExcel() với tham số là dtgDSHS và filename từ SaveFileDialog
-                                Excel_Only_Sheet.ExportToExcel(Data_ID_Allocate, saveFileDialog1.FileName);
-                                MessageBox.Show("Xuất Excel thành công!");
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Không tồn tại dữ liệu để xuất file");
-                        }
-                    };
-
-                    Form_ID_Allocate.Controls.Add(Data_ID_Allocate);
-                    Form_ID_Allocate.Controls.Add(Btn_Excel_ID);
-
-                    Form_ID_Allocate.ShowDialog();
-                }
-            }
             // Xử lý sự kiện làm thẻ Eink
             if (col.Name == "Action")
             {
-                var row_tt = Dgv_Details_RM_WIP.Rows[e.RowIndex];
+                var row_tt = Dgv_Details_RM.Rows[e.RowIndex];
 
                 double GetDouble(string colName)
                 {
@@ -762,56 +682,6 @@ namespace EVS_ProductionStatus
                 {
                     Data_Details_Load(r, c);
                 }
-            }
-        }
-
-        //Hiển thị thông tin  các id theo allocate lot
-        private async Task<DataTable> LoadAllowByLotAsync(string data_id)
-        {
-            var dt = new DataTable();
-            string query = @"
-                SELECT id
-                      ,wo
-                      ,wo_item
-                      ,wo_lot
-                      ,wo_component
-                      ,qty_req
-                      ,qty_iss
-                      ,allocate_loc
-                      ,allocate_lot
-                      ,qty_allocate
-                  FROM wo_allow
-                  where allocate_lot = @value
-                ";
-            using (var conn = new SqlConnection(clConnection.connectString))
-            using (var cmd = new SqlCommand(query, conn))
-            {
-
-                cmd.Parameters.Add("@value", SqlDbType.NVarChar, 100).Value = data_id;
-
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection))
-                {
-                    dt.Load(reader); // Load thẳng từ reader vào DataTable
-                }
-            }
-            return dt;
-        }
-
-        //Cập nhật lại dữ liệu
-        private async void Btn_Refresh_Click(object sender, EventArgs e)
-        {
-            picLoading.Invoke(new Action(() => picLoading.Visible = true));
-            var Reload_Function = new Reload_Inventory_Infor();
-            bool check_connect  = await Reload_Function.CallInventoryApiAsync("http://10.239.2.10:5555/api/inventory");
-            picLoading.Invoke(new Action(() => picLoading.Visible = false));
-            if (check_connect)
-            {
-                Load_Data();
-                Dgv_Details_RM_WIP.DataSource = null;
-                Dgv_Details_RM_WIP.Columns.Clear();
-                label_suggest.Text = null;
-                Dgv_Details_RM_WIP.Refresh();
             }
         }
         private void Search()
@@ -910,19 +780,19 @@ namespace EVS_ProductionStatus
                 
 
                 b = 1; // Chuyển b =1 để biết rằng nó đã chuyển sang trạng thái tìm kiếm
-                if (Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Overview")
+                if (Dgv_Details_RM.Tag.ToString() == "RM_Overview")
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Search_Overview;
+                    Dgv_Details_RM.DataSource = Data_Search_Overview;
                 }
-                else if (Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Detail")
+                else if (Dgv_Details_RM.Tag.ToString() == "RM_Detail")
                 {
                     if(a == 0)
                     {
-                        Dgv_Details_RM_WIP.DataSource = Data_Search_Detail;
+                        Dgv_Details_RM.DataSource = Data_Search_Detail;
                     }
                     else
                     {
-                        Dgv_Details_RM_WIP.DataSource = Data_Search_Eink;
+                        Dgv_Details_RM.DataSource = Data_Search_Eink;
                     }
                 }
                 else
@@ -938,20 +808,20 @@ namespace EVS_ProductionStatus
         
         private void Rewatch()
         {
-            if (Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Overview")
+            if (Dgv_Details_RM.Tag.ToString() == "RM_Overview")
             {
-                Dgv_Details_RM_WIP.DataSource = Data_Overview;
+                Dgv_Details_RM.DataSource = Data_Overview;
                 b = 0;
             }
-            else if (Dgv_Details_RM_WIP.Tag.ToString() == "RM_WIP_Detail")
+            else if (Dgv_Details_RM.Tag.ToString() == "RM_Detail")
             {
                 if(a == 0)
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Detail;
+                    Dgv_Details_RM.DataSource = Data_Detail;
                 }
                 else
                 {
-                    Dgv_Details_RM_WIP.DataSource = Data_Eink;
+                    Dgv_Details_RM.DataSource = Data_Eink;
                 }
                 
                 b = 0;
@@ -959,7 +829,7 @@ namespace EVS_ProductionStatus
         }
         private void Btn_Search_Click(object sender, EventArgs e)
         {
-            if (Dgv_Details_RM_WIP.DataSource == null)
+            if (Dgv_Details_RM.DataSource == null)
             {
                 MessageBox.Show("Chưa có dữ liệu trong bảng, mời bạn nhấn bên trên");
             }
@@ -972,7 +842,7 @@ namespace EVS_ProductionStatus
         {
             if(e.KeyCode == Keys.Enter)
             {
-                if(Dgv_Details_RM_WIP.DataSource == null)
+                if(Dgv_Details_RM.DataSource == null)
                 {
                     MessageBox.Show("Chưa có dữ liệu trong bảng, mời bạn nhấn bên trên");
                     return;

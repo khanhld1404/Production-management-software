@@ -44,9 +44,9 @@ namespace EVS_ProductionStatus
         public virtual DbSet<v_04_DongGoi> v_04_DongGoi { get; set; }
         public virtual DbSet<v_05_KhauDetail> v_05_KhauDetail { get; set; }
         public virtual DbSet<v_05_QCDetail> v_05_QCDetail { get; set; }
-        public virtual DbSet<v_06_LoaiSP> v_06_LoaiSP { get; set; }
         public virtual DbSet<v_DSLoaiSP> v_DSLoaiSP { get; set; }
         public virtual DbSet<tblInput_Ring> tblInput_Ring { get; set; }
+        public virtual DbSet<v_06_LoaiSP> v_06_LoaiSP { get; set; }
     
         public virtual int pro_01_truncateWO()
         {
@@ -290,19 +290,6 @@ namespace EVS_ProductionStatus
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pro_14_TrangThaiSP_Result>("pro_14_TrangThaiSP", loaiSPParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> pro_15_Join2database(string loaiSP, string yYMM)
-        {
-            var loaiSPParameter = loaiSP != null ?
-                new ObjectParameter("LoaiSP", loaiSP) :
-                new ObjectParameter("LoaiSP", typeof(string));
-    
-            var yYMMParameter = yYMM != null ?
-                new ObjectParameter("YYMM", yYMM) :
-                new ObjectParameter("YYMM", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("pro_15_Join2database", loaiSPParameter, yYMMParameter);
-        }
-    
         public virtual ObjectResult<pro_16_KittingRing_Result> pro_16_KittingRing(Nullable<System.DateTime> from, Nullable<System.DateTime> to, string item, string lot, string manv, string wo)
         {
             var fromParameter = from.HasValue ?
@@ -359,6 +346,19 @@ namespace EVS_ProductionStatus
                 new ObjectParameter("wo", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pro_17_QCRing_Result>("pro_17_QCRing", fromParameter, toParameter, itemParameter, lotParameter, manvParameter, woParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> pro_15_GetTotalWO(string loaiSP, string yYMM)
+        {
+            var loaiSPParameter = loaiSP != null ?
+                new ObjectParameter("LoaiSP", loaiSP) :
+                new ObjectParameter("LoaiSP", typeof(string));
+    
+            var yYMMParameter = yYMM != null ?
+                new ObjectParameter("YYMM", yYMM) :
+                new ObjectParameter("YYMM", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("pro_15_GetTotalWO", loaiSPParameter, yYMMParameter);
         }
     }
 }

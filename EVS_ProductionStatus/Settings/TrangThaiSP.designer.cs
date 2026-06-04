@@ -45,12 +45,6 @@
             this.QCTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TrangThai = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grTotal = new System.Windows.Forms.DataGridView();
-            this.totalKitting = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalKittingNext = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalKhau = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalKhauNext = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalQC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalQCNext = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grContent = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label16 = new System.Windows.Forms.Label();
@@ -83,6 +77,12 @@
             this.btnHienThi = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnLuu = new System.Windows.Forms.Button();
+            this.totalKitting = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalKittingNext = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalKhau = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalKhauNext = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalQC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalQCNext = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grThongtin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grTotal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grContent)).BeginInit();
@@ -244,50 +244,6 @@
             this.grTotal.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.grTotal.Size = new System.Drawing.Size(540, 152);
             this.grTotal.TabIndex = 56;
-            // 
-            // totalKitting
-            // 
-            this.totalKitting.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.totalKitting.HeaderText = "02-2024";
-            this.totalKitting.Name = "totalKitting";
-            this.totalKitting.ReadOnly = true;
-            // 
-            // totalKittingNext
-            // 
-            this.totalKittingNext.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.totalKittingNext.HeaderText = "03-2024";
-            this.totalKittingNext.Name = "totalKittingNext";
-            this.totalKittingNext.ReadOnly = true;
-            // 
-            // totalKhau
-            // 
-            this.totalKhau.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.totalKhau.FillWeight = 200F;
-            this.totalKhau.HeaderText = "02-2024";
-            this.totalKhau.Name = "totalKhau";
-            this.totalKhau.ReadOnly = true;
-            // 
-            // totalKhauNext
-            // 
-            this.totalKhauNext.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.totalKhauNext.FillWeight = 200F;
-            this.totalKhauNext.HeaderText = "03-2024";
-            this.totalKhauNext.Name = "totalKhauNext";
-            this.totalKhauNext.ReadOnly = true;
-            // 
-            // totalQC
-            // 
-            this.totalQC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.totalQC.HeaderText = "02-2024";
-            this.totalQC.Name = "totalQC";
-            this.totalQC.ReadOnly = true;
-            // 
-            // totalQCNext
-            // 
-            this.totalQCNext.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.totalQCNext.HeaderText = "03-2024";
-            this.totalQCNext.Name = "totalQCNext";
-            this.totalQCNext.ReadOnly = true;
             // 
             // grContent
             // 
@@ -612,6 +568,54 @@
             this.btnLuu.UseVisualStyleBackColor = true;
             this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
             // 
+            // totalKitting
+            // 
+            this.totalKitting.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.totalKitting.FillWeight = 70F;
+            this.totalKitting.HeaderText = "02-2024";
+            this.totalKitting.Name = "totalKitting";
+            this.totalKitting.ReadOnly = true;
+            // 
+            // totalKittingNext
+            // 
+            this.totalKittingNext.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.totalKittingNext.FillWeight = 70F;
+            this.totalKittingNext.HeaderText = "03-2024";
+            this.totalKittingNext.Name = "totalKittingNext";
+            this.totalKittingNext.ReadOnly = true;
+            // 
+            // totalKhau
+            // 
+            this.totalKhau.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.totalKhau.FillWeight = 70F;
+            this.totalKhau.HeaderText = "02-2024";
+            this.totalKhau.Name = "totalKhau";
+            this.totalKhau.ReadOnly = true;
+            // 
+            // totalKhauNext
+            // 
+            this.totalKhauNext.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.totalKhauNext.FillWeight = 70F;
+            this.totalKhauNext.HeaderText = "03-2024";
+            this.totalKhauNext.Name = "totalKhauNext";
+            this.totalKhauNext.ReadOnly = true;
+            // 
+            // totalQC
+            // 
+            this.totalQC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.totalQC.FillWeight = 70F;
+            this.totalQC.HeaderText = "02-2024";
+            this.totalQC.Name = "totalQC";
+            this.totalQC.ReadOnly = true;
+            // 
+            // totalQCNext
+            // 
+            this.totalQCNext.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.totalQCNext.FillWeight = 70F;
+            this.totalQCNext.HeaderText = "03-2024";
+            this.totalQCNext.Name = "totalQCNext";
+            this.totalQCNext.ReadOnly = true;
+            // 
             // TrangThaiSP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -679,12 +683,6 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Button btnHienThi;
         private System.Windows.Forms.Button btnExport;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalKitting;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalKittingNext;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalKhau;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalKhauNext;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalQC;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalQCNext;
         private System.Windows.Forms.DataGridViewTextBoxColumn STT;
         private System.Windows.Forms.DataGridViewTextBoxColumn WOID;
         private System.Windows.Forms.DataGridViewTextBoxColumn workorder;
@@ -703,5 +701,11 @@
         private System.Windows.Forms.TextBox txtSX2;
         private System.Windows.Forms.TextBox txtSX1;
         private System.Windows.Forms.TextBox txtHT1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalKitting;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalKittingNext;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalKhau;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalKhauNext;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalQC;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalQCNext;
     }
 }

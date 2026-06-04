@@ -14,8 +14,8 @@ namespace EVS_ProductionStatus
     
     public partial class v_06_LoaiSP
     {
-        public string itemnumber { get; set; }
-        public string WOID { get; set; }
+        public string MES_PART { get; set; }
+        public string WORK_ORDER_ID { get; set; }
         public string LoaiSP { get; set; }
     }
 }
