@@ -50,33 +50,6 @@ namespace EVS_ProductionStatus.Update_Inventory.Class
         }
 
         //Hàm để gọi một procedure dưới  cơ sở dữ liệu giúp truyền dữ liệu từ cơ sở dữ liệu được bên mes đẩy lên sang bên cơ sở dữ liệu xử lý
-        public static void UpdateWOdb()
-        {
-            using (SqlConnection conn = new SqlConnection(clConnection.connectString3))
-            {
-                using (SqlCommand cmd = new SqlCommand("update_tblWO", conn))
-                {
-                    //Xác định đóng gói logic phía  sql, giống với câu lệnh gọi rpocedure excec
-                    cmd.CommandType = CommandType.StoredProcedure; // Quan trọng
-                    cmd.CommandTimeout = 150;                      // 150 giây
-
-                    try
-                    {
-                        conn.Open();
-                        //Dùng excute non query để không lấy kết quả trả về như select, insert các thứ// Quan trọng
-                        cmd.ExecuteNonQuery();     // Gọi thủ tục
-                    }
-                    catch (SqlException ex)
-                    {
-                        // TODO: log ex (ex.Message, ex.Number, ex.Procedure, ex.LineNumber,...)
-                        throw; // hoặc wrap thành exception của domain tuỳ nhu cầu
-                    }
-
-                }
-            }
-        }
-
-        //Hàm để gọi một procedure dưới  cơ sở dữ liệu giúp truyền dữ liệu từ cơ sở dữ liệu được bên mes đẩy lên sang bên cơ sở dữ liệu xử lý
         public static void Call_Procedure(string connection, string procedure_name)
         {
             using (SqlConnection conn = new SqlConnection(connection))

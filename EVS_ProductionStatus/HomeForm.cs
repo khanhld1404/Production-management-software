@@ -108,7 +108,7 @@ namespace EVS_ProductionStatus
         private void HomeForm_Load(object sender, EventArgs e)
         {
             //Reload_Inventory_Infor.UpdateInventory();
-            Other_function.UpdateWOdb();
+            Other_function.Call_Procedure(clConnection.connectString3,"update_tblWO");
         }
 
         private void btn_Ring_Click(object sender, EventArgs e)
@@ -119,18 +119,25 @@ namespace EVS_ProductionStatus
 
         private void btn_Inventory_Click(object sender, EventArgs e)
         {
-            EVS_Inventory f = new EVS_Inventory();
+            EVS_Inventory_Menu f = new EVS_Inventory_Menu();
             f.Show();
         }
 
         private void btn_Box_Click(object sender, EventArgs e)
         {
+            Box_Status f = new Box_Status();
+            f.Show();
         }
 
         private void btn_Status_Details_Production_Click(object sender, EventArgs e)
         {
             Status_Details_Menu f = new Status_Details_Menu();
             f.Show();
+        }
+
+        private void btn_Kitting_Click(object sender, EventArgs e)
+        {
+            Other_function.ShowUserControlAsForm(new Form_Kitting(), "Gợi ý Kitting");
         }
     }
 }

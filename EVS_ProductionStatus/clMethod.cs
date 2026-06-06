@@ -1,4 +1,4 @@
-﻿using EVS_ProductionStatus.Data;
+﻿using EVS_ProductionStatus.Data_EVS;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -117,7 +117,7 @@ namespace EVS_ProductionStatus
                     }
 
                     // 4) Ghi vào DB mới: Manage_evs.dbo.tblWO
-                    using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                    using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
                     {
                         // Truncate dữ liệu cũ (proc của DB Manage_evs)
                         Other_function.Call_Procedure(clConnection.connectString3, "truncate_tblWO");

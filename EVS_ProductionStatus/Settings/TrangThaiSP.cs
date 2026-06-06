@@ -1,4 +1,4 @@
-﻿using EVS_ProductionStatus.Data;
+﻿using EVS_ProductionStatus.Data_EVS;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -226,7 +226,7 @@ namespace EVS_ProductionStatus.Settings
 
                     cur_wo_string = thisyear.ToString().Substring(2) + thismonth.ToString("00");
                     next_wo_string = nextyear.ToString().Substring(2) + nextmonth.ToString("00");
-                    using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                    using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
                     {
 
                         int qr_total =  db.pro_15_GetTotalWO(_loaisp,cur_wo_string).FirstOrDefault() ?? 0;

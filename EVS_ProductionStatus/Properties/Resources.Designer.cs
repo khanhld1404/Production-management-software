@@ -333,6 +333,26 @@ namespace EVS_ProductionStatus.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_right_70 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-right-70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_suggestion_70 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-suggestion-70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_user_groups_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-user-groups-64", resourceCulture);

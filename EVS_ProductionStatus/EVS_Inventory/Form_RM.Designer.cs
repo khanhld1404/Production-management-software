@@ -195,8 +195,10 @@ namespace EVS_ProductionStatus
             this.txt_Search_ItemCode.Font = new System.Drawing.Font("Arial", 15F);
             this.txt_Search_ItemCode.Location = new System.Drawing.Point(38, 284);
             this.txt_Search_ItemCode.Name = "txt_Search_ItemCode";
-            this.txt_Search_ItemCode.Size = new System.Drawing.Size(445, 30);
+            this.txt_Search_ItemCode.Size = new System.Drawing.Size(445, 40);
             this.txt_Search_ItemCode.TabIndex = 11;
+            this.AutoSize = false;
+
             this.txt_Search_ItemCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Search_KeyDown);
             // 
             // Btn_Search
@@ -217,8 +219,10 @@ namespace EVS_ProductionStatus
             this.txt_Search_Lotno.Font = new System.Drawing.Font("Arial", 15F);
             this.txt_Search_Lotno.Location = new System.Drawing.Point(508, 284);
             this.txt_Search_Lotno.Name = "txt_Search_Lotno";
-            this.txt_Search_Lotno.Size = new System.Drawing.Size(445, 30);
+            this.txt_Search_Lotno.Size = new System.Drawing.Size(445, 40);
             this.txt_Search_Lotno.TabIndex = 12;
+            this.AutoSize = false;
+            
             this.txt_Search_Lotno.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Search_KeyDown);
             // 
             // Form_RM

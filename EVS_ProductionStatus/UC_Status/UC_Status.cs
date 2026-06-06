@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EVS_ProductionStatus.Data;
+using EVS_ProductionStatus.Data_EVS;
 
 namespace EVS_ProductionStatus
 {
@@ -95,7 +95,7 @@ namespace EVS_ProductionStatus
 
                 using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
-                    using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectString2))
+                    using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
                     {
                         var find_status = new List<string> { "TECO - Technically completed", "REL - Released" };
                         string locationId =

@@ -45,13 +45,14 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolInput = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolPacking = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.btn_Kitting = new System.Windows.Forms.Button();
             this.btn_check_category = new System.Windows.Forms.Button();
             this.btn_Ring = new System.Windows.Forms.Button();
             this.btn_Box = new System.Windows.Forms.Button();
             this.btn_Inventory = new System.Windows.Forms.Button();
+            this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.btnOperatorStatus = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.btn_Status_Details_Production = new System.Windows.Forms.Button();
@@ -199,15 +200,6 @@
             this.toolPacking.Text = "Đóng gói";
             this.toolPacking.Click += new System.EventHandler(this.toolPacking_Click);
             // 
-            // toolTrangThaiSP
-            // 
-            this.toolTrangThaiSP.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_idea_32;
-            this.toolTrangThaiSP.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolTrangThaiSP.Name = "toolTrangThaiSP";
-            this.toolTrangThaiSP.Size = new System.Drawing.Size(151, 36);
-            this.toolTrangThaiSP.Text = "Trạng thái sản phẩm";
-            this.toolTrangThaiSP.Click += new System.EventHandler(this.toolTrangThaiSP_Click);
-            // 
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -219,6 +211,24 @@
             this.imageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList2.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // btn_Kitting
+            // 
+            this.btn_Kitting.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Kitting.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Kitting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Kitting.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Kitting.ForeColor = System.Drawing.Color.Navy;
+            this.btn_Kitting.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_suggestion_70;
+            this.btn_Kitting.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Kitting.Location = new System.Drawing.Point(525, 435);
+            this.btn_Kitting.Name = "btn_Kitting";
+            this.btn_Kitting.Size = new System.Drawing.Size(162, 132);
+            this.btn_Kitting.TabIndex = 14;
+            this.btn_Kitting.Text = "Gợi ý Kitting";
+            this.btn_Kitting.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Kitting.UseVisualStyleBackColor = true;
+            this.btn_Kitting.Click += new System.EventHandler(this.btn_Kitting_Click);
             // 
             // btn_check_category
             // 
@@ -290,6 +300,15 @@
             this.btn_Inventory.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Inventory.UseVisualStyleBackColor = true;
             this.btn_Inventory.Click += new System.EventHandler(this.btn_Inventory_Click);
+            // 
+            // toolTrangThaiSP
+            // 
+            this.toolTrangThaiSP.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_idea_32;
+            this.toolTrangThaiSP.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolTrangThaiSP.Name = "toolTrangThaiSP";
+            this.toolTrangThaiSP.Size = new System.Drawing.Size(151, 36);
+            this.toolTrangThaiSP.Text = "Trạng thái sản phẩm";
+            this.toolTrangThaiSP.Click += new System.EventHandler(this.toolTrangThaiSP_Click);
             // 
             // btnOperatorStatus
             // 
@@ -368,6 +387,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 623);
+            this.Controls.Add(this.btn_Kitting);
             this.Controls.Add(this.btn_check_category);
             this.Controls.Add(this.btn_Ring);
             this.Controls.Add(this.btn_Box);
@@ -422,5 +442,6 @@
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.Button btn_Ring;
         private System.Windows.Forms.Button btn_check_category;
+        private System.Windows.Forms.Button btn_Kitting;
     }
 }

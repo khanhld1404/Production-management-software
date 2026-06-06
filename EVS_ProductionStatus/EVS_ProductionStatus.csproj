@@ -107,6 +107,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Box_Status.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Box_Status.Designer.cs">
+      <DependentUpon>Box_Status.cs</DependentUpon>
+    </Compile>
     <Compile Include="CheckVersion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,52 +138,52 @@
     <Compile Include="DataExport\ExportRing.Designer.cs">
       <DependentUpon>ExportRing.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\EVS_Manage.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\EVS_Stock.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Data\NewInventory_EVS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\tblWO.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="db.Context.cs">
+    <Compile Include="Data_EVS\db.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>db.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="db.cs">
+    <Compile Include="Data_EVS\db.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="db.Designer.cs">
+    <Compile Include="Data_EVS\db.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>db.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DongGoiDongThoi.cs">
+    <Compile Include="Data_EVS\db2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\db2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\db2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\EVS_Manage.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\EVS_Stock.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\Kitting_Infor.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\tblWO.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sub_Kitting_Function\DongGoiDongThoi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DongGoiDongThoi.Designer.cs">
+    <Compile Include="Sub_Kitting_Function\DongGoiDongThoi.Designer.cs">
       <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
     </Compile>
     <Compile Include="DataExport\ExportHome.cs">
@@ -210,11 +216,17 @@
     <Compile Include="DataExport\ExportQC.Designer.cs">
       <DependentUpon>ExportQC.cs</DependentUpon>
     </Compile>
-    <Compile Include="EVS_Inventory.cs">
+    <Compile Include="EVS_Inventory\EVS_Inventory_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EVS_Inventory.Designer.cs">
-      <DependentUpon>EVS_Inventory.cs</DependentUpon>
+    <Compile Include="EVS_Inventory\EVS_Inventory_Menu.Designer.cs">
+      <DependentUpon>EVS_Inventory_Menu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EVS_Inventory\Form_WIP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EVS_Inventory\Form_WIP.Designer.cs">
+      <DependentUpon>Form_WIP.cs</DependentUpon>
     </Compile>
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>
@@ -222,46 +234,46 @@
     <Compile Include="HomeForm.Designer.cs">
       <DependentUpon>HomeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InputForm.cs">
+    <Compile Include="UC_Status\InputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputForm.Designer.cs">
+    <Compile Include="UC_Status\InputForm.Designer.cs">
       <DependentUpon>InputForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="KittingDongThoi.cs">
+    <Compile Include="Sub_Kitting_Function\KittingDongThoi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KittingDongThoi.Designer.cs">
+    <Compile Include="Sub_Kitting_Function\KittingDongThoi.Designer.cs">
       <DependentUpon>KittingDongThoi.cs</DependentUpon>
     </Compile>
-    <Compile Include="NhapKhauIn.cs">
+    <Compile Include="Sub_Kitting_Function\NhapKhauIn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NhapKhauIn.Designer.cs">
+    <Compile Include="Sub_Kitting_Function\NhapKhauIn.Designer.cs">
       <DependentUpon>NhapKhauIn.cs</DependentUpon>
     </Compile>
-    <Compile Include="NhapQCDoDang.cs">
+    <Compile Include="Sub_Kitting_Function\NhapQCDoDang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NhapQCDoDang.Designer.cs">
+    <Compile Include="Sub_Kitting_Function\NhapQCDoDang.Designer.cs">
       <DependentUpon>NhapQCDoDang.cs</DependentUpon>
     </Compile>
-    <Compile Include="OperatorStatus.cs">
+    <Compile Include="Operate_Position\OperatorStatus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OperatorStatus.Designer.cs">
+    <Compile Include="Operate_Position\OperatorStatus.Designer.cs">
       <DependentUpon>OperatorStatus.cs</DependentUpon>
     </Compile>
-    <Compile Include="OperatorStatusDetail.cs">
+    <Compile Include="Operate_Position\OperatorStatusDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OperatorStatusDetail.Designer.cs">
+    <Compile Include="Operate_Position\OperatorStatusDetail.Designer.cs">
       <DependentUpon>OperatorStatusDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductionStatus.cs">
+    <Compile Include="UC_Status\ProductionStatus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductionStatus.Designer.cs">
+    <Compile Include="UC_Status\ProductionStatus.Designer.cs">
       <DependentUpon>ProductionStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -271,34 +283,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="pro_02_tblInputWithTime_Result.cs">
+    <Compile Include="Data_EVS\pro_02_tblInputWithTime_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_03_WOBaoLuu_Result.cs">
+    <Compile Include="Data_EVS\pro_03_WOBaoLuu_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_08_KhauTime_Result.cs">
+    <Compile Include="Data_EVS\pro_08_KhauTime_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_09_QCTime_Result.cs">
+    <Compile Include="Data_EVS\pro_09_QCTime_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_10_KittingTime_Result.cs">
+    <Compile Include="Data_EVS\pro_10_KittingTime_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_11_DongGoiTime_Result.cs">
+    <Compile Include="Data_EVS\pro_11_DongGoiTime_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_12_WOChuaDG_Result.cs">
+    <Compile Include="Data_EVS\pro_12_WOChuaDG_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_14_TrangThaiSP_Result.cs">
+    <Compile Include="Data_EVS\pro_14_TrangThaiSP_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_16_KittingRing_Result.cs">
+    <Compile Include="Data_EVS\pro_16_KittingRing_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="pro_17_QCRing_Result.cs">
+    <Compile Include="Data_EVS\pro_17_QCRing_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="Settings\InputPacking.cs">
@@ -361,52 +373,52 @@
     <Compile Include="Settings\ThietLapFile.Designer.cs">
       <DependentUpon>ThietLapFile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Status_Details_Menu.cs">
+    <Compile Include="UC_Status\Status_Details_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Status_Details_Menu.Designer.cs">
+    <Compile Include="UC_Status\Status_Details_Menu.Designer.cs">
       <DependentUpon>Status_Details_Menu.cs</DependentUpon>
     </Compile>
-    <Compile Include="tblBanVe.cs">
+    <Compile Include="Data_EVS\tblBanVe.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblContent.cs">
+    <Compile Include="Data_EVS\tblContent.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblDongGoi.cs">
+    <Compile Include="Data_EVS\tblDongGoi.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblInput.cs">
+    <Compile Include="Data_EVS\tblInput.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblInput_Ring.cs">
+    <Compile Include="Data_EVS\tblInput_Ring.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblKhauIn.cs">
+    <Compile Include="Data_EVS\tblKhauIn.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblNgayNghi.cs">
+    <Compile Include="Data_EVS\tblNgayNghi.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblQC.cs">
+    <Compile Include="Data_EVS\tblQC.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblQCDetail.cs">
+    <Compile Include="Data_EVS\tblQCDetail.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblThoiGianKhau.cs">
+    <Compile Include="Data_EVS\tblThoiGianKhau.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblThoiGianNghi.cs">
+    <Compile Include="Data_EVS\tblThoiGianNghi.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblURL.cs">
+    <Compile Include="Data_EVS\tblURL.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblUser.cs">
+    <Compile Include="Data_EVS\tblUser.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblViTriNguoiTT.cs">
+    <Compile Include="Data_EVS\tblViTriNguoiTT.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="UC_Status\UC_Status.cs">
@@ -427,10 +439,10 @@
     <Compile Include="UC_Status\UC_Status_Ring.Designer.cs">
       <DependentUpon>UC_Status_Ring.cs</DependentUpon>
     </Compile>
-    <Compile Include="UC_ViTriThaoTac.cs">
+    <Compile Include="Operate_Position\UC_ViTriThaoTac.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC_ViTriThaoTac.Designer.cs">
+    <Compile Include="Operate_Position\UC_ViTriThaoTac.Designer.cs">
       <DependentUpon>UC_ViTriThaoTac.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\View_MasterBanVe.cs">
@@ -474,33 +486,36 @@
     <Compile Include="EVS_Inventory\LoadingOverlay.Designer.cs">
       <DependentUpon>LoadingOverlay.cs</DependentUpon>
     </Compile>
-    <Compile Include="EVS_Inventory\Model\Get_Link.cs" />
-    <Compile Include="EVS_Inventory\Model\HFG_Detail.cs" />
-    <Compile Include="EVS_Inventory\Model\HFG_Overview.cs" />
+    <Compile Include="EVS_Inventory\Model\Eink\Get_Link.cs" />
+    <Compile Include="EVS_Inventory\Model\HFG\HFG_Detail.cs" />
+    <Compile Include="EVS_Inventory\Model\HFG\HFG_Overview.cs" />
     <Compile Include="EVS_Inventory\Model\Kitting_Type.cs" />
-    <Compile Include="EVS_Inventory\Model\Link_Eink.cs" />
-    <Compile Include="EVS_Inventory\Model\Product_Eink.cs" />
-    <Compile Include="EVS_Inventory\Model\RM_Detail.cs" />
-    <Compile Include="EVS_Inventory\Model\RM_Elink.cs" />
-    <Compile Include="EVS_Inventory\Model\RM_Overview.cs" />
-    <Compile Include="v_01_Kitting.cs">
+    <Compile Include="EVS_Inventory\Model\Eink\Link_Eink.cs" />
+    <Compile Include="EVS_Inventory\Model\Eink\Product_Eink.cs" />
+    <Compile Include="EVS_Inventory\Model\RM_WIP\RM_WIP_Detail.cs" />
+    <Compile Include="EVS_Inventory\Model\RM_WIP\RM_WIP_Elink.cs" />
+    <Compile Include="EVS_Inventory\Model\RM_WIP\RM_WIP_Overview.cs" />
+    <Compile Include="Data_EVS\v_01_Kitting.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="v_04_DongGoi.cs">
+    <Compile Include="Data_EVS\v_04_DongGoi.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="v_05_KhauDetail.cs">
+    <Compile Include="Data_EVS\v_05_KhauDetail.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="v_05_QCDetail.cs">
+    <Compile Include="Data_EVS\v_05_QCDetail.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="v_06_LoaiSP.cs">
+    <Compile Include="Data_EVS\v_06_LoaiSP.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="v_DSLoaiSP.cs">
+    <Compile Include="Data_EVS\v_DSLoaiSP.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Box_Status.resx">
+      <DependentUpon>Box_Status.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CheckVersion.resx">
       <DependentUpon>CheckVersion.cs</DependentUpon>
     </EmbeddedResource>
@@ -510,7 +525,7 @@
     <EmbeddedResource Include="DataExport\ExportRing.resx">
       <DependentUpon>ExportRing.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DongGoiDongThoi.resx">
+    <EmbeddedResource Include="Sub_Kitting_Function\DongGoiDongThoi.resx">
       <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataExport\ExportHome.resx">
@@ -528,31 +543,31 @@
     <EmbeddedResource Include="DataExport\ExportQC.resx">
       <DependentUpon>ExportQC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EVS_Inventory.resx">
-      <DependentUpon>EVS_Inventory.cs</DependentUpon>
+    <EmbeddedResource Include="EVS_Inventory\EVS_Inventory_Menu.resx">
+      <DependentUpon>EVS_Inventory_Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputForm.resx">
+    <EmbeddedResource Include="UC_Status\InputForm.resx">
       <DependentUpon>InputForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="KittingDongThoi.resx">
+    <EmbeddedResource Include="Sub_Kitting_Function\KittingDongThoi.resx">
       <DependentUpon>KittingDongThoi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NhapKhauIn.resx">
+    <EmbeddedResource Include="Sub_Kitting_Function\NhapKhauIn.resx">
       <DependentUpon>NhapKhauIn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NhapQCDoDang.resx">
+    <EmbeddedResource Include="Sub_Kitting_Function\NhapQCDoDang.resx">
       <DependentUpon>NhapQCDoDang.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OperatorStatus.resx">
+    <EmbeddedResource Include="Operate_Position\OperatorStatus.resx">
       <DependentUpon>OperatorStatus.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OperatorStatusDetail.resx">
+    <EmbeddedResource Include="Operate_Position\OperatorStatusDetail.resx">
       <DependentUpon>OperatorStatusDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductionStatus.resx">
+    <EmbeddedResource Include="UC_Status\ProductionStatus.resx">
       <DependentUpon>ProductionStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -590,7 +605,7 @@
     <EmbeddedResource Include="Settings\WOChamDongGoi.resx">
       <DependentUpon>WOChamDongGoi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Status_Details_Menu.resx">
+    <EmbeddedResource Include="UC_Status\Status_Details_Menu.resx">
       <DependentUpon>Status_Details_Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC_Status\UC_Status.resx">
@@ -602,7 +617,7 @@
     <EmbeddedResource Include="UC_Status\UC_Status_Ring.resx">
       <DependentUpon>UC_Status_Ring.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC_ViTriThaoTac.resx">
+    <EmbeddedResource Include="Operate_Position\UC_ViTriThaoTac.resx">
       <DependentUpon>UC_ViTriThaoTac.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\View_MasterBanVe.resx">
@@ -620,19 +635,19 @@
     <EmbeddedResource Include="EVS_Inventory\Form_RM.resx">
       <DependentUpon>Form_RM.cs</DependentUpon>
     </EmbeddedResource>
-    <EntityDeploy Include="Data\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Data\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </None>
-    <EntityDeploy Include="db.edmx">
+    <EntityDeploy Include="Data_EVS\db.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>db.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="db.edmx.diagram">
+    <None Include="Data_EVS\db.edmx.diagram">
       <DependentUpon>db.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="Data_EVS\db2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>db2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data_EVS\db2.edmx.diagram">
+      <DependentUpon>db2.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -649,27 +664,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Data\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
-    <Content Include="db.Context.tt">
+    <Content Include="Data_EVS\db.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>db.edmx</DependentUpon>
       <LastGenOutput>db.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="db.tt">
+    <Content Include="Data_EVS\db.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>db.edmx</DependentUpon>
       <LastGenOutput>db.cs</LastGenOutput>
     </Content>
+    <Content Include="Data_EVS\db2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db2.edmx</DependentUpon>
+      <LastGenOutput>db2.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data_EVS\db2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>db2.edmx</DependentUpon>
+      <LastGenOutput>db2.cs</LastGenOutput>
+    </Content>
     <Content Include="icons8-circuit-70.ico" />
+    <None Include="Resources\icons8-right-70.png" />
+    <None Include="Resources\icons8-arrow-70.png" />
+    <None Include="Resources\icons8-suggestion-70.png" />
     <None Include="Resources\icons8-book-70 %282%29.png" />
     <None Include="Resources\icons8-book-70 %281%29.png" />
     <None Include="Resources\icons8-book-70.png" />

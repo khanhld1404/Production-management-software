@@ -1,6 +1,6 @@
 ﻿
 using EVS_ProductionStatus.Class;
-using EVS_ProductionStatus.Data;
+using EVS_ProductionStatus.Data_EVS;
 using EVS_ProductionStatus.Update_Inventory.Class;
 using EVS_ProductionStatus.Update_Inventory.Model;
 using OfficeOpenXml;
@@ -27,12 +27,13 @@ namespace EVS_ProductionStatus
     {
         private LoadingOverlay _overlay;
 
-        Manage_evsEntities mb = new Manage_evsEntities(clConnection.connectString2);
+        Manage_evsEntities mb = new Manage_evsEntities(clConnection.connectEntity2);
+        // Thông tin loại sản phẩm gồm có Thora, Treo, Relay
         string tt_Itemtype;
-        public Form_Kitting(string tt)
+        public Form_Kitting()
         {
             InitializeComponent();
-            tt_Itemtype = tt;
+            //tt_Itemtype = tt;
         }
 
 
@@ -76,75 +77,108 @@ namespace EVS_ProductionStatus
         }
 
 
-        private List<Kitting_Type> new_evs_manage;
+        //private List<Kitting_Type> new_evs_manage;
+        // datatable dùng chung
         public static DataTable dt;
 
         //Hàm Hiển thị gợi ý Kitting theo loại sản phẩm
-        private void Data_Item_Type(DataTable dt_raw)
+        //private void Data_Item_Type(DataTable dt_raw)
+        //{
+        //    Lab_TT_Kitting.Text = "Thông Tin Kitting NVL (" + tt_Itemtype + ")";
+        //    new_evs_manage = mb.EVS_Manage
+        //                     .Select(x => new Kitting_Type
+        //                     {
+        //                         Item_Number = x.Item_Number,
+        //                         Item_Type = x.Item_Type
+        //                     })
+        //                     .ToList();
+        //    var summary = (from tt1 in dt_raw.AsEnumerable()
+        //                       join tt2 in new_evs_manage
+        //                           on tt1.Field<string>("wo_item") equals tt2.Item_Number
+        //                       where tt2.Item_Type.Trim().ToUpper() == tt_Itemtype
+        //                       select new
+        //                       {
+        //                           Nhóm_Kitting = tt1.Field<long>("Nhóm_Kitting"),
+        //                           Id = tt1.Field<long>("id"),
+        //                           Wo_Item = tt1.Field<string>("Wo_Item"),
+        //                           Số_Lượng_Trong_Nhóm = tt1.Field<int>("Số_Lượng_Trong_Nhóm")
+        //                       })
+        //                    .ToList();
+        //    // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
+        //    int current_Rank = 0;
+        //    long? previousRank = null;
+        //    var result = summary.Select(
+        //                x =>
+        //                {
+        //                    if (previousRank != x.Nhóm_Kitting)
+        //                    {
+        //                        current_Rank += 1;
+        //                        previousRank = x.Nhóm_Kitting;
+        //                    }
+        //                    return new
+        //                    {
+        //                        Nhóm_Kitting = current_Rank,
+        //                        Id = x.Id,
+        //                        Wo_Item = x.Wo_Item,
+        //                        Số_Lượng_Trong_Nhóm = x.Số_Lượng_Trong_Nhóm
+        //                    };
+        //                }
+        //                ).ToList();
+        //    dt = Other_function.ToDataTable(result);
+        //    Data_Kitting_NVL.DataSource = dt;
+        //}
+        private void Data_kitting()
         {
-            Lab_TT_Kitting.Text = "Thông Tin Kitting NVL (" + tt_Itemtype + ")";
-            new_evs_manage = mb.EVS_Manage
-                             .Select(x => new Kitting_Type
-                             {
-                                 Item_Number = x.Item_Number,
-                                 Item_Type = x.Item_Type
-                             })
-                             .ToList();
-            var summary = (from tt1 in dt_raw.AsEnumerable()
-                               join tt2 in new_evs_manage
-                                   on tt1.Field<string>("wo_item") equals tt2.Item_Number
-                               where tt2.Item_Type.Trim().ToUpper() == tt_Itemtype
-                               select new
-                               {
-                                   Nhóm_Kitting = tt1.Field<long>("Nhóm_Kitting"),
-                                   Id = tt1.Field<long>("id"),
-                                   Wo_Item = tt1.Field<string>("Wo_Item"),
-                                   Số_Lượng_Trong_Nhóm = tt1.Field<int>("Số_Lượng_Trong_Nhóm")
-                               })
-                            .ToList();
-            // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
-            int current_Rank = 0;
-            long? previousRank = null;
-            var result = summary.Select(
-                        x =>
-                        {
-                            if (previousRank != x.Nhóm_Kitting)
+            using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
+            {
+                var kitting_infor = wodb.Kitting_Infor
+                                    .OrderBy(x => x.Nhom_Kitting)
+                                    .ToList();
+                // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
+                int current_Rank = 0;
+                long? previousRank = null;
+                var result = kitting_infor.Select(
+                            x =>
                             {
-                                current_Rank += 1;
-                                previousRank = x.Nhóm_Kitting;
+                                if (previousRank != x.Nhom_Kitting)
+                                {
+                                    current_Rank += 1;
+                                    previousRank = x.Nhom_Kitting;
+                                }
+                                return new
+                                {
+                                    Nhóm_Kitting = current_Rank,
+                                    Item_Wo = x.woid,
+                                    ID_Wo = x.id, //mes-part
+                                    WorkOrder = x.wo,
+                                    Draw_rev = x.ver,
+                                    Số_Lượng = x.quantity
+                                };
                             }
-                            return new
-                            {
-                                Nhóm_Kitting = current_Rank,
-                                Id = x.Id,
-                                Wo_Item = x.Wo_Item,
-                                Số_Lượng_Trong_Nhóm = x.Số_Lượng_Trong_Nhóm
-                            };
-                        }
-                        ).ToList();
-            dt = Other_function.ToDataTable(result);
-            Data_Kitting_NVL.DataSource = dt;
+                            ).ToList();
+                dt = Other_function.ToDataTable(result);
+                Data_Kitting_NVL.DataSource = dt;
+            }
         }
-
         //Hàm hiển thị dữ liệu khi vào 
         private async Task Load_DataAsync()
         {
             ShowOverlay();
             try
             {
-                var data = await Task.Run(() =>
-                {
-                    using (SqlConnection conn = new SqlConnection(clConnection.connectString))
-                    using (SqlCommand cmd = new SqlCommand("GetInformation", conn))
-                    using (SqlDataAdapter dap = new SqlDataAdapter(cmd))
-                    {
-                        cmd.CommandTimeout = 150;
-                        var tmp = new DataTable();
-                        dap.Fill(tmp);
-                        return tmp;
-                    }
-                });
-                Data_Item_Type(data);
+                //var data = await Task.Run(() =>
+                //{
+                //    using (SqlConnection conn = new SqlConnection(clConnection.connectString))
+                //    using (SqlCommand cmd = new SqlCommand("GetInformation", conn))
+                //    using (SqlDataAdapter dap = new SqlDataAdapter(cmd))
+                //    {
+                //        cmd.CommandTimeout = 150;
+                //        var tmp = new DataTable();
+                //        dap.Fill(tmp);
+                //        return tmp;
+                //    }
+                //});
+                Data_kitting();
                 Txt_NVL.AutoSize = false;
             }
             catch (Exception ex)
@@ -211,25 +245,23 @@ namespace EVS_ProductionStatus
                 //Lấy dữ liệu nhập
                 string value = Txt_NVL.Text;
 
-                Match wo = Regex.Match(value, @"^[^%]*");
-                int work_order = Convert.ToInt32(wo.Value);
+                string[] parts = value.Split('%');
 
+                int work_order = Convert.ToInt32(parts[0]);
 
-                Match tt = Regex.Match(value, @"(?<=%)[^%]*(?=%)");
-                string k_tt = tt.Value;
-                int id_item = Convert.ToInt32(k_tt.Substring(0, 8));
+                string id_item = parts[1];
 
-                string wo_item = k_tt.Substring(8);
+                string mes_part = parts[2];
 
-                Match dr = Regex.Match(value, @"^(?:[^%]*%){2}(?<after>.*)$");
-                string draw_rev = dr.Groups["after"].Value;
+                string draw_rev = parts[3];
 
+                MessageBox.Show(work_order + " " +id_item + " " +mes_part + " " + draw_rev);
                 // Tìm nhóm_Kitting Sản phẩm
                 Data_Kitting_NVL.DataSource = null;
                 Data_Kitting_NVL.Refresh();
                 var dv = new DataView(dt)
                 {
-                    RowFilter = $"Id = {id_item}"
+                    RowFilter = $"Item_Wo = '{id_item}' and WorkOrder = {work_order} and ID_Wo = '{mes_part}'"
                 };
                 DataTable dtselect = dv.ToTable(true, "Nhóm_Kitting");
 
@@ -285,14 +317,14 @@ namespace EVS_ProductionStatus
                 try
                 {
                     // Load dữ liệu ở chế độ async (không đơ UI)
-                    picLoading.Invoke(new Action(() => picLoading.Visible = true));
-                    var Reload_Function = new Reload_Inventory_Infor();
-                    check_connect = await Reload_Function.CallInventoryApiAsync("http://10.239.2.10:5555/api/inventory");
-                    picLoading.Invoke(new Action(() => picLoading.Visible = false));
-                    if (!check_connect)
-                    {
-                        return;
-                    }
+                    //picLoading.Invoke(new Action(() => picLoading.Visible = true));
+                    //var Reload_Function = new Reload_Inventory_Infor();
+                    //check_connect = await Reload_Function.CallInventoryApiAsync("http://10.239.2.10:5555/api/inventory");
+                    //picLoading.Invoke(new Action(() => picLoading.Visible = false));
+                    //if (!check_connect)
+                    //{
+                    //    return;
+                    //}
                     loading.Show();
                     var data = await Task.Run(() =>
                     {
@@ -306,7 +338,7 @@ namespace EVS_ProductionStatus
                             return tmp;
                         }
                     });
-                    Data_Item_Type(data);
+                    Data_kitting();
                 }
                 catch (Exception ex)
                 {

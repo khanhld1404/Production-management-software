@@ -1,6 +1,6 @@
 ﻿
 using EVS_ProductionStatus.Class;
-using EVS_ProductionStatus.Data;
+using EVS_ProductionStatus.Data_EVS;
 using EVS_ProductionStatus.Update_Inventory.Class;
 using EVS_ProductionStatus.Update_Inventory.Model;
 using OfficeOpenXml;
@@ -30,7 +30,7 @@ namespace EVS_ProductionStatus
         {
             InitializeComponent();
         }
-        string entityConnString = clConnection.connectString2;
+        string entityConnString = clConnection.connectEntity2;
         // Nếu loc là một trong hai giá trị ở dưới thì trả về kết quả là true, còn lại là false
         bool IsTargetLoc(string loc)
         {
@@ -390,14 +390,14 @@ namespace EVS_ProductionStatus
         int r = 0; //Xác định hàng được bấm
 
         //Danh sách dữ liệu 
-        private List<RM_Overview> Data_Overview;
-        private List<RM_Detail> Data_Detail;
-        private List<RM_Elink> Data_Eink;
+        private List<RM_WIP_Overview> Data_Overview;
+        private List<RM_WIP_Detail> Data_Detail;
+        private List<RM_WIP_Elink> Data_Eink;
 
 
-        private List<RM_Overview> Data_Search_Overview;
-        private List<RM_Detail> Data_Search_Detail;
-        private List<RM_Elink> Data_Search_Eink;
+        private List<RM_WIP_Overview> Data_Search_Overview;
+        private List<RM_WIP_Detail> Data_Search_Detail;
+        private List<RM_WIP_Elink> Data_Search_Eink;
         private void Data_Details_Load(int row, int column)
         {
             Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
@@ -422,7 +422,7 @@ namespace EVS_ProductionStatus
                                 )
                         group in_e by in_e.MATERIAL_CODE into g
                         orderby g.Key
-                        select new RM_Overview
+                        select new RM_WIP_Overview
                         {
                             ItemCode = g.Key,
                             Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
@@ -445,7 +445,7 @@ namespace EVS_ProductionStatus
                                          )
                                  group in_e by new {in_e.MATERIAL_CODE,in_e.BATCH_NUMBER,in_e.STOCK_TYPE,in_e.CONNECT_STATUS} into g
                                  orderby g.Key.MATERIAL_CODE
-                                 select new RM_Elink
+                                 select new RM_WIP_Elink
                                  {
                                      ItemCode = g.Key.MATERIAL_CODE,
                                      Lotno = g.Key.BATCH_NUMBER,
@@ -472,7 +472,7 @@ namespace EVS_ProductionStatus
                                     )
                             group in_e by new { in_e.MATERIAL_CODE, in_e.BATCH_NUMBER, in_e.STOCK_TYPE} into g
                             orderby g.Key.MATERIAL_CODE
-                            select new RM_Detail
+                            select new RM_WIP_Detail
                             {
                                 ItemCode = g.Key.MATERIAL_CODE,
                                 Lotno = g.Key.BATCH_NUMBER,

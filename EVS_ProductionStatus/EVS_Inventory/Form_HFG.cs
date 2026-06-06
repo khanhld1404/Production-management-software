@@ -1,7 +1,7 @@
 ﻿
 using EVS_ProductionStatus;
 using EVS_ProductionStatus.Class;
-using EVS_ProductionStatus.Data;
+using EVS_ProductionStatus.Data_EVS;
 using EVS_ProductionStatus.Update_Inventory.Class;
 using EVS_ProductionStatus.Update_Inventory.Model;
 using OfficeOpenXml;
@@ -27,7 +27,7 @@ namespace EVS_ProductionStatus
         {
             InitializeComponent();
         }
-        string entityConnString = clConnection.connectString2;
+        string entityConnString = clConnection.connectEntity2;
         List<string> HFG_Location = new List<string>{"9999", "3010", "3008", "3009", "2001", "2101"};
         private void Load_Data()
         {

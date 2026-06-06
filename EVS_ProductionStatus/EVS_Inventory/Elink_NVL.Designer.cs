@@ -122,7 +122,7 @@ namespace EVS_ProductionStatus
             this.btn_connect.TabIndex = 6;
             this.btn_connect.Text = "Kết Nối";
             this.btn_connect.UseVisualStyleBackColor = false;
-            this.btn_connect.Click += new System.EventHandler(this.btn_connect_Click);
+
             // 
             // txt_MAC
             // 
@@ -219,7 +219,7 @@ namespace EVS_ProductionStatus
             this.btn_un_connect.TabIndex = 22;
             this.btn_un_connect.Text = "Hủy Kết Nối";
             this.btn_un_connect.UseVisualStyleBackColor = false;
-            this.btn_un_connect.Click += new System.EventHandler(this.btn_un_connect_Click);
+
             // 
             // Elink_NVL
             // 
