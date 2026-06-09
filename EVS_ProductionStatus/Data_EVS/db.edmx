@@ -5,6 +5,27 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="EVS_ProductionStatusModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Packing_List">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPL" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DateTimeCreated" Type="datetime" />
+          <Property Name="MaPL" Type="nvarchar" MaxLength="100" />
+          <Property Name="ChungLoai" Type="nvarchar" MaxLength="100" />
+          <Property Name="ThietBi" Type="nvarchar" MaxLength="100" />
+          <Property Name="WO_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="Item_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="Rev_No" Type="nvarchar" MaxLength="100" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="ThietBi_Detail" Type="nvarchar" MaxLength="100" />
+          <Property Name="strFull" Type="nvarchar" MaxLength="100" />
+          <Property Name="Result" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="tblBanVe">
           <Key>
             <PropertyRef Name="id" />
@@ -486,6 +507,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Parameter Name="wo" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="EVS_ProductionStatusModelStoreContainer">
+          <EntitySet Name="Packing_List" EntityType="Self.Packing_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBanVe" EntityType="Self.tblBanVe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblContent" EntityType="Self.tblContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblDongGoi" EntityType="Self.tblDongGoi" Schema="dbo" store:Type="Tables" />
@@ -1038,6 +1060,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
             <Parameter Name="YYMM" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="v_06_LoaiSP" EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" />
+          <EntitySet Name="Packing_List" EntityType="EVS_ProductionStatusModel.Packing_List" />
         </EntityContainer>
         <ComplexType Name="pro_02_tblInputWithTime_Result">
           <Property Type="Int64" Name="STT" Nullable="true" />
@@ -1364,6 +1387,27 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="MES_PART" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="WORK_ORDER_ID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="LoaiSP" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Packing_List">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPL" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeCreated" Type="DateTime" Precision="3" />
+          <Property Name="MaPL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ChungLoai" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ThietBi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="WO_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ID_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Item_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Rev_No" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="ThietBi_Detail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="strFull" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2098,6 +2142,28 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
                 <ScalarProperty Name="LoaiSP" ColumnName="LoaiSP" />
                 <ScalarProperty Name="WORK_ORDER_ID" ColumnName="WORK_ORDER_ID" />
                 <ScalarProperty Name="MES_PART" ColumnName="MES_PART" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packing_List">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.Packing_List">
+              <MappingFragment StoreEntitySet="Packing_List">
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="strFull" ColumnName="strFull" />
+                <ScalarProperty Name="ThietBi_Detail" ColumnName="ThietBi_Detail" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Rev_No" ColumnName="Rev_No" />
+                <ScalarProperty Name="Item_No" ColumnName="Item_No" />
+                <ScalarProperty Name="ID_No" ColumnName="ID_No" />
+                <ScalarProperty Name="WO_No" ColumnName="WO_No" />
+                <ScalarProperty Name="ThietBi" ColumnName="ThietBi" />
+                <ScalarProperty Name="ChungLoai" ColumnName="ChungLoai" />
+                <ScalarProperty Name="MaPL" ColumnName="MaPL" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="idPL" ColumnName="idPL" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

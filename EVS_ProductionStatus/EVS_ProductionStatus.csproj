@@ -126,6 +126,7 @@
     <Compile Include="Controller\clKittingDongThoi.cs" />
     <Compile Include="Controller\clMaBanVe.cs" />
     <Compile Include="Controller\clThoiGianKhau.cs" />
+    <Compile Include="Controller\Packing_List_Data.cs" />
     <Compile Include="DataExport\ExportQCRing.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +177,9 @@
     </Compile>
     <Compile Include="Data_EVS\Kitting_Infor.cs">
       <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\Packing_List.cs">
+      <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="Data_EVS\tblWO.cs">
       <DependentUpon>db2.tt</DependentUpon>

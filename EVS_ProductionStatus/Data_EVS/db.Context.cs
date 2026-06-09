@@ -47,6 +47,7 @@ namespace EVS_ProductionStatus.Data_EVS
         public virtual DbSet<v_DSLoaiSP> v_DSLoaiSP { get; set; }
         public virtual DbSet<tblInput_Ring> tblInput_Ring { get; set; }
         public virtual DbSet<v_06_LoaiSP> v_06_LoaiSP { get; set; }
+        public virtual DbSet<Packing_List> Packing_List { get; set; }
     
         public virtual int pro_01_truncateWO()
         {

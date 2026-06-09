@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txt_Box_Number = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Box_Data = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -39,7 +39,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.lab_Box = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.txt_wo_scan = new System.Windows.Forms.TextBox();
             this.lab_emp1 = new System.Windows.Forms.Label();
@@ -48,7 +48,15 @@
             this.txt_emp_2 = new System.Windows.Forms.TextBox();
             this.arrow1 = new System.Windows.Forms.PictureBox();
             this.arrow2 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.lab_box_error = new System.Windows.Forms.Label();
+            this.lab_nv1_error = new System.Windows.Forms.Label();
+            this.lab_nv2_error = new System.Windows.Forms.Label();
+            this.lab_code_error = new System.Windows.Forms.Label();
+            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WO_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.Box_Data)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow2)).BeginInit();
             this.SuspendLayout();
@@ -81,16 +89,22 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Danh sách sản phẩm của thùng";
             // 
-            // dataGridView1
+            // Box_Data
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.Box_Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(23, 262);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1166, 354);
-            this.dataGridView1.TabIndex = 7;
+            this.Box_Data.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.Box_Data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Box_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.WorkOrder,
+            this.WO_ID,
+            this.ItemNumber,
+            this.Result});
+            this.Box_Data.Location = new System.Drawing.Point(23, 262);
+            this.Box_Data.Name = "Box_Data";
+            this.Box_Data.Size = new System.Drawing.Size(1166, 354);
+            this.Box_Data.TabIndex = 7;
             // 
             // label5
             // 
@@ -162,15 +176,14 @@
             this.label11.TabIndex = 14;
             this.label11.Text = "Số thùng :";
             // 
-            // label12
+            // lab_Box
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(107, 214);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(60, 20);
-            this.label12.TabIndex = 15;
-            this.label12.Text = "label12";
+            this.lab_Box.AutoSize = true;
+            this.lab_Box.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lab_Box.Location = new System.Drawing.Point(107, 214);
+            this.lab_Box.Name = "lab_Box";
+            this.lab_Box.Size = new System.Drawing.Size(0, 20);
+            this.lab_Box.TabIndex = 15;
             // 
             // label14
             // 
@@ -254,16 +267,76 @@
             this.arrow2.TabStop = false;
             this.arrow2.Visible = false;
             // 
+            // lab_box_error
+            // 
+            this.lab_box_error.AutoSize = true;
+            this.lab_box_error.ForeColor = System.Drawing.Color.Red;
+            this.lab_box_error.Location = new System.Drawing.Point(146, 113);
+            this.lab_box_error.Name = "lab_box_error";
+            this.lab_box_error.Size = new System.Drawing.Size(0, 13);
+            this.lab_box_error.TabIndex = 60;
+            // 
+            // lab_nv1_error
+            // 
+            this.lab_nv1_error.AutoSize = true;
+            this.lab_nv1_error.ForeColor = System.Drawing.Color.Red;
+            this.lab_nv1_error.Location = new System.Drawing.Point(657, 83);
+            this.lab_nv1_error.Name = "lab_nv1_error";
+            this.lab_nv1_error.Size = new System.Drawing.Size(0, 13);
+            this.lab_nv1_error.TabIndex = 61;
+            // 
+            // lab_nv2_error
+            // 
+            this.lab_nv2_error.AutoSize = true;
+            this.lab_nv2_error.ForeColor = System.Drawing.Color.Red;
+            this.lab_nv2_error.Location = new System.Drawing.Point(660, 130);
+            this.lab_nv2_error.Name = "lab_nv2_error";
+            this.lab_nv2_error.Size = new System.Drawing.Size(0, 13);
+            this.lab_nv2_error.TabIndex = 62;
+            // 
+            // lab_code_error
+            // 
+            this.lab_code_error.AutoSize = true;
+            this.lab_code_error.ForeColor = System.Drawing.Color.Red;
+            this.lab_code_error.Location = new System.Drawing.Point(660, 170);
+            this.lab_code_error.Name = "lab_code_error";
+            this.lab_code_error.Size = new System.Drawing.Size(0, 13);
+            this.lab_code_error.TabIndex = 63;
+            // 
+            // WorkOrder
+            // 
+            this.WorkOrder.HeaderText = "WorkOrder";
+            this.WorkOrder.Name = "WorkOrder";
+            // 
+            // WO_ID
+            // 
+            this.WO_ID.HeaderText = "WO_ID";
+            this.WO_ID.Name = "WO_ID";
+            // 
+            // ItemNumber
+            // 
+            this.ItemNumber.HeaderText = "ItemNumber";
+            this.ItemNumber.Name = "ItemNumber";
+            // 
+            // Result
+            // 
+            this.Result.HeaderText = "Kết quả OK";
+            this.Result.Name = "Result";
+            // 
             // Box_Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1287, 651);
+            this.Controls.Add(this.lab_code_error);
+            this.Controls.Add(this.lab_nv2_error);
+            this.Controls.Add(this.lab_nv1_error);
+            this.Controls.Add(this.lab_box_error);
             this.Controls.Add(this.arrow2);
             this.Controls.Add(this.arrow1);
             this.Controls.Add(this.txt_wo_scan);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.label12);
+            this.Controls.Add(this.lab_Box);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -271,7 +344,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.Box_Data);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txt_emp_2);
             this.Controls.Add(this.lab_emp2);
@@ -282,7 +355,7 @@
             this.Name = "Box_Status";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Box_Status";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Box_Data)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow2)).EndInit();
             this.ResumeLayout(false);
@@ -295,7 +368,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_Box_Number;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView Box_Data;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -303,7 +376,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lab_Box;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txt_wo_scan;
         private System.Windows.Forms.Label lab_emp1;
@@ -312,5 +385,13 @@
         private System.Windows.Forms.TextBox txt_emp_2;
         private System.Windows.Forms.PictureBox arrow1;
         private System.Windows.Forms.PictureBox arrow2;
+        private System.Windows.Forms.Label lab_box_error;
+        private System.Windows.Forms.Label lab_nv1_error;
+        private System.Windows.Forms.Label lab_nv2_error;
+        private System.Windows.Forms.Label lab_code_error;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WorkOrder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn WO_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ItemNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Result;
     }
 }
