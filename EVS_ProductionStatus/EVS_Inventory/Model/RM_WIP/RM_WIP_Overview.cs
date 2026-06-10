@@ -8,7 +8,7 @@ namespace EVS_ProductionStatus.Update_Inventory.Model
 {
     internal class RM_WIP_Overview
     {
-        public string ItemCode { get; set; }
+        public string MATERIAL_CODE { get; set; }
         public decimal Total { get; set; }
         public decimal Blocked { get; set; }
         public decimal UU { get; set; }

@@ -9,8 +9,8 @@ namespace EVS_ProductionStatus.Update_Inventory.Model
     internal class HFG_Overview
     {
 
-        public string ItemNumber { get; set; }
-        public double Total { get; set; }
+        public string MATERIAL_CODE { get; set; }
+        public double Tổng_Số_Lượng { get; set; }
 
     }
 }

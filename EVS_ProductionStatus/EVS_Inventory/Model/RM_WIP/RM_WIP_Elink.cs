@@ -8,7 +8,7 @@ namespace EVS_ProductionStatus.Update_Inventory.Model
 {
     internal class RM_WIP_Elink
     {
-        public string ItemCode { get; set; }
+        public string MATERIAL_CODE { get; set; }
         public string Lotno { get; set; }
         public string Status { get; set; }
         public decimal Total { get; set; }

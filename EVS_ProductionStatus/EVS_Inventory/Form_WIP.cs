@@ -424,7 +424,7 @@ namespace EVS_ProductionStatus
                              orderby g.Key
                              select new RM_WIP_Overview
                              {
-                                 ItemCode = g.Key,
+                                 MATERIAL_CODE = g.Key,
                                  Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
                                  Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
                                  UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
@@ -447,7 +447,7 @@ namespace EVS_ProductionStatus
                              orderby g.Key.MATERIAL_CODE
                              select new RM_WIP_Elink
                              {
-                                 ItemCode = g.Key.MATERIAL_CODE,
+                                 MATERIAL_CODE = g.Key.MATERIAL_CODE,
                                  Lotno = g.Key.BATCH_NUMBER,
                                  Status = g.Key.STOCK_TYPE,
                                  Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
@@ -474,7 +474,7 @@ namespace EVS_ProductionStatus
                                orderby g.Key.MATERIAL_CODE
                                select new RM_WIP_Detail
                                {
-                                   ItemCode = g.Key.MATERIAL_CODE,
+                                   MATERIAL_CODE = g.Key.MATERIAL_CODE,
                                    Lotno = g.Key.BATCH_NUMBER,
                                    Status = g.Key.STOCK_TYPE,
                                    Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
@@ -695,16 +695,16 @@ namespace EVS_ProductionStatus
 
                 if (tt_ItemCode != "" && tt_Lotno != "")
                 {
-                    Data_Search_Overview = Data_Overview.Where(x => x.ItemCode == tt_ItemCode).ToList();
+                    Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
                     bool check_LotNo;
                     if (a == 0)
                     {
-                        Data_Search_Detail = Data_Detail.Where(x => x.ItemCode == tt_ItemCode && x.Lotno == tt_Lotno).ToList();
+                        Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemCode && x.Lotno == tt_Lotno).ToList();
                         check_LotNo = Data_Detail.Any(x => x.Lotno == tt_Lotno);
                     }
                     else
                     {
-                        Data_Search_Eink = Data_Eink.Where(x => x.ItemCode == tt_ItemCode && x.Lotno == tt_Lotno).ToList();
+                        Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL_CODE == tt_ItemCode && x.Lotno == tt_Lotno).ToList();
                         check_LotNo = Data_Eink.Any(x => x.Lotno == tt_Lotno);
                     }
 
@@ -725,14 +725,14 @@ namespace EVS_ProductionStatus
                 }
                 else if (tt_ItemCode != "" && tt_Lotno == "")
                 {
-                    Data_Search_Overview = Data_Overview.Where(x => x.ItemCode == tt_ItemCode).ToList();
+                    Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
                     if (a == 0)
                     {
-                        Data_Search_Detail = Data_Detail.Where(x => x.ItemCode == tt_ItemCode).ToList();
+                        Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
                     }
                     else
                     {
-                        Data_Search_Eink = Data_Eink.Where(x => x.ItemCode == tt_ItemCode).ToList();
+                        Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
                     }
                     if (!Data_Search_Overview.Any())
                     {
@@ -745,13 +745,13 @@ namespace EVS_ProductionStatus
                     {
                         Data_Search_Detail = Data_Detail.Where(x => x.Lotno == tt_Lotno).ToList();
                         var Item_code_return = Data_Detail.Where(x => x.Lotno == tt_Lotno)
-                                .Select(x => x.ItemCode)
+                                .Select(x => x.MATERIAL_CODE)
                                 .Distinct()
                                 .ToList();
 
                         Data_Search_Overview = (from s in Data_Overview
                                                 join code in Item_code_return
-                                                    on s.ItemCode equals code
+                                                    on s.MATERIAL_CODE equals code
                                                 select s)
                                     .ToList();
                     }
@@ -759,13 +759,13 @@ namespace EVS_ProductionStatus
                     {
                         Data_Search_Eink = Data_Eink.Where(x => x.Lotno == tt_Lotno).ToList();
                         var Item_code_return = Data_Eink.Where(x => x.Lotno == tt_Lotno)
-                                .Select(x => x.ItemCode)
+                                .Select(x => x.MATERIAL_CODE)
                                 .Distinct()
                                 .ToList();
 
                         Data_Search_Overview = (from s in Data_Overview
                                                 join code in Item_code_return
-                                                    on s.ItemCode equals code
+                                                    on s.MATERIAL_CODE equals code
                                                 select s)
                                     .ToList();
                     }

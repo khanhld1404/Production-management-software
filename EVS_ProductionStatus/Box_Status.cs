@@ -21,30 +21,75 @@ namespace EVS_ProductionStatus
         string emp_2 = "";
         // Kiểm tra xem đã quét đủ 2 nhân viên chưa
         bool check_nv = false;
-        // Thực hiện việc đọc lại dữ liệu bảng 
+
+        // Dữ liệu bảng
         private void Data_Box()
         {
            string box_infor = lab_Box.Text.ToString();
-           var  data_box = db.Packing_List
-               .Where(x => x.MaPL == box_infor)
-               .OrderByDescending(x => x.Result)
-               .Select(x => new 
-               {
-                   wo = x.WO_No,
-                   ID = x.ID_No,
-                   Item = x.Item_No,
-                   Result = x.Result
-               }).ToList();
+            // Thêm số thứ tự vào bảng dữ liệu
+            int current_Rank = 0;
+            int? previousRank = null;
+
+            var data_box_rank = db.Packing_List
+                .Where(x => x.MaPL == box_infor)
+                .OrderBy(x => x.id)
+                .AsEnumerable()
+                .Select(x =>
+                {
+                    if (previousRank != x.id)
+                    {
+                        current_Rank += 1;
+                        previousRank = x.id;
+                    }
+                    return new
+                    {
+                        STT = current_Rank,
+                        WO = x.WO_No,
+                        ID = x.ID_No,
+                        Item = x.Item_No,
+                        Result = x.Result
+                    };
+                });
+            var data_box = data_box_rank.OrderBy(x => x.Result).ToList();
             Box_Data.Rows.Clear();
             foreach (var tt in data_box)
             {
-                int row_index = Box_Data.Rows.Add(tt.wo, tt.ID, tt.Item, tt.Result);
+                int row_index = Box_Data.Rows.Add(tt.STT,tt.WO, tt.ID, tt.Item, tt.Result);
                 if (tt.Result == "OK")
                 {
                     Box_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;
                 }
             }
+
+            // Thêm thông tin số lượng trong bảng
+            Box_count_infor();
         }
+
+        // Các dữ liệu tổng của thùng
+        private void Box_count_infor()
+        {
+            // Dữ liệu bảng
+            string box = lab_Box.Text.ToString();
+
+            var tt_box = db.Packing_List
+                        .Where(x => x.MaPL == box);
+            // Tổng số lượng có trong thùng
+            int total_box = tt_box.Count();
+            lab_total_box.Text = total_box.ToString();
+
+            // Tổng số lượng OK
+            int total_box_ok = tt_box
+                .Where(x => x.Result == "OK")
+                .Count();
+            lab_total_ok.Text = total_box_ok.ToString();
+
+            // Tổng số lượng NG
+            int total_box_ng = tt_box
+                .Where(x => x.Result == "NG")
+                .Count();
+            lab_total_ng.Text = total_box_ng.ToString();
+        }
+
         public Box_Status() 
         {
             InitializeComponent();
@@ -56,14 +101,13 @@ namespace EVS_ProductionStatus
             if(e.KeyCode == Keys.Enter)
             {
                 // Giá trị mã thùng nhập vào
-                string box_infor = txt_Box_Number.Text.ToString();
+                string tt_box = txt_Box_Number.Text.Trim().ToString();
                 var box_status = db.Packing_List
-                                 .FirstOrDefault(x => x.MaPL == box_infor);
-               if(box_infor != null)
+                                 .FirstOrDefault(x => x.MaPL == tt_box);
+               if(box_status != null)
                 {
                     lab_box_error.Text = "";
-                    lab_Box.Text = box_infor.ToString();
-                    Data_Box();
+                    lab_Box.Text = tt_box.ToString();
                     if(check_nv == false)
                     {
                         arrow1.Visible = true;
@@ -75,6 +119,8 @@ namespace EVS_ProductionStatus
                     {
                         txt_wo_scan.Focus();
                     }
+                    Data_Box();
+
                 }
                 else
                 {
@@ -89,7 +135,7 @@ namespace EVS_ProductionStatus
             if (e.KeyCode == Keys.Enter)
             {
                 // Lấy mã nhân viên đầu tiên
-                emp_1 = txt_emp_1.Text.ToString();
+                emp_1 = txt_emp_1.Text.Trim().ToString();
                 bool emp_exist = db.tblUsers
                                 .Any(x => x.userid == emp_1);
                 if(emp_exist)
@@ -113,7 +159,7 @@ namespace EVS_ProductionStatus
             if (e.KeyCode == Keys.Enter)
             {
                 // Lấy mã nhân viên thứ hai
-                emp_2 = txt_emp_2.Text.ToString();
+                emp_2 = txt_emp_2.Text.Trim().ToString();
                 if(emp_2 == emp_1)
                 {
                     lab_nv2_error.Text = "Cần mã nhân viên thứ hai!";
@@ -149,31 +195,66 @@ namespace EVS_ProductionStatus
         {
             if(e.KeyCode == Keys.Enter)
             {
-                string barcode = txt_wo_scan.Text.ToString();
-                // Lấy work_order_id
-                string woid = barcode.Substring(4, 10);
-                // Lấy Item_code
-                string item = barcode.Substring(19);
-                MessageBox.Show(woid + " " + item);
+                lab_code_error.Text = "";
                 // Dữ liệu bảng
                 string box = lab_Box.Text.ToString();
+
+                string barcode = txt_wo_scan.Text.Trim().ToString();
+
+                // Lấy work_order_id
+                int firstClose = barcode.IndexOf(')');
+                int secondOpen = barcode.IndexOf('(', firstClose + 1);
+
+                string woid = barcode.Substring(firstClose + 1, secondOpen - firstClose - 1);
+                // Lấy Item_code
+                int secondClose = barcode.IndexOf(')', secondOpen + 1);
+
+                string item = barcode.Substring(secondClose + 1);
+
                 // Kiểm tra woid và item có tồn tại không
                 var kq = db.Packing_List
                                .FirstOrDefault(x => x.MaPL == box && x.ID_No == woid && x.Item_No == item);
+
                 if (kq != null)
                 {
-                    kq.Result = "OK";
-                    db.Packing_List.Add(kq);
-                    db.SaveChanges();
+                    if(kq.Result == "NG")
+                    {
+                        var NG_min_index = db.Packing_List
+                                       .Where(x => x.MaPL == box && x.Result == "NG")
+                                       .OrderBy(x => x.id)
+                                       .FirstOrDefault();
+                        MessageBox.Show(NG_min_index.ID_No + "  " + NG_min_index.Item_No);
+                        // Kiểm tra xem nó có đúng thứ tự hay không
+                        if (NG_min_index.ID_No == woid && NG_min_index.Item_No == item)
+                        {
+                            kq.Result = "OK";
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            lab_code_error.Text = "Mã quét nằm sai thứ tự quét!";
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        lab_code_error.Text = "Mã code đã được quét!";
+                        return;
+                    }
                 }
                 else
                 {
-                    lab_code_error.Text = "Mã code không thỏa mãn";
+                    lab_code_error.Text = "Mã code không thỏa mãn!";
                     return;
                 }
-                // Đưa ra thành màu xanh
+                // Đưa ra dữ liệu box mới
                 Data_Box();
             }
+        }
+
+        private void Box_Status_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

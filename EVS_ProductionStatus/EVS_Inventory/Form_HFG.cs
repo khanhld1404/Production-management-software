@@ -98,8 +98,8 @@ namespace EVS_ProductionStatus
                             orderby g.Key
                             select new HFG_Overview
                             {
-                                ItemNumber = g.Key,
-                                Total = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
+                                MATERIAL_CODE = g.Key,
+                                Tổng_Số_Lượng = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
                             }).ToList();
                 Data_Detail = (from em in mb.EVS_Manage
                             join in_e in mb.EVS_Stock
@@ -119,8 +119,8 @@ namespace EVS_ProductionStatus
                             orderby g.Key
                             select new HFG_Detail
                             {
-                                ItemNumber = g.Key.Item_Number,
-                                ID = g.Key.BATCH_NUMBER,
+                                MATERIAL_CODE = g.Key.Item_Number,
+                                BATCH_NUMBER = g.Key.BATCH_NUMBER,
                                 Số_Lượng = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
                             }).ToList();
                 //Xác định bảng nào sẽ được hiển thị 
@@ -231,10 +231,10 @@ namespace EVS_ProductionStatus
                 // Nếu nhập đủ thông tin tìm kiếm
                 if(tt_ItemNumber != "" && tt_ID != "")
                 {
-                    Data_Search_Detail = Data_Detail.Where(x => x.ItemNumber == tt_ItemNumber && x.ID == tt_ID).ToList();
-                    Data_Search_OverView = Data_Overview.Where(x => x.ItemNumber == tt_ItemNumber).ToList();
+                    Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemNumber && x.BATCH_NUMBER == tt_ID).ToList();
+                    Data_Search_OverView = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemNumber).ToList();
 
-                    bool check_ID = Data_Detail.Any(x => x.ID == tt_ID);
+                    bool check_ID = Data_Detail.Any(x => x.BATCH_NUMBER == tt_ID);
 
                     //Kiểm tra thông tin tìm kiếm có chính xác không
                     if(!Data_Search_OverView.Any() && !check_ID)
@@ -252,8 +252,8 @@ namespace EVS_ProductionStatus
                 //Chỉ nhập ItemNumber
                 else if(tt_ItemNumber != "" && tt_ID == "")
                 {
-                    Data_Search_Detail = Data_Detail.Where(x => x.ItemNumber == tt_ItemNumber).ToList();
-                    Data_Search_OverView = Data_Overview.Where(x => x.ItemNumber == tt_ItemNumber).ToList();
+                    Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemNumber).ToList();
+                    Data_Search_OverView = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemNumber).ToList();
 
                     //Kiểm tra thông tin tìm kiếm ItemNumber
                     if(!Data_Search_OverView.Any())
@@ -264,14 +264,14 @@ namespace EVS_ProductionStatus
                 //Chỉ nhập ID
                 else if (tt_ItemNumber == "" && tt_ID != "")
                 {
-                    Data_Search_Detail = Data_Detail.Where(x => x.ID == tt_ID).ToList();
-                    var Item_code_return = Data_Detail.Where(x => x.ID == tt_ID)
-                                                        .Select(x => x.ItemNumber)
+                    Data_Search_Detail = Data_Detail.Where(x => x.BATCH_NUMBER == tt_ID).ToList();
+                    var Item_code_return = Data_Detail.Where(x => x.BATCH_NUMBER == tt_ID)
+                                                        .Select(x => x.MATERIAL_CODE)
                                                         .Distinct()
                                                         .ToList();
                     Data_Search_OverView = (from s in Data_Overview
                                join code in Item_code_return
-                                   on s.ItemNumber equals code
+                                   on s.MATERIAL_CODE equals code
                                select s)
                                .ToList();
 
