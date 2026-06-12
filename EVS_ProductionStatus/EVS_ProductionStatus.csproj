@@ -181,6 +181,9 @@
     <Compile Include="Data_EVS\Packing_List.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data_EVS\Packing_Time.cs">
+      <DependentUpon>db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data_EVS\tblWO.cs">
       <DependentUpon>db2.tt</DependentUpon>
     </Compile>

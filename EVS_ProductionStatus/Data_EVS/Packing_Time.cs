@@ -12,14 +12,10 @@ namespace EVS_ProductionStatus.Data_EVS
     using System;
     using System.Collections.Generic;
     
-    public partial class Kitting_Infor
+    public partial class Packing_Time
     {
-        public int stt { get; set; }
-        public string woid { get; set; }
-        public string id { get; set; }
-        public string com { get; set; }
-        public string lot { get; set; }
-        public long Nhom_Kitting { get; set; }
-        public int quantity { get; set; }
+        public string MaThung { get; set; }
+        public Nullable<System.DateTime> TimeStart { get; set; }
+        public Nullable<System.DateTime> TimeEnd { get; set; }
     }
 }

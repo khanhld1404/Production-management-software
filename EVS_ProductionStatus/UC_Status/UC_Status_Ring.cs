@@ -288,37 +288,10 @@ namespace EVS_ProductionStatus
             }
         }
 
-        private void lbWOKhauIn_Click(object sender, EventArgs e)
-        {
-            InputForm f = new InputForm(WOKhauInCode);
-            if (f.ShowDialog() == DialogResult.OK)
-            {
-                loaddata();
-            }
-        }
-
-        private void lbWOKhauOut_Click(object sender, EventArgs e)
-        {
-            InputForm f = new InputForm(WOKhauOutCode);
-            if (f.ShowDialog() == DialogResult.OK)
-            {
-                loaddata();
-            }
-        }
-
 
         private void lbWOQC_Click(object sender, EventArgs e)
         {
             InputForm f = new InputForm(WOQCCode);
-            if (f.ShowDialog() == DialogResult.OK)
-            {
-                loaddata();
-            }
-        }
-
-        private void lbWODG_Click(object sender, EventArgs e)
-        {
-            InputForm f = new InputForm(WODGCode);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 loaddata();

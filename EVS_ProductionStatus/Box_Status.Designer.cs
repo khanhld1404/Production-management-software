@@ -28,10 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_Box_Number = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.Box_Data = new System.Windows.Forms.DataGridView();
+            this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WO_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lab_total_box = new System.Windows.Forms.Label();
@@ -51,12 +58,6 @@
             this.lab_box_error = new System.Windows.Forms.Label();
             this.lab_nv1_error = new System.Windows.Forms.Label();
             this.lab_nv2_error = new System.Windows.Forms.Label();
-            this.lab_code_error = new System.Windows.Forms.Label();
-            this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WO_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Box_Data)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow2)).BeginInit();
@@ -74,9 +75,10 @@
             // 
             // txt_Box_Number
             // 
-            this.txt_Box_Number.Location = new System.Drawing.Point(146, 77);
+            this.txt_Box_Number.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_Box_Number.Location = new System.Drawing.Point(146, 70);
             this.txt_Box_Number.Name = "txt_Box_Number";
-            this.txt_Box_Number.Size = new System.Drawing.Size(194, 20);
+            this.txt_Box_Number.Size = new System.Drawing.Size(194, 24);
             this.txt_Box_Number.TabIndex = 1;
             this.txt_Box_Number.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Box_Number_KeyDown);
             // 
@@ -92,10 +94,21 @@
             // 
             // Box_Data
             // 
+            this.Box_Data.AllowUserToAddRows = false;
             this.Box_Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Box_Data.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.Box_Data.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 8);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Box_Data.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.Box_Data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Box_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.STT,
@@ -103,16 +116,59 @@
             this.WO_ID,
             this.ItemNumber,
             this.Result});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Box_Data.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Box_Data.EnableHeadersVisualStyles = false;
             this.Box_Data.Location = new System.Drawing.Point(23, 262);
             this.Box_Data.Name = "Box_Data";
+            this.Box_Data.ReadOnly = true;
+            this.Box_Data.RowHeadersVisible = false;
+            this.Box_Data.RowTemplate.Height = 30;
             this.Box_Data.Size = new System.Drawing.Size(1166, 354);
             this.Box_Data.TabIndex = 7;
+            // 
+            // STT
+            // 
+            this.STT.HeaderText = "STT";
+            this.STT.Name = "STT";
+            this.STT.ReadOnly = true;
+            // 
+            // WorkOrder
+            // 
+            this.WorkOrder.HeaderText = "WorkOrder";
+            this.WorkOrder.Name = "WorkOrder";
+            this.WorkOrder.ReadOnly = true;
+            // 
+            // WO_ID
+            // 
+            this.WO_ID.HeaderText = "WO_ID";
+            this.WO_ID.Name = "WO_ID";
+            this.WO_ID.ReadOnly = true;
+            // 
+            // ItemNumber
+            // 
+            this.ItemNumber.HeaderText = "ItemNumber";
+            this.ItemNumber.Name = "ItemNumber";
+            this.ItemNumber.ReadOnly = true;
+            // 
+            // Result
+            // 
+            this.Result.HeaderText = "Kết quả OK";
+            this.Result.Name = "Result";
+            this.Result.ReadOnly = true;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(868, 114);
+            this.label5.Location = new System.Drawing.Point(868, 144);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 20);
             this.label5.TabIndex = 8;
@@ -122,7 +178,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(868, 55);
+            this.label6.Location = new System.Drawing.Point(868, 106);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(166, 20);
             this.label6.TabIndex = 9;
@@ -132,7 +188,7 @@
             // 
             this.lab_total_box.AutoSize = true;
             this.lab_total_box.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_total_box.Location = new System.Drawing.Point(1052, 55);
+            this.lab_total_box.Location = new System.Drawing.Point(1052, 106);
             this.lab_total_box.Name = "lab_total_box";
             this.lab_total_box.Size = new System.Drawing.Size(0, 20);
             this.lab_total_box.TabIndex = 10;
@@ -141,7 +197,7 @@
             // 
             this.lab_total_ok.AutoSize = true;
             this.lab_total_ok.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_total_ok.Location = new System.Drawing.Point(1052, 114);
+            this.lab_total_ok.Location = new System.Drawing.Point(1052, 144);
             this.lab_total_ok.Name = "lab_total_ok";
             this.lab_total_ok.Size = new System.Drawing.Size(0, 20);
             this.lab_total_ok.TabIndex = 11;
@@ -150,7 +206,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(868, 164);
+            this.label9.Location = new System.Drawing.Point(868, 194);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(145, 20);
             this.label9.TabIndex = 12;
@@ -160,7 +216,7 @@
             // 
             this.lab_total_ng.AutoSize = true;
             this.lab_total_ng.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_total_ng.Location = new System.Drawing.Point(1052, 161);
+            this.lab_total_ng.Location = new System.Drawing.Point(1052, 191);
             this.lab_total_ng.Name = "lab_total_ng";
             this.lab_total_ng.Size = new System.Drawing.Size(0, 20);
             this.lab_total_ng.TabIndex = 13;
@@ -169,7 +225,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(19, 214);
+            this.label11.Location = new System.Drawing.Point(868, 68);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(82, 20);
             this.label11.TabIndex = 14;
@@ -179,7 +235,7 @@
             // 
             this.lab_Box.AutoSize = true;
             this.lab_Box.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_Box.Location = new System.Drawing.Point(107, 214);
+            this.lab_Box.Location = new System.Drawing.Point(956, 68);
             this.lab_Box.Name = "lab_Box";
             this.lab_Box.Size = new System.Drawing.Size(0, 20);
             this.lab_Box.TabIndex = 15;
@@ -188,7 +244,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(19, 161);
+            this.label14.Location = new System.Drawing.Point(19, 191);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 20);
             this.label14.TabIndex = 16;
@@ -197,10 +253,10 @@
             // txt_wo_scan
             // 
             this.txt_wo_scan.Enabled = false;
-            this.txt_wo_scan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_wo_scan.Location = new System.Drawing.Point(111, 158);
+            this.txt_wo_scan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_wo_scan.Location = new System.Drawing.Point(100, 189);
             this.txt_wo_scan.Name = "txt_wo_scan";
-            this.txt_wo_scan.Size = new System.Drawing.Size(529, 26);
+            this.txt_wo_scan.Size = new System.Drawing.Size(540, 24);
             this.txt_wo_scan.TabIndex = 17;
             this.txt_wo_scan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_wo_scan_KeyDown);
             // 
@@ -217,9 +273,10 @@
             // 
             // txt_emp_1
             // 
-            this.txt_emp_1.Location = new System.Drawing.Point(540, 77);
+            this.txt_emp_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_emp_1.Location = new System.Drawing.Point(540, 70);
             this.txt_emp_1.Name = "txt_emp_1";
-            this.txt_emp_1.Size = new System.Drawing.Size(100, 20);
+            this.txt_emp_1.Size = new System.Drawing.Size(100, 24);
             this.txt_emp_1.TabIndex = 3;
             this.txt_emp_1.Visible = false;
             this.txt_emp_1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_emp_1_KeyDown);
@@ -237,9 +294,10 @@
             // 
             // txt_emp_2
             // 
-            this.txt_emp_2.Location = new System.Drawing.Point(540, 124);
+            this.txt_emp_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_emp_2.Location = new System.Drawing.Point(540, 122);
             this.txt_emp_2.Name = "txt_emp_2";
-            this.txt_emp_2.Size = new System.Drawing.Size(100, 20);
+            this.txt_emp_2.Size = new System.Drawing.Size(100, 24);
             this.txt_emp_2.TabIndex = 5;
             this.txt_emp_2.Visible = false;
             this.txt_emp_2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_emp_2_KeyDown);
@@ -293,46 +351,11 @@
             this.lab_nv2_error.Size = new System.Drawing.Size(0, 13);
             this.lab_nv2_error.TabIndex = 62;
             // 
-            // lab_code_error
-            // 
-            this.lab_code_error.AutoSize = true;
-            this.lab_code_error.ForeColor = System.Drawing.Color.Red;
-            this.lab_code_error.Location = new System.Drawing.Point(660, 170);
-            this.lab_code_error.Name = "lab_code_error";
-            this.lab_code_error.Size = new System.Drawing.Size(0, 13);
-            this.lab_code_error.TabIndex = 63;
-            // 
-            // STT
-            // 
-            this.STT.HeaderText = "STT";
-            this.STT.Name = "STT";
-            // 
-            // WorkOrder
-            // 
-            this.WorkOrder.HeaderText = "WorkOrder";
-            this.WorkOrder.Name = "WorkOrder";
-            // 
-            // WO_ID
-            // 
-            this.WO_ID.HeaderText = "WO_ID";
-            this.WO_ID.Name = "WO_ID";
-            // 
-            // ItemNumber
-            // 
-            this.ItemNumber.HeaderText = "ItemNumber";
-            this.ItemNumber.Name = "ItemNumber";
-            // 
-            // Result
-            // 
-            this.Result.HeaderText = "Kết quả OK";
-            this.Result.Name = "Result";
-            // 
             // Box_Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1287, 651);
-            this.Controls.Add(this.lab_code_error);
             this.Controls.Add(this.lab_nv2_error);
             this.Controls.Add(this.lab_nv1_error);
             this.Controls.Add(this.lab_box_error);
@@ -359,6 +382,7 @@
             this.Name = "Box_Status";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Box_Status";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Box_Status_FormClosing);
             this.Load += new System.EventHandler(this.Box_Status_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Box_Data)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow1)).EndInit();
@@ -393,7 +417,6 @@
         private System.Windows.Forms.Label lab_box_error;
         private System.Windows.Forms.Label lab_nv1_error;
         private System.Windows.Forms.Label lab_nv2_error;
-        private System.Windows.Forms.Label lab_code_error;
         private System.Windows.Forms.DataGridViewTextBoxColumn STT;
         private System.Windows.Forms.DataGridViewTextBoxColumn WorkOrder;
         private System.Windows.Forms.DataGridViewTextBoxColumn WO_ID;

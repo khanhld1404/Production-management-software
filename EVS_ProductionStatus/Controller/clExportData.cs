@@ -162,6 +162,8 @@ namespace EVS_ProductionStatus.Controller
                         {
                             File.Delete(Path.GetFullPath(saveFileDialog1.FileName));
                         }
+                        // Khai báo license (bắt buộc từ EPPlus 5+)
+                        ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
                         using (ExcelPackage p = new ExcelPackage(fileInfo))
                         {

@@ -39,8 +39,8 @@
           <Property Name="stt" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="woid" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="wo" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ver" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="com" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lot" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Nhom_Kitting" Type="bigint" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
         </EntityType>
@@ -176,8 +176,8 @@
           <Property Name="stt" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="woid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="wo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ver" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="com" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Nhom_Kitting" Type="Int64" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
         </EntityType>
@@ -263,8 +263,8 @@
               <MappingFragment StoreEntitySet="Kitting_Infor">
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="Nhom_Kitting" ColumnName="Nhom_Kitting" />
-                <ScalarProperty Name="ver" ColumnName="ver" />
-                <ScalarProperty Name="wo" ColumnName="wo" />
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="com" ColumnName="com" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="woid" ColumnName="woid" />
                 <ScalarProperty Name="stt" ColumnName="stt" />

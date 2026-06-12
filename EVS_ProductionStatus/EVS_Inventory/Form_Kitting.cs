@@ -133,6 +133,7 @@ namespace EVS_ProductionStatus
             {
                 var kitting_infor = wodb.Kitting_Infor
                                     .OrderBy(x => x.Nhom_Kitting)
+                                    .ThenBy(x => x.woid)
                                     .ToList();
                 // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
                 int current_Rank = 0;
@@ -150,8 +151,8 @@ namespace EVS_ProductionStatus
                                     Nhóm_Kitting = current_Rank,
                                     Item_Wo = x.woid,
                                     ID_Wo = x.id, //mes-part
-                                    WorkOrder = x.wo,
-                                    Draw_rev = x.ver,
+                                    Mes_Component = x.com,
+                                    Lot = x.lot,
                                     Số_Lượng = x.quantity
                                 };
                             }
@@ -247,21 +248,23 @@ namespace EVS_ProductionStatus
 
                 string[] parts = value.Split('%');
 
-                int work_order = Convert.ToInt32(parts[0]);
+                //int work_order = Convert.ToInt32(parts[0]);
 
-                string id_item = parts[1];
+                //string id_item = parts[1];
 
-                string mes_part = parts[2];
+                //string mes_part = parts[2];
 
-                string draw_rev = parts[3];
+                //string draw_rev = parts[3];
 
-                MessageBox.Show(work_order + " " +id_item + " " +mes_part + " " + draw_rev);
+                string mes_component = parts[0];
+                string lot = parts[1];
                 // Tìm nhóm_Kitting Sản phẩm
                 Data_Kitting_NVL.DataSource = null;
                 Data_Kitting_NVL.Refresh();
                 var dv = new DataView(dt)
                 {
-                    RowFilter = $"Item_Wo = '{id_item}' and WorkOrder = {work_order} and ID_Wo = '{mes_part}'"
+                    //RowFilter = $"Item_Wo = '{id_item}' and WorkOrder = {work_order} and ID_Wo = '{mes_part}'"
+                    RowFilter = $"Mes_Component = '{mes_component}' and Lot = {lot}'"
                 };
                 DataTable dtselect = dv.ToTable(true, "Nhóm_Kitting");
 

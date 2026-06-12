@@ -21,7 +21,8 @@ namespace EVS_ProductionStatus
         string emp_2 = "";
         // Kiểm tra xem đã quét đủ 2 nhân viên chưa
         bool check_nv = false;
-
+        // Giá trị mã thùng nhập vào hiện tại
+        string present_box = "";
         // Dữ liệu bảng
         private void Data_Box()
         {
@@ -101,12 +102,30 @@ namespace EVS_ProductionStatus
             if(e.KeyCode == Keys.Enter)
             {
                 // Giá trị mã thùng nhập vào
+
                 string tt_box = txt_Box_Number.Text.Trim().ToString();
+
                 var box_status = db.Packing_List
                                  .FirstOrDefault(x => x.MaPL == tt_box);
                if(box_status != null)
                 {
+                    // Kiểm tra xem có còn tồn tại NG không
+                    bool check_ng_box = db.Packing_List
+                                        .Where(x => x.MaPL == present_box)
+                                        .Any(x => x.Result == "NG");
+                    if (present_box != "" && tt_box != present_box && check_ng_box)
+                    {
+                        DialogResult result = MessageBox.Show("Thùng " + present_box + " đang đóng dở. Xác nhận chuyển sang đóng thùng khác?", "Xác nhận thoát đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result != DialogResult.Yes)
+                        {
+                            return;
+                        }
+                    }
+                    present_box = tt_box;
+
+                    txt_Box_Number.Text = "";
                     lab_box_error.Text = "";
+
                     lab_Box.Text = tt_box.ToString();
                     if(check_nv == false)
                     {
@@ -141,6 +160,7 @@ namespace EVS_ProductionStatus
                 if(emp_exist)
                 {
                     lab_nv1_error.Text = "";
+                    txt_emp_1.Enabled = false;
                     arrow2.Visible = true;
                     lab_emp2.Visible = true;
                     txt_emp_2.Visible = true;
@@ -170,6 +190,7 @@ namespace EVS_ProductionStatus
                 if (emp_exist)
                 {
                     check_nv = true;
+                    txt_emp_2.Enabled = false;
                     lab_nv2_error.Text = "";
                     txt_wo_scan.Enabled = true;
                     txt_wo_scan.Focus();
@@ -195,9 +216,8 @@ namespace EVS_ProductionStatus
         {
             if(e.KeyCode == Keys.Enter)
             {
-                lab_code_error.Text = "";
-                // Dữ liệu bảng
-                string box = lab_Box.Text.ToString();
+                // Dữ liệu tên bảng
+                string tt_box = lab_Box.Text.ToString();
 
                 string barcode = txt_wo_scan.Text.Trim().ToString();
 
@@ -213,39 +233,101 @@ namespace EVS_ProductionStatus
 
                 // Kiểm tra woid và item có tồn tại không
                 var kq = db.Packing_List
-                               .FirstOrDefault(x => x.MaPL == box && x.ID_No == woid && x.Item_No == item);
+                               .FirstOrDefault(x => x.MaPL == tt_box && x.ID_No == woid && x.Item_No == item);
 
                 if (kq != null)
                 {
-                    if(kq.Result == "NG")
+
+                    // Xử lý với những ng
+                    if (kq.Result == "NG")
                     {
+                        // Số thư tự nhỏ nhất cần quét (Do quét thùng lấy lần lượt trong thùng)
                         var NG_min_index = db.Packing_List
-                                       .Where(x => x.MaPL == box && x.Result == "NG")
+                                       .Where(x => x.MaPL == tt_box && x.Result == "NG")
                                        .OrderBy(x => x.id)
                                        .FirstOrDefault();
-                        MessageBox.Show(NG_min_index.ID_No + "  " + NG_min_index.Item_No);
+
                         // Kiểm tra xem nó có đúng thứ tự hay không
                         if (NG_min_index.ID_No == woid && NG_min_index.Item_No == item)
                         {
+                            // Quét thành công thì xóa dữ liệu chỗ quét mã và focus vào chỗ quét lần nữa
+                            txt_wo_scan.Text = string.Empty;
+                            txt_wo_scan.Focus();
+
+                            // Kiểm tra xem dữ liệu có cái nào là ok không
+                            bool check_ok_box = db.Packing_List
+                                                .Where(x => x.MaPL == tt_box)
+                                                .Any(x => x.Result == "OK");
+                            // Bắt đầu tính thời gian từ lần quét thành công đầu tiên trong thùng
+                            if (!check_ok_box)
+                            {
+                                var first_time_box = db.Packing_Time
+                                                     .Where(x => x.MaThung == tt_box)
+                                                     .FirstOrDefault();
+                                first_time_box.TimeStart = DateTime.Now;
+                                db.SaveChanges();
+                            }
+
                             kq.Result = "OK";
                             db.SaveChanges();
                         }
                         else
                         {
-                            lab_code_error.Text = "Mã quét nằm sai thứ tự quét!";
+                            // Quét thành công thì xóa dữ liệu chỗ quét mã và focus vào chỗ quét lần nữa
+                            txt_wo_scan.Text = string.Empty;
+                            txt_wo_scan.Focus();
+
+                            MessageBox.Show(
+                                "Mã quét nằm sai thứ tự quét!",
+                                "Lỗi",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
                             return;
                         }
                     }
                     else
                     {
-                        lab_code_error.Text = "Mã code đã được quét!";
+                        // Quét thành công thì xóa dữ liệu chỗ quét mã và focus vào chỗ quét lần nữa
+                        txt_wo_scan.Text = string.Empty;
+                        txt_wo_scan.Focus();
+
+                        MessageBox.Show(
+                            "Mã code đã được quét!",
+                            "Lỗi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
                         return;
                     }
                 }
                 else
                 {
-                    lab_code_error.Text = "Mã code không thỏa mãn!";
+                    // Quét thành công thì xóa dữ liệu chỗ quét mã và focus vào chỗ quét lần nữa
+                    txt_wo_scan.Text = string.Empty;
+                    txt_wo_scan.Focus();
+
+                    MessageBox.Show(
+                        "Mã code không thỏa mãn!",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                     return;
+                }
+                // Kiểm tra xem dữ liệu có còn ng không
+                // Kiểm tra xem có còn tồn tại NG không
+                bool check_ng_box = db.Packing_List
+                                    .Where(x => x.MaPL == tt_box)
+                                    .Any(x => x.Result == "NG");
+                if (!check_ng_box)
+                {
+                    var last_time_box = db.Packing_Time
+                                        .Where(x => x.MaThung == tt_box)
+                                        .FirstOrDefault();
+                    last_time_box.TimeEnd = DateTime.Now;
+                    db.SaveChanges();
+                    MessageBox.Show("Đã thực hiện xong thùng: " + tt_box);
                 }
                 // Đưa ra dữ liệu box mới
                 Data_Box();
@@ -255,6 +337,25 @@ namespace EVS_ProductionStatus
         private void Box_Status_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void Box_Status_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(e.CloseReason == CloseReason.UserClosing)
+            {
+                // Kiểm tra xem có còn tồn tại NG không
+                bool check_ng_box = db.Packing_List
+                                    .Where(x => x.MaPL == present_box)
+                                    .Any(x => x.Result == "NG");
+                if (present_box != "" && check_ng_box)
+                {
+                    DialogResult result = MessageBox.Show("Thùng " + present_box + " đang đóng dở dang. Bạn có thực sự muốn thoát?", "Xác nhận thoát đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                    {
+                        e.Cancel = true;
+                    }
+                }
+            }
         }
     }
 }
