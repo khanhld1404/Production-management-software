@@ -45,6 +45,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolInput = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolPacking = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.btn_Kitting = new System.Windows.Forms.Button();
@@ -52,11 +53,11 @@
             this.btn_Ring = new System.Windows.Forms.Button();
             this.btn_Box = new System.Windows.Forms.Button();
             this.btn_Inventory = new System.Windows.Forms.Button();
-            this.toolTrangThaiSP = new System.Windows.Forms.ToolStripButton();
             this.btnOperatorStatus = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.btn_Status_Details_Production = new System.Windows.Forms.Button();
             this.btnTrangthaiSXOther = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -200,6 +201,15 @@
             this.toolPacking.Text = "Đóng gói";
             this.toolPacking.Click += new System.EventHandler(this.toolPacking_Click);
             // 
+            // toolTrangThaiSP
+            // 
+            this.toolTrangThaiSP.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_idea_32;
+            this.toolTrangThaiSP.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolTrangThaiSP.Name = "toolTrangThaiSP";
+            this.toolTrangThaiSP.Size = new System.Drawing.Size(151, 36);
+            this.toolTrangThaiSP.Text = "Trạng thái sản phẩm";
+            this.toolTrangThaiSP.Click += new System.EventHandler(this.toolTrangThaiSP_Click);
+            // 
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -301,15 +311,6 @@
             this.btn_Inventory.UseVisualStyleBackColor = true;
             this.btn_Inventory.Click += new System.EventHandler(this.btn_Inventory_Click);
             // 
-            // toolTrangThaiSP
-            // 
-            this.toolTrangThaiSP.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_idea_32;
-            this.toolTrangThaiSP.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolTrangThaiSP.Name = "toolTrangThaiSP";
-            this.toolTrangThaiSP.Size = new System.Drawing.Size(151, 36);
-            this.toolTrangThaiSP.Text = "Trạng thái sản phẩm";
-            this.toolTrangThaiSP.Click += new System.EventHandler(this.toolTrangThaiSP_Click);
-            // 
             // btnOperatorStatus
             // 
             this.btnOperatorStatus.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -382,6 +383,11 @@
             this.btnTrangthaiSXOther.UseVisualStyleBackColor = true;
             this.btnTrangthaiSXOther.Click += new System.EventHandler(this.btnTrangthaiSXOther_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,5 +449,6 @@
         private System.Windows.Forms.Button btn_Ring;
         private System.Windows.Forms.Button btn_check_category;
         private System.Windows.Forms.Button btn_Kitting;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

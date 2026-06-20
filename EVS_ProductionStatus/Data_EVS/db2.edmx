@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Manage_evsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EVS_Inventory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Storage_Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="Descript_Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="Stock_Type" Type="nvarchar" MaxLength="100" />
+          <Property Name="Material_Number" Type="nvarchar" MaxLength="100" />
+          <Property Name="Registered__Material" Type="nvarchar" MaxLength="100" />
+          <Property Name="Batch_Number" Type="nvarchar" MaxLength="100" />
+          <Property Name="Vendor_Batch_Number" Type="nvarchar" MaxLength="100" />
+          <Property Name="Inventory_Qty" Type="nvarchar" MaxLength="100" />
+          <Property Name="Available_Qty" Type="nvarchar" MaxLength="100" />
+          <Property Name="MRP_Controller" Type="nvarchar" MaxLength="100" />
+          <Property Name="Connect_Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="EVS_Manage">
           <Key>
             <PropertyRef Name="Item_Number" />
@@ -43,6 +60,9 @@
           <Property Name="lot" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Nhom_Kitting" Type="bigint" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="locate_kitting" Type="nvarchar" MaxLength="50" />
+          <Property Name="draw_rev" Type="nvarchar" MaxLength="50" />
+          <Property Name="wo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblWO">
           <Key>
@@ -86,6 +106,7 @@
         <Function Name="Update_EVS_Stock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="update_tblWO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Manage_evsModelStoreContainer">
+          <EntitySet Name="EVS_Inventory" EntityType="Self.EVS_Inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVS_Stock" EntityType="Self.EVS_Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kitting_Infor" EntityType="Self.Kitting_Infor" Schema="dbo" store:Type="Tables" />
@@ -130,6 +151,7 @@
           <FunctionImport Name="update_tblWO" />
           <EntitySet Name="tblWOes" EntityType="Manage_evsModel.tblWO" />
           <EntitySet Name="Kitting_Infor" EntityType="Manage_evsModel.Kitting_Infor" />
+          <EntitySet Name="EVS_Inventory" EntityType="Manage_evsModel.EVS_Inventory" />
         </EntityContainer>
         <EntityType Name="tblWO">
           <Key>
@@ -180,6 +202,26 @@
           <Property Name="lot" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Nhom_Kitting" Type="Int64" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="locate_kitting" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="draw_rev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="wo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EVS_Inventory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Storage_Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Descript_Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Stock_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Material_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Registered__Material" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Batch_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Vendor_Batch_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Inventory_Qty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Available_Qty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MRP_Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Connect_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -261,6 +303,9 @@
           <EntitySetMapping Name="Kitting_Infor">
             <EntityTypeMapping TypeName="Manage_evsModel.Kitting_Infor">
               <MappingFragment StoreEntitySet="Kitting_Infor">
+                <ScalarProperty Name="wo" ColumnName="wo" />
+                <ScalarProperty Name="draw_rev" ColumnName="draw_rev" />
+                <ScalarProperty Name="locate_kitting" ColumnName="locate_kitting" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="Nhom_Kitting" ColumnName="Nhom_Kitting" />
                 <ScalarProperty Name="lot" ColumnName="lot" />
@@ -268,6 +313,24 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="woid" ColumnName="woid" />
                 <ScalarProperty Name="stt" ColumnName="stt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EVS_Inventory">
+            <EntityTypeMapping TypeName="Manage_evsModel.EVS_Inventory">
+              <MappingFragment StoreEntitySet="EVS_Inventory">
+                <ScalarProperty Name="Connect_Status" ColumnName="Connect_Status" />
+                <ScalarProperty Name="MRP_Controller" ColumnName="MRP_Controller" />
+                <ScalarProperty Name="Available_Qty" ColumnName="Available_Qty" />
+                <ScalarProperty Name="Inventory_Qty" ColumnName="Inventory_Qty" />
+                <ScalarProperty Name="Vendor_Batch_Number" ColumnName="Vendor_Batch_Number" />
+                <ScalarProperty Name="Batch_Number" ColumnName="Batch_Number" />
+                <ScalarProperty Name="Registered__Material" ColumnName="Registered__Material" />
+                <ScalarProperty Name="Material_Number" ColumnName="Material_Number" />
+                <ScalarProperty Name="Stock_Type" ColumnName="Stock_Type" />
+                <ScalarProperty Name="Descript_Location" ColumnName="Descript_Location" />
+                <ScalarProperty Name="Storage_Location" ColumnName="Storage_Location" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

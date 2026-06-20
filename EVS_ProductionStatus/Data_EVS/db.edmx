@@ -25,6 +25,7 @@
           <Property Name="ThietBi_Detail" Type="nvarchar" MaxLength="100" />
           <Property Name="strFull" Type="nvarchar" MaxLength="100" />
           <Property Name="Result" Type="nvarchar" MaxLength="100" />
+          <Property Name="Scan_Time" Type="datetime" />
         </EntityType>
         <EntityType Name="Packing_Time">
           <Key>
@@ -32,7 +33,9 @@
           </Key>
           <Property Name="MaThung" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="TimeStart" Type="datetime" />
-          <Property Name="TimeEnd" Type="date" />
+          <Property Name="TimeEnd" Type="datetime" />
+          <Property Name="Emp_1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Emp_2" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="tblBanVe">
           <Key>
@@ -514,6 +517,14 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Parameter Name="manv" Type="varchar" Mode="In" />
           <Parameter Name="wo" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="pro_18_BoxInfor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="from" Type="datetime" Mode="In" />
+          <Parameter Name="to" Type="datetime" Mode="In" />
+          <Parameter Name="nv1" Type="nvarchar" Mode="In" />
+          <Parameter Name="nv2" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Update_MaThung" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Update_PackingList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="EVS_ProductionStatusModelStoreContainer">
           <EntitySet Name="Packing_List" EntityType="Self.Packing_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packing_Time" EntityType="Self.Packing_Time" Schema="dbo" store:Type="Tables" />
@@ -1071,6 +1082,14 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="v_06_LoaiSP" EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" />
           <EntitySet Name="Packing_List" EntityType="EVS_ProductionStatusModel.Packing_List" />
           <EntitySet Name="Packing_Time" EntityType="EVS_ProductionStatusModel.Packing_Time" />
+          <FunctionImport Name="pro_18_BoxInfor" ReturnType="Collection(EVS_ProductionStatusModel.pro_18_BoxInfor_Result)">
+            <Parameter Name="from" Mode="In" Type="DateTime" />
+            <Parameter Name="to" Mode="In" Type="DateTime" />
+            <Parameter Name="nv1" Mode="In" Type="String" />
+            <Parameter Name="nv2" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Update_MaThung" />
+          <FunctionImport Name="Update_PackingList" />
         </EntityContainer>
         <ComplexType Name="pro_02_tblInputWithTime_Result">
           <Property Type="Int64" Name="STT" Nullable="true" />
@@ -1418,6 +1437,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="ThietBi_Detail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="strFull" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Result" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Scan_Time" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Packing_Time">
           <Key>
@@ -1425,8 +1445,18 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           </Key>
           <Property Name="MaThung" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TimeStart" Type="DateTime" Precision="3" />
-          <Property Name="TimeEnd" Type="DateTime" Precision="0" />
+          <Property Name="TimeEnd" Type="DateTime" Precision="3" />
+          <Property Name="Emp_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="pro_18_BoxInfor_Result">
+          <Property Type="String" Name="MaThung" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Emp_1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Emp_2" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="TimeStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="TimeEnd" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Duration" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2166,6 +2196,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySetMapping Name="Packing_List">
             <EntityTypeMapping TypeName="EVS_ProductionStatusModel.Packing_List">
               <MappingFragment StoreEntitySet="Packing_List">
+                <ScalarProperty Name="Scan_Time" ColumnName="Scan_Time" />
                 <ScalarProperty Name="Result" ColumnName="Result" />
                 <ScalarProperty Name="strFull" ColumnName="strFull" />
                 <ScalarProperty Name="ThietBi_Detail" ColumnName="ThietBi_Detail" />
@@ -2188,12 +2219,28 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySetMapping Name="Packing_Time">
             <EntityTypeMapping TypeName="EVS_ProductionStatusModel.Packing_Time">
               <MappingFragment StoreEntitySet="Packing_Time">
+                <ScalarProperty Name="Emp_2" ColumnName="Emp_2" />
+                <ScalarProperty Name="Emp_1" ColumnName="Emp_1" />
                 <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
                 <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
                 <ScalarProperty Name="MaThung" ColumnName="MaThung" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="pro_18_BoxInfor" FunctionName="EVS_ProductionStatusModel.Store.pro_18_BoxInfor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EVS_ProductionStatusModel.pro_18_BoxInfor_Result">
+                <ScalarProperty Name="MaThung" ColumnName="MaThung" />
+                <ScalarProperty Name="Emp_1" ColumnName="Emp_1" />
+                <ScalarProperty Name="Emp_2" ColumnName="Emp_2" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Update_MaThung" FunctionName="EVS_ProductionStatusModel.Store.Update_MaThung" />
+          <FunctionImportMapping FunctionImportName="Update_PackingList" FunctionName="EVS_ProductionStatusModel.Store.Update_PackingList" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

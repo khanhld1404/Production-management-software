@@ -44,14 +44,20 @@ namespace EVS_ProductionStatus
 
         private void btnExportQCRing_Click(object sender, EventArgs e)
         {
-            ExportQCRing qr = new ExportQCRing();
-            qr.Show();
+            ExportQCRing f = new ExportQCRing();
+            f.Show();
         }
 
         private void btnExportRing_Click(object sender, EventArgs e)
         {
-            ExportRing er = new ExportRing();
-            er.Show();
+            ExportRing f = new ExportRing();
+            f.Show();
+        }
+
+        private void btn_Box_Click(object sender, EventArgs e)
+        {
+            ExportBox f = new ExportBox();
+            f.Show();
         }
     }
 }

@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 namespace EVS_ProductionStatus
 {
-
     public partial class LoadingOverlay : UserControl
     {
         private Label _label;

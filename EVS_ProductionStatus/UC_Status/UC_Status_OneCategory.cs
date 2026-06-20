@@ -103,32 +103,56 @@ namespace EVS_ProductionStatus
                                     desc_string == "T" ? "3008" :
                                     desc_string == "R" ? "3009" :
                                     desc_string == "H" ? "3010" :
-                                    "";
-
+                                    null;
                         var qr_root = wodb.tblWOes
-                                     .Where(s => find_status.Contains(s.STATUS)
+                                     .Where(s => s.WORK_ORDER_ID.StartsWith(desc_string)
                                      && s.PROD_LINE == "EVS"
-                                     && s.WORK_ORDER_ID.StartsWith(desc_string)
-                                     && !s.MES_PART.Contains("EV036")
-                                     && s.LOCATION_ID == locationId)
-                                     .AsEnumerable();
-
+                                     && s.LOCATION_ID == locationId
+                                     && !s.MES_PART.Contains("EV036"));
+                        // Số lượng wo phát
                         int qr_total = 0, qr_total_next = 0;
-
+                        // Số lượng wo cần xóa
+                        int qr_remove = 0; int qr_remove_next = 0;
                         if (locationId == null)
                         {
                             MessageBox.Show("Có lỗi!");
                         }
                         qr_total = qr_root
-                            .Where(s =>  s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string))
+                            .Where(s => s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string)
+                                    && find_status.Contains(s.STATUS))
                             .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
                             .Distinct()
                             .Count();
+
                         qr_total_next = qr_root
-                            .Where(s =>  s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string))
+                            .Where(s => s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string)
+                                   && find_status.Contains(s.STATUS))
                             .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
                             .Distinct()
                             .Count();
+                        // Tính toán những con chưa thu hồi
+                        qr_remove = qr_root.AsEnumerable()
+                                    .Where(s => s.STATUS == "TECO - Technically completed"
+                                    && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string)
+                                    && Convert.ToDouble(s.COMPLETE_QTY) == 0
+                                    && Convert.ToDouble(s.REJECT_QTY) == 0
+                                    )
+                                    .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
+                                    .Distinct()
+                                    .Count();
+
+                        qr_remove_next = qr_root.AsEnumerable()
+                                .Where(s => s.STATUS == "TECO - Technically completed"
+                                && s.WORK_ORDER_ID.Substring(1).StartsWith(next_wo_string)
+                                && Convert.ToDouble(s.COMPLETE_QTY) == 0
+                                && Convert.ToDouble(s.REJECT_QTY) == 0
+                                )
+                                .Select(s => s.WORK_ORDER_ID + s.WORK_ORDER + s.WO_PART)
+                                .Distinct()
+                                .Count();
+
+                        qr_total = qr_total - qr_remove;
+                        qr_total_next = qr_total_next - qr_remove;
 
                         //Nếu có 2 tháng gần nhau thì hiển thị phân chia thành 2 tháng Panel
                         if (qr_total_next > 0)

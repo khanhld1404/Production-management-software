@@ -17,5 +17,7 @@ namespace EVS_ProductionStatus.Data_EVS
         public string MaThung { get; set; }
         public Nullable<System.DateTime> TimeStart { get; set; }
         public Nullable<System.DateTime> TimeEnd { get; set; }
+        public string Emp_1 { get; set; }
+        public string Emp_2 { get; set; }
     }
 }

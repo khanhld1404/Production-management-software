@@ -29,19 +29,21 @@ namespace EVS_ProductionStatus
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Btn_Search = new System.Windows.Forms.Button();
             this.Txt_NVL = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Lab_TT_Kitting = new System.Windows.Forms.Label();
             this.Data_Kitting_NVL = new System.Windows.Forms.DataGridView();
             this.Btn_Excel = new System.Windows.Forms.Button();
-            this.Btn_Rewatch = new System.Windows.Forms.Button();
-            this.Btn_Refresh = new System.Windows.Forms.Button();
-            this.picLoading = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CB_Location = new System.Windows.Forms.ComboBox();
+            this.Kitting_Group = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WORK_ORDER_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MES_PART = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Group_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Data_Kitting_NVL)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // Btn_Search
@@ -49,7 +51,7 @@ namespace EVS_ProductionStatus
             this.Btn_Search.BackColor = System.Drawing.Color.DarkGray;
             this.Btn_Search.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.Btn_Search.ForeColor = System.Drawing.Color.White;
-            this.Btn_Search.Location = new System.Drawing.Point(866, 76);
+            this.Btn_Search.Location = new System.Drawing.Point(909, 76);
             this.Btn_Search.Name = "Btn_Search";
             this.Btn_Search.Size = new System.Drawing.Size(104, 49);
             this.Btn_Search.TabIndex = 8;
@@ -62,7 +64,7 @@ namespace EVS_ProductionStatus
             this.Txt_NVL.Font = new System.Drawing.Font("Arial", 15F);
             this.Txt_NVL.Location = new System.Drawing.Point(51, 83);
             this.Txt_NVL.Name = "Txt_NVL";
-            this.Txt_NVL.Size = new System.Drawing.Size(785, 35);
+            this.Txt_NVL.Size = new System.Drawing.Size(673, 30);
             this.Txt_NVL.TabIndex = 1;
             this.Txt_NVL.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_NVL_KeyDown);
             // 
@@ -96,31 +98,36 @@ namespace EVS_ProductionStatus
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Data_Kitting_NVL.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.Data_Kitting_NVL.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 12, 0, 12);
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Data_Kitting_NVL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 12, 0, 12);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Data_Kitting_NVL.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.Data_Kitting_NVL.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Arial", 11F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Data_Kitting_NVL.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Data_Kitting_NVL.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Kitting_Group,
+            this.WORK_ORDER_ID,
+            this.MES_PART,
+            this.Group_Quantity});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 11F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Data_Kitting_NVL.DefaultCellStyle = dataGridViewCellStyle2;
             this.Data_Kitting_NVL.EnableHeadersVisualStyles = false;
-            this.Data_Kitting_NVL.Location = new System.Drawing.Point(51, 207);
+            this.Data_Kitting_NVL.Location = new System.Drawing.Point(51, 214);
             this.Data_Kitting_NVL.Name = "Data_Kitting_NVL";
             this.Data_Kitting_NVL.ReadOnly = true;
             this.Data_Kitting_NVL.RowHeadersVisible = false;
             this.Data_Kitting_NVL.RowTemplate.Height = 30;
-            this.Data_Kitting_NVL.Size = new System.Drawing.Size(1030, 470);
+            this.Data_Kitting_NVL.Size = new System.Drawing.Size(1030, 486);
             this.Data_Kitting_NVL.TabIndex = 4;
             // 
             // Btn_Excel
@@ -129,60 +136,68 @@ namespace EVS_ProductionStatus
             this.Btn_Excel.BackColor = System.Drawing.Color.Green;
             this.Btn_Excel.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.Btn_Excel.ForeColor = System.Drawing.Color.White;
-            this.Btn_Excel.Location = new System.Drawing.Point(977, 714);
+            this.Btn_Excel.Location = new System.Drawing.Point(977, 728);
             this.Btn_Excel.Name = "Btn_Excel";
             this.Btn_Excel.Size = new System.Drawing.Size(104, 52);
             this.Btn_Excel.TabIndex = 9;
-            this.Btn_Excel.Text = "Xuất Excel";
+            this.Btn_Excel.Text = " Xuất Excel";
             this.Btn_Excel.UseVisualStyleBackColor = false;
             this.Btn_Excel.Click += new System.EventHandler(this.Btn_Excel_Click);
             // 
-            // Btn_Rewatch
+            // label2
             // 
-            this.Btn_Rewatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Btn_Rewatch.BackColor = System.Drawing.Color.Orange;
-            this.Btn_Rewatch.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_Rewatch.ForeColor = System.Drawing.Color.White;
-            this.Btn_Rewatch.Location = new System.Drawing.Point(846, 714);
-            this.Btn_Rewatch.Name = "Btn_Rewatch";
-            this.Btn_Rewatch.Size = new System.Drawing.Size(104, 52);
-            this.Btn_Rewatch.TabIndex = 10;
-            this.Btn_Rewatch.Text = "Xem lại";
-            this.Btn_Rewatch.UseVisualStyleBackColor = false;
-            this.Btn_Rewatch.Click += new System.EventHandler(this.Btn_Rewatch_Click);
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(751, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(91, 22);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Location";
             // 
-            // Btn_Refresh
+            // CB_Location
             // 
-            this.Btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Btn_Refresh.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.Btn_Refresh.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Refresh.ForeColor = System.Drawing.Color.White;
-            this.Btn_Refresh.Location = new System.Drawing.Point(686, 714);
-            this.Btn_Refresh.Name = "Btn_Refresh";
-            this.Btn_Refresh.Size = new System.Drawing.Size(126, 52);
-            this.Btn_Refresh.TabIndex = 11;
-            this.Btn_Refresh.Text = "Cập nhật dữ liệu";
-            this.Btn_Refresh.UseVisualStyleBackColor = false;
-            this.Btn_Refresh.Click += new System.EventHandler(this.Btn_Refresh_Click);
+            this.CB_Location.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CB_Location.FormattingEnabled = true;
+            this.CB_Location.Items.AddRange(new object[] {
+            "3008",
+            "3009",
+            "3010",
+            "All Location"});
+            this.CB_Location.Location = new System.Drawing.Point(755, 83);
+            this.CB_Location.Name = "CB_Location";
+            this.CB_Location.Size = new System.Drawing.Size(134, 31);
+            this.CB_Location.TabIndex = 11;
             // 
-            // picLoading
+            // Kitting_Group
             // 
-            this.picLoading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.picLoading.Image = global::EVS_ProductionStatus.Properties.Resources._16;
-            this.picLoading.Location = new System.Drawing.Point(651, 728);
-            this.picLoading.Name = "picLoading";
-            this.picLoading.Size = new System.Drawing.Size(29, 27);
-            this.picLoading.TabIndex = 48;
-            this.picLoading.TabStop = false;
-            this.picLoading.Visible = false;
+            this.Kitting_Group.HeaderText = "Nhóm Kitting";
+            this.Kitting_Group.Name = "Kitting_Group";
+            this.Kitting_Group.ReadOnly = true;
+            // 
+            // WORK_ORDER_ID
+            // 
+            this.WORK_ORDER_ID.HeaderText = "Item Wo";
+            this.WORK_ORDER_ID.Name = "WORK_ORDER_ID";
+            this.WORK_ORDER_ID.ReadOnly = true;
+            // 
+            // MES_PART
+            // 
+            this.MES_PART.HeaderText = "ID Wo";
+            this.MES_PART.Name = "MES_PART";
+            this.MES_PART.ReadOnly = true;
+            // 
+            // Group_Quantity
+            // 
+            this.Group_Quantity.HeaderText = "Số Lượng ";
+            this.Group_Quantity.Name = "Group_Quantity";
+            this.Group_Quantity.ReadOnly = true;
             // 
             // Form_Kitting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.picLoading);
-            this.Controls.Add(this.Btn_Refresh);
-            this.Controls.Add(this.Btn_Rewatch);
+            this.Controls.Add(this.CB_Location);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.Btn_Excel);
             this.Controls.Add(this.Data_Kitting_NVL);
             this.Controls.Add(this.Lab_TT_Kitting);
@@ -193,7 +208,6 @@ namespace EVS_ProductionStatus
             this.Size = new System.Drawing.Size(1119, 799);
             this.Load += new System.EventHandler(this.Form_Kitting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Data_Kitting_NVL)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,8 +221,11 @@ namespace EVS_ProductionStatus
         private System.Windows.Forms.Label Lab_TT_Kitting;
         private System.Windows.Forms.DataGridView Data_Kitting_NVL;
         private System.Windows.Forms.Button Btn_Excel;
-        private System.Windows.Forms.Button Btn_Rewatch;
-        private Button Btn_Refresh;
-        private PictureBox picLoading;
+        private Label label2;
+        private ComboBox CB_Location;
+        private DataGridViewTextBoxColumn Kitting_Group;
+        private DataGridViewTextBoxColumn WORK_ORDER_ID;
+        private DataGridViewTextBoxColumn MES_PART;
+        private DataGridViewTextBoxColumn Group_Quantity;
     }
 }

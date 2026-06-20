@@ -362,5 +362,36 @@ namespace EVS_ProductionStatus.Data_EVS
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("pro_15_GetTotalWO", loaiSPParameter, yYMMParameter);
         }
+    
+        public virtual ObjectResult<pro_18_BoxInfor_Result> pro_18_BoxInfor(Nullable<System.DateTime> from, Nullable<System.DateTime> to, string nv1, string nv2)
+        {
+            var fromParameter = from.HasValue ?
+                new ObjectParameter("from", from) :
+                new ObjectParameter("from", typeof(System.DateTime));
+    
+            var toParameter = to.HasValue ?
+                new ObjectParameter("to", to) :
+                new ObjectParameter("to", typeof(System.DateTime));
+    
+            var nv1Parameter = nv1 != null ?
+                new ObjectParameter("nv1", nv1) :
+                new ObjectParameter("nv1", typeof(string));
+    
+            var nv2Parameter = nv2 != null ?
+                new ObjectParameter("nv2", nv2) :
+                new ObjectParameter("nv2", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pro_18_BoxInfor_Result>("pro_18_BoxInfor", fromParameter, toParameter, nv1Parameter, nv2Parameter);
+        }
+    
+        public virtual int Update_MaThung()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_MaThung");
+        }
+    
+        public virtual int Update_PackingList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_PackingList");
+        }
     }
 }

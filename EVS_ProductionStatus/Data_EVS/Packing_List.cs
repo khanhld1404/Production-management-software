@@ -30,5 +30,6 @@ namespace EVS_ProductionStatus.Data_EVS
         public string ThietBi_Detail { get; set; }
         public string strFull { get; set; }
         public string Result { get; set; }
+        public Nullable<System.DateTime> Scan_Time { get; set; }
     }
 }

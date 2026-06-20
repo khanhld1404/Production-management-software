@@ -272,6 +272,38 @@ namespace EVS_ProductionStatus.Controller
             }
         }
 
+
+        // Xử lý đóng thùng
+        public void LoadBox(DataGridView gr, DateTime _from, DateTime _to, string _nv1, string _nv2)
+        {
+            try
+            {
+                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
+                {
+                    var qr = db.pro_18_BoxInfor(_from, _to, _nv1, _nv2).ToList();
+
+                    typeof(DataGridView).InvokeMember(
+                                                    "DoubleBuffered",
+                                                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                                                    null,
+                                                    gr,
+                                                    new object[] { true });
+
+                    gr.Invoke(new Action(() =>
+                    {
+                        gr.AutoGenerateColumns = false;
+                        gr.DataSource = qr;
+
+                    }));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         public void loadcbLoai(ComboBox cb)
         {
             try

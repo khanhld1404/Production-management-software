@@ -30,10 +30,10 @@ namespace EVS_ProductionStatus
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Dgv_Main_HFG = new System.Windows.Forms.DataGridView();
             this.Lab_Main_HFG = new System.Windows.Forms.Label();
             this.Lab_Detail_HFG = new System.Windows.Forms.Label();
@@ -41,39 +41,51 @@ namespace EVS_ProductionStatus
             this.Btn_Total = new System.Windows.Forms.Button();
             this.Btn_Details = new System.Windows.Forms.Button();
             this.Btn_Excel = new System.Windows.Forms.Button();
-            this.Btn_Refresh = new System.Windows.Forms.Button();
             this.txt_Search_ItemNumber = new System.Windows.Forms.TextBox();
             this.Btn_Search = new System.Windows.Forms.Button();
             this.txt_Search_ID = new System.Windows.Forms.TextBox();
-            this.picLoading = new System.Windows.Forms.PictureBox();
+            this.TC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Blocked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Unrestricted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Restricted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Main_HFG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Details_HFG)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // Dgv_Main_HFG
             // 
+            this.Dgv_Main_HFG.AllowUserToAddRows = false;
             this.Dgv_Main_HFG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Dgv_Main_HFG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 15, 0, 15);
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Main_HFG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.Dgv_Main_HFG.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 15, 0, 15);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Main_HFG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.Dgv_Main_HFG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Arial", 11F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Main_HFG.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Dgv_Main_HFG.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.TC,
+            this.Blocked,
+            this.Unrestricted,
+            this.QI,
+            this.Restricted,
+            this.Total});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 11F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Main_HFG.DefaultCellStyle = dataGridViewCellStyle2;
             this.Dgv_Main_HFG.EnableHeadersVisualStyles = false;
             this.Dgv_Main_HFG.Location = new System.Drawing.Point(38, 64);
             this.Dgv_Main_HFG.Name = "Dgv_Main_HFG";
@@ -81,7 +93,7 @@ namespace EVS_ProductionStatus
             this.Dgv_Main_HFG.RowHeadersVisible = false;
             this.Dgv_Main_HFG.RowTemplate.Height = 30;
             this.Dgv_Main_HFG.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Dgv_Main_HFG.Size = new System.Drawing.Size(789, 177);
+            this.Dgv_Main_HFG.Size = new System.Drawing.Size(914, 177);
             this.Dgv_Main_HFG.TabIndex = 0;
             this.Dgv_Main_HFG.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Data_Details_HFG_Click);
             // 
@@ -116,24 +128,24 @@ namespace EVS_ProductionStatus
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Dgv_Details_HFG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.Dgv_Details_HFG.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 12, 0, 12);
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Details_HFG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 12, 0, 12);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Details_HFG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.Dgv_Details_HFG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Arial", 12F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Details_HFG.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 12F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Details_HFG.DefaultCellStyle = dataGridViewCellStyle4;
             this.Dgv_Details_HFG.EnableHeadersVisualStyles = false;
             this.Dgv_Details_HFG.Location = new System.Drawing.Point(38, 444);
             this.Dgv_Details_HFG.Name = "Dgv_Details_HFG";
@@ -182,26 +194,12 @@ namespace EVS_ProductionStatus
             this.Btn_Excel.UseVisualStyleBackColor = false;
             this.Btn_Excel.Click += new System.EventHandler(this.Btn_Excel_Click);
             // 
-            // Btn_Refresh
-            // 
-            this.Btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Btn_Refresh.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.Btn_Refresh.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Refresh.ForeColor = System.Drawing.Color.White;
-            this.Btn_Refresh.Location = new System.Drawing.Point(962, 64);
-            this.Btn_Refresh.Name = "Btn_Refresh";
-            this.Btn_Refresh.Size = new System.Drawing.Size(124, 49);
-            this.Btn_Refresh.TabIndex = 9;
-            this.Btn_Refresh.Text = "Cập nhật dữ liệu";
-            this.Btn_Refresh.UseVisualStyleBackColor = false;
-            this.Btn_Refresh.Click += new System.EventHandler(this.Btn_Refresh_Click);
-            // 
             // txt_Search_ItemNumber
             // 
             this.txt_Search_ItemNumber.Font = new System.Drawing.Font("Arial", 15F);
             this.txt_Search_ItemNumber.Location = new System.Drawing.Point(38, 305);
             this.txt_Search_ItemNumber.Name = "txt_Search_ItemNumber";
-            this.txt_Search_ItemNumber.Size = new System.Drawing.Size(383, 35);
+            this.txt_Search_ItemNumber.Size = new System.Drawing.Size(383, 30);
             this.txt_Search_ItemNumber.TabIndex = 12;
             this.txt_Search_ItemNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Search_KeyDown);
             // 
@@ -223,30 +221,53 @@ namespace EVS_ProductionStatus
             this.txt_Search_ID.Font = new System.Drawing.Font("Arial", 15F);
             this.txt_Search_ID.Location = new System.Drawing.Point(444, 305);
             this.txt_Search_ID.Name = "txt_Search_ID";
-            this.txt_Search_ID.Size = new System.Drawing.Size(383, 35);
+            this.txt_Search_ID.Size = new System.Drawing.Size(383, 30);
             this.txt_Search_ID.TabIndex = 14;
             this.txt_Search_ID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Search_KeyDown);
             // 
-            // picLoading
+            // TC
             // 
-            this.picLoading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picLoading.Image = global::EVS_ProductionStatus.Properties.Resources._16;
-            this.picLoading.Location = new System.Drawing.Point(1092, 76);
-            this.picLoading.Name = "picLoading";
-            this.picLoading.Size = new System.Drawing.Size(29, 27);
-            this.picLoading.TabIndex = 48;
-            this.picLoading.TabStop = false;
-            this.picLoading.Visible = false;
+            this.TC.HeaderText = "Tình trạng";
+            this.TC.Name = "TC";
+            this.TC.ReadOnly = true;
+            // 
+            // Blocked
+            // 
+            this.Blocked.HeaderText = "Blocked";
+            this.Blocked.Name = "Blocked";
+            this.Blocked.ReadOnly = true;
+            // 
+            // Unrestricted
+            // 
+            this.Unrestricted.HeaderText = "UU";
+            this.Unrestricted.Name = "Unrestricted";
+            this.Unrestricted.ReadOnly = true;
+            // 
+            // QI
+            // 
+            this.QI.HeaderText = "QI";
+            this.QI.Name = "QI";
+            this.QI.ReadOnly = true;
+            // 
+            // Restricted
+            // 
+            this.Restricted.HeaderText = "Restricted";
+            this.Restricted.Name = "Restricted";
+            this.Restricted.ReadOnly = true;
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Tổng tồn";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
             // 
             // Form_HFG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.picLoading);
             this.Controls.Add(this.txt_Search_ID);
             this.Controls.Add(this.Btn_Search);
             this.Controls.Add(this.txt_Search_ItemNumber);
-            this.Controls.Add(this.Btn_Refresh);
             this.Controls.Add(this.Btn_Excel);
             this.Controls.Add(this.Btn_Details);
             this.Controls.Add(this.Btn_Total);
@@ -259,7 +280,6 @@ namespace EVS_ProductionStatus
             this.Load += new System.EventHandler(this.Form_HFG_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Main_HFG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Details_HFG)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -274,10 +294,14 @@ namespace EVS_ProductionStatus
         private Button Btn_Total;
         private Button Btn_Details;
         private Button Btn_Excel;
-        private Button Btn_Refresh;
         private TextBox txt_Search_ItemNumber;
         private Button Btn_Search;
         private TextBox txt_Search_ID;
-        private PictureBox picLoading;
+        private DataGridViewTextBoxColumn TC;
+        private DataGridViewTextBoxColumn Blocked;
+        private DataGridViewTextBoxColumn Unrestricted;
+        private DataGridViewTextBoxColumn QI;
+        private DataGridViewTextBoxColumn Restricted;
+        private DataGridViewTextBoxColumn Total;
     }
 }

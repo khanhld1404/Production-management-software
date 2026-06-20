@@ -96,6 +96,7 @@
             this.grThongtin.Location = new System.Drawing.Point(12, 151);
             this.grThongtin.Name = "grThongtin";
             this.grThongtin.ReadOnly = true;
+            this.grThongtin.RowHeadersVisible = false;
             this.grThongtin.Size = new System.Drawing.Size(1263, 490);
             this.grThongtin.TabIndex = 51;
             // 

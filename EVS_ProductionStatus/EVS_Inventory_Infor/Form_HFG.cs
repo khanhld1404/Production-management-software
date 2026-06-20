@@ -17,6 +17,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 // Dùng UserControl để giúp không tạo ra một form hay một tab mới
 namespace EVS_ProductionStatus
@@ -27,8 +30,40 @@ namespace EVS_ProductionStatus
         {
             InitializeComponent();
         }
-        string entityConnString = clConnection.connectEntity2;
-        List<string> HFG_Location = new List<string>{"9999", "3010", "3008", "3009", "2001", "2101"};
+
+        // Đường dẫn kết nối đến cơ sở dữ  liệu
+        Manage_evsEntities mb = new Manage_evsEntities(clConnection.connectEntity2);
+
+        List<string> Trong_SX = new List<string>{"9999", "3010", "3008", "3009", "2001", "2101"};
+        List<string> Ngoai_SX = new List<string> { "1001", "2001", "4004", "1002", "2002" };
+        List<string> Khong_SX = new List<string> { "5001", "5002", "5003", "5004", "5005" };
+
+        // Các biến để lưu dữ liệu cho EVS
+        double Blocked_EVS, UU_EVS, QI_EVS, Res_EVS, Total_EVS;
+        // Các biến để lưu dữ liệu cho ngoài sản xuất
+        double Blocked_NSX, UU_NSX, QI_NSX, Res_NSX, Total_NSX;
+        // Các biến để lưu dữ liệu cho máy không sử dụng sản xuất
+        double Blocked_KSD, UU_KSD, QI_KSD, Res_KSD, Total_KSD;
+        // Thông tin trạng thái
+        string Blocked_Status = "Blocked",UU_Status = "Unrestricted", QI_Status = "In Qual.Insp", Res_Status = "Restricted-Use";
+        // Lấy giá trị tồn kho theo từng trạng thái
+        public double Get_Value(List<string> location, string status)
+        {
+            double kq = mb.EVS_Inventory.AsEnumerable()
+                 .Where(x => location.Contains(x.Storage_Location) && x.Stock_Type == status && x.MRP_Controller == "F04")
+                 .Sum(x => Double.Parse(x.Inventory_Qty));
+            return kq;
+        }
+        // Lấy giá trị tổng tồn kho
+        public double Get_Total(List<string> location)
+        {
+            double kq = mb.EVS_Inventory.AsEnumerable()
+                 .Where(x => location.Contains(x.Storage_Location) && x.MRP_Controller == "F04")
+                 .Sum(x => Double.Parse(x.Inventory_Qty));
+            return kq;
+        }
+
+        // Thiết lập dữ liệu cho bảng tổng quan
         private void Load_Data()
         {
             // Thiết lập comment cho ô tìm kiếm
@@ -36,93 +71,124 @@ namespace EVS_ProductionStatus
             Placeholder.SetupPlaceholder(txt_Search_ID, "ID");
             txt_Search_ItemNumber.AutoSize = false;
             txt_Search_ID.AutoSize = false;
-            //Đường dẫn kết nối
-            Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
 
-            var summary2 = (from em in mb.EVS_Manage
-                            join in_e in mb.EVS_Stock
-                            // Xét on trên nhiều điều kiện chứ không dùng trong where vì nếu dùng trong where sẽ không lấy được các dòng không đủ dữ liệu 
-                            on em.Item_Number equals in_e.MATERIAL_CODE
-                            where in_e.MATERIAL_TYPE == "ZHAL" && !in_e.MATERIAL_TYPE.Contains("EV036") && HFG_Location.Contains(in_e.STORAGE_LOCATION)
-                            group in_e by em.Item_Type into g
-                            select new
-                            {
-                                ItemType = g.Key,
-                                //Nếu thiếu sẽ ra kết quả bằng 0 vì nếu không thuộc trạng thái sẽ bằng 0
-                                Total = (double)g.Sum(x => x.STOCK_QUANTITY ),
-                                Blocked = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0),
-                                UU = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0),
-                                QI = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0),
-                                Restricted = (double)g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0)
-                            }).ToList();
-            Dgv_Main_HFG.DataSource = summary2;
+            // Tính toán những con ở trong EVS
+
+            Blocked_EVS = Get_Value(Trong_SX,Blocked_Status);
+            UU_EVS = Get_Value(Trong_SX,UU_Status);
+            QI_EVS = Get_Value(Trong_SX, QI_Status);
+            Res_EVS = Get_Value(Trong_SX, Res_Status);
+            Total_EVS = Get_Total(Trong_SX);
+
+            //Tính toán những con ở ngoài sản xuất
+            Blocked_NSX = Get_Value(Ngoai_SX, Blocked_Status);
+            UU_NSX = Get_Value(Ngoai_SX, UU_Status);
+            QI_NSX = Get_Value(Ngoai_SX, QI_Status);
+            Res_NSX = Get_Value(Ngoai_SX, Res_Status);
+            Total_NSX = Get_Total(Ngoai_SX);
+
+            //Tính toán những con máy không sử dụng sản xuất
+            Blocked_KSD = Get_Value(Khong_SX, Blocked_Status);
+            UU_KSD = Get_Value(Khong_SX, UU_Status);
+            QI_KSD = Get_Value(Khong_SX, QI_Status);
+            Res_KSD = Get_Value(Khong_SX, Res_Status);
+            Total_KSD = Get_Total(Khong_SX);
+
+            // Thêm giá trị vào form
+            Dgv_Main_HFG.Rows.Add("Trong EVS", Blocked_EVS, UU_EVS, QI_EVS, Res_EVS, Total_EVS);
+            Dgv_Main_HFG.Rows.Add("Ngoài sản xuất", Blocked_NSX, UU_NSX, QI_NSX, Res_NSX, Total_NSX);
+            Dgv_Main_HFG.Rows.Add("Không sản xuất", Blocked_KSD, UU_KSD, QI_KSD, Res_KSD, Total_KSD);
+
             // Tính chiều cao dựa trên số dòng + header (Giúp cho bảng hiện thị không bị thừa và cũng không bị thiếu)
             Dgv_Main_HFG.Height = Dgv_Main_HFG.ColumnHeadersHeight +
                                    Dgv_Main_HFG.Rows.GetRowsHeight(DataGridViewElementStates.Visible) + 2;
         }
+        //Thiết lập dữ liệu cho bảng chi tiết
+        public void Load_Data_Detail(List<string> list, string status)
+        {
+            List<EVS_ProductionStatus.Data_EVS.EVS_Inventory> Data_Root; 
+            // Dữ liệu gốc đầu vào
+            if(status != "Total")
+            {
+                Data_Root = mb.EVS_Inventory
+                .Where(x => x.Stock_Type == status && x.MRP_Controller == "F04")
+                .ToList();
+            }
+            else
+            {
+                Data_Root = mb.EVS_Inventory
+                            .Where(x => x.MRP_Controller == "F04")
+                            .ToList();
+            }
+            Data_Overview = Data_Root.AsEnumerable()
+                    .Where(x => list.Contains(x.Storage_Location))
+                    .GroupBy(s => s.Registered__Material ?? s.Material_Number)
+                    .Select(g => new HFG_Overview
+                    {
+                        MATERIAL_CODE = g.Key,
+                        Tổng_Số_Lượng = g.Sum(x => Double.Parse(x.Inventory_Qty))
+                    }
+                    ).ToList();
+            Data_Detail = Data_Root.AsEnumerable()
+                            .Where(x => list.Contains(x.Storage_Location))
+                            .GroupBy(s => new {
+                                MATERIAL_CODE = s.Registered__Material ?? s.Material_Number,
+                                BATCH_NUMBER = s.Vendor_Batch_Number ?? s.Batch_Number
+                            }
+                            )
+                            .Select(g => new HFG_Detail
+                            {
+                                MATERIAL_CODE = g.Key.MATERIAL_CODE,
+                                BATCH_NUMBER = g.Key.BATCH_NUMBER,
+                                Số_Lượng = g.Sum(x => Double.Parse(x.Inventory_Qty))
+                            }
+                            ).ToList();
+        }
+
         // Khai báo biến toàn cục
         private List<HFG_Overview> Data_Overview;
         private List<HFG_Detail> Data_Detail;
 
         private List<HFG_Overview> Data_Search_OverView;
         private List<HFG_Detail> Data_Search_Detail;
-        int b = 0; // Xác định việc tìm kiếm, nếu b =0 là không tìm kiếm, còn b = 1 là có tìm kiếm
+        bool check_search = false; // Xác định việc tìm kiếm, nếu false là không tìm kiếm, còn true là có tìm kiếm (Nhằm xác định dữ liệu trong bảng chi tiết)
         private void Form_HFG_Load(object sender, EventArgs e)
         {
             Load_Data();
         }
+
         private void Data_Details_HFG_Click(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex > 0)
             {
-                b = 0;
-                Manage_evsEntities mb = new Manage_evsEntities(entityConnString);
-                string Item_type = Dgv_Main_HFG.Rows[e.RowIndex].Cells["ItemType"].Value.ToString();
+                check_search = false;
+
+                string Tinh_Trang = Dgv_Main_HFG.Rows[e.RowIndex].Cells["TC"].Value.ToString();
                 string sum_type = Dgv_Main_HFG.Columns[e.ColumnIndex].Name;
 
-                Data_Overview = (from em in mb.EVS_Manage
-                            join in_e in mb.EVS_Stock
-                            on em.Item_Number equals in_e.MATERIAL_CODE
-                            where in_e.MATERIAL_TYPE == "ZHAL" && !in_e.MATERIAL_CODE.Contains("EV036") &&
-                                  (
-                                  (sum_type == "Total" ) ||
-                                  (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED") ||
-                                  (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU") ||
-                                  (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI") ||
-                                  (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED")
-                                  ) &&
-                                  HFG_Location.Contains(in_e.STORAGE_LOCATION)
-                                  &&
-                                  em.Item_Type == Item_type
-                            group new { em, in_e } by em.Item_Number into g
-                            orderby g.Key
-                            select new HFG_Overview
-                            {
-                                MATERIAL_CODE = g.Key,
-                                Tổng_Số_Lượng = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
-                            }).ToList();
-                Data_Detail = (from em in mb.EVS_Manage
-                            join in_e in mb.EVS_Stock
-                            on em.Item_Number equals in_e.MATERIAL_CODE
-                            where in_e.MATERIAL_TYPE == "ZHAL" && !in_e.MATERIAL_CODE.Contains("EV036") &&
-                                  (
-                                  (sum_type == "Total") ||
-                                  (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED") ||
-                                  (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU") ||
-                                  (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI") ||
-                                  (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED")
-                                  ) &&
-                                  HFG_Location.Contains(in_e.STORAGE_LOCATION)
-                                  &&
-                                  em.Item_Type == Item_type
-                            group new { em, in_e } by new { em.Item_Number, in_e.BATCH_NUMBER } into g
-                            orderby g.Key
-                            select new HFG_Detail
-                            {
-                                MATERIAL_CODE = g.Key.Item_Number,
-                                BATCH_NUMBER = g.Key.BATCH_NUMBER,
-                                Số_Lượng = (double)g.Sum(x => x.in_e.STOCK_QUANTITY ?? 0),
-                            }).ToList();
+                // Chỉnh lại thông tin status đối với từng cột trạng thái được bấm
+                if(sum_type == "QI")
+                {
+                    sum_type = "In Qual.Insp";
+                }
+                if(sum_type == "Restricted")
+                {
+                    sum_type = "Restricted-Use";
+                }
+                // Lọc dữ liệu theo trạng thái và tình trạng
+                if(Tinh_Trang == "Trong EVS")
+                {
+                    Load_Data_Detail(Trong_SX, sum_type);
+                }
+                else if(Tinh_Trang == "Ngoài sản xuất")
+                {
+                    Load_Data_Detail(Ngoai_SX, sum_type);
+                }
+                else
+                {
+                    Load_Data_Detail(Khong_SX, sum_type);
+                }
+
                 //Xác định bảng nào sẽ được hiển thị 
                 if (Dgv_Details_HFG.DataSource == null || Dgv_Details_HFG.Tag.ToString() == "HFG_Overview")
                 {
@@ -153,7 +219,7 @@ namespace EVS_ProductionStatus
             Lab_Detail_HFG.Text = "Thông Tin HFG (Tổng Quan)";
             Dgv_Details_HFG.DataSource = null;
             Dgv_Details_HFG.Refresh();
-            if (b != 1) 
+            if (!check_search) 
             {
                 Dgv_Details_HFG.DataSource = Data_Overview;
             }
@@ -175,7 +241,7 @@ namespace EVS_ProductionStatus
             Lab_Detail_HFG.Text = "Thông Tin HFG (Chi Tiết)";
             Dgv_Details_HFG.DataSource = null;
             Dgv_Details_HFG.Refresh();
-            if (b != 1)
+            if (!check_search)
             {
                 Dgv_Details_HFG.DataSource = Data_Detail;
             }
@@ -208,19 +274,21 @@ namespace EVS_ProductionStatus
             }
         }
 
-        private async void Btn_Refresh_Click(object sender, EventArgs e)
-        {
-            picLoading.Invoke(new Action(() => picLoading.Visible = true));
-            var Reload_Function = new Reload_Inventory_Infor();
-            bool check_connect = await Reload_Function.CallInventoryApiAsync("http://10.239.2.10:5555/api/inventory");
-            picLoading.Invoke(new Action(() => picLoading.Visible = false));
-            if (check_connect)
-            {
-                Load_Data();
-                Dgv_Details_HFG.DataSource = null;
-                Dgv_Details_HFG.Refresh();
-            }
-        }
+        //private async void Btn_Refresh_Click(object sender, EventArgs e)
+        //{
+        //    picLoading.Invoke(new Action(() => picLoading.Visible = true));
+        //    var Reload_Function = new Reload_Inventory_Infor();
+        //    bool check_connect = await Reload_Function.CallInventoryApiAsync("http://10.239.2.10:5555/api/inventory");
+        //    picLoading.Invoke(new Action(() => picLoading.Visible = false));
+        //    if (check_connect)
+        //    {
+        //        Load_Data();
+        //        Dgv_Details_HFG.DataSource = null;
+        //        Dgv_Details_HFG.Refresh();
+        //    }
+        //}
+
+
         private void Search()
         {
             //Lấy thông tin trong ô tìm kiếm
@@ -231,10 +299,10 @@ namespace EVS_ProductionStatus
                 // Nếu nhập đủ thông tin tìm kiếm
                 if(tt_ItemNumber != "" && tt_ID != "")
                 {
-                    Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemNumber && x.BATCH_NUMBER == tt_ID).ToList();
-                    Data_Search_OverView = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemNumber).ToList();
+                    Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE.Contains(tt_ItemNumber) && x.BATCH_NUMBER.Contains(tt_ID)).ToList();
+                    Data_Search_OverView = Data_Overview.Where(x => x.MATERIAL_CODE.Contains(tt_ItemNumber)).ToList();
 
-                    bool check_ID = Data_Detail.Any(x => x.BATCH_NUMBER == tt_ID);
+                    bool check_ID = Data_Detail.Any(x => x.BATCH_NUMBER.Contains(tt_ID));
 
                     //Kiểm tra thông tin tìm kiếm có chính xác không
                     if(!Data_Search_OverView.Any() && !check_ID)
@@ -252,8 +320,8 @@ namespace EVS_ProductionStatus
                 //Chỉ nhập ItemNumber
                 else if(tt_ItemNumber != "" && tt_ID == "")
                 {
-                    Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemNumber).ToList();
-                    Data_Search_OverView = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemNumber).ToList();
+                    Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE.Contains(tt_ItemNumber)).ToList();
+                    Data_Search_OverView = Data_Overview.Where(x => x.MATERIAL_CODE.Contains(tt_ItemNumber)).ToList();
 
                     //Kiểm tra thông tin tìm kiếm ItemNumber
                     if(!Data_Search_OverView.Any())
@@ -264,8 +332,8 @@ namespace EVS_ProductionStatus
                 //Chỉ nhập ID
                 else if (tt_ItemNumber == "" && tt_ID != "")
                 {
-                    Data_Search_Detail = Data_Detail.Where(x => x.BATCH_NUMBER == tt_ID).ToList();
-                    var Item_code_return = Data_Detail.Where(x => x.BATCH_NUMBER == tt_ID)
+                    Data_Search_Detail = Data_Detail.Where(x => x.BATCH_NUMBER.Contains(tt_ID)).ToList();
+                    var Item_code_return = Data_Detail.Where(x => x.BATCH_NUMBER.Contains(tt_ID))
                                                         .Select(x => x.MATERIAL_CODE)
                                                         .Distinct()
                                                         .ToList();
@@ -286,7 +354,7 @@ namespace EVS_ProductionStatus
                     MessageBox.Show("Mời bạn nhập một trong hai ô để bắt đầu tìm kiếm!");
                     return;
                 }
-                b = 1;
+                check_search = true;
                 if (Dgv_Details_HFG.Tag.ToString() == "HFG_Overview")
                 {
                     Dgv_Details_HFG.DataSource = Data_Search_OverView;
@@ -306,12 +374,12 @@ namespace EVS_ProductionStatus
             if (Dgv_Details_HFG.Tag.ToString() == "HFG_Overview")
             {
                 Dgv_Details_HFG.DataSource = Data_Overview;
-                b = 0;
+                check_search = false;
             }
             else if (Dgv_Details_HFG.Tag.ToString() == "HFG_Detail")
             {
                 Dgv_Details_HFG.DataSource = Data_Detail;
-                b = 0;
+                check_search = false;
             }
         }
         private void Btn_Search_Click(object sender, EventArgs e)

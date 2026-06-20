@@ -45,6 +45,8 @@
             this.GioTT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PhutTT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbLoaiSP = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.picLoading = new System.Windows.Forms.PictureBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -62,8 +64,6 @@
             this.txtItem = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.cbLoaiSP = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grThongtin)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
@@ -98,6 +98,7 @@
             this.grThongtin.Location = new System.Drawing.Point(12, 151);
             this.grThongtin.Name = "grThongtin";
             this.grThongtin.ReadOnly = true;
+            this.grThongtin.RowHeadersVisible = false;
             this.grThongtin.Size = new System.Drawing.Size(1263, 490);
             this.grThongtin.TabIndex = 51;
             // 
@@ -235,6 +236,26 @@
             this.groupBox1.TabIndex = 50;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Điều kiện tìm kiếm dữ liệu";
+            // 
+            // cbLoaiSP
+            // 
+            this.cbLoaiSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbLoaiSP.FormattingEnabled = true;
+            this.cbLoaiSP.Location = new System.Drawing.Point(785, 21);
+            this.cbLoaiSP.Name = "cbLoaiSP";
+            this.cbLoaiSP.Size = new System.Drawing.Size(121, 24);
+            this.cbLoaiSP.TabIndex = 52;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Navy;
+            this.label8.Location = new System.Drawing.Point(722, 26);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 17);
+            this.label8.TabIndex = 51;
+            this.label8.Text = "Loại SP";
             // 
             // picLoading
             // 
@@ -401,26 +422,6 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // cbLoaiSP
-            // 
-            this.cbLoaiSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbLoaiSP.FormattingEnabled = true;
-            this.cbLoaiSP.Location = new System.Drawing.Point(785, 21);
-            this.cbLoaiSP.Name = "cbLoaiSP";
-            this.cbLoaiSP.Size = new System.Drawing.Size(121, 24);
-            this.cbLoaiSP.TabIndex = 52;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.Navy;
-            this.label8.Location = new System.Drawing.Point(722, 26);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 17);
-            this.label8.TabIndex = 51;
-            this.label8.Text = "Loại SP";
             // 
             // ExportKitting
             // 
