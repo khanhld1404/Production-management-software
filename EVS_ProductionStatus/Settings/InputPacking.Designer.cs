@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus.Settings
+﻿namespace EVS_Management.Settings
 {
     partial class InputPacking
     {
@@ -300,7 +300,7 @@
             // 
             this.btnKetThucPacking.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKetThucPacking.ForeColor = System.Drawing.Color.Navy;
-            this.btnKetThucPacking.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_complete_32;
+            this.btnKetThucPacking.Image = global::EVS_Management.Properties.Resources.icons8_complete_32;
             this.btnKetThucPacking.Location = new System.Drawing.Point(1037, 14);
             this.btnKetThucPacking.Name = "btnKetThucPacking";
             this.btnKetThucPacking.Size = new System.Drawing.Size(181, 45);
@@ -314,7 +314,7 @@
             // 
             this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuy.ForeColor = System.Drawing.Color.Navy;
-            this.btnHuy.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_cancel_32;
+            this.btnHuy.Image = global::EVS_Management.Properties.Resources.icons8_cancel_32;
             this.btnHuy.Location = new System.Drawing.Point(744, 14);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(153, 45);

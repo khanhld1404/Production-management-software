@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus
+﻿namespace EVS_Management
 {
     partial class ExportQC
     {
@@ -159,7 +159,7 @@
             // 
             // picLoading
             // 
-            this.picLoading.Image = global::EVS_ProductionStatus.Properties.Resources._16;
+            this.picLoading.Image = global::EVS_Management.Properties.Resources._16;
             this.picLoading.Location = new System.Drawing.Point(1052, 41);
             this.picLoading.Name = "picLoading";
             this.picLoading.Size = new System.Drawing.Size(29, 27);

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EVS_ProductionStatus.Controller;
+using EVS_Management.Controller;
 
-namespace EVS_ProductionStatus
+namespace EVS_Management
 {
     public partial class ExportKitting : Form
     {

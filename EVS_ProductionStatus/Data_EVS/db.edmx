@@ -316,7 +316,7 @@
           <Property Name="UserID" Type="varchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_01_Kitting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EVS_Management.dbo.v_01_Kitting' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_01_Kitting">
           <Key>
             <PropertyRef Name="workorder" />
@@ -339,7 +339,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_01_Kitting' does not ha
           <Property Name="PhutTT" Type="decimal" Precision="4" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_04_DongGoi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EVS_Management.dbo.v_04_DongGoi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_04_DongGoi">
           <Key>
             <PropertyRef Name="workorder" />
@@ -362,7 +362,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_04_DongGoi' does not ha
           <Property Name="PhutTT" Type="decimal" Precision="4" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_05_KhauDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EVS_Management.dbo.v_05_KhauDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_05_KhauDetail">
           <Key>
             <PropertyRef Name="id" />
@@ -383,7 +383,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_05_KhauDetail' does not
           <Property Name="name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_05_QCDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EVS_Management.dbo.v_05_QCDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_05_QCDetail">
           <Key>
             <PropertyRef Name="id" />
@@ -404,7 +404,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_05_QCDetail' does not h
           <Property Name="name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_06_LoaiSP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EVS_Management.dbo.v_06_LoaiSP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_06_LoaiSP">
           <Key>
             <PropertyRef Name="LoaiSP" />
@@ -414,7 +414,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_06_LoaiSP' does not hav
           <Property Name="LoaiSP" Type="varchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'EVS_Management.dbo.v_DSLoaiSP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_DSLoaiSP">
           <Key>
             <PropertyRef Name="loaisp" />

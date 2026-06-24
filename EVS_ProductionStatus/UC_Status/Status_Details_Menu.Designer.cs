@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus
+﻿namespace EVS_Management
 {
     partial class Status_Details_Menu
     {
@@ -36,7 +36,7 @@
             // btn_Relay_Status
             // 
             this.btn_Relay_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Relay_Status.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_book_70__2_;
+            this.btn_Relay_Status.Image = global::EVS_Management.Properties.Resources.icons8_book_70__2_;
             this.btn_Relay_Status.Location = new System.Drawing.Point(484, 35);
             this.btn_Relay_Status.Name = "btn_Relay_Status";
             this.btn_Relay_Status.Size = new System.Drawing.Size(181, 146);
@@ -50,7 +50,7 @@
             // btn_Treo_Status
             // 
             this.btn_Treo_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Treo_Status.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_book_70__1_;
+            this.btn_Treo_Status.Image = global::EVS_Management.Properties.Resources.icons8_book_70__1_;
             this.btn_Treo_Status.Location = new System.Drawing.Point(257, 35);
             this.btn_Treo_Status.Name = "btn_Treo_Status";
             this.btn_Treo_Status.Size = new System.Drawing.Size(181, 146);
@@ -64,7 +64,7 @@
             // btn_Thora_Status
             // 
             this.btn_Thora_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Thora_Status.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_book_70;
+            this.btn_Thora_Status.Image = global::EVS_Management.Properties.Resources.icons8_book_70;
             this.btn_Thora_Status.Location = new System.Drawing.Point(31, 35);
             this.btn_Thora_Status.Name = "btn_Thora_Status";
             this.btn_Thora_Status.Size = new System.Drawing.Size(181, 146);

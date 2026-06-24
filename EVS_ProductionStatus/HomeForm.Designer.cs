@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus
+﻿namespace EVS_Management
 {
     partial class HomeForm
     {
@@ -203,7 +203,7 @@
             // 
             // toolTrangThaiSP
             // 
-            this.toolTrangThaiSP.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_idea_32;
+            this.toolTrangThaiSP.Image = global::EVS_Management.Properties.Resources.icons8_idea_32;
             this.toolTrangThaiSP.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTrangThaiSP.Name = "toolTrangThaiSP";
             this.toolTrangThaiSP.Size = new System.Drawing.Size(151, 36);
@@ -229,7 +229,7 @@
             this.btn_Kitting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Kitting.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Kitting.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Kitting.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_suggestion_70;
+            this.btn_Kitting.Image = global::EVS_Management.Properties.Resources.icons8_suggestion_70;
             this.btn_Kitting.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_Kitting.Location = new System.Drawing.Point(525, 435);
             this.btn_Kitting.Name = "btn_Kitting";
@@ -247,7 +247,7 @@
             this.btn_check_category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_check_category.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_check_category.ForeColor = System.Drawing.Color.Navy;
-            this.btn_check_category.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_category_68;
+            this.btn_check_category.Image = global::EVS_Management.Properties.Resources.icons8_category_68;
             this.btn_check_category.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_check_category.Location = new System.Drawing.Point(525, 282);
             this.btn_check_category.Name = "btn_check_category";
@@ -264,7 +264,7 @@
             this.btn_Ring.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Ring.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Ring.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Ring.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circle_70;
+            this.btn_Ring.Image = global::EVS_Management.Properties.Resources.icons8_circle_70;
             this.btn_Ring.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_Ring.Location = new System.Drawing.Point(525, 124);
             this.btn_Ring.Name = "btn_Ring";
@@ -282,7 +282,7 @@
             this.btn_Box.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Box.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Box.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Box.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_box_70;
+            this.btn_Box.Image = global::EVS_Management.Properties.Resources.icons8_box_70;
             this.btn_Box.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_Box.Location = new System.Drawing.Point(287, 282);
             this.btn_Box.Name = "btn_Box";
@@ -300,7 +300,7 @@
             this.btn_Inventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Inventory.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_warehouse_70;
+            this.btn_Inventory.Image = global::EVS_Management.Properties.Resources.icons8_warehouse_70;
             this.btn_Inventory.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_Inventory.Location = new System.Drawing.Point(64, 282);
             this.btn_Inventory.Name = "btn_Inventory";
@@ -318,7 +318,7 @@
             this.btnOperatorStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOperatorStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOperatorStatus.ForeColor = System.Drawing.Color.Navy;
-            this.btnOperatorStatus.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_user_groups_64;
+            this.btnOperatorStatus.Image = global::EVS_Management.Properties.Resources.icons8_user_groups_64;
             this.btnOperatorStatus.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnOperatorStatus.Location = new System.Drawing.Point(287, 435);
             this.btnOperatorStatus.Name = "btnOperatorStatus";
@@ -336,7 +336,7 @@
             this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExport.ForeColor = System.Drawing.Color.Navy;
-            this.btnExport.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExport.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExport.Location = new System.Drawing.Point(64, 435);
             this.btnExport.Name = "btnExport";
@@ -354,7 +354,7 @@
             this.btn_Status_Details_Production.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Status_Details_Production.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Status_Details_Production.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Status_Details_Production.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70_recolor2;
+            this.btn_Status_Details_Production.Image = global::EVS_Management.Properties.Resources.icons8_circuit_70_recolor2;
             this.btn_Status_Details_Production.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_Status_Details_Production.Location = new System.Drawing.Point(287, 124);
             this.btn_Status_Details_Production.Name = "btn_Status_Details_Production";
@@ -372,7 +372,7 @@
             this.btnTrangthaiSXOther.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTrangthaiSXOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTrangthaiSXOther.ForeColor = System.Drawing.Color.Navy;
-            this.btnTrangthaiSXOther.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_circuit_70;
+            this.btnTrangthaiSXOther.Image = global::EVS_Management.Properties.Resources.icons8_circuit_70;
             this.btnTrangthaiSXOther.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnTrangthaiSXOther.Location = new System.Drawing.Point(64, 124);
             this.btnTrangthaiSXOther.Name = "btnTrangthaiSXOther";

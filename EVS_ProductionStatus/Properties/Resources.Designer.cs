@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EVS_ProductionStatus.Properties {
+namespace EVS_Management.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EVS_ProductionStatus.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EVS_ProductionStatus.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EVS_Management.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -316,6 +316,36 @@ namespace EVS_ProductionStatus.Properties {
         internal static System.Drawing.Bitmap icons8_inventory_70 {
             get {
                 object obj = ResourceManager.GetObject("icons8-inventory-70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_location_70 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-location-70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_location_70__1_ {
+            get {
+                object obj = ResourceManager.GetObject("icons8-location-70 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_location_70__2_ {
+            get {
+                object obj = ResourceManager.GetObject("icons8-location-70 (2)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

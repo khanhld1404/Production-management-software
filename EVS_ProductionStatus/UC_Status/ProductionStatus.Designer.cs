@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus
+﻿namespace EVS_Management
 {
     partial class ProductionStatus
     {
@@ -51,6 +51,7 @@
             this.lbCongdoan = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pnNhanVien = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lnkCancel = new System.Windows.Forms.LinkLabel();
             this.lbScanned = new System.Windows.Forms.Label();
             this.lbBarcode2 = new System.Windows.Forms.Label();
@@ -64,8 +65,6 @@
             this.btnQCDoDang = new System.Windows.Forms.Button();
             this.btnKittingDongThoi = new System.Windows.Forms.Button();
             this.btnDongGoiDongThoi = new System.Windows.Forms.Button();
-            this.btn_Kitting = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.picLoading = new System.Windows.Forms.PictureBox();
             this.pnData.SuspendLayout();
             this.pnCongDoan.SuspendLayout();
@@ -327,6 +326,16 @@
             this.pnNhanVien.TabIndex = 53;
             this.pnNhanVien.Visible = false;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::EVS_Management.Properties.Resources.blinking_arrow;
+            this.pictureBox2.Location = new System.Drawing.Point(145, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(32, 38);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 57;
+            this.pictureBox2.TabStop = false;
+            // 
             // lnkCancel
             // 
             this.lnkCancel.AutoSize = true;
@@ -462,32 +471,9 @@
             this.btnDongGoiDongThoi.UseVisualStyleBackColor = true;
             this.btnDongGoiDongThoi.Click += new System.EventHandler(this.btnDongGoiDongThoi_Click);
             // 
-            // btn_Kitting
-            // 
-            this.btn_Kitting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btn_Kitting.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Kitting.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.btn_Kitting.Location = new System.Drawing.Point(1018, 469);
-            this.btn_Kitting.Name = "btn_Kitting";
-            this.btn_Kitting.Size = new System.Drawing.Size(145, 46);
-            this.btn_Kitting.TabIndex = 52;
-            this.btn_Kitting.Text = "Gợi ý Kitting";
-            this.btn_Kitting.UseVisualStyleBackColor = false;
-            this.btn_Kitting.Click += new System.EventHandler(this.btn_Kitting_Click);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::EVS_ProductionStatus.Properties.Resources.blinking_arrow;
-            this.pictureBox2.Location = new System.Drawing.Point(145, 0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(32, 38);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 57;
-            this.pictureBox2.TabStop = false;
-            // 
             // picLoading
             // 
-            this.picLoading.Image = global::EVS_ProductionStatus.Properties.Resources._16;
+            this.picLoading.Image = global::EVS_Management.Properties.Resources._16;
             this.picLoading.Location = new System.Drawing.Point(1105, 13);
             this.picLoading.Name = "picLoading";
             this.picLoading.Size = new System.Drawing.Size(29, 27);
@@ -500,7 +486,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1287, 751);
-            this.Controls.Add(this.btn_Kitting);
             this.Controls.Add(this.btnDongGoiDongThoi);
             this.Controls.Add(this.btnKittingDongThoi);
             this.Controls.Add(this.btnQCDoDang);
@@ -567,6 +552,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbID;
         private System.Windows.Forms.Button btnDongGoiDongThoi;
-        private System.Windows.Forms.Button btn_Kitting;
     }
 }

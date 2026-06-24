@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus
+﻿namespace EVS_Management
 {
     partial class ExportHome
     {
@@ -56,7 +56,7 @@
             this.btnExportDG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportDG.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportDG.ForeColor = System.Drawing.Color.Navy;
-            this.btnExportDG.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportDG.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExportDG.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExportDG.Location = new System.Drawing.Point(626, 77);
             this.btnExportDG.Name = "btnExportDG";
@@ -74,7 +74,7 @@
             this.btnExportQC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportQC.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportQC.ForeColor = System.Drawing.Color.Navy;
-            this.btnExportQC.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportQC.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExportQC.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExportQC.Location = new System.Drawing.Point(426, 77);
             this.btnExportQC.Name = "btnExportQC";
@@ -92,7 +92,7 @@
             this.btnExportKhau.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportKhau.ForeColor = System.Drawing.Color.Navy;
-            this.btnExportKhau.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportKhau.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExportKhau.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExportKhau.Location = new System.Drawing.Point(227, 77);
             this.btnExportKhau.Name = "btnExportKhau";
@@ -110,7 +110,7 @@
             this.btnExportKitting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportKitting.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportKitting.ForeColor = System.Drawing.Color.Navy;
-            this.btnExportKitting.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportKitting.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExportKitting.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExportKitting.Location = new System.Drawing.Point(29, 77);
             this.btnExportKitting.Name = "btnExportKitting";
@@ -128,7 +128,7 @@
             this.btnExportRing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportRing.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportRing.ForeColor = System.Drawing.Color.Navy;
-            this.btnExportRing.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportRing.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExportRing.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExportRing.Location = new System.Drawing.Point(114, 241);
             this.btnExportRing.Name = "btnExportRing";
@@ -146,7 +146,7 @@
             this.btnExportQCRing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportQCRing.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportQCRing.ForeColor = System.Drawing.Color.Navy;
-            this.btnExportQCRing.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btnExportQCRing.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btnExportQCRing.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnExportQCRing.Location = new System.Drawing.Point(319, 241);
             this.btnExportQCRing.Name = "btnExportQCRing";
@@ -164,7 +164,7 @@
             this.btn_Box.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Box.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Box.ForeColor = System.Drawing.Color.Navy;
-            this.btn_Box.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_xls_64;
+            this.btn_Box.Image = global::EVS_Management.Properties.Resources.icons8_xls_64;
             this.btn_Box.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn_Box.Location = new System.Drawing.Point(529, 241);
             this.btn_Box.Name = "btn_Box";

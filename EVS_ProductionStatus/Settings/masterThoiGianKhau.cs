@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_ProductionStatus.Settings
+namespace EVS_Management.Settings
 {
     public partial class masterThoiGianKhau : Form
     {

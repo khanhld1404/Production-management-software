@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus.Settings
+﻿namespace EVS_Management.Settings
 {
     partial class masterThoiGianKhau
     {

@@ -1,6 +1,6 @@
 ﻿
-using EVS_ProductionStatus.Data_EVS;
-using EVS_ProductionStatus.Update_Inventory.Class;
+using EVS_Management.Data_EVS;
+using EVS_Management.EVS_Inventories.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_ProductionStatus
+namespace EVS_Management
 {
     public partial class ProductionStatus : Form
     {
@@ -786,17 +786,6 @@ namespace EVS_ProductionStatus
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }
-        }
-
-        //Gợi ý Kitting
-        private void btn_Kitting_Click(object sender, EventArgs e)
-        {
-            switch (NumberOfUC)
-            {
-                case 1:
-                    Other_function.ShowUserControlAsForm(new Form_Kitting(), "Gợi ý Kitting");
-                    break;
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using EVS_ProductionStatus.Data_EVS;
+﻿using EVS_Management.Data_EVS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EVS_ProductionStatus.Controller;
-namespace EVS_ProductionStatus
+using EVS_Management.Controller;
+namespace EVS_Management
 {
     public partial class Box_Status : Form
     {

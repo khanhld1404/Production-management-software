@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EVS_ProductionStatus.Data_EVS;
+using EVS_Management.Data_EVS;
 
-namespace EVS_ProductionStatus
+namespace EVS_Management
 {
     public partial class UC_Status_OneCategory : UserControl
     {

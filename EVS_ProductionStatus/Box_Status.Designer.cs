@@ -1,4 +1,4 @@
-﻿namespace EVS_ProductionStatus
+﻿namespace EVS_Management
 {
     partial class Box_Status
     {
@@ -195,7 +195,7 @@
             // 
             // arrow1
             // 
-            this.arrow1.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_right_70;
+            this.arrow1.Image = global::EVS_Management.Properties.Resources.icons8_right_70;
             this.arrow1.Location = new System.Drawing.Point(33, 160);
             this.arrow1.Name = "arrow1";
             this.arrow1.Size = new System.Drawing.Size(48, 41);
@@ -206,7 +206,7 @@
             // 
             // arrow2
             // 
-            this.arrow2.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_right_70;
+            this.arrow2.Image = global::EVS_Management.Properties.Resources.icons8_right_70;
             this.arrow2.Location = new System.Drawing.Point(33, 205);
             this.arrow2.Name = "arrow2";
             this.arrow2.Size = new System.Drawing.Size(48, 41);

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_ProductionStatus
+namespace EVS_Management
 {
     public partial class UC_ViTriThaoTac : UserControl
     {

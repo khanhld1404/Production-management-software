@@ -1,5 +1,7 @@
-﻿using EVS_ProductionStatus.Class;
-using EVS_ProductionStatus.Update_Inventory.Class;
+﻿using EVS_Management.Class;
+using EVS_Management.EVS_Inventories;
+using EVS_Management.EVS_Inventories.Class;
+using EVS_Management.EVS_Inventories.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_ProductionStatus
+namespace EVS_Management
 {
     public partial class HomeForm : Form
     {
@@ -137,7 +139,8 @@ namespace EVS_ProductionStatus
 
         private void btn_Kitting_Click(object sender, EventArgs e)
         {
-            Other_function.ShowUserControlAsForm(new Form_Kitting(), "Gợi ý Kitting");
+            EVS_Kitting_Menu f = new EVS_Kitting_Menu();
+            f.Show();
         }
     }
 }

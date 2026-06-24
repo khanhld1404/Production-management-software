@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EVS_ProductionStatus.Properties {
+namespace EVS_Management.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
