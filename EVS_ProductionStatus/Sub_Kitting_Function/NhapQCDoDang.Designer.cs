@@ -1,4 +1,4 @@
-﻿namespace EVS_Management
+﻿namespace EVS_ProductionStatus
 {
     partial class NhapQCDoDang
     {
@@ -139,7 +139,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::EVS_Management.Properties.Resources.blinking_arrow;
+            this.pictureBox2.Image = global::EVS_ProductionStatus.Properties.Resources.blinking_arrow;
             this.pictureBox2.Location = new System.Drawing.Point(141, 1);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(32, 32);

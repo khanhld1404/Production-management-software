@@ -29,7 +29,7 @@ namespace Updater
             //Thay file từ thư mục tải sang đường dẫn thực sự
             CopyFile(download_url, Application.StartupPath);
 
-            Process.Start("EVS_Management.exe");
+            Process.Start("EVS_ProductionStatus.exe");
             Application.Exit();
         }
 

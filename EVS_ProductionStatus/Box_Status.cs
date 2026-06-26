@@ -1,4 +1,4 @@
-﻿using EVS_Management.Data_EVS;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EVS_Management.Controller;
-namespace EVS_Management
+using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus;
+using EVS_ProductionStatus.Data_EVS;
+namespace EVS_ProductionStatus
 {
     public partial class Box_Status : Form
     {
@@ -117,10 +119,24 @@ namespace EVS_Management
         {
             if(e.KeyCode == Keys.Enter)
             {
+
                 // Giá trị mã thùng nhập vào
 
                 string tt_box = txt_Box_Number.Text.Trim().ToString();
 
+                // Kiểm tra xem thùng mới đã hoàn thành hay chưa
+                bool check_box_complete = db.Packing_Time
+                                          .Any(x => x.MaThung == tt_box && x.TimeEnd != null);
+                if (check_box_complete)
+                {
+                    DialogResult result = MessageBox.Show("Thùng " + tt_box + " đã được đóng hết. Bạn có muốn xem lại thông tin thùng ko?", "Xác nhận đóng thùng!",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                    if(result == DialogResult.No)
+                    {
+                        txt_Box_Number.Text = string.Empty;
+                        txt_Box_Number.Focus();
+                        return;
+                    }
+                }
                 var box_status = db.Packing_List
                                  .FirstOrDefault(x => x.MaPL == tt_box);
                if(box_status != null)
@@ -129,13 +145,13 @@ namespace EVS_Management
 
                     if (present_box != "" && tt_box != present_box && Check_NG(present_box))
                     {
-                        DialogResult result = MessageBox.Show("Thùng " + present_box + " đang đóng dở. Xác nhận chuyển sang đóng thùng khác? (Lưu ý: Thông tin đóng thùng sẽ được làm mới và bạn phải nhập lại từ đầu!)", "Xác nhận thoát đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show("Thùng " + present_box + " đang đóng dở. Xác nhận chuyển sang đóng thùng khác? (Lưu ý: Thông tin đóng thùng sẽ được làm mới và bạn phải nhập lại từ đầu!)", "Xác nhận thoát đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (result != DialogResult.Yes)
                         {
                             return;
                         }
                     }
-                    // Kiểm tra xem thùng đã đóng xong chưa ( Phân biệt nó với viêc chưa đóng xong)
+                    // Kiểm tra xem thùng cũ đã đóng xong chưa ( Phân biệt nó với viêc chưa đóng xong)
                     bool check_complete_box = db.Packing_Time
                                             .Any(x => x.TimeEnd != null && x.MaThung == present_box);
                     if (!check_complete_box)
@@ -170,6 +186,7 @@ namespace EVS_Management
                     }
                     else
                     {
+                        txt_wo_scan.Enabled = true;
                         txt_wo_scan.Focus();
                     }
                     Data_Box();
@@ -238,6 +255,9 @@ namespace EVS_Management
                     arrow2.Visible = false;
                     lab_emp2.Visible = false;
                     txt_emp_2.Visible = false;
+
+                    // Hiển thị nút dừng khẩn cấp ra
+
 
                     // Truyền dữ liệu nhân viên quét vào
                     Box_Overview.Rows[1].Cells[1].Value = emp_1.ToString();
@@ -386,6 +406,7 @@ namespace EVS_Management
                     db.SaveChanges();
                     MessageBox.Show("Đã thực hiện xong thùng: " + tt_box + " .Hãy bắt đầu quét một mã thùng khác!");
                     txt_Box_Number.Focus();
+
                 }
                 // Đưa ra dữ liệu box mới
                 Data_Box();
@@ -416,7 +437,7 @@ namespace EVS_Management
             {
                 if (present_box != "" && Check_NG(present_box))
                 {
-                    DialogResult result = MessageBox.Show("Thùng " + present_box + " đang đóng dở dang. Bạn có thực sự muốn thoát? (Lưu ý: Thông tin đóng thùng sẽ được làm mới và bạn phải nhập lại từ đầu!)", "Xác nhận thoát đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show("Thùng " + present_box + " đang đóng dở dang. Bạn có thực sự muốn thoát? (Lưu ý: Thông tin đóng thùng sẽ được làm mới và bạn phải nhập lại từ đầu!)", "Xác nhận thoát đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.No)
                     {
                         e.Cancel = true;
@@ -434,6 +455,56 @@ namespace EVS_Management
                         db.SaveChanges();
                     }
                 }
+            }
+        }
+
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            if(Box_Data.Rows.Count == 0)
+            {
+                MessageBox.Show("Mời bạn nhập số Thùng!");
+                return;
+            }
+            if(emp_1 == ""  || emp_2 == "")
+            {
+                MessageBox.Show("Mời bạn nhập mã nhân viên!");
+                return;
+            }
+
+            // Xử lý việc dừng đóng thùng nhưng vẫn lưu ý dữ liệu
+            // xóa thông tin có trong biến mã thùng
+            DialogResult result = MessageBox.Show("Bạn có muốn dừng việc đóng thùng " + present_box + " . Thông tin đóng thùng của bạn sẽ không bị mất đi!", "Xác nhận dừng đóng thùng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(result == DialogResult.Yes)
+            {
+                // Xóa các dữ liệu hiện và ghi ra trên màn hình
+                present_box = "";
+                txt_Box_Number.Clear();
+                Box_Data.Rows.Clear();
+                txt_wo_scan.Enabled = false;
+
+                // Thiết lập lại dữ liệu các tiêu đề ở bảng overview
+                Box_Overview.Rows[0].Cells[1].Value = null;
+                Box_Overview.Rows[3].Cells[1].Value = null;
+                Box_Overview.Rows[4].Cells[1].Value = null;
+                Box_Overview.Rows[5].Cells[1].Value = null;
+
+                txt_Box_Number.Focus();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void Btn_Excel_Click(object sender, EventArgs e)
+        {
+            if(Box_Data.Rows.Count == 0)
+            {
+                MessageBox.Show("Chưa có dữ liệu nào của thùng được ghi nhận!");
+            }
+            else
+            {
+                Excel_Only_Sheet.ExportToExcel(Box_Data);
             }
         }
     }

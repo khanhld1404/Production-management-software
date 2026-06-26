@@ -1,4 +1,5 @@
-﻿using EVS_Management.Data_EVS;
+﻿
+using EVS_ProductionStatus.Data_EVS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class InputForm : Form
     {

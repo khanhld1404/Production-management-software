@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5FF83294-6B83-48FC-BD3F-8057C671B963}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EVS_Management</RootNamespace>
-    <AssemblyName>EVS_Management</AssemblyName>
+    <RootNamespace>EVS_ProductionStatus</RootNamespace>
+    <AssemblyName>EVS_ProductionStatus</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -121,12 +121,12 @@
     </Compile>
     <Compile Include="clConnection.cs" />
     <Compile Include="clMethod.cs" />
-    <Compile Include="Controller\clDongGoiDongThoi.cs" />
-    <Compile Include="Controller\clExportData.cs" />
-    <Compile Include="Controller\clKittingDongThoi.cs" />
-    <Compile Include="Controller\clMaBanVe.cs" />
-    <Compile Include="Controller\clThoiGianKhau.cs" />
-    <Compile Include="Controller\Packing_List_Data.cs" />
+    <Compile Include="Class\clDongGoiDongThoi.cs" />
+    <Compile Include="Class\clExportData.cs" />
+    <Compile Include="Class\clKittingDongThoi.cs" />
+    <Compile Include="Class\clMaBanVe.cs" />
+    <Compile Include="Class\clThoiGianKhau.cs" />
+    <Compile Include="Class\Packing_List_Data.cs" />
     <Compile Include="DataExport\ExportBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +187,12 @@
     <Compile Include="Data_EVS\Kitting_Infor.cs">
       <DependentUpon>db2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data_EVS\MB25.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\MB_25_Result.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data_EVS\Packing_List.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
@@ -197,6 +203,9 @@
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="Data_EVS\tblWO.cs">
+      <DependentUpon>db2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data_EVS\Update_MB25_Result.cs">
       <DependentUpon>db2.tt</DependentUpon>
     </Compile>
     <Compile Include="EVS_Inventories\Menu\EVS_Kitting_Menu.cs">
@@ -477,8 +486,8 @@
     <Compile Include="Settings\View_MasterBanVe.Designer.cs">
       <DependentUpon>View_MasterBanVe.cs</DependentUpon>
     </Compile>
-    <Compile Include="EVS_Inventories\Class\Excel_Multi_Sheet.cs" />
-    <Compile Include="EVS_Inventories\Class\Excel_Only_Sheet.cs" />
+    <Compile Include="Class\Excel_Multi_Sheet.cs" />
+    <Compile Include="Class\Excel_Only_Sheet.cs" />
     <Compile Include="EVS_Inventories\Class\Other_function.cs" />
     <Compile Include="EVS_Inventories\Class\Placeholder.cs" />
     <Compile Include="EVS_Inventories\Class\Reload_Inventory_Infor.cs" />
@@ -552,6 +561,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataExport\ExportRing.resx">
       <DependentUpon>ExportRing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EVS_Inventories\Form_WIP.resx">
+      <DependentUpon>Form_WIP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EVS_Inventories\Menu\EVS_Kitting_Menu.resx">
       <DependentUpon>EVS_Kitting_Menu.cs</DependentUpon>

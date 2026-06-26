@@ -1,13 +1,14 @@
-﻿using EVS_Management.Data_EVS;
+﻿
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using EVS_Management.Class;
-using EVS_Management.EVS_Inventories.Class;
-namespace EVS_Management
+using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.EVS_Inventories.Class;
+using EVS_ProductionStatus.Data_EVS;
+namespace EVS_ProductionStatus
 {
     class clMethod
     {
@@ -17,7 +18,7 @@ namespace EVS_Management
             {
                 string file_url = "";
 
-                // 1) Lấy đường dẫn file excel từ bảng URL (DB EVS_Management)
+                // 1) Lấy đường dẫn file excel từ bảng URL (DB EVS_ProductionStatus)
                 using (DB_Entities dbUrl = new DB_Entities(clConnection.connectEntity))
                 {
                     var qr = dbUrl.tblURLs.FirstOrDefault(x => x.Code == "FILE_URL");

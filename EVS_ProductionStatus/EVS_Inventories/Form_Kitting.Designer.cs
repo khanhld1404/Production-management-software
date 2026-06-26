@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     partial class Form_Kitting
     {

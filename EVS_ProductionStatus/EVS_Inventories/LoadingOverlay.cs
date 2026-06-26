@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class LoadingOverlay : UserControl
     {

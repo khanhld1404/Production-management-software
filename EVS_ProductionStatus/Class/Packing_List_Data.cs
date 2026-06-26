@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVS_Management.Controller
+namespace EVS_ProductionStatus.Class
 {
     public class Packing_List_Data
     {

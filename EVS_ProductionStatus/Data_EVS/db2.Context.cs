@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EVS_Management.Data_EVS
+namespace EVS_ProductionStatus.Data_EVS
 {
     using System;
     using System.Data.Entity;
@@ -32,6 +32,7 @@ namespace EVS_Management.Data_EVS
         public virtual DbSet<tblWO> tblWOes { get; set; }
         public virtual DbSet<Kitting_Infor> Kitting_Infor { get; set; }
         public virtual DbSet<EVS_Inventory> EVS_Inventory { get; set; }
+        public virtual DbSet<MB25> MB25 { get; set; }
     
         public virtual int Kitting_Infor_Data()
         {
@@ -46,6 +47,16 @@ namespace EVS_Management.Data_EVS
         public virtual int update_tblWO()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("update_tblWO");
+        }
+    
+        public virtual int Update_EVS_Inventory()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_EVS_Inventory");
+        }
+    
+        public virtual ObjectResult<Update_MB25_Result> Update_MB25()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Update_MB25_Result>("Update_MB25");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     partial class Form_HFG
     {
@@ -222,7 +222,8 @@ namespace EVS_Management
             this.txt_Search_Batch_Number.Font = new System.Drawing.Font("Arial", 15F);
             this.txt_Search_Batch_Number.Location = new System.Drawing.Point(446, 288);
             this.txt_Search_Batch_Number.Name = "txt_Search_Batch_Number";
-            this.txt_Search_Batch_Number.Size = new System.Drawing.Size(383, 30);
+            this.txt_Search_Batch_Number.Size = new System.Drawing.Size(383, 31);
+            this.txt_Search_Batch_Number.AutoSize = false;
             this.txt_Search_Batch_Number.TabIndex = 14;
             this.txt_Search_Batch_Number.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Search_KeyDown);
             // 

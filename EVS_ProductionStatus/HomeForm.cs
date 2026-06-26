@@ -1,7 +1,7 @@
-﻿using EVS_Management.Class;
-using EVS_Management.EVS_Inventories;
-using EVS_Management.EVS_Inventories.Class;
-using EVS_Management.EVS_Inventories.Menu;
+﻿using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.EVS_Inventories;
+using EVS_ProductionStatus.EVS_Inventories.Class;
+using EVS_ProductionStatus.EVS_Inventories.Menu;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class HomeForm : Form
     {

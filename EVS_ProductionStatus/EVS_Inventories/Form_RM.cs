@@ -1,8 +1,8 @@
 ﻿
-using EVS_Management.Class;
-using EVS_Management.Data_EVS;
-using EVS_Management.EVS_Inventories.Class;
-using EVS_Management.EVS_Inventories.Model;
+using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.EVS_Inventories.Class;
+using EVS_ProductionStatus.EVS_Inventories.Model;
+using EVS_ProductionStatus.Data_EVS;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
@@ -22,7 +22,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class Form_RM : UserControl
     {
@@ -39,7 +39,7 @@ namespace EVS_Management
         List<string> Khong_SX = new List<string> { "5001", "5002", "5003", "5004", "5005" };
 
         // Dữ liệu gốc trước khi dùng để xử lý
-        List<EVS_Management.Data_EVS.EVS_Inventory> Data_Root;
+        List<EVS_ProductionStatus.Data_EVS.EVS_Inventory> Data_Root;
         // Các biến để lưu dữ liệu cho EVS
         double Blocked_EVS, UU_EVS, QI_EVS, Res_EVS, Total_EVS;
         // Các biến để lưu dữ liệu cho ngoài sản xuất
@@ -152,12 +152,12 @@ namespace EVS_Management
             location_box.Items.Add("All Location");
             location_box.SelectedIndex = 0;
             // Thiết lập comment cho ô tìm kiếm
-            Placeholder.SetupPlaceholder(txt_Search_ItemCode, "Material Code");
-            Placeholder.SetupPlaceholder(txt_Search_Lotno, "Batch Number");
+            Placeholder.SetupPlaceholder(txt_Search_Material, "Material Code");
+            Placeholder.SetupPlaceholder(txt_Search_Batch, "Batch Number");
 
 
-            txt_Search_ItemCode.AutoSize = false;
-            txt_Search_Lotno.AutoSize = false;
+            txt_Search_Material.AutoSize = false;
+            txt_Search_Batch.AutoSize = false;
 
             // Tính toán những con ở trong EVS
 
@@ -208,10 +208,35 @@ namespace EVS_Management
         private List<RM_WIP_Detail> Data_Detail;
         private List<RM_WIP_Elink> Data_Eink;
 
+        // biến toàn cục cho việc search
 
         private List<RM_WIP_Overview> Data_Search_Overview;
         private List<RM_WIP_Detail> Data_Search_Detail;
         private List<RM_WIP_Elink> Data_Search_Eink;
+
+        // Hàm để lấy số lượng allowcate từ bảng MB_52
+        private double Get_Allowcate(string material, string batch)
+        {
+            // Lấy số lượng sllowcate
+            double allowcate = (double)mb.MB25
+                              .Where(x => x.Material == material && x.Batch == batch)
+                              .Select(x => x.Total ?? 0)
+                              .FirstOrDefault();
+            return Math.Round(allowcate,1);
+        }
+
+        // Hàm để lấy tổng tồn allowcate
+        private double Get_Total_Allowcate(string material)
+        {
+
+            // Lấy số lượng sllowcate
+
+            double allowcate = mb.MB25
+                .Where(x => x.Material == material)
+                .Sum(x => (double?)x.Total) ?? 0;
+
+            return Math.Round(allowcate,1);
+        }
         private void Data_Details_Load(List<string> list, string status)
         {
             // Xóa toàn bộ lựa chọn cũ ở combobox
@@ -238,93 +263,61 @@ namespace EVS_Management
                             .ToList();
             }
 
-            //Data_Overview = (from in_e in mb.EVS_Stock
-            //            where (in_e.MATERIAL_TYPE == "ZROH") &&
-            //                    (
-            //                    (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "Total_TVC") ||
-            //                    (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
 
-            //                    (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "Blocked_NSX" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "UU_NSX" && in_e.STOCK_TYPE.ToUpper() == "UU" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "QI_NSX" && in_e.STOCK_TYPE.ToUpper() == "QI" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                    (sum_type == "Restricted_NSX" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) 
-            //                    )
-            //            group in_e by in_e.MATERIAL_CODE into g
-            //            orderby g.Key
-            //            select new RM_WIP_Overview
-            //            {
-            //                MATERIAL_CODE = g.Key,
-            //                Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
-            //                Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                QI = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                Restricted = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0m) ?? 0m)
-            //            }
-            //            ).ToList();
-            //if (column >= 1 && column <= 5)
-            //{
-            //    Data_Eink = (from in_e in mb.EVS_Stock
-            //                     where (in_e.MATERIAL_TYPE == "ZROH") &&
-            //                             (
-            //                            (sum_type == "Total_EVS" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                            (sum_type == "Blocked" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                            (sum_type == "UU" && in_e.STOCK_TYPE.ToUpper() == "UU" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                            (sum_type == "QI" && in_e.STOCK_TYPE.ToUpper() == "QI" && targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                            (sum_type == "Restricted" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && targetLocs.Contains(in_e.STORAGE_LOCATION)) 
-            //                             )
-            //                     group in_e by new {in_e.MATERIAL_CODE,in_e.BATCH_NUMBER,in_e.STOCK_TYPE,in_e.CONNECT_STATUS} into g
-            //                     orderby g.Key.MATERIAL_CODE
-            //                     select new RM_WIP_Elink
-            //                     {
-            //                         MATERIAL_CODE = g.Key.MATERIAL_CODE,
-            //                         Lotno = g.Key.BATCH_NUMBER,
-            //                         Status = g.Key.STOCK_TYPE,
-            //                         Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
-            //                         Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                         UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                         QI = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                         Restricted = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                         Eink = g.Key.CONNECT_STATUS
-            //                     }).ToList();
-            //}
-            //else 
-            //{
-            //    Data_Detail = (from in_e in mb.EVS_Stock
-            //                where (in_e.MATERIAL_TYPE == "ZROH") &&
-            //                        (
-            //                        (sum_type == "Total_TVC") ||
-            //                        (sum_type == "Total_NSX" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                        (sum_type == "Blocked_NSX" && in_e.STOCK_TYPE.ToUpper() == "BLOCKED" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                        (sum_type == "UU_NSX" && in_e.STOCK_TYPE.ToUpper() == "UU" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                        (sum_type == "QI_NSX" && in_e.STOCK_TYPE.ToUpper() == "QI" && !targetLocs.Contains(in_e.STORAGE_LOCATION)) ||
-            //                        (sum_type == "Restricted_NSX" && in_e.STOCK_TYPE.ToUpper() == "RESTRICTED" && !targetLocs.Contains(in_e.STORAGE_LOCATION))
-            //                        )
-            //                group in_e by new { in_e.MATERIAL_CODE, in_e.BATCH_NUMBER, in_e.STOCK_TYPE} into g
-            //                orderby g.Key.MATERIAL_CODE
-            //                select new RM_WIP_Detail
-            //                {
-            //                    MATERIAL_CODE = g.Key.MATERIAL_CODE,
-            //                    Lotno = g.Key.BATCH_NUMBER,
-            //                    Status = g.Key.STOCK_TYPE,
-            //                    Total = Math.Round(g.Sum(x => x.STOCK_QUANTITY) ?? 0m, 2),
-            //                    Total_Blocked = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "BLOCKED" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                    Total_UU = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "UU" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                    Total_QI = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "QI" ? x.STOCK_QUANTITY : 0m) ?? 0m),
-            //                    Total_Restricted = Math.Round(g.Sum(x => x.STOCK_TYPE.ToUpper() == "RESTRICTED" ? x.STOCK_QUANTITY : 0m) ?? 0m)
-            //                }).ToList();
-            //}
+            Data_Overview = Data_Root
+                            .GroupBy(x => x.Registered__Material ?? x.Material_Number)
+                            .Select(g => new RM_WIP_Overview
+                            {
+                                MATERIAL_CODE = g.Key,
+                                Tổng_Tồn = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)), 1),
+                                Tồn_Allowcate = Get_Total_Allowcate(g.Key),
+                                Tồn_Khả_Dụng = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)) - Get_Total_Allowcate(g.Key),1)
+                            }).ToList();
+
+            if(CellKick_Value == "Trong EVS")
+            {
+                Data_Eink = Data_Root
+                            .GroupBy(s => new
+                            {
+                                MATERIAL_CODE = s.Registered__Material ?? s.Material_Number,
+                                BATCH_NUMBER = s.Vendor_Batch_Number ?? s.Batch_Number,
+                                Connect_Status = s.Connect_Status
+                            })
+                            .Select(g => new RM_WIP_Elink
+                            {
+                                MATERIAL = g.Key.MATERIAL_CODE,
+                                Batch = g.Key.BATCH_NUMBER,
+                                Tổng_Tồn = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)),1),
+                                Tồn_Allowcate = Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER),
+                                Tồn_Khả_Dụng = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)) - Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER),1),
+                                Connect_Eink = g.Key.Connect_Status
+                            }).ToList();
+            }
+            else
+            {
+                Data_Detail = Data_Root
+                            .GroupBy(s => new
+                            {
+                                MATERIAL_CODE = s.Registered__Material ?? s.Material_Number,
+                                BATCH_NUMBER = s.Vendor_Batch_Number ?? s.Batch_Number
+                            })
+                            .Select(g => new RM_WIP_Detail
+                            {
+                                MATERIAL_CODE = g.Key.MATERIAL_CODE,
+                                Batch_Number = g.Key.BATCH_NUMBER,
+                                Tổng_Tồn = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)), 1),
+                                Tồn_Allowcate = Get_Allowcate(g.Key.MATERIAL_CODE,g.Key.BATCH_NUMBER),
+                                Tồn_Khả_Dụng = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)) - Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER), 1)
+                            }).ToList();
+            }
+
             if (Dgv_Details_RM.DataSource == null || Dgv_Details_RM.Tag.ToString() == "RM_Overview" || Dgv_Details_RM.Tag.ToString() == "RM_Overview_elink")
             {
                 Lab_Details_RM.Text = "Thông tin RM (Tổng Quan)";
                 Dgv_Details_RM.DataSource = null;
                 Dgv_Details_RM.Columns.Clear();
                 Dgv_Details_RM.Refresh();
-                if(!check_search)
+                if (!check_search)
                 {
                     Dgv_Details_RM.DataSource = Data_Overview;
                 }
@@ -355,8 +348,7 @@ namespace EVS_Management
                         Search();
                     }
                     label_suggest.Text = @"
-                    Lưu ý : Khi click vào allocate thì sẽ hiện ra thêm các id
-                    của lot đó
+                    Lưu ý : Khi click vào allocate thì sẽ hiện các id của lot
                     ";
                     var btnCol = new DataGridViewButtonColumn();
                     btnCol.Name = "Action";                  // Tên nội bộ cột
@@ -377,6 +369,8 @@ namespace EVS_Management
         {
             if (e.RowIndex >= 0 && e.ColumnIndex > 0)
             {
+                // Lấy all location
+                location_box.SelectedIndex = 0;
                 // Lấy thông tin tên cột và hàng được chọn 
                 CellKick_Value = Dgv_Main_RM.Rows[e.RowIndex].Cells["TT"].Value.ToString();
                 Column_name = Dgv_Main_RM.Columns[e.ColumnIndex].Name;
@@ -393,21 +387,64 @@ namespace EVS_Management
 
                 check_add_eink = false; check_search = false;
 
-                // Lọc dữ liệu theo trạng thái và tình trạng
-                if (CellKick_Value == "Trong EVS")
+                // Thêm màn load khi tính toán dữ liệu để hiện thị trong bảng detail
+                using (var loading = new Form
                 {
-                    Data_Details_Load(Trong_SX, Column_name);
-                }
-                else if (CellKick_Value == "Ngoài sản xuất")
+                    Text = "Xử lý dữ liệu...",
+                    StartPosition = FormStartPosition.CenterScreen,
+                    ControlBox = false,
+                    FormBorderStyle = FormBorderStyle.FixedDialog,
+                    ClientSize = new Size(320, 100),
+                    TopMost = true
+                })
                 {
-                    Data_Details_Load(Ngoai_SX, Column_name);
-                }
-                else
-                {
-                    Data_Details_Load(Khong_SX, Column_name);
+                    var lbl = new Label
+                    {
+                        Text = $"Đang xử lý dữ liệu\nVui lòng chờ…",
+                        Dock = DockStyle.Fill,
+                        TextAlign = ContentAlignment.MiddleCenter,
+
+                        Font = new Font("Arial", 10, FontStyle.Regular)
+                    };
+                    loading.Controls.Add(lbl);
+                    loading.Show();       // show modeless để không block await
+                    loading.Refresh();
+
+                    DataTable dt = null;
+
+                    try
+                    {
+                        // Lọc dữ liệu theo trạng thái và tình trạng
+                        if (CellKick_Value == "Trong EVS")
+                        {
+                            Data_Details_Load(Trong_SX, Column_name);
+                        }
+                        else if (CellKick_Value == "Ngoài sản xuất")
+                        {
+                            Data_Details_Load(Ngoai_SX, Column_name);
+                        }
+                        else
+                        {
+                            Data_Details_Load(Khong_SX, Column_name);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Có lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    finally
+                    {
+                        loading.Close();
+                    }
                 }
 
             }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
 
         private void Btn_Total_Click(object sender, EventArgs e)
@@ -443,8 +480,7 @@ namespace EVS_Management
             }
             Lab_Details_RM.Text = "Thông tin RM (Chi Tiết)";
             label_suggest.Text = @"
-            Lưu ý : Khi click vào allocate thì sẽ hiện ra thêm các id
-            của lot đó
+            Lưu ý : Khi click vào allowcate thì sẽ hiện id của lot
             ";
             label_suggest.ForeColor = Color.Red;
             label_suggest.Font = new Font("Arial", 10);
@@ -492,16 +528,7 @@ namespace EVS_Management
         {
             if (Dgv_Details_RM.DataSource != null)
             {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.Filter = "Excel Files|*.xlsx|All Files|*.*";
-                saveFileDialog1.Title = "Chọn nơi lưu file Excel";
-                saveFileDialog1.DefaultExt = "xlsx";
-
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    //gọi hàm ToExcel() với tham số là dtgDSHS và filename từ SaveFileDialog
-                    Excel_Multi_Sheet.ExportToExcel(Data_Overview, Data_Detail, saveFileDialog1.FileName);
-                }
+                Excel_Multi_Sheet.ExportToExcel(Data_Overview, Data_Detail);
             }
             else
             {
@@ -546,98 +573,243 @@ namespace EVS_Management
         }
         private void Search()
         {
-            string tt_ItemCode = Placeholder.GetRealText(txt_Search_ItemCode).ToString();
-            string tt_Lotno = Placeholder.GetRealText(txt_Search_Lotno).ToString();
+            //Lấy thông tin trong ô tìm kiếm
+            string tt_Material_Code = Placeholder.GetRealText(txt_Search_Material);
+            string tt_Batch_Number = Placeholder.GetRealText(txt_Search_Batch);
+            string location = location_box.Text.Trim();
 
             try
             {
-                
-                if (tt_ItemCode != "" && tt_Lotno != "")
+                // Nếu không nhập location hoặc tính tất cả location
+                if (location == "" || location == "All Location")
                 {
-                    Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
-                    bool check_LotNo;
-                    if (!check_add_eink)
+                    if (tt_Material_Code != "" && tt_Batch_Number != "")
                     {
-                        Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemCode && x.Lotno == tt_Lotno).ToList();
-                        check_LotNo = Data_Detail.Any(x => x.Lotno == tt_Lotno);
-                    }
-                    else
-                    {
-                        Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL_CODE == tt_ItemCode && x.Lotno == tt_Lotno).ToList();
-                        check_LotNo = Data_Eink.Any(x => x.Lotno == tt_Lotno);
-                    }
+                        Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_Material_Code).ToList();
+                        bool check_LotNo;
+                        if (!check_add_eink)
+                        {
+                            Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_Material_Code && x.Batch_Number == tt_Batch_Number).ToList();
+                            check_LotNo = Data_Detail.Any(x => x.Batch_Number == tt_Batch_Number);
+                        }
+                        else
+                        {
+                            Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL == tt_Material_Code && x.Batch == tt_Batch_Number).ToList();
+                            check_LotNo = Data_Eink.Any(x => x.Batch == tt_Batch_Number);
+                        }
 
-                    //Kiểm tra thông tin tìm kiếm có chính xác không
-                    if (!Data_Search_Overview.Any() && !check_LotNo)
-                    {
-                        MessageBox.Show("Cả ItemCode và LotNo đều không chính xác!");
-                    }else if (!Data_Search_Overview.Any())
-                    {
-                        MessageBox.Show("ItemCode không chính xác!");
-                    }else if (!check_LotNo)
-                    {
-                        MessageBox.Show("LotNo không chính xác!");
-                    }
+                        //Kiểm tra thông tin tìm kiếm có chính xác không
+                        if (!Data_Search_Overview.Any() && !check_LotNo)
+                        {
+                            MessageBox.Show("Cả Material và Batch đều không chính xác!");
+                        }
+                        else if (!Data_Search_Overview.Any())
+                        {
+                            MessageBox.Show("Material không chính xác!");
+                        }
+                        else if (!check_LotNo)
+                        {
+                            MessageBox.Show("Batch không chính xác!");
+                        }
 
-                }
-                else if (tt_ItemCode != "" && tt_Lotno == "")
-                {
-                    Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
-                    if (!check_add_eink)
-                    {
-                        Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
                     }
-                    else
+                    else if (tt_Material_Code != "" && tt_Batch_Number == "")
                     {
-                        Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL_CODE == tt_ItemCode).ToList();
+                        Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_Material_Code).ToList();
+                        if (!check_add_eink)
+                        {
+                            Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_Material_Code).ToList();
+                        }
+                        else
+                        {
+                            Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL == tt_Material_Code).ToList();
+                        }
+                        if (!Data_Search_Overview.Any())
+                        {
+                            MessageBox.Show("Material không chính xác!");
+                        }
                     }
-                    if (!Data_Search_Overview.Any())
+                    else if (tt_Material_Code == "" && tt_Batch_Number != "")
                     {
-                        MessageBox.Show("ItemCode không chính xác!");
-                    }
-                }
-                else if (tt_ItemCode == "" && tt_Lotno != "")
-                {
-                    if(!check_add_eink)
-                    {
-                        Data_Search_Detail = Data_Detail.Where(x => x.Lotno == tt_Lotno).ToList();
-                        var Item_code_return = Data_Detail.Where(x => x.Lotno == tt_Lotno)
-                                .Select(x => x.MATERIAL_CODE)
-                                .Distinct()
-                                .ToList();
-
-                        Data_Search_Overview = (from s in Data_Overview
-                                    join code in Item_code_return
-                                        on s.MATERIAL_CODE equals code
-                                    select s)
+                        if (!check_add_eink)
+                        {
+                            Data_Search_Detail = Data_Detail.Where(x => x.Batch_Number == tt_Batch_Number).ToList();
+                            var Item_code_return = Data_Detail.Where(x => x.Batch_Number == tt_Batch_Number)
+                                    .Select(x => x.MATERIAL_CODE)
+                                    .Distinct()
                                     .ToList();
+
+                            Data_Search_Overview = (from s in Data_Overview
+                                                    join code in Item_code_return
+                                                        on s.MATERIAL_CODE equals code
+                                                    select s)
+                                        .ToList();
+                        }
+                        else
+                        {
+                            Data_Search_Eink = Data_Eink.Where(x => x.Batch == tt_Batch_Number).ToList();
+                            var Item_code_return = Data_Eink.Where(x => x.Batch == tt_Batch_Number)
+                                    .Select(x => x.MATERIAL)
+                                    .Distinct()
+                                    .ToList();
+
+                            Data_Search_Overview = (from s in Data_Overview
+                                                    join code in Item_code_return
+                                                        on s.MATERIAL_CODE equals code
+                                                    select s)
+                                        .ToList();
+                        }
+
+                        if (!Data_Search_Overview.Any())
+                        {
+                            MessageBox.Show("Batch không chính xác!");
+                        }
                     }
                     else
                     {
-                        Data_Search_Eink = Data_Eink.Where(x => x.Lotno == tt_Lotno).ToList();
-                        var Item_code_return = Data_Eink.Where(x => x.Lotno == tt_Lotno)
-                                .Select(x => x.MATERIAL_CODE)
-                                .Distinct()
-                                .ToList();
-
-                        Data_Search_Overview = (from s in Data_Overview
-                                    join code in Item_code_return
-                                        on s.MATERIAL_CODE equals code
-                                    select s)
-                                    .ToList();
-                    }
-
-                    if (!Data_Search_Overview.Any())
-                    {
-                        MessageBox.Show("LotNo không chính xác!");
+                        Data_Search_Overview = Data_Overview;
+                        Data_Search_Detail = Data_Detail;
+                        Data_Search_Eink = Data_Eink;
                     }
                 }
+                // Tính thêm điều kiện location
                 else
                 {
-                    MessageBox.Show("Mời bạn nhập một trong hai ô để bắt đầu tìm kiếm!");
-                    return;
+                    // Tạo một gốc dữ liệu mới
+                    List<EVS_ProductionStatus.Data_EVS.EVS_Inventory> Data_Root_Search;
+                    // Tìm kiếm theo location
+                    Data_Root_Search = Data_Root.Where(x => x.Storage_Location == location).ToList();
+
+                    Data_Search_Overview = Data_Root
+                                    .GroupBy(x => x.Registered__Material ?? x.Material_Number)
+                                    .Select(g => new RM_WIP_Overview
+                                    {
+                                        MATERIAL_CODE = g.Key,
+                                        Tổng_Tồn = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)), 1),
+                                        Tồn_Allowcate = Get_Total_Allowcate(g.Key),
+                                        Tồn_Khả_Dụng = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)) - Get_Total_Allowcate(g.Key), 1)
+                                    }).ToList();
+
+                    if (CellKick_Value == "Trong EVS")
+                    {
+                        Data_Search_Eink = Data_Root
+                                    .GroupBy(s => new
+                                    {
+                                        MATERIAL_CODE = s.Registered__Material ?? s.Material_Number,
+                                        BATCH_NUMBER = s.Vendor_Batch_Number ?? s.Batch_Number,
+                                        Connect_Status = s.Connect_Status
+                                    })
+                                    .Select(g => new RM_WIP_Elink
+                                    {
+                                        MATERIAL = g.Key.MATERIAL_CODE,
+                                        Batch = g.Key.BATCH_NUMBER,
+                                        Tổng_Tồn = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)), 1),
+                                        Tồn_Allowcate = Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER),
+                                        Tồn_Khả_Dụng = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)) - Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER), 1),
+                                        Connect_Eink = g.Key.Connect_Status
+                                    }).ToList();
+                    }
+                    else
+                    {
+                        Data_Search_Detail = Data_Root
+                                    .GroupBy(s => new
+                                    {
+                                        MATERIAL_CODE = s.Registered__Material ?? s.Material_Number,
+                                        BATCH_NUMBER = s.Vendor_Batch_Number ?? s.Batch_Number
+                                    })
+                                    .Select(g => new RM_WIP_Detail
+                                    {
+                                        MATERIAL_CODE = g.Key.MATERIAL_CODE,
+                                        Batch_Number = g.Key.BATCH_NUMBER,
+                                        Tổng_Tồn = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)), 1),
+                                        Tồn_Allowcate = Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER),
+                                        Tồn_Khả_Dụng = Math.Round(g.Sum(x => double.Parse(x.Inventory_Qty)) - Get_Allowcate(g.Key.MATERIAL_CODE, g.Key.BATCH_NUMBER), 1)
+                                    }).ToList();
+                    }
+                    if (tt_Material_Code != "" && tt_Batch_Number != "")
+                    {
+                        Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_Material_Code).ToList();
+                        bool check_LotNo;
+                        if (!check_add_eink)
+                        {
+                            Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_Material_Code && x.Batch_Number == tt_Batch_Number).ToList();
+                            check_LotNo = Data_Detail.Any(x => x.Batch_Number == tt_Batch_Number);
+                        }
+                        else
+                        {
+                            Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL == tt_Material_Code && x.Batch == tt_Batch_Number).ToList();
+                            check_LotNo = Data_Eink.Any(x => x.Batch == tt_Batch_Number);
+                        }
+
+                        //Kiểm tra thông tin tìm kiếm có chính xác không
+                        if (!Data_Search_Overview.Any() && !check_LotNo)
+                        {
+                            MessageBox.Show("Cả Material và Batch đều không chính xác!");
+                        }
+                        else if (!Data_Search_Overview.Any())
+                        {
+                            MessageBox.Show("Material không chính xác!");
+                        }
+                        else if (!check_LotNo)
+                        {
+                            MessageBox.Show("Batch không chính xác!");
+                        }
+
+                    }
+                    else if (tt_Material_Code != "" && tt_Batch_Number == "")
+                    {
+                        Data_Search_Overview = Data_Overview.Where(x => x.MATERIAL_CODE == tt_Material_Code).ToList();
+                        if (!check_add_eink)
+                        {
+                            Data_Search_Detail = Data_Detail.Where(x => x.MATERIAL_CODE == tt_Material_Code).ToList();
+                        }
+                        else
+                        {
+                            Data_Search_Eink = Data_Eink.Where(x => x.MATERIAL == tt_Material_Code).ToList();
+                        }
+                        if (!Data_Search_Overview.Any())
+                        {
+                            MessageBox.Show("Material không chính xác!");
+                        }
+                    }
+                    else if (tt_Material_Code == "" && tt_Batch_Number != "")
+                    {
+                        if (!check_add_eink)
+                        {
+                            Data_Search_Detail = Data_Detail.Where(x => x.Batch_Number == tt_Batch_Number).ToList();
+                            var Item_code_return = Data_Detail.Where(x => x.Batch_Number == tt_Batch_Number)
+                                    .Select(x => x.MATERIAL_CODE)
+                                    .Distinct()
+                                    .ToList();
+
+                            Data_Search_Overview = (from s in Data_Overview
+                                                    join code in Item_code_return
+                                                        on s.MATERIAL_CODE equals code
+                                                    select s)
+                                        .ToList();
+                        }
+                        else
+                        {
+                            Data_Search_Eink = Data_Eink.Where(x => x.Batch == tt_Batch_Number).ToList();
+                            var Item_code_return = Data_Eink.Where(x => x.Batch == tt_Batch_Number)
+                                    .Select(x => x.MATERIAL)
+                                    .Distinct()
+                                    .ToList();
+
+                            Data_Search_Overview = (from s in Data_Overview
+                                                    join code in Item_code_return
+                                                        on s.MATERIAL_CODE equals code
+                                                    select s)
+                                        .ToList();
+                        }
+
+                        if (!Data_Search_Overview.Any())
+                        {
+                            MessageBox.Show("Batch không chính xác!");
+                        }
+                    }
                 }
-                
+
 
                 check_search = true; // Chuyển b =1 để biết rằng nó đã chuyển sang trạng thái tìm kiếm
                 if (Dgv_Details_RM.Tag.ToString() == "RM_Overview")
@@ -646,7 +818,7 @@ namespace EVS_Management
                 }
                 else if (Dgv_Details_RM.Tag.ToString() == "RM_Detail")
                 {
-                    if(!check_add_eink)
+                    if (!check_add_eink)
                     {
                         Dgv_Details_RM.DataSource = Data_Search_Detail;
                     }
@@ -659,7 +831,8 @@ namespace EVS_Management
                 {
                     MessageBox.Show("Lỗi dữ liệu!");
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -707,7 +880,7 @@ namespace EVS_Management
                     MessageBox.Show("Chưa có dữ liệu trong bảng, mời bạn nhấn bên trên");
                     return;
                 }
-                if (Placeholder.GetRealText(txt_Search_ItemCode) == "" && Placeholder.GetRealText(txt_Search_Lotno) == "")
+                if (Placeholder.GetRealText(txt_Search_Material) == "" && Placeholder.GetRealText(txt_Search_Batch) == "")
                 {
                     e.SuppressKeyPress = true; Rewatch();   
                 }

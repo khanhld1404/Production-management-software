@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management.EVS_Inventories.Class
+namespace EVS_ProductionStatus.EVS_Inventories.Class
 {
     public class Other_function
     {

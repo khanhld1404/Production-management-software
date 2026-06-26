@@ -1,4 +1,4 @@
-﻿namespace EVS_Management
+﻿namespace EVS_ProductionStatus
 {
     partial class Box_Status
     {
@@ -28,11 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label4 = new System.Windows.Forms.Label();
             this.Box_Data = new System.Windows.Forms.DataGridView();
+            this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WO_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label14 = new System.Windows.Forms.Label();
             this.txt_wo_scan = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,11 +54,8 @@
             this.Box_Overview = new System.Windows.Forms.DataGridView();
             this.Ten = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GiaTri = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WorkOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.WO_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Btn_Excel = new System.Windows.Forms.Button();
+            this.btn_stop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Box_Data)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrow2)).BeginInit();
@@ -78,15 +80,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Box_Data.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.Box_Data.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 8);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Box_Data.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.ForestGreen;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 8, 0, 8);
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Box_Data.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.Box_Data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Box_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.STT,
@@ -94,15 +96,15 @@
             this.WO_ID,
             this.ItemNumber,
             this.Result});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Box_Data.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Box_Data.DefaultCellStyle = dataGridViewCellStyle5;
             this.Box_Data.EnableHeadersVisualStyles = false;
             this.Box_Data.Location = new System.Drawing.Point(23, 262);
             this.Box_Data.Name = "Box_Data";
@@ -111,6 +113,36 @@
             this.Box_Data.RowTemplate.Height = 30;
             this.Box_Data.Size = new System.Drawing.Size(1166, 354);
             this.Box_Data.TabIndex = 7;
+            // 
+            // STT
+            // 
+            this.STT.HeaderText = "STT";
+            this.STT.Name = "STT";
+            this.STT.ReadOnly = true;
+            // 
+            // WorkOrder
+            // 
+            this.WorkOrder.HeaderText = "WorkOrder";
+            this.WorkOrder.Name = "WorkOrder";
+            this.WorkOrder.ReadOnly = true;
+            // 
+            // WO_ID
+            // 
+            this.WO_ID.HeaderText = "WO_ID";
+            this.WO_ID.Name = "WO_ID";
+            this.WO_ID.ReadOnly = true;
+            // 
+            // ItemNumber
+            // 
+            this.ItemNumber.HeaderText = "ItemNumber";
+            this.ItemNumber.Name = "ItemNumber";
+            this.ItemNumber.ReadOnly = true;
+            // 
+            // Result
+            // 
+            this.Result.HeaderText = "Kết Quả Quét";
+            this.Result.Name = "Result";
+            this.Result.ReadOnly = true;
             // 
             // label14
             // 
@@ -155,7 +187,7 @@
             // 
             this.lab_emp1.AutoSize = true;
             this.lab_emp1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_emp1.Location = new System.Drawing.Point(97, 169);
+            this.lab_emp1.Location = new System.Drawing.Point(305, 175);
             this.lab_emp1.Name = "lab_emp1";
             this.lab_emp1.Size = new System.Drawing.Size(124, 20);
             this.lab_emp1.TabIndex = 2;
@@ -165,7 +197,7 @@
             // txt_emp_1
             // 
             this.txt_emp_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_emp_1.Location = new System.Drawing.Point(227, 162);
+            this.txt_emp_1.Location = new System.Drawing.Point(435, 168);
             this.txt_emp_1.Name = "txt_emp_1";
             this.txt_emp_1.Size = new System.Drawing.Size(100, 24);
             this.txt_emp_1.TabIndex = 3;
@@ -176,7 +208,7 @@
             // 
             this.lab_emp2.AutoSize = true;
             this.lab_emp2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lab_emp2.Location = new System.Drawing.Point(97, 216);
+            this.lab_emp2.Location = new System.Drawing.Point(305, 222);
             this.lab_emp2.Name = "lab_emp2";
             this.lab_emp2.Size = new System.Drawing.Size(124, 20);
             this.lab_emp2.TabIndex = 4;
@@ -186,7 +218,7 @@
             // txt_emp_2
             // 
             this.txt_emp_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_emp_2.Location = new System.Drawing.Point(227, 214);
+            this.txt_emp_2.Location = new System.Drawing.Point(435, 220);
             this.txt_emp_2.Name = "txt_emp_2";
             this.txt_emp_2.Size = new System.Drawing.Size(100, 24);
             this.txt_emp_2.TabIndex = 5;
@@ -195,8 +227,8 @@
             // 
             // arrow1
             // 
-            this.arrow1.Image = global::EVS_Management.Properties.Resources.icons8_right_70;
-            this.arrow1.Location = new System.Drawing.Point(33, 160);
+            this.arrow1.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_right_70;
+            this.arrow1.Location = new System.Drawing.Point(241, 166);
             this.arrow1.Name = "arrow1";
             this.arrow1.Size = new System.Drawing.Size(48, 41);
             this.arrow1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -206,8 +238,8 @@
             // 
             // arrow2
             // 
-            this.arrow2.Image = global::EVS_Management.Properties.Resources.icons8_right_70;
-            this.arrow2.Location = new System.Drawing.Point(33, 205);
+            this.arrow2.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_right_70;
+            this.arrow2.Location = new System.Drawing.Point(241, 211);
             this.arrow2.Name = "arrow2";
             this.arrow2.Size = new System.Drawing.Size(48, 41);
             this.arrow2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -220,7 +252,7 @@
             this.lab_nv2_error.AutoSize = true;
             this.lab_nv2_error.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lab_nv2_error.ForeColor = System.Drawing.Color.Red;
-            this.lab_nv2_error.Location = new System.Drawing.Point(347, 220);
+            this.lab_nv2_error.Location = new System.Drawing.Point(555, 226);
             this.lab_nv2_error.Name = "lab_nv2_error";
             this.lab_nv2_error.Size = new System.Drawing.Size(0, 18);
             this.lab_nv2_error.TabIndex = 62;
@@ -230,7 +262,7 @@
             this.lab_nv1_error.AutoSize = true;
             this.lab_nv1_error.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lab_nv1_error.ForeColor = System.Drawing.Color.Red;
-            this.lab_nv1_error.Location = new System.Drawing.Point(347, 165);
+            this.lab_nv1_error.Location = new System.Drawing.Point(555, 171);
             this.lab_nv1_error.Name = "lab_nv1_error";
             this.lab_nv1_error.Size = new System.Drawing.Size(0, 18);
             this.lab_nv1_error.TabIndex = 61;
@@ -260,10 +292,10 @@
             this.Box_Overview.Name = "Box_Overview";
             this.Box_Overview.ReadOnly = true;
             this.Box_Overview.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-            this.Box_Overview.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+            this.Box_Overview.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.Box_Overview.RowTemplate.Height = 34;
             this.Box_Overview.Size = new System.Drawing.Size(337, 204);
             this.Box_Overview.TabIndex = 63;
@@ -280,41 +312,39 @@
             this.GiaTri.Name = "GiaTri";
             this.GiaTri.ReadOnly = true;
             // 
-            // STT
+            // Btn_Excel
             // 
-            this.STT.HeaderText = "STT";
-            this.STT.Name = "STT";
-            this.STT.ReadOnly = true;
+            this.Btn_Excel.BackColor = System.Drawing.Color.Green;
+            this.Btn_Excel.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.Btn_Excel.ForeColor = System.Drawing.Color.White;
+            this.Btn_Excel.Location = new System.Drawing.Point(24, 214);
+            this.Btn_Excel.Name = "Btn_Excel";
+            this.Btn_Excel.Size = new System.Drawing.Size(150, 39);
+            this.Btn_Excel.TabIndex = 66;
+            this.Btn_Excel.Text = "Xuất Excel";
+            this.Btn_Excel.UseVisualStyleBackColor = false;
+            this.Btn_Excel.Click += new System.EventHandler(this.Btn_Excel_Click);
             // 
-            // WorkOrder
+            // btn_stop
             // 
-            this.WorkOrder.HeaderText = "WorkOrder";
-            this.WorkOrder.Name = "WorkOrder";
-            this.WorkOrder.ReadOnly = true;
-            // 
-            // WO_ID
-            // 
-            this.WO_ID.HeaderText = "WO_ID";
-            this.WO_ID.Name = "WO_ID";
-            this.WO_ID.ReadOnly = true;
-            // 
-            // ItemNumber
-            // 
-            this.ItemNumber.HeaderText = "ItemNumber";
-            this.ItemNumber.Name = "ItemNumber";
-            this.ItemNumber.ReadOnly = true;
-            // 
-            // Result
-            // 
-            this.Result.HeaderText = "Kết Quả Quét";
-            this.Result.Name = "Result";
-            this.Result.ReadOnly = true;
+            this.btn_stop.BackColor = System.Drawing.Color.Orange;
+            this.btn_stop.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btn_stop.ForeColor = System.Drawing.Color.White;
+            this.btn_stop.Location = new System.Drawing.Point(24, 162);
+            this.btn_stop.Name = "btn_stop";
+            this.btn_stop.Size = new System.Drawing.Size(150, 39);
+            this.btn_stop.TabIndex = 67;
+            this.btn_stop.Text = "Dừng Đóng Thùng";
+            this.btn_stop.UseVisualStyleBackColor = false;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // Box_Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1287, 651);
+            this.Controls.Add(this.btn_stop);
+            this.Controls.Add(this.Btn_Excel);
             this.Controls.Add(this.Box_Overview);
             this.Controls.Add(this.lab_nv2_error);
             this.Controls.Add(this.lab_nv1_error);
@@ -369,5 +399,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn WO_ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Result;
+        private System.Windows.Forms.Button Btn_Excel;
+        private System.Windows.Forms.Button btn_stop;
     }
 }

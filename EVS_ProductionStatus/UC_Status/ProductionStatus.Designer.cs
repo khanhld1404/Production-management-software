@@ -1,4 +1,4 @@
-﻿namespace EVS_Management
+﻿namespace EVS_ProductionStatus
 {
     partial class ProductionStatus
     {
@@ -328,7 +328,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::EVS_Management.Properties.Resources.blinking_arrow;
+            this.pictureBox2.Image = global::EVS_ProductionStatus.Properties.Resources.blinking_arrow;
             this.pictureBox2.Location = new System.Drawing.Point(145, 0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(32, 38);
@@ -473,7 +473,7 @@
             // 
             // picLoading
             // 
-            this.picLoading.Image = global::EVS_Management.Properties.Resources._16;
+            this.picLoading.Image = global::EVS_ProductionStatus.Properties.Resources._16;
             this.picLoading.Location = new System.Drawing.Point(1105, 13);
             this.picLoading.Name = "picLoading";
             this.picLoading.Size = new System.Drawing.Size(29, 27);

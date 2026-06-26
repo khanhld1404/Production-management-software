@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EVS_Management.Data_EVS
+namespace EVS_ProductionStatus.Data_EVS
 {
     using System;
     using System.Data.Entity;

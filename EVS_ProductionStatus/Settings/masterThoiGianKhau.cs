@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management.Settings
+namespace EVS_ProductionStatus.Settings
 {
     public partial class masterThoiGianKhau : Form
     {
-        Controller.clThoiGianKhau cl = new Controller.clThoiGianKhau();
+        Class.clThoiGianKhau cl = new Class.clThoiGianKhau();
         public masterThoiGianKhau()
         {
             InitializeComponent();

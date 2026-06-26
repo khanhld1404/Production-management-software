@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace EVS_Management
         static void Main()
         {
             bool ownsMutex;
-            using (Mutex mutex = new Mutex(true, "EVS_Management", out ownsMutex))
+            using (Mutex mutex = new Mutex(true, "EVS_ProductionStatus", out ownsMutex))
             {
                 if (ownsMutex)
                 {

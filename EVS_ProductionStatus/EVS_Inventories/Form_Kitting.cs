@@ -1,9 +1,8 @@
 ﻿
-using EVS_Management.Class;
-using EVS_Management.Data_EVS;
-using EVS_Management.EVS_Inventories.Model;
-using EVS_Management.EVS_Inventories.Class;
-using EVS_Management.EVS_Inventories.Model;
+using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.EVS_Inventories.Model;
+using EVS_ProductionStatus.EVS_Inventories.Class;
+using EVS_ProductionStatus.EVS_Inventories.Model;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -21,8 +20,9 @@ using System.Windows.Forms;
 using static OfficeOpenXml.ExcelErrorValue;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using EVS_ProductionStatus.Data_EVS;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class Form_Kitting : UserControl
     {
@@ -159,17 +159,8 @@ namespace EVS_Management
         }
         private void Btn_Excel_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Excel Files|*.xlsx|All Files|*.*";
-            saveFileDialog1.Title = "Chọn nơi lưu file Excel";
-            saveFileDialog1.DefaultExt = "xlsx";
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                //gọi hàm ToExcel() với tham số là dtgDSHS và filename từ SaveFileDialog
-               Excel_Only_Sheet.ExportToExcel(Data_Kitting_NVL, saveFileDialog1.FileName);
-               MessageBox.Show("Xuất Excel thành công!");
-            }
+            // Do dữ liệu trong bảng kitting luôn có nên không cần kiểm tra
+            Excel_Only_Sheet.ExportToExcel(Data_Kitting_NVL);
         }
         private void Txt_NVL_KeyDown(object sender, KeyEventArgs e)
         {

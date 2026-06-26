@@ -1,4 +1,4 @@
-﻿namespace EVS_Management.EVS_Inventories
+﻿namespace EVS_ProductionStatus.EVS_Inventories
 {
     partial class EVS_Inventory_Menu
     {
@@ -36,7 +36,7 @@
             // btn_WIP_Inventory
             // 
             this.btn_WIP_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_WIP_Inventory.Image = global::EVS_Management.Properties.Resources.anh3;
+            this.btn_WIP_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.anh3;
             this.btn_WIP_Inventory.Location = new System.Drawing.Point(496, 27);
             this.btn_WIP_Inventory.Name = "btn_WIP_Inventory";
             this.btn_WIP_Inventory.Size = new System.Drawing.Size(181, 146);
@@ -49,7 +49,7 @@
             // btn_RM_Inventory
             // 
             this.btn_RM_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_RM_Inventory.Image = global::EVS_Management.Properties.Resources.anh2;
+            this.btn_RM_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.anh2;
             this.btn_RM_Inventory.Location = new System.Drawing.Point(255, 27);
             this.btn_RM_Inventory.Name = "btn_RM_Inventory";
             this.btn_RM_Inventory.Size = new System.Drawing.Size(181, 146);
@@ -62,7 +62,7 @@
             // btn_HFG_Inventory
             // 
             this.btn_HFG_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_HFG_Inventory.Image = global::EVS_Management.Properties.Resources.anh1;
+            this.btn_HFG_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.anh1;
             this.btn_HFG_Inventory.Location = new System.Drawing.Point(21, 27);
             this.btn_HFG_Inventory.Name = "btn_HFG_Inventory";
             this.btn_HFG_Inventory.Size = new System.Drawing.Size(181, 146);

@@ -1,4 +1,4 @@
-﻿using EVS_Management.EVS_Inventories.Class;
+﻿using EVS_ProductionStatus.EVS_Inventories.Class;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management.Class
+namespace EVS_ProductionStatus.Class
 {
     public class Reload_Inventory_Infor
     {

@@ -1,4 +1,5 @@
-﻿using EVS_Management.Data_EVS;
+﻿
+using EVS_ProductionStatus.Data_EVS;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management.Settings
+namespace EVS_ProductionStatus.Settings
 {
     public partial class TrangThaiSP : Form
     {

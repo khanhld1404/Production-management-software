@@ -1,4 +1,4 @@
-﻿namespace EVS_Management
+﻿namespace EVS_ProductionStatus
 {
     partial class LoadingOverlay
     {

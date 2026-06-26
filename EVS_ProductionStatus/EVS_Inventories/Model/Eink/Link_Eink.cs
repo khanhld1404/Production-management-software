@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVS_Management.EVS_Inventories.Model
+namespace EVS_ProductionStatus.EVS_Inventories.Model
 {
     internal class Link_Eink
     {

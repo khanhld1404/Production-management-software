@@ -1,8 +1,8 @@
 ﻿
 using System;
 using System.Windows.Forms;
-using EVS_Management.EVS_Inventories.Class;
-namespace EVS_Management.EVS_Inventories
+using EVS_ProductionStatus.EVS_Inventories.Class;
+namespace EVS_ProductionStatus.EVS_Inventories
 {
     public partial class EVS_Inventory_Menu : Form
     {

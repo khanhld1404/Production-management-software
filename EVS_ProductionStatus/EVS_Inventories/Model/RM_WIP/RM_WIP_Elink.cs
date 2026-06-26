@@ -4,20 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVS_Management.EVS_Inventories.Model
+namespace EVS_ProductionStatus.EVS_Inventories.Model
 {
     internal class RM_WIP_Elink
     {
-        public string MATERIAL_CODE { get; set; }
-        public string Lotno { get; set; }
-        public string Status { get; set; }
-        public decimal Total { get; set; }
-        public decimal Blocked { get; set; }
-        public decimal UU { get; set; }
-
-        public decimal QI { get; set; }
-
-        public decimal Restricted { get; set; }
-        public string Eink { get; set; }
+        public string MATERIAL { get; set; }
+        public string Batch { get; set; }
+        public double Tổng_Tồn { get; set; }
+        public double Tồn_Allowcate { get; set; }
+        public double Tồn_Khả_Dụng { get; set; }
+        public string Connect_Eink { get; set; }
     }
 }

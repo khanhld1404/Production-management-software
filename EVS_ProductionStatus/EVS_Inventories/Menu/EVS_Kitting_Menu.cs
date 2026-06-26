@@ -1,4 +1,4 @@
-﻿using EVS_Management.EVS_Inventories.Class;
+﻿using EVS_ProductionStatus.EVS_Inventories.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management.EVS_Inventories.Menu
+namespace EVS_ProductionStatus.EVS_Inventories.Menu
 {
     public partial class EVS_Kitting_Menu : Form
     {

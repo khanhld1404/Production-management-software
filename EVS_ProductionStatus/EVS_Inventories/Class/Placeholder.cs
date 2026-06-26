@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVS_Management.EVS_Inventories.Class
+namespace EVS_ProductionStatus.EVS_Inventories.Class
 {
     internal class Placeholder
     {

@@ -64,6 +64,15 @@
           <Property Name="draw_rev" Type="nvarchar" MaxLength="50" />
           <Property Name="wo" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="MB25">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Material" Type="nvarchar" MaxLength="100" />
+          <Property Name="Batch" Type="nvarchar" MaxLength="100" />
+          <Property Name="Total" Type="float" />
+        </EntityType>
         <EntityType Name="tblWO">
           <Key>
             <PropertyRef Name="ID" />
@@ -103,13 +112,16 @@
           <Property Name="LAST_UPDATE_DATE" Type="datetime" />
         </EntityType>
         <Function Name="Kitting_Infor_Data" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Update_EVS_Inventory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Update_EVS_Stock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Update_MB25" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="update_tblWO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Manage_evsModelStoreContainer">
           <EntitySet Name="EVS_Inventory" EntityType="Self.EVS_Inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVS_Stock" EntityType="Self.EVS_Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kitting_Infor" EntityType="Self.Kitting_Infor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MB25" EntityType="Self.MB25" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblWO" EntityType="Self.tblWO" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -152,6 +164,9 @@
           <EntitySet Name="tblWOes" EntityType="Manage_evsModel.tblWO" />
           <EntitySet Name="Kitting_Infor" EntityType="Manage_evsModel.Kitting_Infor" />
           <EntitySet Name="EVS_Inventory" EntityType="Manage_evsModel.EVS_Inventory" />
+          <FunctionImport Name="Update_EVS_Inventory" />
+          <FunctionImport Name="Update_MB25" ReturnType="Collection(Manage_evsModel.Update_MB25_Result)" />
+          <EntitySet Name="MB25" EntityType="Manage_evsModel.MB25" />
         </EntityContainer>
         <EntityType Name="tblWO">
           <Key>
@@ -222,6 +237,65 @@
           <Property Name="Available_Qty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MRP_Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Connect_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="MB_25_Result">
+          <Property Type="String" Name="Movement_type" Nullable="true" />
+          <Property Type="String" Name="Requirements_date" Nullable="true" />
+          <Property Type="String" Name="Reservation" Nullable="true" />
+          <Property Type="String" Name="Material" Nullable="true" />
+          <Property Type="String" Name="Batch" Nullable="true" />
+          <Property Type="String" Name="Qty_in_unit_of_entry" Nullable="true" />
+          <Property Type="String" Name="Unit_of_Entry" Nullable="true" />
+          <Property Type="String" Name="Order" Nullable="true" />
+          <Property Type="String" Name="User_Name" Nullable="true" />
+          <Property Type="String" Name="Goods_Recipient" Nullable="true" />
+          <Property Type="String" Name="Item_number_of_reservation" Nullable="true" />
+          <Property Type="String" Name="Plant" Nullable="true" />
+          <Property Type="String" Name="Storage_location" Nullable="true" />
+          <Property Type="String" Name="Receiving_stor__loc_" Nullable="true" />
+          <Property Type="String" Name="Record_type" Nullable="true" />
+          <Property Type="String" Name="Debit_Credit_ind" Nullable="true" />
+          <Property Type="String" Name="Requirement_Quantity" Nullable="true" />
+          <Property Type="String" Name="Difference_Quantity" Nullable="true" />
+          <Property Type="String" Name="Base_Unit_of_Measure" Nullable="true" />
+          <Property Type="String" Name="Account_assignment_of_reservation" Nullable="true" />
+          <Property Type="String" Name="Account_assignment" Nullable="true" />
+          <Property Type="String" Name="Final_Issue" Nullable="true" />
+          <Property Type="String" Name="Removed_quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Update_MB25_Result">
+          <Property Type="String" Name="Movement_type" Nullable="true" />
+          <Property Type="String" Name="Requirements_date" Nullable="true" />
+          <Property Type="String" Name="Reservation" Nullable="true" />
+          <Property Type="String" Name="Material" Nullable="true" />
+          <Property Type="String" Name="Batch" Nullable="true" />
+          <Property Type="String" Name="Qty_in_unit_of_entry" Nullable="true" />
+          <Property Type="String" Name="Unit_of_Entry" Nullable="true" />
+          <Property Type="String" Name="Order" Nullable="true" />
+          <Property Type="String" Name="User_Name" Nullable="true" />
+          <Property Type="String" Name="Goods_Recipient" Nullable="true" />
+          <Property Type="String" Name="Item_number_of_reservation" Nullable="true" />
+          <Property Type="String" Name="Plant" Nullable="true" />
+          <Property Type="String" Name="Storage_location" Nullable="true" />
+          <Property Type="String" Name="Receiving_stor__loc_" Nullable="true" />
+          <Property Type="String" Name="Record_type" Nullable="true" />
+          <Property Type="String" Name="Debit_Credit_ind" Nullable="true" />
+          <Property Type="String" Name="Requirement_Quantity" Nullable="true" />
+          <Property Type="String" Name="Difference_Quantity" Nullable="true" />
+          <Property Type="String" Name="Base_Unit_of_Measure" Nullable="true" />
+          <Property Type="String" Name="Account_assignment_of_reservation" Nullable="true" />
+          <Property Type="String" Name="Account_assignment" Nullable="true" />
+          <Property Type="String" Name="Final_Issue" Nullable="true" />
+          <Property Type="String" Name="Removed_quantity" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="MB25">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Material" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Batch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -331,6 +405,46 @@
                 <ScalarProperty Name="Descript_Location" ColumnName="Descript_Location" />
                 <ScalarProperty Name="Storage_Location" ColumnName="Storage_Location" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Update_EVS_Inventory" FunctionName="Manage_evsModel.Store.Update_EVS_Inventory" />
+          <FunctionImportMapping FunctionImportName="Update_MB25" FunctionName="Manage_evsModel.Store.Update_MB25">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Manage_evsModel.Update_MB25_Result">
+                <ScalarProperty Name="Movement_type" ColumnName="Movement type" />
+                <ScalarProperty Name="Requirements_date" ColumnName="Requirements date" />
+                <ScalarProperty Name="Reservation" ColumnName="Reservation" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Qty_in_unit_of_entry" ColumnName="Qty in unit of entry" />
+                <ScalarProperty Name="Unit_of_Entry" ColumnName="Unit of Entry" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="User_Name" ColumnName="User Name" />
+                <ScalarProperty Name="Goods_Recipient" ColumnName="Goods Recipient" />
+                <ScalarProperty Name="Item_number_of_reservation" ColumnName="Item number of reservation" />
+                <ScalarProperty Name="Plant" ColumnName="Plant" />
+                <ScalarProperty Name="Storage_location" ColumnName="Storage location" />
+                <ScalarProperty Name="Receiving_stor__loc_" ColumnName="Receiving stor. loc." />
+                <ScalarProperty Name="Record_type" ColumnName="Record type" />
+                <ScalarProperty Name="Debit_Credit_ind" ColumnName="Debit/Credit ind" />
+                <ScalarProperty Name="Requirement_Quantity" ColumnName="Requirement Quantity" />
+                <ScalarProperty Name="Difference_Quantity" ColumnName="Difference Quantity" />
+                <ScalarProperty Name="Base_Unit_of_Measure" ColumnName="Base Unit of Measure" />
+                <ScalarProperty Name="Account_assignment_of_reservation" ColumnName="Account assignment of reservation" />
+                <ScalarProperty Name="Account_assignment" ColumnName="Account assignment" />
+                <ScalarProperty Name="Final_Issue" ColumnName="Final Issue" />
+                <ScalarProperty Name="Removed_quantity" ColumnName="Removed quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MB25">
+            <EntityTypeMapping TypeName="Manage_evsModel.MB25">
+              <MappingFragment StoreEntitySet="MB25">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

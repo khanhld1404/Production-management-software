@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class View_MasterBanVe : Form
     {
-        Controller.clMaBanVe cl = new Controller.clMaBanVe();
+        Class.clMaBanVe cl = new Class.clMaBanVe();
         public View_MasterBanVe()
         {
             InitializeComponent();

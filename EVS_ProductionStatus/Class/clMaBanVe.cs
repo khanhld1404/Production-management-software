@@ -1,4 +1,4 @@
-﻿using EVS_Management.Data_EVS;
+﻿using EVS_ProductionStatus.Data_EVS;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -8,19 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EVS_Management.Controller
+
+namespace EVS_ProductionStatus.Class
 {
-    class clThoiGianKhau
+    class clMaBanVe
     {
+
         public void loaddata(DataGridView gr)
         {
             try
             {
                 using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
-                    var qr = (from s in db.tblThoiGianKhaus
+                    var qr = (from s in db.tblBanVes
                               select s).ToList();
-
+                    
                     gr.AutoGenerateColumns = false;
                     gr.DataSource = qr;
                 }
@@ -43,27 +45,17 @@ namespace EVS_Management.Controller
                     {
                         var ws = p.Workbook.Worksheets[1];
                         int rowCount = ws.Dimension.End.Row;     //get row count                      
-
+                        
                         using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
+                            db.pro_04_TruncateBanVe();
+
                             for (int i = 2; i <= rowCount; i++)
                             {
-                                string _item = ws.Cells[i, 1].Value.ToString();
-                                var qr = (from s in db.tblThoiGianKhaus
-                                          where s.itemnumber == _item
-                                          select s).FirstOrDefault();
-
-                                if (qr != null)
-                                {
-                                    qr.sophut = Convert.ToInt32(ws.Cells[i, 2].Value ?? 0);
-                                }
-                                else
-                                {
-                                    tblThoiGianKhau tb = new tblThoiGianKhau();
-                                    tb.itemnumber = ws.Cells[i, 1].Value.ToString();
-                                    tb.sophut = Convert.ToInt32(ws.Cells[i, 2].Value ?? 0);
-                                    db.tblThoiGianKhaus.Add(tb);
-                                }
+                                tblBanVe tb = new tblBanVe();
+                                tb.itemnumber = ws.Cells[i, 1].Value.ToString();
+                                tb.mabanve = ws.Cells[i, 2].Value.ToString();
+                                db.tblBanVes.Add(tb);
                             }
                             db.SaveChanges();
                         }
@@ -75,31 +67,7 @@ namespace EVS_Management.Controller
             {
                 MessageBox.Show(ex.ToString());
             }
-
-        }
-
-        public void deleteItem(string _item)
-        {
-            try
-            {
-                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
-                {
-                    var qr = (from s in db.tblThoiGianKhaus
-                              where s.itemnumber == _item
-                              select s).FirstOrDefault();
-
-                    if (qr != null)
-                    {
-                        db.tblThoiGianKhaus.Remove(qr);
-
-                        db.SaveChanges();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            
         }
 
         public string selectfile(OpenFileDialog openFileDialog)

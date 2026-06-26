@@ -1,9 +1,9 @@
 ﻿
-using EVS_Management;
-using EVS_Management.Class;
-using EVS_Management.Data_EVS;
-using EVS_Management.EVS_Inventories.Class;
-using EVS_Management.EVS_Inventories.Model;
+
+using EVS_ProductionStatus.Class;
+using EVS_ProductionStatus.Data_EVS;
+using EVS_ProductionStatus.EVS_Inventories.Class;
+using EVS_ProductionStatus.EVS_Inventories.Model;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
@@ -18,11 +18,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
-
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 // Dùng UserControl để giúp không tạo ra một form hay một tab mới
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class Form_HFG : UserControl
     {
@@ -40,7 +39,7 @@ namespace EVS_Management
         List<string> Khong_SX = new List<string> { "5001", "5002", "5003", "5004", "5005" };
 
         // Dữ liệu gốc trước khi dùng để xử lý
-        List<EVS_Management.Data_EVS.EVS_Inventory> Data_Root;
+        List<EVS_ProductionStatus.Data_EVS.EVS_Inventory> Data_Root;
         // Các biến để lưu dữ liệu cho EVS
         double Blocked_EVS, UU_EVS, QI_EVS, Res_EVS, Total_EVS;
         // Các biến để lưu dữ liệu cho ngoài sản xuất
@@ -180,6 +179,9 @@ namespace EVS_Management
 
                 check_search = false;
 
+                // Lấy all location
+                location_box.SelectedIndex = 0;
+
                 string Tinh_Trang = Dgv_Main_HFG.Rows[e.RowIndex].Cells["TT"].Value.ToString();
                 string sum_type = Dgv_Main_HFG.Columns[e.ColumnIndex].Name;
 
@@ -274,16 +276,7 @@ namespace EVS_Management
 
             if (Dgv_Details_HFG.DataSource != null)
             {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.Filter = "Excel Files|*.xlsx|All Files|*.*";
-                saveFileDialog1.Title = "Chọn nơi lưu file Excel";
-                saveFileDialog1.DefaultExt = "xlsx";
-
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    //gọi hàm ToExcel() với tham số là dtgDSHS và filename từ SaveFileDialog
-                    Excel_Multi_Sheet.ExportToExcel(Data_Overview, Data_Detail, saveFileDialog1.FileName);
-                }
+                Excel_Multi_Sheet.ExportToExcel(Data_Overview, Data_Detail);
             }
             else
             {
@@ -380,7 +373,7 @@ namespace EVS_Management
                 else // Tìm kiếm thêm cả location
                 {
                     // Tạo một gốc dữ liệu mới
-                    List<EVS_Management.Data_EVS.EVS_Inventory> Data_Root_Search; 
+                    List<EVS_ProductionStatus.Data_EVS.EVS_Inventory> Data_Root_Search; 
                     // Tìm kiếm theo location
                     Data_Root_Search = Data_Root.Where(x => x.Storage_Location == location).ToList();
                     Data_Search_Detail = Data_Root_Search.AsEnumerable()

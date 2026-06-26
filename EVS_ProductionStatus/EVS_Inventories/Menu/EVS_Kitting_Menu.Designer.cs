@@ -1,4 +1,4 @@
-﻿namespace EVS_Management.EVS_Inventories.Menu
+﻿namespace EVS_ProductionStatus.EVS_Inventories.Menu
 {
     partial class EVS_Kitting_Menu
     {
@@ -36,7 +36,7 @@
             // btn_3010
             // 
             this.btn_3010.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_3010.Image = global::EVS_Management.Properties.Resources.icons8_location_70__2_;
+            this.btn_3010.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_location_70__2_;
             this.btn_3010.Location = new System.Drawing.Point(496, 27);
             this.btn_3010.Name = "btn_3010";
             this.btn_3010.Size = new System.Drawing.Size(181, 146);
@@ -49,7 +49,7 @@
             // btn_3009
             // 
             this.btn_3009.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_3009.Image = global::EVS_Management.Properties.Resources.icons8_location_70__1_;
+            this.btn_3009.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_location_70__1_;
             this.btn_3009.Location = new System.Drawing.Point(255, 27);
             this.btn_3009.Name = "btn_3009";
             this.btn_3009.Size = new System.Drawing.Size(181, 146);
@@ -62,7 +62,7 @@
             // btn_3008
             // 
             this.btn_3008.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_3008.Image = global::EVS_Management.Properties.Resources.icons8_location_70;
+            this.btn_3008.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_location_70;
             this.btn_3008.Location = new System.Drawing.Point(21, 27);
             this.btn_3008.Name = "btn_3008";
             this.btn_3008.Size = new System.Drawing.Size(181, 146);

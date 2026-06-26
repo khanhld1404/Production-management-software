@@ -1,4 +1,4 @@
-﻿using EVS_Management.EVS_Inventories.Class;
+﻿using EVS_ProductionStatus.EVS_Inventories.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static OfficeOpenXml.ExcelErrorValue;
 using static System.Windows.Forms.LinkLabel;
-using EVS_Management.EVS_Inventories.Model;
-using EVS_Management.Data_EVS;
+using EVS_ProductionStatus.EVS_Inventories.Model;
+using EVS_ProductionStatus.Data_EVS;
 
 //http://172.31.9.31/test_api/
 //https://localhost:7188/
 
-namespace EVS_Management
+namespace EVS_ProductionStatus
 {
     public partial class Elink_NVL : Form
     {
