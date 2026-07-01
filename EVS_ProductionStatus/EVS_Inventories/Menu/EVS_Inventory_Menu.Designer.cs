@@ -44,7 +44,6 @@
             this.btn_WIP_Inventory.Text = "Tồn kho WIP";
             this.btn_WIP_Inventory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btn_WIP_Inventory.UseVisualStyleBackColor = true;
-            this.btn_WIP_Inventory.Click += new System.EventHandler(this.btn_WIP_Inventory_Click);
             // 
             // btn_RM_Inventory
             // 

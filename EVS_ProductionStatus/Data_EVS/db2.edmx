@@ -47,7 +47,6 @@
           <Property Name="BASE_UOM" Type="nvarchar" MaxLength="100" />
           <Property Name="STOCK_TYPE" Type="nvarchar" MaxLength="100" />
           <Property Name="STOCK_QUANTITY" Type="decimal" Precision="10" Scale="3" />
-          <Property Name="CONNECT_STATUS" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Kitting_Infor">
           <Key>
@@ -140,24 +139,8 @@
           <Property Name="Prod_Line" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Item_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="EVS_Stock">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MATERIAL_CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PLANT" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="BATCH_NUMBER" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="STORAGE_LOCATION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="MATERIAL_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="BASE_UOM" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="STOCK_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="STOCK_QUANTITY" Type="Decimal" Precision="10" Scale="3" />
-          <Property Name="CONNECT_STATUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityContainer Name="Manage_evsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" />
-          <EntitySet Name="EVS_Stock" EntityType="Self.EVS_Stock" />
           <FunctionImport Name="Kitting_Infor_Data" />
           <FunctionImport Name="Update_EVS_Stock" />
           <FunctionImport Name="update_tblWO" />
@@ -167,6 +150,7 @@
           <FunctionImport Name="Update_EVS_Inventory" />
           <FunctionImport Name="Update_MB25" ReturnType="Collection(Manage_evsModel.Update_MB25_Result)" />
           <EntitySet Name="MB25" EntityType="Manage_evsModel.MB25" />
+          <EntitySet Name="EVS_Stock" EntityType="Manage_evsModel.EVS_Stock" />
         </EntityContainer>
         <EntityType Name="tblWO">
           <Key>
@@ -297,6 +281,20 @@
           <Property Name="Batch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Total" Type="Double" />
         </EntityType>
+        <EntityType Name="EVS_Stock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MATERIAL_CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PLANT" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BATCH_NUMBER" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="STORAGE_LOCATION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MATERIAL_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BASE_UOM" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="STOCK_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="STOCK_QUANTITY" Type="Decimal" Precision="10" Scale="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -313,22 +311,6 @@
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="Prod_Line" ColumnName="Prod_Line" />
                 <ScalarProperty Name="Item_Type" ColumnName="Item_Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EVS_Stock">
-            <EntityTypeMapping TypeName="Manage_evsModel.EVS_Stock">
-              <MappingFragment StoreEntitySet="EVS_Stock">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="MATERIAL_CODE" ColumnName="MATERIAL_CODE" />
-                <ScalarProperty Name="PLANT" ColumnName="PLANT" />
-                <ScalarProperty Name="BATCH_NUMBER" ColumnName="BATCH_NUMBER" />
-                <ScalarProperty Name="STORAGE_LOCATION" ColumnName="STORAGE_LOCATION" />
-                <ScalarProperty Name="MATERIAL_TYPE" ColumnName="MATERIAL_TYPE" />
-                <ScalarProperty Name="BASE_UOM" ColumnName="BASE_UOM" />
-                <ScalarProperty Name="STOCK_TYPE" ColumnName="STOCK_TYPE" />
-                <ScalarProperty Name="STOCK_QUANTITY" ColumnName="STOCK_QUANTITY" />
-                <ScalarProperty Name="CONNECT_STATUS" ColumnName="CONNECT_STATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -444,6 +426,21 @@
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Batch" ColumnName="Batch" />
                 <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EVS_Stock">
+            <EntityTypeMapping TypeName="Manage_evsModel.EVS_Stock">
+              <MappingFragment StoreEntitySet="EVS_Stock">
+                <ScalarProperty Name="STOCK_QUANTITY" ColumnName="STOCK_QUANTITY" />
+                <ScalarProperty Name="STOCK_TYPE" ColumnName="STOCK_TYPE" />
+                <ScalarProperty Name="BASE_UOM" ColumnName="BASE_UOM" />
+                <ScalarProperty Name="MATERIAL_TYPE" ColumnName="MATERIAL_TYPE" />
+                <ScalarProperty Name="STORAGE_LOCATION" ColumnName="STORAGE_LOCATION" />
+                <ScalarProperty Name="BATCH_NUMBER" ColumnName="BATCH_NUMBER" />
+                <ScalarProperty Name="PLANT" ColumnName="PLANT" />
+                <ScalarProperty Name="MATERIAL_CODE" ColumnName="MATERIAL_CODE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

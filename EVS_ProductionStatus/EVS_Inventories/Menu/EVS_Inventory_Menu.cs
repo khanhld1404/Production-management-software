@@ -19,10 +19,5 @@ namespace EVS_ProductionStatus.EVS_Inventories
         {
             Other_function.ShowUserControlAsForm(new Form_RM(), "RM");
         }
-
-        private void btn_WIP_Inventory_Click(object sender, EventArgs e)
-        {
-            Other_function.ShowUserControlAsForm(new Form_WIP(), "WIP");
-        }
     }
 }

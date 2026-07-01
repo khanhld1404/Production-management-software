@@ -132,7 +132,7 @@ namespace EVS_ProductionStatus
                             .Count();
                         // Tính toán những con chưa thu hồi
                         qr_remove = qr_root.AsEnumerable()
-                                    .Where(s => s.STATUS == "TECO - Technically completed" 
+                                    .Where(s => s.STATUS == "TECO - Technically completed"
                                     && s.WORK_ORDER_ID.Substring(1).StartsWith(cur_wo_string)
                                     && Convert.ToDouble(s.COMPLETE_QTY) == 0
                                     && Convert.ToDouble(s.REJECT_QTY) == 0
@@ -151,8 +151,9 @@ namespace EVS_ProductionStatus
                                 .Distinct()
                                 .Count();
 
+
                         qr_total = qr_total - qr_remove;
-                        qr_total_next = qr_total_next - qr_remove;
+                        qr_total_next = qr_total_next - qr_remove_next;
 
                         //Nếu có 2 tháng gần nhau thì hiển thị phân chia thành 2 tháng Panel
                         if (qr_total_next > 0)

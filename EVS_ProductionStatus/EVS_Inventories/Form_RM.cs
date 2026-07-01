@@ -410,8 +410,6 @@ namespace EVS_ProductionStatus
                     loading.Show();       // show modeless để không block await
                     loading.Refresh();
 
-                    DataTable dt = null;
-
                     try
                     {
                         // Lọc dữ liệu theo trạng thái và tình trạng

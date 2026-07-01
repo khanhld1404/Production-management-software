@@ -208,6 +208,7 @@ namespace EVS_ProductionStatus
                                     .Select(x => x.Nhom_Kitting)
                                     .ToList();
 
+
                 // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
                 int current_Rank = 0;
                 long? previousRank = null;

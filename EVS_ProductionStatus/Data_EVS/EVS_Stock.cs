@@ -23,6 +23,5 @@ namespace EVS_ProductionStatus.Data_EVS
         public string BASE_UOM { get; set; }
         public string STOCK_TYPE { get; set; }
         public Nullable<decimal> STOCK_QUANTITY { get; set; }
-        public string CONNECT_STATUS { get; set; }
     }
 }
