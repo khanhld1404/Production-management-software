@@ -228,5 +228,15 @@ namespace EVS_ProductionStatus.EVS_Inventories
             lab_KD.Text = $"Tổng Khả Dụng: {kd:N1}";
 
         }
+
+        private void NSX_KSX_Alowcate_Data_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            NSX_KSX_Alowcate_Data.ClearSelection();
+
+            foreach (DataGridViewRow row in NSX_KSX_Alowcate_Data.Rows)
+            {
+                row.Cells[e.ColumnIndex].Selected = true;
+            }
+        }
     }
 }

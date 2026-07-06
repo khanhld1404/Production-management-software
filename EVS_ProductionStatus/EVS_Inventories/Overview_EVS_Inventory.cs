@@ -1,4 +1,6 @@
-﻿using EVS_ProductionStatus.Data_EVS;
+﻿
+
+using EVS_ProductionStatus.Data_EVS;
 using EVS_ProductionStatus.EVS_Inventories.Model;
 using System;
 using System.Collections.Generic;
@@ -12,9 +14,9 @@ using System.Windows.Forms;
 
 namespace EVS_ProductionStatus.EVS_Inventories
 {
-    public partial class Main_EVS_Inventory : Form
+    public partial class Overview_EVS_Inventory : Form
     {
-        public Main_EVS_Inventory()
+        public Overview_EVS_Inventory()
         {
             InitializeComponent();
         }
@@ -224,36 +226,6 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 grid.Height = grid.ColumnHeadersHeight +
                                        grid.Rows.GetRowsHeight(DataGridViewElementStates.Visible) + 2;
             }
-        }
-
-        private void Btn_Total_EVS_Click(object sender, EventArgs e)
-        {
-            Total_EVS_Inventory f = new Total_EVS_Inventory(Trong_SX,"EVS");
-            f.Show();
-        }
-
-        private void Btn_KD_EVS_Click(object sender, EventArgs e)
-        {
-            EVS_Alowcate f = new EVS_Alowcate(Trong_SX, "EVS");
-            f.Show();
-        }
-
-        private void Btn_Total_NSX_Click(object sender, EventArgs e)
-        {
-            Total_EVS_Inventory f = new Total_EVS_Inventory(Ngoai_SX,"Ngoài Sản Xuất");
-            f.Show();
-        }
-
-        private void Btn_KD_NSX_Click(object sender, EventArgs e)
-        {
-            NSX_KSX_Alowcate f = new NSX_KSX_Alowcate(Ngoai_SX,"Ngoài Sản Xuất");
-            f.Show();
-        }
-
-        private void Btn_Total_KSX_Click(object sender, EventArgs e)
-        {
-            Total_EVS_Inventory f = new Total_EVS_Inventory(Khong_SX,"Không Sản Xuất");
-            f.Show();
         }
     }
 }

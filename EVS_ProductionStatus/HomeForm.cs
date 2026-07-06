@@ -121,7 +121,7 @@ namespace EVS_ProductionStatus
 
         private void btn_Inventory_Click(object sender, EventArgs e)
         {
-            Main_EVS_Inventory f = new Main_EVS_Inventory();
+            EVS_Inventory_Menu f = new EVS_Inventory_Menu();
             f.Show();
         }
 

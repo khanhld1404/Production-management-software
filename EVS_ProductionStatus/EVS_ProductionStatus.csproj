@@ -214,11 +214,17 @@
     <Compile Include="EVS_Inventories\EVS_Alowcate.Designer.cs">
       <DependentUpon>EVS_Alowcate.cs</DependentUpon>
     </Compile>
-    <Compile Include="EVS_Inventories\Main_EVS_Inventory.cs">
+    <Compile Include="EVS_Inventories\Main_EVS_Alowcate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EVS_Inventories\Main_EVS_Inventory.Designer.cs">
-      <DependentUpon>Main_EVS_Inventory.cs</DependentUpon>
+    <Compile Include="EVS_Inventories\Main_EVS_Alowcate.Designer.cs">
+      <DependentUpon>Main_EVS_Alowcate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EVS_Inventories\Overview_EVS_Inventory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EVS_Inventories\Overview_EVS_Inventory.Designer.cs">
+      <DependentUpon>Overview_EVS_Inventory.cs</DependentUpon>
     </Compile>
     <Compile Include="EVS_Inventories\Menu\EVS_Kitting_Menu.cs">
       <SubType>Form</SubType>
@@ -238,11 +244,11 @@
     <Compile Include="EVS_Inventories\NSX_KSX_Alowcate.Designer.cs">
       <DependentUpon>NSX_KSX_Alowcate.cs</DependentUpon>
     </Compile>
-    <Compile Include="EVS_Inventories\Total_EVS_Inventory.cs">
+    <Compile Include="EVS_Inventories\Detail_EVS_Inventory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EVS_Inventories\Total_EVS_Inventory.Designer.cs">
-      <DependentUpon>Total_EVS_Inventory.cs</DependentUpon>
+    <Compile Include="EVS_Inventories\Detail_EVS_Inventory.Designer.cs">
+      <DependentUpon>Detail_EVS_Inventory.cs</DependentUpon>
     </Compile>
     <Compile Include="Sub_Kitting_Function\DongGoiDongThoi.cs">
       <SubType>Form</SubType>
@@ -588,8 +594,11 @@
     <EmbeddedResource Include="EVS_Inventories\EVS_Alowcate.resx">
       <DependentUpon>EVS_Alowcate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EVS_Inventories\Main_EVS_Inventory.resx">
-      <DependentUpon>Main_EVS_Inventory.cs</DependentUpon>
+    <EmbeddedResource Include="EVS_Inventories\Main_EVS_Alowcate.resx">
+      <DependentUpon>Main_EVS_Alowcate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EVS_Inventories\Overview_EVS_Inventory.resx">
+      <DependentUpon>Overview_EVS_Inventory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EVS_Inventories\Menu\EVS_Kitting_Menu.resx">
       <DependentUpon>EVS_Kitting_Menu.cs</DependentUpon>
@@ -597,8 +606,8 @@
     <EmbeddedResource Include="EVS_Inventories\NSX_KSX_Alowcate.resx">
       <DependentUpon>NSX_KSX_Alowcate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EVS_Inventories\Total_EVS_Inventory.resx">
-      <DependentUpon>Total_EVS_Inventory.cs</DependentUpon>
+    <EmbeddedResource Include="EVS_Inventories\Detail_EVS_Inventory.resx">
+      <DependentUpon>Detail_EVS_Inventory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sub_Kitting_Function\DongGoiDongThoi.resx">
       <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
@@ -760,6 +769,9 @@
       <LastGenOutput>db2.cs</LastGenOutput>
     </Content>
     <Content Include="icons8-circuit-70.ico" />
+    <None Include="Resources\icons8-resend-production-order-70.png" />
+    <None Include="Resources\icons8-delete-production-order-70.png" />
+    <None Include="Resources\icons8-production-machine-70.png" />
     <None Include="Resources\icons8-location-70 %282%29.png" />
     <None Include="Resources\icons8-location-70 %281%29.png" />
     <None Include="Resources\icons8-location-70.png" />

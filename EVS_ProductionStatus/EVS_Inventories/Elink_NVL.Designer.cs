@@ -41,14 +41,14 @@ namespace EVS_ProductionStatus
             this.btn_connect = new System.Windows.Forms.Button();
             this.txt_MAC = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lab_card_eink = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.txt_Itemcode = new System.Windows.Forms.Label();
             this.txt_Qty = new System.Windows.Forms.Label();
             this.txt_Lotno = new System.Windows.Forms.Label();
             this.txt_Qty_allocate = new System.Windows.Forms.Label();
             this.txt_Variant = new System.Windows.Forms.Label();
             this.btn_un_connect = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lab_card_eink = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
             // lab_item_code
@@ -95,7 +95,7 @@ namespace EVS_ProductionStatus
             // 
             this.lab_mac.AutoSize = true;
             this.lab_mac.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_mac.Location = new System.Drawing.Point(53, 319);
+            this.lab_mac.Location = new System.Drawing.Point(53, 337);
             this.lab_mac.Name = "lab_mac";
             this.lab_mac.Size = new System.Drawing.Size(63, 21);
             this.lab_mac.TabIndex = 4;
@@ -105,7 +105,7 @@ namespace EVS_ProductionStatus
             // 
             this.lab_variant.AutoSize = true;
             this.lab_variant.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_variant.Location = new System.Drawing.Point(53, 374);
+            this.lab_variant.Location = new System.Drawing.Point(53, 392);
             this.lab_variant.Name = "lab_variant";
             this.lab_variant.Size = new System.Drawing.Size(83, 21);
             this.lab_variant.TabIndex = 5;
@@ -116,18 +116,17 @@ namespace EVS_ProductionStatus
             this.btn_connect.BackColor = System.Drawing.Color.MediumTurquoise;
             this.btn_connect.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btn_connect.ForeColor = System.Drawing.Color.Transparent;
-            this.btn_connect.Location = new System.Drawing.Point(585, 429);
+            this.btn_connect.Location = new System.Drawing.Point(582, 470);
             this.btn_connect.Name = "btn_connect";
             this.btn_connect.Size = new System.Drawing.Size(110, 51);
             this.btn_connect.TabIndex = 6;
             this.btn_connect.Text = "Kết Nối";
             this.btn_connect.UseVisualStyleBackColor = false;
-
             // 
             // txt_MAC
             // 
             this.txt_MAC.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            this.txt_MAC.Location = new System.Drawing.Point(124, 310);
+            this.txt_MAC.Location = new System.Drawing.Point(124, 328);
             this.txt_MAC.Name = "txt_MAC";
             this.txt_MAC.Size = new System.Drawing.Size(698, 29);
             this.txt_MAC.TabIndex = 10;
@@ -142,26 +141,6 @@ namespace EVS_ProductionStatus
             this.label1.Size = new System.Drawing.Size(403, 26);
             this.label1.TabIndex = 14;
             this.label1.Text = "Thông Tin Đăng Ký NVL Lên Thẻ Eink";
-            // 
-            // lab_card_eink
-            // 
-            this.lab_card_eink.AutoSize = true;
-            this.lab_card_eink.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            this.lab_card_eink.Location = new System.Drawing.Point(53, 261);
-            this.lab_card_eink.Name = "lab_card_eink";
-            this.lab_card_eink.Size = new System.Drawing.Size(121, 22);
-            this.lab_card_eink.TabIndex = 15;
-            this.lab_card_eink.Text = "Quét mã thẻ";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(53, 88);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(195, 22);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Thông tin sản phẩm";
             // 
             // txt_Itemcode
             // 
@@ -203,7 +182,7 @@ namespace EVS_ProductionStatus
             // 
             this.txt_Variant.AutoSize = true;
             this.txt_Variant.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Variant.Location = new System.Drawing.Point(152, 374);
+            this.txt_Variant.Location = new System.Drawing.Point(152, 392);
             this.txt_Variant.Name = "txt_Variant";
             this.txt_Variant.Size = new System.Drawing.Size(0, 21);
             this.txt_Variant.TabIndex = 21;
@@ -213,18 +192,39 @@ namespace EVS_ProductionStatus
             this.btn_un_connect.BackColor = System.Drawing.Color.Red;
             this.btn_un_connect.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btn_un_connect.ForeColor = System.Drawing.Color.Transparent;
-            this.btn_un_connect.Location = new System.Drawing.Point(712, 429);
+            this.btn_un_connect.Location = new System.Drawing.Point(712, 470);
             this.btn_un_connect.Name = "btn_un_connect";
             this.btn_un_connect.Size = new System.Drawing.Size(110, 51);
             this.btn_un_connect.TabIndex = 22;
             this.btn_un_connect.Text = "Hủy Kết Nối";
             this.btn_un_connect.UseVisualStyleBackColor = false;
-
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.groupBox1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(43, 88);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(820, 157);
+            this.groupBox1.TabIndex = 23;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Thông Tin Sản Phẩm";
+            // 
+            // lab_card_eink
+            // 
+            this.lab_card_eink.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lab_card_eink.Location = new System.Drawing.Point(43, 284);
+            this.lab_card_eink.Name = "lab_card_eink";
+            this.lab_card_eink.Size = new System.Drawing.Size(820, 157);
+            this.lab_card_eink.TabIndex = 24;
+            this.lab_card_eink.TabStop = false;
+            this.lab_card_eink.Text = "Thông Tin Thẻ";
             // 
             // Elink_NVL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(954, 549);
             this.Controls.Add(this.btn_un_connect);
             this.Controls.Add(this.txt_Variant);
@@ -232,8 +232,6 @@ namespace EVS_ProductionStatus
             this.Controls.Add(this.txt_Lotno);
             this.Controls.Add(this.txt_Qty);
             this.Controls.Add(this.txt_Itemcode);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lab_card_eink);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_MAC);
             this.Controls.Add(this.btn_connect);
@@ -243,10 +241,13 @@ namespace EVS_ProductionStatus
             this.Controls.Add(this.lab_qty);
             this.Controls.Add(this.lab_lot);
             this.Controls.Add(this.lab_item_code);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lab_card_eink);
             this.Name = "Elink_NVL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Thông tin thẻ Elink";
             this.Load += new System.EventHandler(this.Elink_NVL_Load);
+            this.Shown += new System.EventHandler(this.Elink_NVL_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,13 +261,13 @@ namespace EVS_ProductionStatus
         private System.Windows.Forms.Button btn_connect;
         private System.Windows.Forms.TextBox txt_MAC;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lab_card_eink;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label txt_Itemcode;
         private System.Windows.Forms.Label txt_Qty;
         private System.Windows.Forms.Label txt_Lotno;
         private System.Windows.Forms.Label txt_Qty_allocate;
         private System.Windows.Forms.Label txt_Variant;
         private System.Windows.Forms.Button btn_un_connect;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox lab_card_eink;
     }
 }

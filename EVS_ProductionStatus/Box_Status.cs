@@ -79,7 +79,6 @@ namespace EVS_ProductionStatus
                     Box_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;
                 }
             }
-
             // Thêm thông tin số lượng trong bảng
             Box_count_infor();
         }

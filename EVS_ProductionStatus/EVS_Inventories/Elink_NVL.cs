@@ -69,7 +69,7 @@ namespace EVS_ProductionStatus
                 // Nếu thành công, hiển thị variant
                 var resultString = JsonSerializer.Deserialize<string>(body);
                 return resultString ?? body.Trim('"');
-                
+
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace EVS_ProductionStatus
                 });
 
                 return result;
-                
+
             }
             catch (Exception ex)
             {
@@ -195,7 +195,7 @@ namespace EVS_ProductionStatus
                 }
                 return true;
             }
-            
+
         }
         private async Task<bool> DeleteItemAsync(string endpointBase, string id) //Xóa thông tin
         {
@@ -254,7 +254,7 @@ namespace EVS_ProductionStatus
                 return false;
             }
         }
-        private async void Connect_Load()
+        private async Task Connect_Load()
         {
             string value1 = _item.ItemCode.ToString();
             string value2 = _item.LotNo.ToString();
@@ -272,18 +272,25 @@ namespace EVS_ProductionStatus
             txt_Lotno.Text = _item.LotNo.ToString();
             txt_Qty.Text = _item.R_float1.ToString();
             txt_Qty_allocate.Text = _item.R_float2.ToString();
-            if(tt_connect == "Connect") // Nếu connect_string là "Connect" thì thực hiện việc load thông tin lên
-            {
-                Connect_Load();
-            }
         }
 
 
         // Xử lý sự kiện
-
         private void Elink_NVL_Load(object sender, EventArgs e)
         {
             Load_data();
+        }
+
+        private async void Elink_NVL_Shown(object sender, EventArgs e)
+        {
+            if(tt_connect == "Connect")
+            {
+                await Connect_Load();
+            }
+            else
+            {
+                txt_MAC.Focus();
+            }
         }
 
         //Lấy thông tin Variant và kiểm tra Mac của thẻ Eink
@@ -302,128 +309,129 @@ namespace EVS_ProductionStatus
                 txt_Variant.Text = link_mac;
             }
         }
-        //private async void btn_connect_Click(object sender, EventArgs e)
-        //{
-        //    //Kiểm tra khoảng trống ở các ô nhập
-        //    if( String.IsNullOrEmpty(txt_MAC.Text))
-        //    {
-        //        MessageBox.Show("Mời bạn nhập MAC!");
-        //    }else if(String.IsNullOrEmpty(txt_Variant.Text) )
-        //    {
-        //        MessageBox.Show("Chưa có giá trị Variant!");
-        //    }
-        //    else
-        //    {
-        //        //Nếu sản phẩm đã được kết nối thì hiện ra thông báo
-        //        if(tt_connect == "Connect")
-        //        {
-        //            MessageBox.Show("Sản phẩm đã được kết nối!");
-        //            return;
-        //        }
-        //        string value_mac =  txt_MAC.Text;
+        private async void btn_connect_Click(object sender, EventArgs e)
+        {
+            //Kiểm tra khoảng trống ở các ô nhập
+            if (String.IsNullOrEmpty(txt_MAC.Text))
+            {
+                MessageBox.Show("Mời bạn nhập MAC!");
+            }
+            else if (String.IsNullOrEmpty(txt_Variant.Text))
+            {
+                MessageBox.Show("Chưa có giá trị Variant!");
+            }
+            else
+            {
+                //Nếu sản phẩm đã được kết nối thì hiện ra thông báo
+                if (tt_connect == "Connect")
+                {
+                    MessageBox.Show("Sản phẩm đã được kết nối!");
+                    return;
+                }
+                string value_mac = txt_MAC.Text;
 
-        //        //Kiểm tra thông tin mac của thẻ có chính xác không
-        //        var link_mac = await GetDataAsync($"api/labelstatus/{value_mac}");
-        //        if (link_mac == null)
-        //        {
-        //            MessageBox.Show("Thông tin MAC của thẻ Eink không thỏa mãn!");
-        //            return;
-        //        }
+                //Kiểm tra thông tin mac của thẻ có chính xác không
+                var link_mac = await GetDataAsync($"api/labelstatus/{value_mac}");
+                if (link_mac == null)
+                {
+                    MessageBox.Show("Thông tin MAC của thẻ Eink không thỏa mãn!");
+                    return;
+                }
 
-        //        //Kiểm tra thẻ Eink đã được sử  dụng hay chưa
-        //        var check_connect = await GetDataAsync($"api/link/by-mac/{value_mac}");
-        //        if( check_connect == null )
-        //        {
-        //            //Ở đây có thể không cần tạo product nhưng tôi cứ viết cho chắc  trong trường hợp cần phải tạo product
-        //            var newProduct = new Product_Eink
-        //            {
-        //                ItemCode = _item.ItemCode,
-        //                LotNo = _item.LotNo,
-        //                R_float1 = _item.R_float1,
-        //                R_float2 = _item.R_float2,
-        //            };
-        //            // Nếu sản phẩm đã tồn tại thì sẽ chỉ trả lại giá trị id của product đó, nếu chưa thì sẽ tạo product
-        //            var newIdStr = await PostDataAsync("api/product", newProduct);
-        //            if (string.IsNullOrWhiteSpace(newIdStr))
-        //            {
-        //                MessageBox.Show("Tạo thất bại hoặc không nhận được ID.");
-        //                return;
-        //            }
-        //            var newLink = new Link_Eink
-        //            {
-        //                ID = newIdStr.ToString(),
-        //                Variant = txt_Variant.Text.ToString(),
-        //                MAC = txt_MAC.Text.ToString(),
-        //            };
-        //            var ok = await PostDataLink<Link_Eink>("api/link", newLink);
-        //            if (ok)
-        //            {
-        //                MessageBox.Show($"Kết nối thành công!");
+                //Kiểm tra thẻ Eink đã được sử  dụng hay chưa
+                var check_connect = await GetDataAsync($"api/link/by-mac/{value_mac}");
+                if (check_connect == null)
+                {
+                    //Ở đây có thể không cần tạo product nhưng tôi cứ viết cho chắc  trong trường hợp cần phải tạo product
+                    var newProduct = new Product_Eink
+                    {
+                        ItemCode = _item.ItemCode,
+                        LotNo = _item.LotNo,
+                        R_float1 = _item.R_float1,
+                        R_float2 = _item.R_float2,
+                    };
+                    // Nếu sản phẩm đã tồn tại thì sẽ chỉ trả lại giá trị id của product đó, nếu chưa thì sẽ tạo product
+                    var newIdStr = await PostDataAsync("api/product", newProduct);
+                    if (string.IsNullOrWhiteSpace(newIdStr))
+                    {
+                        MessageBox.Show("Tạo thất bại hoặc không nhận được ID.");
+                        return;
+                    }
+                    var newLink = new Link_Eink
+                    {
+                        ID = newIdStr.ToString(),
+                        Variant = txt_Variant.Text.ToString(),
+                        MAC = txt_MAC.Text.ToString(),
+                    };
+                    var ok = await PostDataLink<Link_Eink>("api/link", newLink);
+                    if (ok)
+                    {
+                        MessageBox.Show($"Kết nối thành công!");
 
-        //                using (var db = new Manage_evsEntities(clConnection.connectString2))
-        //                {
-        //                    var product = db.NewInventory_EVS
-        //                        .FirstOrDefault(p => p.Itemcode == _item.ItemCode && p.LotNo == _item.LotNo && p.Qty == _item.R_float1 && p.Qty_Allocate == _item.R_float2);
+                        using (var db = new Manage_evsEntities(clConnection.connectEntity2))
+                        {
+                            var product = db.EVS_Inventory
+                                .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo);
 
-        //                    if (product != null)
-        //                    {
-        //                        product.connect_status = "Connect";
-        //                        db.SaveChanges();
-        //                    }
-        //                }
-        //                this.DialogResult = DialogResult.OK;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Thẻ Elink đã được sử dụng!");
-        //            return;
-        //        }
-        //    }
-        //}
+                            if (product != null)
+                            {
+                                product.Connect_Status = "Connect";
+                                db.SaveChanges();
+                            }
+                        }
+                        this.DialogResult = DialogResult.OK;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Thẻ Elink đã được sử dụng!");
+                    return;
+                }
+            }
+        }
 
-        //private async void btn_un_connect_Click(object sender, EventArgs e)
-        //{
-        //    if(tt_connect != "Connect")
-        //    {
-        //        MessageBox.Show("Chưa được kết nối!");
-        //        return;
-        //    }
-        //    string message = "Bạn có chắc muốn hủy kết nối!";
-        //    string caption = "Xác nhận xóa!";
-        //    var result = MessageBox.Show(
-        //        message,caption, MessageBoxButtons.YesNo,MessageBoxIcon.Warning
-        //        );
-        //    if (result == DialogResult.Yes)
-        //    {
+        private async void btn_un_connect_Click(object sender, EventArgs e)
+        {
+            if (tt_connect != "Connect")
+            {
+                MessageBox.Show("Chưa được kết nối!");
+                return;
+            }
+            string message = "Bạn có chắc muốn hủy kết nối!";
+            string caption = "Xác nhận xóa!";
+            var result = MessageBox.Show(
+                message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning
+                );
+            if (result == DialogResult.Yes)
+            {
 
-        //        var MAC_link = txt_MAC.Text.ToString();
-        //        var ok2 = await DeleteItemAsync($"api/link", MAC_link);
-        //        if (ok2)
-        //        {
-        //            MessageBox.Show("Hủy kết nối thành công!");
-        //            using (var db = new Manage_evsEntities(clConnection.connectString2))
-        //            {
-        //                var product = db.NewInventory_EVS
-        //                    .FirstOrDefault(p => p.Itemcode == _item.ItemCode && p.LotNo == _item.LotNo && p.Qty == _item.R_float1 && p.Qty_Allocate == _item.R_float2);
+                var MAC_link = txt_MAC.Text.ToString();
+                var ok2 = await DeleteItemAsync($"api/link", MAC_link);
+                if (ok2)
+                {
+                    MessageBox.Show("Hủy kết nối thành công!");
+                    using (var db = new Manage_evsEntities(clConnection.connectEntity2))
+                    {
+                        var product = db.EVS_Inventory
+                            .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo);
 
-        //                if (product != null)
-        //                {
-        //                    product.connect_status = "No_connect";
-        //                    db.SaveChanges();
-        //                }
-        //            }
-        //            this.DialogResult = DialogResult.OK;
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Hủy kết nối thất bại!");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return;
-        //    }
-        //}
+                        if (product != null)
+                        {
+                            product.Connect_Status = "Connect";
+                            db.SaveChanges();
+                        }
+                    }
+                    this.DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    MessageBox.Show("Hủy kết nối thất bại!");
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }

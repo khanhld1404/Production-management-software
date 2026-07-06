@@ -37,15 +37,17 @@
             this.Lab_Infor_Total = new System.Windows.Forms.Label();
             this.EVS_Alowcate_Data = new System.Windows.Forms.DataGridView();
             this.Btn_Excel = new System.Windows.Forms.Button();
+            this.txt_Batch_Number = new System.Windows.Forms.TextBox();
+            this.lab_KD = new System.Windows.Forms.Label();
+            this.lab_Alowcate = new System.Windows.Forms.Label();
+            this.lab_Ton = new System.Windows.Forms.Label();
+            this.EVS_BackGround = new System.ComponentModel.BackgroundWorker();
             this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ton = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Alowcate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txt_Batch_Number = new System.Windows.Forms.TextBox();
-            this.lab_KD = new System.Windows.Forms.Label();
-            this.lab_Alowcate = new System.Windows.Forms.Label();
-            this.lab_Ton = new System.Windows.Forms.Label();
+            this.Connect = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.EVS_Alowcate_Data)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,7 +129,8 @@
             this.Lot,
             this.Ton,
             this.Alowcate,
-            this.KD});
+            this.KD,
+            this.Connect});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 12F);
@@ -145,6 +148,8 @@
             this.EVS_Alowcate_Data.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.EVS_Alowcate_Data.Size = new System.Drawing.Size(1160, 479);
             this.EVS_Alowcate_Data.TabIndex = 18;
+            this.EVS_Alowcate_Data.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.EVS_Alowcate_Data_CellClick);
+            this.EVS_Alowcate_Data.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.EVS_Alowcate_Data_ColumnHeaderMouseClick);
             this.EVS_Alowcate_Data.SelectionChanged += new System.EventHandler(this.EVS_Alowcate_Data_SelectionChanged);
             // 
             // Btn_Excel
@@ -159,41 +164,6 @@
             this.Btn_Excel.Text = "Xuất Excel";
             this.Btn_Excel.UseVisualStyleBackColor = false;
             this.Btn_Excel.Click += new System.EventHandler(this.Btn_Excel_Click);
-            // 
-            // Item
-            // 
-            this.Item.DataPropertyName = "Item";
-            this.Item.HeaderText = "Item";
-            this.Item.Name = "Item";
-            this.Item.ReadOnly = true;
-            // 
-            // Lot
-            // 
-            this.Lot.DataPropertyName = "Lot";
-            this.Lot.HeaderText = "Lot";
-            this.Lot.Name = "Lot";
-            this.Lot.ReadOnly = true;
-            // 
-            // Ton
-            // 
-            this.Ton.DataPropertyName = "Ton";
-            this.Ton.HeaderText = "Số Lượng Tồn";
-            this.Ton.Name = "Ton";
-            this.Ton.ReadOnly = true;
-            // 
-            // Alowcate
-            // 
-            this.Alowcate.DataPropertyName = "Alowcate";
-            this.Alowcate.HeaderText = "Số Lượng Alowcate";
-            this.Alowcate.Name = "Alowcate";
-            this.Alowcate.ReadOnly = true;
-            // 
-            // KD
-            // 
-            this.KD.DataPropertyName = "KD";
-            this.KD.HeaderText = "Tồn Khả Dụng";
-            this.KD.Name = "KD";
-            this.KD.ReadOnly = true;
             // 
             // txt_Batch_Number
             // 
@@ -239,6 +209,53 @@
             this.lab_Ton.TabIndex = 30;
             this.lab_Ton.Text = "Tổng Tồn : 0";
             // 
+            // EVS_BackGround
+            // 
+            this.EVS_BackGround.DoWork += new System.ComponentModel.DoWorkEventHandler(this.EVS_BackGround_DoWork);
+            this.EVS_BackGround.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.EVS_BackGround_RunWorkerCompleted);
+            // 
+            // Item
+            // 
+            this.Item.DataPropertyName = "Item";
+            this.Item.HeaderText = "Item";
+            this.Item.Name = "Item";
+            this.Item.ReadOnly = true;
+            // 
+            // Lot
+            // 
+            this.Lot.DataPropertyName = "Lot";
+            this.Lot.HeaderText = "Lot";
+            this.Lot.Name = "Lot";
+            this.Lot.ReadOnly = true;
+            // 
+            // Ton
+            // 
+            this.Ton.DataPropertyName = "Ton";
+            this.Ton.HeaderText = "Số Lượng Tồn";
+            this.Ton.Name = "Ton";
+            this.Ton.ReadOnly = true;
+            // 
+            // Alowcate
+            // 
+            this.Alowcate.DataPropertyName = "Alowcate";
+            this.Alowcate.HeaderText = "Số Lượng Alowcate";
+            this.Alowcate.Name = "Alowcate";
+            this.Alowcate.ReadOnly = true;
+            // 
+            // KD
+            // 
+            this.KD.DataPropertyName = "KD";
+            this.KD.HeaderText = "Tồn Khả Dụng";
+            this.KD.Name = "KD";
+            this.KD.ReadOnly = true;
+            // 
+            // Connect
+            // 
+            this.Connect.DataPropertyName = "Connect";
+            this.Connect.HeaderText = "Kết Nối Eink";
+            this.Connect.Name = "Connect";
+            this.Connect.ReadOnly = true;
+            // 
             // EVS_Alowcate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -275,14 +292,16 @@
         private System.Windows.Forms.Label Lab_Infor_Total;
         private System.Windows.Forms.DataGridView EVS_Alowcate_Data;
         private System.Windows.Forms.Button Btn_Excel;
+        private System.Windows.Forms.TextBox txt_Batch_Number;
+        private System.Windows.Forms.Label lab_KD;
+        private System.Windows.Forms.Label lab_Alowcate;
+        private System.Windows.Forms.Label lab_Ton;
+        private System.ComponentModel.BackgroundWorker EVS_BackGround;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lot;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Alowcate;
         private System.Windows.Forms.DataGridViewTextBoxColumn KD;
-        private System.Windows.Forms.TextBox txt_Batch_Number;
-        private System.Windows.Forms.Label lab_KD;
-        private System.Windows.Forms.Label lab_Alowcate;
-        private System.Windows.Forms.Label lab_Ton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Connect;
     }
 }

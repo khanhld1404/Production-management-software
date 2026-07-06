@@ -283,6 +283,16 @@ namespace EVS_ProductionStatus.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_delete_production_order_70 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-delete-production-order-70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_handle_with_care_32 {
             get {
                 object obj = ResourceManager.GetObject("icons8-handle-with-care-32", resourceCulture);
@@ -356,6 +366,26 @@ namespace EVS_ProductionStatus.Properties {
         internal static System.Drawing.Bitmap icons8_office_32 {
             get {
                 object obj = ResourceManager.GetObject("icons8-office-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_production_machine_70 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-production-machine-70", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_resend_production_order_70 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-resend-production-order-70", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

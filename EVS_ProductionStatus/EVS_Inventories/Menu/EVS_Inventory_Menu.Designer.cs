@@ -28,58 +28,59 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_WIP_Inventory = new System.Windows.Forms.Button();
-            this.btn_RM_Inventory = new System.Windows.Forms.Button();
-            this.btn_HFG_Inventory = new System.Windows.Forms.Button();
+            this.btn_Alowcate = new System.Windows.Forms.Button();
+            this.btn_Detail = new System.Windows.Forms.Button();
+            this.btn_Total = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btn_WIP_Inventory
+            // btn_Alowcate
             // 
-            this.btn_WIP_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_WIP_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.anh3;
-            this.btn_WIP_Inventory.Location = new System.Drawing.Point(496, 27);
-            this.btn_WIP_Inventory.Name = "btn_WIP_Inventory";
-            this.btn_WIP_Inventory.Size = new System.Drawing.Size(181, 146);
-            this.btn_WIP_Inventory.TabIndex = 3;
-            this.btn_WIP_Inventory.Text = "Tồn kho WIP";
-            this.btn_WIP_Inventory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btn_WIP_Inventory.UseVisualStyleBackColor = true;
+            this.btn_Alowcate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Alowcate.Image = global::EVS_ProductionStatus.Properties.Resources.anh3;
+            this.btn_Alowcate.Location = new System.Drawing.Point(496, 27);
+            this.btn_Alowcate.Name = "btn_Alowcate";
+            this.btn_Alowcate.Size = new System.Drawing.Size(181, 146);
+            this.btn_Alowcate.TabIndex = 3;
+            this.btn_Alowcate.Text = "Tồn Alowcate";
+            this.btn_Alowcate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btn_Alowcate.UseVisualStyleBackColor = true;
+            this.btn_Alowcate.Click += new System.EventHandler(this.btn_Alowcate_Click);
             // 
-            // btn_RM_Inventory
+            // btn_Detail
             // 
-            this.btn_RM_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_RM_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.anh2;
-            this.btn_RM_Inventory.Location = new System.Drawing.Point(255, 27);
-            this.btn_RM_Inventory.Name = "btn_RM_Inventory";
-            this.btn_RM_Inventory.Size = new System.Drawing.Size(181, 146);
-            this.btn_RM_Inventory.TabIndex = 2;
-            this.btn_RM_Inventory.Text = "Tồn kho RM";
-            this.btn_RM_Inventory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btn_RM_Inventory.UseVisualStyleBackColor = true;
-            this.btn_RM_Inventory.Click += new System.EventHandler(this.btn_RM_Inventory_Click);
+            this.btn_Detail.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Detail.Image = global::EVS_ProductionStatus.Properties.Resources.anh2;
+            this.btn_Detail.Location = new System.Drawing.Point(255, 27);
+            this.btn_Detail.Name = "btn_Detail";
+            this.btn_Detail.Size = new System.Drawing.Size(181, 146);
+            this.btn_Detail.TabIndex = 2;
+            this.btn_Detail.Text = "Tồn Chi Tiết";
+            this.btn_Detail.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btn_Detail.UseVisualStyleBackColor = true;
+            this.btn_Detail.Click += new System.EventHandler(this.btn_Detail_Click);
             // 
-            // btn_HFG_Inventory
+            // btn_Total
             // 
-            this.btn_HFG_Inventory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_HFG_Inventory.Image = global::EVS_ProductionStatus.Properties.Resources.anh1;
-            this.btn_HFG_Inventory.Location = new System.Drawing.Point(21, 27);
-            this.btn_HFG_Inventory.Name = "btn_HFG_Inventory";
-            this.btn_HFG_Inventory.Size = new System.Drawing.Size(181, 146);
-            this.btn_HFG_Inventory.TabIndex = 1;
-            this.btn_HFG_Inventory.Text = "Tồn kho HFG";
-            this.btn_HFG_Inventory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btn_HFG_Inventory.UseVisualStyleBackColor = true;
-            this.btn_HFG_Inventory.Click += new System.EventHandler(this.btn_HFG_Inventory_Click);
+            this.btn_Total.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Total.Image = global::EVS_ProductionStatus.Properties.Resources.anh1;
+            this.btn_Total.Location = new System.Drawing.Point(27, 27);
+            this.btn_Total.Name = "btn_Total";
+            this.btn_Total.Size = new System.Drawing.Size(181, 146);
+            this.btn_Total.TabIndex = 1;
+            this.btn_Total.Text = "Tồn Tổng Quan";
+            this.btn_Total.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btn_Total.UseVisualStyleBackColor = true;
+            this.btn_Total.Click += new System.EventHandler(this.btn_Total_Click);
             // 
-            // EVS_Inventory
+            // EVS_Inventory_Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 204);
-            this.Controls.Add(this.btn_WIP_Inventory);
-            this.Controls.Add(this.btn_RM_Inventory);
-            this.Controls.Add(this.btn_HFG_Inventory);
-            this.Name = "EVS_Inventory";
+            this.Controls.Add(this.btn_Alowcate);
+            this.Controls.Add(this.btn_Detail);
+            this.Controls.Add(this.btn_Total);
+            this.Name = "EVS_Inventory_Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu tồn kho";
             this.ResumeLayout(false);
@@ -88,8 +89,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btn_HFG_Inventory;
-        private System.Windows.Forms.Button btn_RM_Inventory;
-        private System.Windows.Forms.Button btn_WIP_Inventory;
+        private System.Windows.Forms.Button btn_Total;
+        private System.Windows.Forms.Button btn_Detail;
+        private System.Windows.Forms.Button btn_Alowcate;
     }
 }

@@ -142,6 +142,7 @@
             this.NSX_KSX_Alowcate_Data.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.NSX_KSX_Alowcate_Data.Size = new System.Drawing.Size(1160, 479);
             this.NSX_KSX_Alowcate_Data.TabIndex = 18;
+            this.NSX_KSX_Alowcate_Data.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.NSX_KSX_Alowcate_Data_ColumnHeaderMouseClick);
             this.NSX_KSX_Alowcate_Data.SelectionChanged += new System.EventHandler(this.NSX_KSX_Alowcate_Data_SelectionChanged);
             // 
             // Item

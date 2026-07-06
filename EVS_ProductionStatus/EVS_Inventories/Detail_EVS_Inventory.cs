@@ -15,28 +15,40 @@ using System.Windows.Forms;
 
 namespace EVS_ProductionStatus.EVS_Inventories
 {
-    public partial class Total_EVS_Inventory : Form
+    public partial class Detail_EVS_Inventory : Form
     {
-
-        // Lấy thông tin tất cả các location được truyền vào
-        List<string> inventory_location = new List<string>();
 
         // Nhận dữ liệu được lấy về
         List<Inventories_Total> DataDetail;
 
         // Dữ liệu tìm kiếm tìm được
         List<Inventories_Total> DataSearch;
-        public Total_EVS_Inventory(List<string> tt, string tb)
+
+        // Location của từng trạng thái
+        List<string> Trong_SX = new List<string> { "3008", "3009", "3010", "3108", "3109", "3110", "9999" };
+        List<string> Ngoai_SX = new List<string> { "1001", "1002", "2001", "2002", "4004" };
+        List<string> Khong_SX = new List<string> { "5001", "5002", "5003", "5004", "5005" };
+
+        public Detail_EVS_Inventory()
         {
             InitializeComponent();
-            inventory_location = tt;
-            Lab_Infor_Total.Text = "Thông Tin Tồn " + tb;
         }
 
         // Thực hiện việc tính toán 
-        public void Data_Load()
+        public void Data_Load(List<string> inventory_location)
         {
-            using(Manage_evsEntities mb = new Manage_evsEntities(clConnection.connectEntity2))
+            // Xóa các location cũ
+            location_box.Items.Clear();
+            // Thiết lập location 
+            location_box.Items.Add("All Location");
+            // Thêm lựa chọn vào combobox
+            foreach (string item in inventory_location)
+            {
+                location_box.Items.Add(item);
+            }
+            location_box.SelectedIndex = 0;
+
+            using (Manage_evsEntities mb = new Manage_evsEntities(clConnection.connectEntity2))
             {
 
                 DataDetail = mb.EVS_Inventory.AsEnumerable()
@@ -109,20 +121,14 @@ namespace EVS_ProductionStatus.EVS_Inventories
 
                 try
                 {
-                    // Thiết lập location 
-                    location_box.Items.Add("All Location");
-                    // Thêm lựa chọn vào combobox
-                    foreach (string item in inventory_location)
-                    {
-                        location_box.Items.Add(item);
-                    }
-                    location_box.SelectedIndex = 0;
+                    // Thực hiện việc xử lý dữ liệu trong sản xuất (EVS) là mặc định
                     // Thiết lập comment cho ô tìm kiếm
                     Placeholder.SetupPlaceholder(txt_Search_Material, "Item");
                     Placeholder.SetupPlaceholder(txt_Search_Batch, "Lot");
 
                     // Tính toán và lọc dữ liệu
-                    Data_Load();
+                    Lab_Infor_Total.Text = "Tồn Chi Tiết Trong Sản Xuất (EVS)";
+                    Data_Load(Trong_SX);
                 }
                 catch (Exception ex)
                 {
@@ -215,6 +221,38 @@ namespace EVS_ProductionStatus.EVS_Inventories
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        // Thiết lập màu sắc tên cột được chọn
+        private void SetActiveButton(ToolStripButton active)
+        {
+            foreach(ToolStripButton button in Menu_EVS_Total_Detail.Items)
+            {
+                button.BackColor = SystemColors.GradientInactiveCaption;
+                button.ForeColor = SystemColors.ControlText;
+            }
+            active.BackColor = SystemColors.Highlight;
+            active.ForeColor = SystemColors.Control;
+        }
+        private void TSX_Click(object sender, EventArgs e)
+        {
+            SetActiveButton(TSX);
+            Lab_Infor_Total.Text = "Tồn Chi Tiết Trong Sản Xuất (EVS)";
+            Data_Load(Trong_SX);
+        }
+
+        private void NSX_Click(object sender, EventArgs e)
+        {
+            SetActiveButton(NSX);
+            Lab_Infor_Total.Text = "Tồn Chi Tiết Ngoài Sản Xuất";
+            Data_Load(Ngoai_SX);
+        }
+
+        private void KSX_Click(object sender, EventArgs e)
+        {
+            SetActiveButton(KSX);
+            Lab_Infor_Total.Text = "Tồn Chi Tiết Không Sản Xuất";
+            Data_Load(Khong_SX);
         }
     }
 }

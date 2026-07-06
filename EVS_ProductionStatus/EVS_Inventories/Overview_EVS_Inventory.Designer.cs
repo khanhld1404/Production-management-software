@@ -1,6 +1,6 @@
 ﻿namespace EVS_ProductionStatus.EVS_Inventories
 {
-    partial class Main_EVS_Inventory
+    partial class Overview_EVS_Inventory
     {
         /// <summary>
         /// Required designer variable.
@@ -59,11 +59,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.Get_EVS_Inventory_Infor = new System.ComponentModel.BackgroundWorker();
-            this.Btn_Total_EVS = new System.Windows.Forms.Button();
-            this.Btn_KD_EVS = new System.Windows.Forms.Button();
-            this.Btn_KD_NSX = new System.Windows.Forms.Button();
-            this.Btn_Total_NSX = new System.Windows.Forms.Button();
-            this.Btn_Total_KSX = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Main_EVS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Main_NSX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Main_KSX)).BeginInit();
@@ -105,7 +100,7 @@
             this.Main_EVS.RowHeadersVisible = false;
             this.Main_EVS.RowTemplate.Height = 30;
             this.Main_EVS.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Main_EVS.Size = new System.Drawing.Size(1064, 164);
+            this.Main_EVS.Size = new System.Drawing.Size(1153, 164);
             this.Main_EVS.TabIndex = 1;
             // 
             // TT
@@ -180,7 +175,7 @@
             this.Main_NSX.RowHeadersVisible = false;
             this.Main_NSX.RowTemplate.Height = 30;
             this.Main_NSX.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Main_NSX.Size = new System.Drawing.Size(1064, 164);
+            this.Main_NSX.Size = new System.Drawing.Size(1153, 164);
             this.Main_NSX.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -255,7 +250,7 @@
             this.Main_KSX.RowHeadersVisible = false;
             this.Main_KSX.RowTemplate.Height = 30;
             this.Main_KSX.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Main_KSX.Size = new System.Drawing.Size(1064, 164);
+            this.Main_KSX.Size = new System.Drawing.Size(1153, 164);
             this.Main_KSX.TabIndex = 3;
             // 
             // dataGridViewTextBoxColumn7
@@ -335,88 +330,18 @@
             this.Get_EVS_Inventory_Infor.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Get_EVS_Inventory_Infor_DoWork);
             this.Get_EVS_Inventory_Infor.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Get_EVS_Inventory_Infor_RunWorkerCompleted);
             // 
-            // Btn_Total_EVS
-            // 
-            this.Btn_Total_EVS.BackColor = System.Drawing.Color.Gray;
-            this.Btn_Total_EVS.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_Total_EVS.ForeColor = System.Drawing.Color.White;
-            this.Btn_Total_EVS.Location = new System.Drawing.Point(1082, 49);
-            this.Btn_Total_EVS.Name = "Btn_Total_EVS";
-            this.Btn_Total_EVS.Size = new System.Drawing.Size(150, 39);
-            this.Btn_Total_EVS.TabIndex = 7;
-            this.Btn_Total_EVS.Text = "Chi Tiết Tồn";
-            this.Btn_Total_EVS.UseVisualStyleBackColor = false;
-            this.Btn_Total_EVS.Click += new System.EventHandler(this.Btn_Total_EVS_Click);
-            // 
-            // Btn_KD_EVS
-            // 
-            this.Btn_KD_EVS.BackColor = System.Drawing.Color.Orange;
-            this.Btn_KD_EVS.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_KD_EVS.ForeColor = System.Drawing.Color.White;
-            this.Btn_KD_EVS.Location = new System.Drawing.Point(1082, 94);
-            this.Btn_KD_EVS.Name = "Btn_KD_EVS";
-            this.Btn_KD_EVS.Size = new System.Drawing.Size(150, 39);
-            this.Btn_KD_EVS.TabIndex = 8;
-            this.Btn_KD_EVS.Text = "Tồn Khả Dụng";
-            this.Btn_KD_EVS.UseVisualStyleBackColor = false;
-            this.Btn_KD_EVS.Click += new System.EventHandler(this.Btn_KD_EVS_Click);
-            // 
-            // Btn_KD_NSX
-            // 
-            this.Btn_KD_NSX.BackColor = System.Drawing.Color.Orange;
-            this.Btn_KD_NSX.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_KD_NSX.ForeColor = System.Drawing.Color.White;
-            this.Btn_KD_NSX.Location = new System.Drawing.Point(1082, 306);
-            this.Btn_KD_NSX.Name = "Btn_KD_NSX";
-            this.Btn_KD_NSX.Size = new System.Drawing.Size(150, 39);
-            this.Btn_KD_NSX.TabIndex = 10;
-            this.Btn_KD_NSX.Text = "Tồn Khả Dụng";
-            this.Btn_KD_NSX.UseVisualStyleBackColor = false;
-            this.Btn_KD_NSX.Click += new System.EventHandler(this.Btn_KD_NSX_Click);
-            // 
-            // Btn_Total_NSX
-            // 
-            this.Btn_Total_NSX.BackColor = System.Drawing.Color.Gray;
-            this.Btn_Total_NSX.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_Total_NSX.ForeColor = System.Drawing.Color.White;
-            this.Btn_Total_NSX.Location = new System.Drawing.Point(1082, 261);
-            this.Btn_Total_NSX.Name = "Btn_Total_NSX";
-            this.Btn_Total_NSX.Size = new System.Drawing.Size(150, 39);
-            this.Btn_Total_NSX.TabIndex = 9;
-            this.Btn_Total_NSX.Text = "Chi Tiết Tồn";
-            this.Btn_Total_NSX.UseVisualStyleBackColor = false;
-            this.Btn_Total_NSX.Click += new System.EventHandler(this.Btn_Total_NSX_Click);
-            // 
-            // Btn_Total_KSX
-            // 
-            this.Btn_Total_KSX.BackColor = System.Drawing.Color.Gray;
-            this.Btn_Total_KSX.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_Total_KSX.ForeColor = System.Drawing.Color.White;
-            this.Btn_Total_KSX.Location = new System.Drawing.Point(1082, 475);
-            this.Btn_Total_KSX.Name = "Btn_Total_KSX";
-            this.Btn_Total_KSX.Size = new System.Drawing.Size(150, 39);
-            this.Btn_Total_KSX.TabIndex = 11;
-            this.Btn_Total_KSX.Text = "Chi Tiết Tồn";
-            this.Btn_Total_KSX.UseVisualStyleBackColor = false;
-            this.Btn_Total_KSX.Click += new System.EventHandler(this.Btn_Total_KSX_Click);
-            // 
-            // Main_EVS_Inventory
+            // Overview_EVS_Inventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1231, 651);
-            this.Controls.Add(this.Btn_Total_KSX);
-            this.Controls.Add(this.Btn_KD_NSX);
-            this.Controls.Add(this.Btn_Total_NSX);
-            this.Controls.Add(this.Btn_KD_EVS);
-            this.Controls.Add(this.Btn_Total_EVS);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Lab_Main_HFG);
             this.Controls.Add(this.Main_KSX);
             this.Controls.Add(this.Main_NSX);
             this.Controls.Add(this.Main_EVS);
-            this.Name = "Main_EVS_Inventory";
+            this.Name = "Overview_EVS_Inventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main_EVS_Inventory";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -456,10 +381,5 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker Get_EVS_Inventory_Infor;
-        private System.Windows.Forms.Button Btn_Total_EVS;
-        private System.Windows.Forms.Button Btn_KD_EVS;
-        private System.Windows.Forms.Button Btn_KD_NSX;
-        private System.Windows.Forms.Button Btn_Total_NSX;
-        private System.Windows.Forms.Button Btn_Total_KSX;
     }
 }

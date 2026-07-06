@@ -112,7 +112,7 @@ namespace EVS_ProductionStatus
         //Dữ liệu được truyền lên
         //private async Task Set_Eink()
         //{
-        //    using (var mb = new Manage_evsEntities(clConnection.connectString2))
+        //    using (var mb = new Manage_evsEntities(clConnection.connectEntity2))
         //    {
         //        var ListProduct = mb.EVS_Stock
         //        .Where(x => x.STORAGE_LOCATION == "04010" || x.STORAGE_LOCATION == "04015")
@@ -565,7 +565,7 @@ namespace EVS_ProductionStatus
                 Elink_NVL f_Elink = new Elink_NVL(dto,tt_connect);
                 if(f_Elink.ShowDialog() == DialogResult.OK)
                 {
-                    //Data_Details_Load(r, c);
+                    //Data_Details_Load();
                 }
             }
         }
