@@ -55,6 +55,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
             {
                 // data dùng để tính allowcate
                 var MB25_Data = mb.MB25.ToList();
+                // Chỉ tính alowcate của RM và WIP
+                List<string> status_list = new List<string>() { "R06", "S06" };
                 // data dùng để tính total
                 //var EVS_Inventory_Data = mb.EVS_Inventory.AsEnumerable()
                 //                         .Where(x => list.Contains(x.Storage_Location) && x.Stock_Type == "Unrestricted")
@@ -66,16 +68,20 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 //                         });
 
                 data_root = mb.EVS_Inventory
-                           .Where(x => list.Contains(x.Storage_Location) && x.Stock_Type == "Unrestricted")
+                           .Where(x => list.Contains(x.Storage_Location) && x.Stock_Type == "Unrestricted" && status_list.Contains(x.MRP_Controller))
                            .ToList();
                 data_load = data_root
-                           .GroupBy(x => x.Registered__Material ?? x.Material_Number)
+                           .GroupBy(x => new { 
+                                Item = x.Registered__Material ?? x.Material_Number,
+                                Location = x.Storage_Location
+                           })
                            .Select(g => new NSX_KSX_Inventory_Alowcate
                            {
-                               Item = g.Key,
+                               Item = g.Key.Item,
+                               Location = g.Key.Location,
                                Ton = Math.Round(g.Sum(s => double.TryParse(s.Inventory_Qty, out double v) ? v : 0), 1),
-                               Alowcate = Get_Total_Alowcate(MB25_Data, g.Key),
-                               KD = Math.Round(g.Sum(s => double.TryParse(s.Inventory_Qty, out double v) ? v : 0) - Get_Total_Alowcate(MB25_Data, g.Key), 1)
+                               Alowcate = Get_Total_Alowcate(MB25_Data, g.Key.Item),
+                               KD = Math.Round(g.Sum(s => double.TryParse(s.Inventory_Qty, out double v) ? v : 0) - Get_Total_Alowcate(MB25_Data, g.Key.Item), 1)
                            }).ToList();
 
                 NSX_KSX_Alowcate_Data.DataSource = data_load;
@@ -165,16 +171,9 @@ namespace EVS_ProductionStatus.EVS_Inventories
                         // data dùng để tính allowcate
                         var MB25_Data = mb.MB25.ToList();
 
-                        List<NSX_KSX_Inventory_Alowcate> Data_Search_Location = data_root
-                               .Where(x => x.Storage_Location == location)
-                               .GroupBy(x => x.Registered__Material ?? x.Material_Number)
-                               .Select(g => new NSX_KSX_Inventory_Alowcate
-                               {
-                                   Item = g.Key,
-                                   Ton = Math.Round(g.Sum(s => double.TryParse(s.Inventory_Qty, out double v) ? v : 0), 1),
-                                   Alowcate = Get_Total_Alowcate(MB25_Data, g.Key),
-                                   KD = Math.Round(g.Sum(s => double.TryParse(s.Inventory_Qty, out double v) ? v : 0) - Get_Total_Alowcate(MB25_Data, g.Key), 1)
-                               }).ToList();
+                        List<NSX_KSX_Inventory_Alowcate> Data_Search_Location = data_load
+                               .Where(x => x.Location == location)
+                               .ToList();
                         Search(Data_Search_Location, tt_Material_Code);
                     }
                 }

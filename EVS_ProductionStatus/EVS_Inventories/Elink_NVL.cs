@@ -417,7 +417,7 @@ namespace EVS_ProductionStatus
 
                         if (product != null)
                         {
-                            product.Connect_Status = "Connect";
+                            product.Connect_Status = "Disconnected";
                             db.SaveChanges();
                         }
                     }

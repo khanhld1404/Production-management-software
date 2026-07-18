@@ -36,14 +36,15 @@
             this.label_suggest = new System.Windows.Forms.Label();
             this.Lab_Infor_Total = new System.Windows.Forms.Label();
             this.NSX_KSX_Alowcate_Data = new System.Windows.Forms.DataGridView();
-            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ton = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Alowcate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.KD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Btn_Excel = new System.Windows.Forms.Button();
             this.lab_Ton = new System.Windows.Forms.Label();
             this.lab_Alowcate = new System.Windows.Forms.Label();
             this.lab_KD = new System.Windows.Forms.Label();
+            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ton = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Alowcate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.KD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.NSX_KSX_Alowcate_Data)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,6 +123,7 @@
             this.NSX_KSX_Alowcate_Data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.NSX_KSX_Alowcate_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item,
+            this.Location,
             this.Ton,
             this.Alowcate,
             this.KD});
@@ -144,34 +146,6 @@
             this.NSX_KSX_Alowcate_Data.TabIndex = 18;
             this.NSX_KSX_Alowcate_Data.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.NSX_KSX_Alowcate_Data_ColumnHeaderMouseClick);
             this.NSX_KSX_Alowcate_Data.SelectionChanged += new System.EventHandler(this.NSX_KSX_Alowcate_Data_SelectionChanged);
-            // 
-            // Item
-            // 
-            this.Item.DataPropertyName = "Item";
-            this.Item.HeaderText = "Item";
-            this.Item.Name = "Item";
-            this.Item.ReadOnly = true;
-            // 
-            // Ton
-            // 
-            this.Ton.DataPropertyName = "Ton";
-            this.Ton.HeaderText = "Số Lượng Tồn";
-            this.Ton.Name = "Ton";
-            this.Ton.ReadOnly = true;
-            // 
-            // Alowcate
-            // 
-            this.Alowcate.DataPropertyName = "Alowcate";
-            this.Alowcate.HeaderText = "Số Lượng Alowcate";
-            this.Alowcate.Name = "Alowcate";
-            this.Alowcate.ReadOnly = true;
-            // 
-            // KD
-            // 
-            this.KD.DataPropertyName = "KD";
-            this.KD.HeaderText = "Tồn Khả Dụng";
-            this.KD.Name = "KD";
-            this.KD.ReadOnly = true;
             // 
             // Btn_Excel
             // 
@@ -222,6 +196,41 @@
             this.lab_KD.TabIndex = 29;
             this.lab_KD.Text = "Tổng Khả Dụng : 0";
             // 
+            // Item
+            // 
+            this.Item.DataPropertyName = "Item";
+            this.Item.HeaderText = "Item";
+            this.Item.Name = "Item";
+            this.Item.ReadOnly = true;
+            // 
+            // Location
+            // 
+            this.Location.DataPropertyName = "Location";
+            this.Location.HeaderText = "Location";
+            this.Location.Name = "Location";
+            this.Location.ReadOnly = true;
+            // 
+            // Ton
+            // 
+            this.Ton.DataPropertyName = "Ton";
+            this.Ton.HeaderText = "Số Lượng Tồn";
+            this.Ton.Name = "Ton";
+            this.Ton.ReadOnly = true;
+            // 
+            // Alowcate
+            // 
+            this.Alowcate.DataPropertyName = "Alowcate";
+            this.Alowcate.HeaderText = "Số Lượng Alowcate";
+            this.Alowcate.Name = "Alowcate";
+            this.Alowcate.ReadOnly = true;
+            // 
+            // KD
+            // 
+            this.KD.DataPropertyName = "KD";
+            this.KD.HeaderText = "Tồn Khả Dụng";
+            this.KD.Name = "KD";
+            this.KD.ReadOnly = true;
+            // 
             // NSX_KSX_Alowcate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,12 +266,13 @@
         private System.Windows.Forms.Label Lab_Infor_Total;
         private System.Windows.Forms.DataGridView NSX_KSX_Alowcate_Data;
         private System.Windows.Forms.Button Btn_Excel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Alowcate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn KD;
         private System.Windows.Forms.Label lab_Ton;
         private System.Windows.Forms.Label lab_Alowcate;
         private System.Windows.Forms.Label lab_KD;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Location;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Alowcate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn KD;
     }
 }

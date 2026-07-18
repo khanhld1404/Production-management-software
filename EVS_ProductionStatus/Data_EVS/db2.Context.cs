@@ -44,11 +44,6 @@ namespace EVS_ProductionStatus.Data_EVS
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_EVS_Stock");
         }
     
-        public virtual int update_tblWO()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("update_tblWO");
-        }
-    
         public virtual int Update_EVS_Inventory()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_EVS_Inventory");
@@ -57,6 +52,11 @@ namespace EVS_ProductionStatus.Data_EVS
         public virtual ObjectResult<Update_MB25_Result> Update_MB25()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Update_MB25_Result>("Update_MB25");
+        }
+    
+        public virtual int update_tblWO_ZPPI189()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("update_tblWO_ZPPI189");
         }
     }
 }

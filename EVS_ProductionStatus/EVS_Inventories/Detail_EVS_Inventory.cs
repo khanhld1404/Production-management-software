@@ -84,9 +84,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
                                 ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
                                 : 0), 2),
                         Total = Math.Round(
-                            g.Sum(x => x.Stock_Type == "Unrestricted"
-                                ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                : 0), 2),
+                            g.Sum(x =>  double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
+                                , 2),
                     })
                     .ToList();
 

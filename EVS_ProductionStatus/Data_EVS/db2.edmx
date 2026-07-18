@@ -114,7 +114,7 @@
         <Function Name="Update_EVS_Inventory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Update_EVS_Stock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Update_MB25" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="update_tblWO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="update_tblWO_ZPPI189" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Manage_evsModelStoreContainer">
           <EntitySet Name="EVS_Inventory" EntityType="Self.EVS_Inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" Schema="dbo" store:Type="Tables" />
@@ -143,7 +143,6 @@
           <EntitySet Name="EVS_Manage" EntityType="Self.EVS_Manage" />
           <FunctionImport Name="Kitting_Infor_Data" />
           <FunctionImport Name="Update_EVS_Stock" />
-          <FunctionImport Name="update_tblWO" />
           <EntitySet Name="tblWOes" EntityType="Manage_evsModel.tblWO" />
           <EntitySet Name="Kitting_Infor" EntityType="Manage_evsModel.Kitting_Infor" />
           <EntitySet Name="EVS_Inventory" EntityType="Manage_evsModel.EVS_Inventory" />
@@ -151,6 +150,7 @@
           <FunctionImport Name="Update_MB25" ReturnType="Collection(Manage_evsModel.Update_MB25_Result)" />
           <EntitySet Name="MB25" EntityType="Manage_evsModel.MB25" />
           <EntitySet Name="EVS_Stock" EntityType="Manage_evsModel.EVS_Stock" />
+          <FunctionImport Name="update_tblWO_ZPPI189" />
         </EntityContainer>
         <EntityType Name="tblWO">
           <Key>
@@ -316,7 +316,6 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Kitting_Infor_Data" FunctionName="Manage_evsModel.Store.Kitting_Infor_Data" />
           <FunctionImportMapping FunctionImportName="Update_EVS_Stock" FunctionName="Manage_evsModel.Store.Update_EVS_Stock" />
-          <FunctionImportMapping FunctionImportName="update_tblWO" FunctionName="Manage_evsModel.Store.update_tblWO" />
           <EntitySetMapping Name="tblWOes">
             <EntityTypeMapping TypeName="Manage_evsModel.tblWO">
               <MappingFragment StoreEntitySet="tblWO">
@@ -445,6 +444,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="update_tblWO_ZPPI189" FunctionName="Manage_evsModel.Store.update_tblWO_ZPPI189" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

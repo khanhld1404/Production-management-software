@@ -10,7 +10,11 @@ namespace EVS_ProductionStatus.EVS_Inventories.Model.EVS
     {
         public string Item { get; set; }
         public string Lot {  get; set; }
-        public double Ton { get; set; }
+        public double UU { get; set; }
+        public double Restricted { get; set; }
+        public double Blocked { get; set; }
+        public double QI { get; set; }
+        public double Total { get; set; }
         public double Alowcate { get; set; }
         public double KD { get; set; }
         public string Connect {  get; set; }

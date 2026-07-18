@@ -110,7 +110,6 @@ namespace EVS_ProductionStatus
         private void HomeForm_Load(object sender, EventArgs e)
         {
             //Reload_Inventory_Infor.UpdateInventory();
-            Other_function.Call_Procedure(clConnection.connectString3,"update_tblWO");
         }
 
         private void btn_Ring_Click(object sender, EventArgs e)

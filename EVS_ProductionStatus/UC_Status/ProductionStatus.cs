@@ -329,9 +329,11 @@ namespace EVS_ProductionStatus
                     // Theo thiết bị
                     using (Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
                     {
+                        //MessageBox.Show(wo + " " + woid + " " + wo_part + " " + dr);
+
                         var qr = (from s in wodb.tblWOes
                                       //where s.workorder == wo
-                                  where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part 
+                                  where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && (s.WO_PART == wo_part || s.MES_PART == wo_part) 
                                   && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                   && !s.MES_PART.Contains("EV036")
                                   select s).FirstOrDefault();
@@ -469,7 +471,7 @@ namespace EVS_ProductionStatus
                         // theo mã vòng
                         var qr = (from s in wodb.tblWOes
                                       //where s.workorder == wo
-                                  where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part 
+                                  where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && (s.WO_PART == wo_part || s.MES_PART == wo_part)
                                   && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                   && s.MES_PART.Contains("EV036")
                                   select s).FirstOrDefault();
@@ -1139,7 +1141,7 @@ namespace EVS_ProductionStatus
                                     // Theo thiết bị
                                     var qr_dr = (from s in wodb.tblWOes
                                                      //where s.workorder == wo
-                                                 where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && s.WO_PART == wo_part
+                                                 where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo && (s.WO_PART == wo_part || s.MES_PART == wo_part)
                                                  && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                                  && !s.MES_PART.Contains("EV036")
                                                  select s).FirstOrDefault();
@@ -1285,7 +1287,7 @@ namespace EVS_ProductionStatus
                                     var qr_dr = (from s in wodb.tblWOes
                                                         //where s.workorder == wo
                                                     where s.WORK_ORDER_ID == woid && s.WORK_ORDER == wo 
-                                                    && s.WO_PART == wo_part && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
+                                                    && (s.WO_PART == wo_part || s.MES_PART == wo_part) && (s.DRAWING_REV == dr || s.DRAWING_REV == drNorm)
                                                     && s.MES_PART.Contains("EV036")
                                                     select s).FirstOrDefault();
 

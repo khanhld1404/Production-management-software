@@ -69,7 +69,7 @@ namespace EVS_ProductionStatus
                         Result = x.Result
                     };
                 });
-            var data_box = data_box_rank.OrderBy(x => x.Result).ToList();
+            var data_box = data_box_rank.OrderByDescending(x => x.Result).ToList();
             Box_Data.Rows.Clear();
             foreach (var tt in data_box)
             {
@@ -78,6 +78,13 @@ namespace EVS_ProductionStatus
                 {
                     Box_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;
                 }
+            }
+            int stt = data_box
+                    .Where(x => x.Result == "NG")
+                    .Select(x => x.STT).FirstOrDefault();
+            if(stt != 0)
+            {
+                Box_Data.FirstDisplayedScrollingRowIndex = stt - 1;
             }
             // Thêm thông tin số lượng trong bảng
             Box_count_infor();

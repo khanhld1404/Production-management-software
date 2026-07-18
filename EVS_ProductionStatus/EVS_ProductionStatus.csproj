@@ -526,23 +526,11 @@
     <Compile Include="EVS_Inventories\Elink_NVL.Designer.cs">
       <DependentUpon>Elink_NVL.cs</DependentUpon>
     </Compile>
-    <Compile Include="EVS_Inventories\Form_HFG.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="EVS_Inventories\Form_HFG.Designer.cs">
-      <DependentUpon>Form_HFG.cs</DependentUpon>
-    </Compile>
     <Compile Include="EVS_Inventories\Form_Kitting.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EVS_Inventories\Form_Kitting.Designer.cs">
       <DependentUpon>Form_Kitting.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EVS_Inventories\Form_RM.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="EVS_Inventories\Form_RM.Designer.cs">
-      <DependentUpon>Form_RM.cs</DependentUpon>
     </Compile>
     <Compile Include="EVS_Inventories\LoadingOverlay.cs">
       <SubType>UserControl</SubType>
@@ -710,14 +698,8 @@
     <EmbeddedResource Include="EVS_Inventories\Elink_NVL.resx">
       <DependentUpon>Elink_NVL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EVS_Inventories\Form_HFG.resx">
-      <DependentUpon>Form_HFG.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="EVS_Inventories\Form_Kitting.resx">
       <DependentUpon>Form_Kitting.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EVS_Inventories\Form_RM.resx">
-      <DependentUpon>Form_RM.cs</DependentUpon>
     </EmbeddedResource>
     <EntityDeploy Include="Data_EVS\db.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

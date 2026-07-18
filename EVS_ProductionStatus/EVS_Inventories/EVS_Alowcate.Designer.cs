@@ -44,10 +44,13 @@
             this.EVS_BackGround = new System.ComponentModel.BackgroundWorker();
             this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lot = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Restricted = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Blocked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.QI = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ton = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Alowcate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Connect = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.EVS_Alowcate_Data)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,10 +130,13 @@
             this.EVS_Alowcate_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item,
             this.Lot,
+            this.UU,
+            this.Restricted,
+            this.Blocked,
+            this.QI,
             this.Ton,
             this.Alowcate,
-            this.KD,
-            this.Connect});
+            this.KD});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 12F);
@@ -228,17 +234,41 @@
             this.Lot.Name = "Lot";
             this.Lot.ReadOnly = true;
             // 
+            // UU
+            // 
+            this.UU.HeaderText = "UU";
+            this.UU.Name = "UU";
+            this.UU.ReadOnly = true;
+            // 
+            // Restricted
+            // 
+            this.Restricted.HeaderText = "Restricted";
+            this.Restricted.Name = "Restricted";
+            this.Restricted.ReadOnly = true;
+            // 
+            // Blocked
+            // 
+            this.Blocked.HeaderText = "Blocked";
+            this.Blocked.Name = "Blocked";
+            this.Blocked.ReadOnly = true;
+            // 
+            // QI
+            // 
+            this.QI.HeaderText = "QI";
+            this.QI.Name = "QI";
+            this.QI.ReadOnly = true;
+            // 
             // Ton
             // 
             this.Ton.DataPropertyName = "Ton";
-            this.Ton.HeaderText = "Số Lượng Tồn";
+            this.Ton.HeaderText = "Tổng Tồn";
             this.Ton.Name = "Ton";
             this.Ton.ReadOnly = true;
             // 
             // Alowcate
             // 
             this.Alowcate.DataPropertyName = "Alowcate";
-            this.Alowcate.HeaderText = "Số Lượng Alowcate";
+            this.Alowcate.HeaderText = "Tồn Alowcate";
             this.Alowcate.Name = "Alowcate";
             this.Alowcate.ReadOnly = true;
             // 
@@ -248,13 +278,6 @@
             this.KD.HeaderText = "Tồn Khả Dụng";
             this.KD.Name = "KD";
             this.KD.ReadOnly = true;
-            // 
-            // Connect
-            // 
-            this.Connect.DataPropertyName = "Connect";
-            this.Connect.HeaderText = "Kết Nối Eink";
-            this.Connect.Name = "Connect";
-            this.Connect.ReadOnly = true;
             // 
             // EVS_Alowcate
             // 
@@ -299,9 +322,12 @@
         private System.ComponentModel.BackgroundWorker EVS_BackGround;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Restricted;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Blocked;
+        private System.Windows.Forms.DataGridViewTextBoxColumn QI;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Alowcate;
         private System.Windows.Forms.DataGridViewTextBoxColumn KD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Connect;
     }
 }
