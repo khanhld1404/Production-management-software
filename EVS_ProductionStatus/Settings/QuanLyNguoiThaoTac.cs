@@ -1,5 +1,6 @@
 ﻿
 using EVS_ProductionStatus.Data_EVS;
+using EVS_ProductionStatus.Settings;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -32,11 +33,25 @@ namespace EVS_ProductionStatus
             {
                 using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
-                    var qr = (from s in db.tblUsers
+                    var qr = (from s in db.tblUser_EVS
                               orderby s.userid
                               select s).ToList();
-                    grThongtin.AutoGenerateColumns = false;
-                    grThongtin.DataSource = qr;
+                    grThongtin.Rows.Clear();
+                    foreach (var item in qr)
+                    {
+                        int row_index = grThongtin.Rows.Add(item.userid, item.name);
+                        if (item.active == "true")
+                        {
+                            grThongtin.Rows[row_index].Cells["active"].Value = "Hoạt Động";
+                            grThongtin.Rows[row_index].Cells["action"].Value = "Khóa tài khoản";
+                        }
+                        else
+                        {
+                            grThongtin.Rows[row_index].DefaultCellStyle.BackColor = Color.PaleVioletRed;
+                            grThongtin.Rows[row_index].Cells["active"].Value = "Khóa";
+                            grThongtin.Rows[row_index].Cells["action"].Value = "Mở Tài Khoản";
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -49,44 +64,27 @@ namespace EVS_ProductionStatus
         {
             using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
-                var qr = (from s in db.tblUsers
+                var qr = (from s in db.tblUser_EVS
                           where s.userid.Contains(_timkiem) || s.name.Contains(_timkiem)
                           orderby s.userid
                           select s).ToList();
-                grThongtin.AutoGenerateColumns = false;
-                grThongtin.DataSource = qr;
-            }
-        }
 
-        private void btnThem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtUserID.Text))
+                grThongtin.Rows.Clear();
+                foreach (var item in qr)
                 {
-                    MessageBox.Show("Vui lòng điền đầy đủ thông tin");
-                    return;
-                }
-
-                using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
-                {
-                    if (isExistUserID(txtUserID.Text))
-                        MessageBox.Show("Mã người thao tác đã tồn tại");
+                    int row_index = grThongtin.Rows.Add(item.userid, item.name);
+                    if (item.active == "true")
+                    {
+                        grThongtin.Rows[row_index].Cells["active"].Value = "Hoạt Động";
+                        grThongtin.Rows[row_index].Cells["action"].Value = "Khóa tài khoản";
+                    }
                     else
                     {
-                        tblUser tb = new tblUser();
-                        tb.userid = txtUserID.Text;
-                        tb.name = txtName.Text;
-                        db.tblUsers.Add(tb);
-                        db.SaveChanges();
-                        MessageBox.Show("Thêm thành công");
-                        loaddata();
+                        grThongtin.Rows[row_index].DefaultCellStyle.BackColor = Color.PaleVioletRed;
+                        grThongtin.Rows[row_index].Cells["active"].Value = "Khóa";
+                        grThongtin.Rows[row_index].Cells["action"].Value = "Mở Tài Khoản";
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -99,24 +97,42 @@ namespace EVS_ProductionStatus
         {
             if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
             {
-                if (e.ColumnIndex == grThongtin.Columns["xoa"].Index)
+                if (e.ColumnIndex == grThongtin.Columns["action"].Index)
                 {
-                    var rs = MessageBox.Show("Xác nhận xóa dữ liệu hàng đã chọn?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (rs == DialogResult.Yes)
+                    string _uid = grThongtin.Rows[e.RowIndex].Cells["userid"].Value.ToString();
+                    Check_Admin_Account f = new Check_Admin_Account();
+                    if(f.ShowDialog() == DialogResult.OK)
                     {
-                        string _uid = grThongtin.Rows[e.RowIndex].Cells["userid"].Value.ToString();
                         using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
-                            var qr = (from s in db.tblUsers
-                                      where s.userid == _uid
-                                      select s).FirstOrDefault();
-                            if (qr != null)
+                            var user = db.tblUser_EVS.FirstOrDefault(x => x.userid == _uid);
+                            // kiểm tra xem tài khoản đang mở hay đóng
+                            if (user.active == "true")
                             {
-                                db.tblUsers.Remove(qr);
-                                db.SaveChanges();
-                                loaddata();
+                                var rs = MessageBox.Show("Xác nhận khóa tài khoản?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (rs == DialogResult.Yes)
+                                {
+                                    if (user != null)
+                                    {
+                                        user.active = "false";
+                                        db.SaveChanges();
+                                        loaddata();
+                                    }
+                                }
                             }
-
+                            else
+                            {
+                                var rs = MessageBox.Show("Xác nhận mở tài khoản?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                if (rs == DialogResult.Yes)
+                                {
+                                    if (user != null)
+                                    {
+                                        user.active = "true";
+                                        db.SaveChanges();
+                                        loaddata();
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -140,71 +156,15 @@ namespace EVS_ProductionStatus
             }
         }
 
-        private void btnImport_Click(object sender, EventArgs e)
+        private void btn_add_admin_Click(object sender, EventArgs e)
         {
-            try
+            // Kiểm tra xem có phải là tài khoản admin hay không
+            Check_Admin_Account f = new Check_Admin_Account();
+            if(f.ShowDialog() == DialogResult.OK)
             {
-                var rs = MessageBox.Show("Khi import sẽ xóa hết người dùng hiện tại để nhập mới, có tiếp tục không?", "Xác nhận",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-                if (rs == DialogResult.Yes)
-                {
-                    openFileDialog1.Filter = "Excel File (*.xlsx)|*.xlsx";
-                    openFileDialog1.RestoreDirectory = true;
-
-                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                    {
-                        FileInfo fileInfo = new FileInfo(Path.GetFullPath(openFileDialog1.FileName));
-                        using (ExcelPackage p = new ExcelPackage(fileInfo))
-                        {
-                            var ws = p.Workbook.Worksheets[1];
-                            int rowCount = ws.Dimension.End.Row;     //get row count
-
-                            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
-                            {
-                                db.pro_05_TruncateUser();
-                                for (int i = 2; i <= rowCount; i++)
-                                {
-                                    //Nếu có ô trống, thì báo lỗi và dừng luôn
-                                    if (ws.Cells[i, 1].Value == null ||
-                                        ws.Cells[i, 2].Value == null)
-                                    {
-                                        MessageBox.Show("Lỗi. Dữ liệu có ô trống, vui lòng kiểm tra lại file");
-                                        return;
-                                    }
-                                    tblUser tb = new tblUser();
-                                    tb.userid = ws.Cells[i, 1].Value.ToString();
-                                    tb.name = ws.Cells[i, 2].Value.ToString();
-                                    db.tblUsers.Add(tb);
-
-                                }
-                                db.tblUsers.Add(new tblUser() { userid = "admin", name = "Quản lý hệ thống" });
-                                db.SaveChanges();
-                            }
-                        }
-                        MessageBox.Show("Import dữ liệu thành công");
-                        loaddata();
-                    }
-                }
+                Add_Admin_Account add_admin_form = new Add_Admin_Account();
+                add_admin_form.Show();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private bool isExistUserID(string _userid)
-        {
-            bool kq = false;
-            using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
-            {
-                var qr = (from s in db.tblUsers
-                          where s.userid == _userid
-                          select s).FirstOrDefault();
-                if (qr != null)
-                    kq = true;
-            }
-
-            return kq;
         }
     }
 }

@@ -49,7 +49,6 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.btn_Kitting = new System.Windows.Forms.Button();
-            this.btn_check_category = new System.Windows.Forms.Button();
             this.btn_Ring = new System.Windows.Forms.Button();
             this.btn_Box = new System.Windows.Forms.Button();
             this.btn_Inventory = new System.Windows.Forms.Button();
@@ -58,6 +57,7 @@
             this.btn_Status_Details_Production = new System.Windows.Forms.Button();
             this.btnTrangthaiSXOther = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -231,7 +231,7 @@
             this.btn_Kitting.ForeColor = System.Drawing.Color.Navy;
             this.btn_Kitting.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_suggestion_70;
             this.btn_Kitting.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Kitting.Location = new System.Drawing.Point(525, 435);
+            this.btn_Kitting.Location = new System.Drawing.Point(525, 282);
             this.btn_Kitting.Name = "btn_Kitting";
             this.btn_Kitting.Size = new System.Drawing.Size(162, 132);
             this.btn_Kitting.TabIndex = 14;
@@ -239,23 +239,6 @@
             this.btn_Kitting.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Kitting.UseVisualStyleBackColor = true;
             this.btn_Kitting.Click += new System.EventHandler(this.btn_Kitting_Click);
-            // 
-            // btn_check_category
-            // 
-            this.btn_check_category.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_check_category.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_check_category.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_check_category.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_check_category.ForeColor = System.Drawing.Color.Navy;
-            this.btn_check_category.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_category_68;
-            this.btn_check_category.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_check_category.Location = new System.Drawing.Point(525, 282);
-            this.btn_check_category.Name = "btn_check_category";
-            this.btn_check_category.Size = new System.Drawing.Size(162, 132);
-            this.btn_check_category.TabIndex = 13;
-            this.btn_check_category.Text = "Theo dõi hạng mục kiểm tra";
-            this.btn_check_category.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_check_category.UseVisualStyleBackColor = true;
             // 
             // btn_Ring
             // 
@@ -388,13 +371,17 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 623);
             this.Controls.Add(this.btn_Kitting);
-            this.Controls.Add(this.btn_check_category);
             this.Controls.Add(this.btn_Ring);
             this.Controls.Add(this.btn_Box);
             this.Controls.Add(this.btn_Inventory);
@@ -447,8 +434,8 @@
         private System.Windows.Forms.Button btn_Box;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.Button btn_Ring;
-        private System.Windows.Forms.Button btn_check_category;
         private System.Windows.Forms.Button btn_Kitting;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }

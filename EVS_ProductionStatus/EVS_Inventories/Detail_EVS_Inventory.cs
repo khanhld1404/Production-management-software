@@ -25,13 +25,19 @@ namespace EVS_ProductionStatus.EVS_Inventories
         List<Inventories_Total> DataSearch;
 
         // Location của từng trạng thái
-        List<string> Trong_SX = new List<string> { "3008", "3009", "3010", "3108", "3109", "3110", "9999" };
-        List<string> Ngoai_SX = new List<string> { "1001", "1002", "2001", "2002", "4004" };
-        List<string> Khong_SX = new List<string> { "5001", "5002", "5003", "5004", "5005" };
+        List<string> list;
+        // Thông tin thể loại được hiện ở trên text
+        string tt;
 
-        public Detail_EVS_Inventory()
+        //Thông tin để xác định HFG,RM và WIP
+        List<string> status_list;
+
+        public Detail_EVS_Inventory(List<string> _list, string _tt, List<string> _status_list)
         {
             InitializeComponent();
+            list = _list;
+            tt = _tt;
+            status_list = _status_list;
         }
 
         // Thực hiện việc tính toán 
@@ -52,7 +58,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
             {
 
                 DataDetail = mb.EVS_Inventory.AsEnumerable()
-                    .Where(x => inventory_location.Contains(x.Storage_Location))
+                    .Where(x => inventory_location.Contains(x.Storage_Location) && status_list.Contains(x.MRP_Controller))
                     .GroupBy(x => new
                     {
                         MATERIAL_NUMBER = x.Registered__Material ?? x.Material_Number,
@@ -62,9 +68,12 @@ namespace EVS_ProductionStatus.EVS_Inventories
                     .OrderBy(g => g.Key.MATERIAL_NUMBER)
                     .Select(g => new Inventories_Total
                     {
+                        Location = g.Key.LOCATION,
                         Item = g.Key.MATERIAL_NUMBER,
                         Lot = g.Key.BATCH_NUMBER,
-                        Location = g.Key.LOCATION,
+                        Total = Math.Round(
+                            g.Sum(x => double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
+                                , 2),
                         UU =Math.Round(
                             g.Sum(x => x.Stock_Type == "Unrestricted"
                                 ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
@@ -82,10 +91,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                         QI = Math.Round(
                             g.Sum(x => x.Stock_Type == "In Qual.Insp"
                                 ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                : 0), 2),
-                        Total = Math.Round(
-                            g.Sum(x =>  double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                , 2),
+                                : 0), 2)
                     })
                     .ToList();
 
@@ -126,8 +132,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
                     Placeholder.SetupPlaceholder(txt_Search_Batch, "Lot");
 
                     // Tính toán và lọc dữ liệu
-                    Lab_Infor_Total.Text = "Tồn Chi Tiết Trong Sản Xuất (EVS)";
-                    Data_Load(Trong_SX);
+                    Lab_Infor_Total.Text = "Thông Tin Tồn " + tt;
+                    Data_Load(list);
                 }
                 catch (Exception ex)
                 {
@@ -220,38 +226,6 @@ namespace EVS_ProductionStatus.EVS_Inventories
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        // Thiết lập màu sắc tên cột được chọn
-        private void SetActiveButton(ToolStripButton active)
-        {
-            foreach(ToolStripButton button in Menu_EVS_Total_Detail.Items)
-            {
-                button.BackColor = SystemColors.GradientInactiveCaption;
-                button.ForeColor = SystemColors.ControlText;
-            }
-            active.BackColor = SystemColors.Highlight;
-            active.ForeColor = SystemColors.Control;
-        }
-        private void TSX_Click(object sender, EventArgs e)
-        {
-            SetActiveButton(TSX);
-            Lab_Infor_Total.Text = "Tồn Chi Tiết Trong Sản Xuất (EVS)";
-            Data_Load(Trong_SX);
-        }
-
-        private void NSX_Click(object sender, EventArgs e)
-        {
-            SetActiveButton(NSX);
-            Lab_Infor_Total.Text = "Tồn Chi Tiết Ngoài Sản Xuất";
-            Data_Load(Ngoai_SX);
-        }
-
-        private void KSX_Click(object sender, EventArgs e)
-        {
-            SetActiveButton(KSX);
-            Lab_Infor_Total.Text = "Tồn Chi Tiết Không Sản Xuất";
-            Data_Load(Khong_SX);
         }
     }
 }

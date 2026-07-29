@@ -21,12 +21,6 @@ namespace EVS_ProductionStatus.EVS_Inventories
 
         private void btn_Detail_Click(object sender, EventArgs e)
         {
-            Detail_EVS_Inventory f = new Detail_EVS_Inventory();
-            f.Show();
-        }
-
-        private void btn_Alowcate_Click(object sender, EventArgs e)
-        {
             Main_EVS_Alowcate f = new Main_EVS_Alowcate();
             f.Show();
         }

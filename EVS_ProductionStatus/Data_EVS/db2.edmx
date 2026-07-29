@@ -71,6 +71,7 @@
           <Property Name="Material" Type="nvarchar" MaxLength="100" />
           <Property Name="Batch" Type="nvarchar" MaxLength="100" />
           <Property Name="Total" Type="float" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblWO">
           <Key>
@@ -148,9 +149,9 @@
           <EntitySet Name="EVS_Inventory" EntityType="Manage_evsModel.EVS_Inventory" />
           <FunctionImport Name="Update_EVS_Inventory" />
           <FunctionImport Name="Update_MB25" ReturnType="Collection(Manage_evsModel.Update_MB25_Result)" />
-          <EntitySet Name="MB25" EntityType="Manage_evsModel.MB25" />
           <EntitySet Name="EVS_Stock" EntityType="Manage_evsModel.EVS_Stock" />
           <FunctionImport Name="update_tblWO_ZPPI189" />
+          <EntitySet Name="MB25" EntityType="Manage_evsModel.MB25" />
         </EntityContainer>
         <EntityType Name="tblWO">
           <Key>
@@ -272,15 +273,6 @@
           <Property Type="String" Name="Final_Issue" Nullable="true" />
           <Property Type="String" Name="Removed_quantity" Nullable="true" />
         </ComplexType>
-        <EntityType Name="MB25">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Material" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Batch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Total" Type="Double" />
-        </EntityType>
         <EntityType Name="EVS_Stock">
           <Key>
             <PropertyRef Name="ID" />
@@ -294,6 +286,16 @@
           <Property Name="BASE_UOM" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="STOCK_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="STOCK_QUANTITY" Type="Decimal" Precision="10" Scale="3" />
+        </EntityType>
+        <EntityType Name="MB25">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Material" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Batch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -419,16 +421,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="MB25">
-            <EntityTypeMapping TypeName="Manage_evsModel.MB25">
-              <MappingFragment StoreEntitySet="MB25">
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Batch" ColumnName="Batch" />
-                <ScalarProperty Name="Material" ColumnName="Material" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EVS_Stock">
             <EntityTypeMapping TypeName="Manage_evsModel.EVS_Stock">
               <MappingFragment StoreEntitySet="EVS_Stock">
@@ -445,6 +437,17 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="update_tblWO_ZPPI189" FunctionName="Manage_evsModel.Store.update_tblWO_ZPPI189" />
+          <EntitySetMapping Name="MB25">
+            <EntityTypeMapping TypeName="Manage_evsModel.MB25">
+              <MappingFragment StoreEntitySet="MB25">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

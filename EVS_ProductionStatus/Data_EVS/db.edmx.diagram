@@ -16,7 +16,6 @@
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblThoiGianKhau" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblThoiGianNghi" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblURL" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblUser" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblViTriNguoiTT" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_01_Kitting" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_04_DongGoi" Width="1.5" PointX="10.75" PointY="5.75" IsExpanded="true" />
@@ -27,6 +26,7 @@
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" Width="1.5" PointX="3.375" PointY="12.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.Packing_List" Width="1.5" PointX="4.75" PointY="5.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.Packing_Time" Width="1.5" PointX="4.75" PointY="10.375" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblUser_EVS" Width="1.5" PointX="2.75" PointY="9.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -36,11 +36,11 @@ namespace EVS_ProductionStatus
             this.label1 = new System.Windows.Forms.Label();
             this.Lab_TT_Kitting = new System.Windows.Forms.Label();
             this.Data_Kitting_NVL = new System.Windows.Forms.DataGridView();
-            this.Btn_Excel = new System.Windows.Forms.Button();
             this.Kitting_Group = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.WORK_ORDER_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MES_PART = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Group_Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Btn_Excel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Data_Kitting_NVL)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +82,7 @@ namespace EVS_ProductionStatus
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Lab_TT_Kitting.AutoSize = true;
             this.Lab_TT_Kitting.Font = new System.Drawing.Font("Arial", 17F, System.Drawing.FontStyle.Bold);
-            this.Lab_TT_Kitting.Location = new System.Drawing.Point(395, 151);
+            this.Lab_TT_Kitting.Location = new System.Drawing.Point(356, 151);
             this.Lab_TT_Kitting.Name = "Lab_TT_Kitting";
             this.Lab_TT_Kitting.Size = new System.Drawing.Size(262, 27);
             this.Lab_TT_Kitting.TabIndex = 3;
@@ -128,20 +128,6 @@ namespace EVS_ProductionStatus
             this.Data_Kitting_NVL.Size = new System.Drawing.Size(1052, 508);
             this.Data_Kitting_NVL.TabIndex = 4;
             // 
-            // Btn_Excel
-            // 
-            this.Btn_Excel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Btn_Excel.BackColor = System.Drawing.Color.Green;
-            this.Btn_Excel.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.Btn_Excel.ForeColor = System.Drawing.Color.White;
-            this.Btn_Excel.Location = new System.Drawing.Point(977, 728);
-            this.Btn_Excel.Name = "Btn_Excel";
-            this.Btn_Excel.Size = new System.Drawing.Size(104, 52);
-            this.Btn_Excel.TabIndex = 9;
-            this.Btn_Excel.Text = " Xuất Excel";
-            this.Btn_Excel.UseVisualStyleBackColor = false;
-            this.Btn_Excel.Click += new System.EventHandler(this.Btn_Excel_Click);
-            // 
             // Kitting_Group
             // 
             this.Kitting_Group.HeaderText = "Nhóm Kitting";
@@ -169,6 +155,20 @@ namespace EVS_ProductionStatus
             this.Group_Quantity.Name = "Group_Quantity";
             this.Group_Quantity.ReadOnly = true;
             this.Group_Quantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Btn_Excel
+            // 
+            this.Btn_Excel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Btn_Excel.BackColor = System.Drawing.Color.Green;
+            this.Btn_Excel.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.Btn_Excel.ForeColor = System.Drawing.Color.White;
+            this.Btn_Excel.Location = new System.Drawing.Point(977, 728);
+            this.Btn_Excel.Name = "Btn_Excel";
+            this.Btn_Excel.Size = new System.Drawing.Size(104, 52);
+            this.Btn_Excel.TabIndex = 9;
+            this.Btn_Excel.Text = " Xuất Excel";
+            this.Btn_Excel.UseVisualStyleBackColor = false;
+            this.Btn_Excel.Click += new System.EventHandler(this.Btn_Excel_Click);
             // 
             // Form_Kitting
             // 

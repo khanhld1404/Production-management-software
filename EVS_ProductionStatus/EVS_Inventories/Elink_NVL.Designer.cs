@@ -33,7 +33,6 @@ namespace EVS_ProductionStatus
         private void InitializeComponent()
         {
             this.lab_item_code = new System.Windows.Forms.Label();
-            this.lab_lot = new System.Windows.Forms.Label();
             this.lab_qty = new System.Windows.Forms.Label();
             this.lab_qty_allocate = new System.Windows.Forms.Label();
             this.lab_mac = new System.Windows.Forms.Label();
@@ -48,7 +47,11 @@ namespace EVS_ProductionStatus
             this.txt_Variant = new System.Windows.Forms.Label();
             this.btn_un_connect = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_location = new System.Windows.Forms.Label();
+            this.lab_location = new System.Windows.Forms.Label();
+            this.lab_lot = new System.Windows.Forms.Label();
             this.lab_card_eink = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lab_item_code
@@ -60,16 +63,6 @@ namespace EVS_ProductionStatus
             this.lab_item_code.Size = new System.Drawing.Size(112, 21);
             this.lab_item_code.TabIndex = 0;
             this.lab_item_code.Text = "Item Code :";
-            // 
-            // lab_lot
-            // 
-            this.lab_lot.AutoSize = true;
-            this.lab_lot.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_lot.Location = new System.Drawing.Point(488, 135);
-            this.lab_lot.Name = "lab_lot";
-            this.lab_lot.Size = new System.Drawing.Size(79, 21);
-            this.lab_lot.TabIndex = 1;
-            this.lab_lot.Text = "Lot No :";
             // 
             // lab_qty
             // 
@@ -85,7 +78,7 @@ namespace EVS_ProductionStatus
             // 
             this.lab_qty_allocate.AutoSize = true;
             this.lab_qty_allocate.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_qty_allocate.Location = new System.Drawing.Point(488, 192);
+            this.lab_qty_allocate.Location = new System.Drawing.Point(318, 104);
             this.lab_qty_allocate.Name = "lab_qty_allocate";
             this.lab_qty_allocate.Size = new System.Drawing.Size(108, 21);
             this.lab_qty_allocate.TabIndex = 3;
@@ -147,37 +140,41 @@ namespace EVS_ProductionStatus
             // 
             this.txt_Itemcode.AutoSize = true;
             this.txt_Itemcode.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Itemcode.Location = new System.Drawing.Point(181, 135);
+            this.txt_Itemcode.Location = new System.Drawing.Point(128, 47);
             this.txt_Itemcode.Name = "txt_Itemcode";
-            this.txt_Itemcode.Size = new System.Drawing.Size(0, 21);
+            this.txt_Itemcode.Size = new System.Drawing.Size(20, 21);
             this.txt_Itemcode.TabIndex = 17;
+            this.txt_Itemcode.Text = "1";
             // 
             // txt_Qty
             // 
             this.txt_Qty.AutoSize = true;
             this.txt_Qty.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Qty.Location = new System.Drawing.Point(181, 192);
+            this.txt_Qty.Location = new System.Drawing.Point(77, 104);
             this.txt_Qty.Name = "txt_Qty";
-            this.txt_Qty.Size = new System.Drawing.Size(0, 21);
+            this.txt_Qty.Size = new System.Drawing.Size(20, 21);
             this.txt_Qty.TabIndex = 18;
+            this.txt_Qty.Text = "3";
             // 
             // txt_Lotno
             // 
             this.txt_Lotno.AutoSize = true;
             this.txt_Lotno.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Lotno.Location = new System.Drawing.Point(629, 135);
+            this.txt_Lotno.Location = new System.Drawing.Point(421, 47);
             this.txt_Lotno.Name = "txt_Lotno";
-            this.txt_Lotno.Size = new System.Drawing.Size(0, 21);
+            this.txt_Lotno.Size = new System.Drawing.Size(20, 21);
             this.txt_Lotno.TabIndex = 19;
+            this.txt_Lotno.Text = "2";
             // 
             // txt_Qty_allocate
             // 
             this.txt_Qty_allocate.AutoSize = true;
             this.txt_Qty_allocate.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Qty_allocate.Location = new System.Drawing.Point(629, 192);
+            this.txt_Qty_allocate.Location = new System.Drawing.Point(443, 104);
             this.txt_Qty_allocate.Name = "txt_Qty_allocate";
-            this.txt_Qty_allocate.Size = new System.Drawing.Size(0, 21);
+            this.txt_Qty_allocate.Size = new System.Drawing.Size(20, 21);
             this.txt_Qty_allocate.TabIndex = 20;
+            this.txt_Qty_allocate.Text = "4";
             // 
             // txt_Variant
             // 
@@ -204,6 +201,14 @@ namespace EVS_ProductionStatus
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.groupBox1.Controls.Add(this.txt_location);
+            this.groupBox1.Controls.Add(this.lab_location);
+            this.groupBox1.Controls.Add(this.txt_Itemcode);
+            this.groupBox1.Controls.Add(this.txt_Lotno);
+            this.groupBox1.Controls.Add(this.txt_Qty);
+            this.groupBox1.Controls.Add(this.txt_Qty_allocate);
+            this.groupBox1.Controls.Add(this.lab_lot);
+            this.groupBox1.Controls.Add(this.lab_qty_allocate);
             this.groupBox1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(43, 88);
             this.groupBox1.Name = "groupBox1";
@@ -211,6 +216,36 @@ namespace EVS_ProductionStatus
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông Tin Sản Phẩm";
+            // 
+            // txt_location
+            // 
+            this.txt_location.AutoSize = true;
+            this.txt_location.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
+            this.txt_location.Location = new System.Drawing.Point(673, 104);
+            this.txt_location.Name = "txt_location";
+            this.txt_location.Size = new System.Drawing.Size(20, 21);
+            this.txt_location.TabIndex = 22;
+            this.txt_location.Text = "5";
+            // 
+            // lab_location
+            // 
+            this.lab_location.AutoSize = true;
+            this.lab_location.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
+            this.lab_location.Location = new System.Drawing.Point(570, 104);
+            this.lab_location.Name = "lab_location";
+            this.lab_location.Size = new System.Drawing.Size(97, 21);
+            this.lab_location.TabIndex = 21;
+            this.lab_location.Text = "Location :";
+            // 
+            // lab_lot
+            // 
+            this.lab_lot.AutoSize = true;
+            this.lab_lot.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
+            this.lab_lot.Location = new System.Drawing.Point(318, 47);
+            this.lab_lot.Name = "lab_lot";
+            this.lab_lot.Size = new System.Drawing.Size(79, 21);
+            this.lab_lot.TabIndex = 1;
+            this.lab_lot.Text = "Lot No :";
             // 
             // lab_card_eink
             // 
@@ -230,18 +265,12 @@ namespace EVS_ProductionStatus
             this.ClientSize = new System.Drawing.Size(954, 549);
             this.Controls.Add(this.btn_un_connect);
             this.Controls.Add(this.txt_Variant);
-            this.Controls.Add(this.txt_Qty_allocate);
-            this.Controls.Add(this.txt_Lotno);
-            this.Controls.Add(this.txt_Qty);
-            this.Controls.Add(this.txt_Itemcode);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_MAC);
             this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.lab_variant);
             this.Controls.Add(this.lab_mac);
-            this.Controls.Add(this.lab_qty_allocate);
             this.Controls.Add(this.lab_qty);
-            this.Controls.Add(this.lab_lot);
             this.Controls.Add(this.lab_item_code);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lab_card_eink);
@@ -250,12 +279,13 @@ namespace EVS_ProductionStatus
             this.Text = "Thông tin thẻ Elink";
             this.Load += new System.EventHandler(this.Elink_NVL_Load);
             this.Shown += new System.EventHandler(this.Elink_NVL_Shown);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         private System.Windows.Forms.Label lab_item_code;
-        private System.Windows.Forms.Label lab_lot;
         private System.Windows.Forms.Label lab_qty;
         private System.Windows.Forms.Label lab_qty_allocate;
         private System.Windows.Forms.Label lab_mac;
@@ -271,5 +301,8 @@ namespace EVS_ProductionStatus
         private System.Windows.Forms.Button btn_un_connect;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox lab_card_eink;
+        private System.Windows.Forms.Label lab_lot;
+        private System.Windows.Forms.Label txt_location;
+        private System.Windows.Forms.Label lab_location;
     }
 }

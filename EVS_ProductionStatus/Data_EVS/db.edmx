@@ -298,12 +298,14 @@
           <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="URL" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <EntityType Name="tblUser">
+        <EntityType Name="tblUser_EVS">
           <Key>
             <PropertyRef Name="userid" />
           </Key>
           <Property Name="userid" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="active" Type="nvarchar" MaxLength="50" />
+          <Property Name="admin_role" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblViTriNguoiTT">
           <Key>
@@ -540,7 +542,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="tblThoiGianKhau" EntityType="Self.tblThoiGianKhau" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblThoiGianNghi" EntityType="Self.tblThoiGianNghi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblURL" EntityType="Self.tblURL" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser_EVS" EntityType="Self.tblUser_EVS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblViTriNguoiTT" EntityType="Self.tblViTriNguoiTT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="v_01_Kitting" EntityType="Self.v_01_Kitting" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -869,13 +871,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="URL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tblUser">
-          <Key>
-            <PropertyRef Name="userid" />
-          </Key>
-          <Property Name="userid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tblViTriNguoiTT">
           <Key>
             <PropertyRef Name="id" />
@@ -984,7 +979,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <EntitySet Name="tblThoiGianKhaus" EntityType="Self.tblThoiGianKhau" />
           <EntitySet Name="tblThoiGianNghis" EntityType="Self.tblThoiGianNghi" />
           <EntitySet Name="tblURLs" EntityType="Self.tblURL" />
-          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
           <EntitySet Name="tblViTriNguoiTTs" EntityType="Self.tblViTriNguoiTT" />
           <EntitySet Name="v_01_Kitting" EntityType="Self.v_01_Kitting" />
           <EntitySet Name="v_04_DongGoi" EntityType="Self.v_04_DongGoi" />
@@ -1090,6 +1084,7 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           </FunctionImport>
           <FunctionImport Name="Update_MaThung" />
           <FunctionImport Name="Update_PackingList" />
+          <EntitySet Name="tblUser_EVS" EntityType="EVS_ProductionStatusModel.tblUser_EVS" />
         </EntityContainer>
         <ComplexType Name="pro_02_tblInputWithTime_Result">
           <Property Type="Int64" Name="STT" Nullable="true" />
@@ -1457,6 +1452,15 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           <Property Type="DateTime" Name="TimeEnd" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="Duration" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblUser_EVS">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="admin_role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1705,14 +1709,6 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
               <MappingFragment StoreEntitySet="tblURL">
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblUsers">
-            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblUser">
-              <MappingFragment StoreEntitySet="tblUser">
-                <ScalarProperty Name="userid" ColumnName="userid" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2241,6 +2237,16 @@ warning 6002: The table/view 'EVS_ProductionStatus.dbo.v_DSLoaiSP' does not have
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Update_MaThung" FunctionName="EVS_ProductionStatusModel.Store.Update_MaThung" />
           <FunctionImportMapping FunctionImportName="Update_PackingList" FunctionName="EVS_ProductionStatusModel.Store.Update_PackingList" />
+          <EntitySetMapping Name="tblUser_EVS">
+            <EntityTypeMapping TypeName="EVS_ProductionStatusModel.tblUser_EVS">
+              <MappingFragment StoreEntitySet="tblUser_EVS">
+                <ScalarProperty Name="admin_role" ColumnName="admin_role" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

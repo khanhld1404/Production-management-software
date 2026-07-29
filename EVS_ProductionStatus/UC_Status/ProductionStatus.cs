@@ -798,7 +798,7 @@ namespace EVS_ProductionStatus
             string kq = "";
             using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
-                var qr_user = (from s in db.tblUsers
+                var qr_user = (from s in db.tblUser_EVS
                                where s.userid == _uid
                                select s).FirstOrDefault();
                 if (qr_user != null)
@@ -1022,7 +1022,7 @@ namespace EVS_ProductionStatus
                             if (isEmployeeScan)
                             {
                                 //Kiểm tra thông tin người thao tác có tồn tại không
-                                var qr_user = (from s in db.tblUsers
+                                var qr_user = (from s in db.tblUser_EVS
                                                where s.userid == txtUsername.Text
                                                select s).FirstOrDefault();
                                 if (qr_user == null)
@@ -1210,7 +1210,7 @@ namespace EVS_ProductionStatus
                                 if (isEmployeeScan)
                                 {
                                     //Kiểm tra thông tin người thao tác có tồn tại không
-                                    var qr_user = (from s in db.tblUsers
+                                    var qr_user = (from s in db.tblUser_EVS
                                                    where s.userid == txtUsername.Text
                                                    select s).FirstOrDefault();
                                     if (qr_user == null)

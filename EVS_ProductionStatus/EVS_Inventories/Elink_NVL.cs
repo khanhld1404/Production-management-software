@@ -1,4 +1,7 @@
-﻿using EVS_ProductionStatus.EVS_Inventories.Class;
+﻿using EVS_ProductionStatus.Data_EVS;
+using EVS_ProductionStatus.EVS_Inventories;
+using EVS_ProductionStatus.EVS_Inventories.Class;
+using EVS_ProductionStatus.EVS_Inventories.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,8 +19,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static OfficeOpenXml.ExcelErrorValue;
 using static System.Windows.Forms.LinkLabel;
-using EVS_ProductionStatus.EVS_Inventories.Model;
-using EVS_ProductionStatus.Data_EVS;
 
 //http://172.31.9.31/test_api/
 //https://localhost:7188/
@@ -77,7 +78,7 @@ namespace EVS_ProductionStatus
                 return null;
             }
         }
-        private async Task<Get_Link> Get_Link(string endpoint) // Lấy Thông tin mac,variant của link dựa vào id của  tblproduct
+        private async Task<Get_Link> Get_Link(string endpoint) // Lấy Thông tin mac,variant của link dựa vào id của tblproduct
         {
             try
             {
@@ -88,7 +89,8 @@ namespace EVS_ProductionStatus
                 if (!resp.IsSuccessStatusCode)
                 {
                     // Hiển thị thông báo từ API nếu có
-                    MessageBox.Show($"{body}");
+                    ToastForm.Show("Lỗi",$"{body}",1000,MessageBoxIcon.Error);
+
                     return null;
                 }
                 // Nếu thành công, hiển thị variant
@@ -258,18 +260,39 @@ namespace EVS_ProductionStatus
         {
             string value1 = _item.ItemCode.ToString();
             string value2 = _item.LotNo.ToString();
-            var id = await Get_IDItem($"api/product/{value1}/{value2}");
+            string value3 = _item.Location.ToString();
+            var id = await Get_IDItem($"api/product/{value1}/{value2}/{value3}");
             var result2 = await Get_Link($"api/link/by-id/{id}");
+            // Kiểm tra xem có thẻ eink nào được gọi về không
+            if(result2 != null)
+            {
+                txt_MAC.Text = result2.MAC;
+                txt_Variant.Text = result2.Variant;
+                txt_MAC.Enabled = false;
+                lab_card_eink.Text = "Quét mã thẻ (Đã đăng ký)";
+            }
+            // Nếu không tìm thấy thẻ Eink thì chứng tỏ nó không có kết nối đến bất cứ thẻ nào nên ta chuyển trạng thái kết nối của sản phẩm sang Disconnected
+            else
+            {
+                using (var db = new Manage_evsEntities(clConnection.connectEntity2))
+                {
+                    var product = db.EVS_Inventory
+                        .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
 
-            txt_MAC.Text = result2.MAC;
-            txt_Variant.Text = result2.Variant;
-            txt_MAC.Enabled = false;
-            lab_card_eink.Text = "Quét mã thẻ (Đã đăng ký)";
+                    if (product != null)
+                    {
+                        product.Connect_Status = "Disconnected";
+                        db.SaveChanges();
+                    }
+                }
+
+            }
         }
         private void Load_data()
         {
             txt_Itemcode.Text = _item.ItemCode.ToString();
             txt_Lotno.Text = _item.LotNo.ToString();
+            txt_location.Text = _item.Location.ToString();
             txt_Qty.Text = _item.R_float1.ToString();
             txt_Qty_allocate.Text = _item.R_float2.ToString();
         }
@@ -347,6 +370,7 @@ namespace EVS_ProductionStatus
                     {
                         ItemCode = _item.ItemCode,
                         LotNo = _item.LotNo,
+                        Location = _item.Location,
                         R_float1 = _item.R_float1,
                         R_float2 = _item.R_float2,
                     };
@@ -366,12 +390,12 @@ namespace EVS_ProductionStatus
                     var ok = await PostDataLink<Link_Eink>("api/link", newLink);
                     if (ok)
                     {
-                        MessageBox.Show($"Kết nối thành công!");
+                        ToastForm.Show("Thông Báo!","Kết nối thành công!",1000,MessageBoxIcon.Information);
 
                         using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                         {
                             var product = db.EVS_Inventory
-                                .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo);
+                                .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
 
                             if (product != null)
                             {
@@ -384,7 +408,7 @@ namespace EVS_ProductionStatus
                 }
                 else
                 {
-                    MessageBox.Show("Thẻ Elink đã được sử dụng!");
+                    MessageBox.Show("Thẻ Eink đã được sử dụng!");
                     return;
                 }
             }
@@ -409,11 +433,11 @@ namespace EVS_ProductionStatus
                 var ok2 = await DeleteItemAsync($"api/link", MAC_link);
                 if (ok2)
                 {
-                    MessageBox.Show("Hủy kết nối thành công!");
+                    ToastForm.Show("Thông Báo!", "Hủy kết nối thành công!", 1000, MessageBoxIcon.Information);
                     using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                     {
                         var product = db.EVS_Inventory
-                            .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo);
+                            .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
 
                         if (product != null)
                         {

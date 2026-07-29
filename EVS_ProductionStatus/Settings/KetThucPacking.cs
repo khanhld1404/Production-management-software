@@ -37,8 +37,8 @@ namespace EVS_ProductionStatus.Settings
                 using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
                     //Kiểm tra thông tin người thao tác có tồn tại không
-                    var qr_user = (from s in db.tblUsers
-                                   where s.userid == txtUsername.Text
+                    var qr_user = (from s in db.tblUser_EVS
+                                   where s.userid == txtUsername.Text && s.active == "true"
                                    select s).FirstOrDefault();
                     if (qr_user == null)
                     {

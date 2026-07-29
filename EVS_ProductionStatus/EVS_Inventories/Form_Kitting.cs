@@ -28,8 +28,6 @@ namespace EVS_ProductionStatus
     {
         private LoadingOverlay _overlay;
 
-        // Đường dẫn kết nối dữ liệu
-        Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2);
         // Địa chỉ location tìm kiếm
         string location;
         public Form_Kitting(string tt)
@@ -90,40 +88,43 @@ namespace EVS_ProductionStatus
         }
         private void Data_kitting()
         {
-            // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
-            int current_Rank = 0;
-            long? previousRank = null;
-            var kitting_infor = wodb.Kitting_Infor.AsEnumerable()
-                                .Where(x => x.locate_kitting == location)
-                                .OrderBy(x => x.Nhom_Kitting)
-                                .ThenBy(x => x.id)
-                                .Select(x =>
-                                {
-                                    if (previousRank != x.Nhom_Kitting)
+            using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
+            {
+                // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
+                int current_Rank = 0;
+                long? previousRank = null;
+                var kitting_infor = wodb.Kitting_Infor.AsEnumerable()
+                                    .Where(x => x.locate_kitting == location)
+                                    .OrderBy(x => x.Nhom_Kitting)
+                                    .ThenBy(x => x.id)
+                                    .Select(x =>
                                     {
-                                        current_Rank += 1;
-                                        previousRank = x.Nhom_Kitting;
-                                    }
+                                        if (previousRank != x.Nhom_Kitting)
+                                        {
+                                            current_Rank += 1;
+                                            previousRank = x.Nhom_Kitting;
+                                        }
 
-                                    return new Kitting_Data
+                                        return new Kitting_Data
+                                        {
+                                            Nhóm_Kitting = current_Rank,
+                                            Item_Wo = x.woid,
+                                            ID_Wo = x.id,
+                                            Số_Lượng = x.quantity
+                                        };
+                                    })
+                                    .GroupBy(x => new
                                     {
-                                        Nhóm_Kitting = current_Rank,
-                                        Item_Wo = x.woid,
-                                        ID_Wo = x.id,
-                                        Số_Lượng = x.quantity
-                                    };
-                                })
-                                .GroupBy(x => new
-                                {
-                                    x.Nhóm_Kitting,
-                                    x.Item_Wo,
-                                    x.ID_Wo,
-                                    x.Số_Lượng
-                                })
-                                .Select(g => g.First())
-                                .ToList();
-            kitting_infor = kitting_infor.Distinct().ToList();
-            Data_Insert(kitting_infor);
+                                        x.Nhóm_Kitting,
+                                        x.Item_Wo,
+                                        x.ID_Wo,
+                                        x.Số_Lượng
+                                    })
+                                    .Select(g => g.First())
+                                    .ToList();
+                kitting_infor = kitting_infor.Distinct().ToList();
+                Data_Insert(kitting_infor);
+            }
         }
         //Hàm hiển thị dữ liệu khi vào 
         private async Task Load_DataAsync()
@@ -203,48 +204,51 @@ namespace EVS_ProductionStatus
                 string WOID = parts[1];
                 string ITEM = parts[2];
                 string DRAW_REV = parts[3];
-                list_group_kitting = wodb.Kitting_Infor
-                                    .Where(x => x.wo == WO && x.woid == WOID && x.id == ITEM && x.draw_rev == DRAW_REV && x.locate_kitting == location)
-                                    .Select(x => x.Nhom_Kitting)
-                                    .ToList();
+                using(Manage_evsEntities wodb = new Manage_evsEntities(clConnection.connectEntity2))
+                {
+                    list_group_kitting = wodb.Kitting_Infor
+                    .Where(x => x.wo == WO && x.woid == WOID && x.id == ITEM && x.draw_rev == DRAW_REV && x.locate_kitting == location)
+                    .Select(x => x.Nhom_Kitting)
+                    .ToList();
 
 
-                // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
-                int current_Rank = 0;
-                long? previousRank = null;
+                    // Đưa đếm nhóm số hạng bắt  đầu đếm từ 1
+                    int current_Rank = 0;
+                    long? previousRank = null;
 
-                dt_kitting = wodb.Kitting_Infor.AsEnumerable()
-                                 .Where(x => list_group_kitting.Contains(x.Nhom_Kitting))
-                                .Select(
-                                    x =>
-                                    {
-                                        if (previousRank != x.Nhom_Kitting)
+                    dt_kitting = wodb.Kitting_Infor.AsEnumerable()
+                                     .Where(x => list_group_kitting.Contains(x.Nhom_Kitting))
+                                    .Select(
+                                        x =>
                                         {
-                                            current_Rank += 1;
-                                            previousRank = x.Nhom_Kitting;
+                                            if (previousRank != x.Nhom_Kitting)
+                                            {
+                                                current_Rank += 1;
+                                                previousRank = x.Nhom_Kitting;
+                                            }
+                                            return new Kitting_Data
+                                            {
+                                                Nhóm_Kitting = current_Rank,
+                                                Item_Wo = x.woid,
+                                                ID_Wo = x.id,
+                                                Số_Lượng = x.quantity
+                                            };
                                         }
-                                        return new Kitting_Data
-                                        {
-                                            Nhóm_Kitting = current_Rank,
-                                            Item_Wo = x.woid,
-                                            ID_Wo = x.id,
-                                            Số_Lượng = x.quantity
-                                        };
-                                    }
-                                 )
-                                .GroupBy(x => new
-                                {
-                                    x.Nhóm_Kitting,
-                                    x.Item_Wo,
-                                    x.ID_Wo,
-                                    x.Số_Lượng
-                                })
-                                .Select(g => g.First())
-                                .OrderBy(x => x.Nhóm_Kitting)
-                                .ThenBy(x => x.Item_Wo)
-                                .ToList();
-                // Thực hiện việc truyền dữ liệu vào bảng
-                Data_Insert(dt_kitting);
+                                     )
+                                    .GroupBy(x => new
+                                    {
+                                        x.Nhóm_Kitting,
+                                        x.Item_Wo,
+                                        x.ID_Wo,
+                                        x.Số_Lượng
+                                    })
+                                    .Select(g => g.First())
+                                    .OrderBy(x => x.Nhóm_Kitting)
+                                    .ThenBy(x => x.Item_Wo)
+                                    .ToList();
+                    // Thực hiện việc truyền dữ liệu vào bảng
+                    Data_Insert(dt_kitting);
+                }
             }
             catch (Exception ex)
             {

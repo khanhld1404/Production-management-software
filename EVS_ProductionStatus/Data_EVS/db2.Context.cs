@@ -31,8 +31,8 @@ namespace EVS_ProductionStatus.Data_EVS
         public virtual DbSet<tblWO> tblWOes { get; set; }
         public virtual DbSet<Kitting_Infor> Kitting_Infor { get; set; }
         public virtual DbSet<EVS_Inventory> EVS_Inventory { get; set; }
-        public virtual DbSet<MB25> MB25 { get; set; }
         public virtual DbSet<EVS_Stock> EVS_Stock { get; set; }
+        public virtual DbSet<MB25> MB25 { get; set; }
     
         public virtual int Kitting_Infor_Data()
         {

@@ -18,5 +18,6 @@ namespace EVS_ProductionStatus.Data_EVS
         public string Material { get; set; }
         public string Batch { get; set; }
         public Nullable<double> Total { get; set; }
+        public string Location { get; set; }
     }
 }
