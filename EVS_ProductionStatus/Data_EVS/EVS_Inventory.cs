@@ -26,5 +26,7 @@ namespace EVS_ProductionStatus.Data_EVS
         public string Available_Qty { get; set; }
         public string MRP_Controller { get; set; }
         public string Connect_Status { get; set; }
+        public string Eink_Mac { get; set; }
+        public string Eink_Variant { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace EVS_ProductionStatus
 {
-    partial class Elink_NVL
+    partial class Eink_NVL
     {
         /// <summary>
         /// Required designer variable.
@@ -51,6 +51,8 @@ namespace EVS_ProductionStatus
             this.lab_location = new System.Windows.Forms.Label();
             this.lab_lot = new System.Windows.Forms.Label();
             this.lab_card_eink = new System.Windows.Forms.GroupBox();
+            this.lab_qty_kd = new System.Windows.Forms.Label();
+            this.txt_kd = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +80,7 @@ namespace EVS_ProductionStatus
             // 
             this.lab_qty_allocate.AutoSize = true;
             this.lab_qty_allocate.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_qty_allocate.Location = new System.Drawing.Point(318, 104);
+            this.lab_qty_allocate.Location = new System.Drawing.Point(300, 104);
             this.lab_qty_allocate.Name = "lab_qty_allocate";
             this.lab_qty_allocate.Size = new System.Drawing.Size(108, 21);
             this.lab_qty_allocate.TabIndex = 3;
@@ -150,7 +152,7 @@ namespace EVS_ProductionStatus
             // 
             this.txt_Qty.AutoSize = true;
             this.txt_Qty.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Qty.Location = new System.Drawing.Point(77, 104);
+            this.txt_Qty.Location = new System.Drawing.Point(71, 104);
             this.txt_Qty.Name = "txt_Qty";
             this.txt_Qty.Size = new System.Drawing.Size(20, 21);
             this.txt_Qty.TabIndex = 18;
@@ -170,7 +172,7 @@ namespace EVS_ProductionStatus
             // 
             this.txt_Qty_allocate.AutoSize = true;
             this.txt_Qty_allocate.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_Qty_allocate.Location = new System.Drawing.Point(443, 104);
+            this.txt_Qty_allocate.Location = new System.Drawing.Point(421, 104);
             this.txt_Qty_allocate.Name = "txt_Qty_allocate";
             this.txt_Qty_allocate.Size = new System.Drawing.Size(20, 21);
             this.txt_Qty_allocate.TabIndex = 20;
@@ -201,6 +203,8 @@ namespace EVS_ProductionStatus
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.groupBox1.Controls.Add(this.txt_kd);
+            this.groupBox1.Controls.Add(this.lab_qty_kd);
             this.groupBox1.Controls.Add(this.txt_location);
             this.groupBox1.Controls.Add(this.lab_location);
             this.groupBox1.Controls.Add(this.txt_Itemcode);
@@ -221,7 +225,7 @@ namespace EVS_ProductionStatus
             // 
             this.txt_location.AutoSize = true;
             this.txt_location.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.txt_location.Location = new System.Drawing.Point(673, 104);
+            this.txt_location.Location = new System.Drawing.Point(665, 47);
             this.txt_location.Name = "txt_location";
             this.txt_location.Size = new System.Drawing.Size(20, 21);
             this.txt_location.TabIndex = 22;
@@ -231,7 +235,7 @@ namespace EVS_ProductionStatus
             // 
             this.lab_location.AutoSize = true;
             this.lab_location.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_location.Location = new System.Drawing.Point(570, 104);
+            this.lab_location.Location = new System.Drawing.Point(562, 47);
             this.lab_location.Name = "lab_location";
             this.lab_location.Size = new System.Drawing.Size(97, 21);
             this.lab_location.TabIndex = 21;
@@ -241,7 +245,7 @@ namespace EVS_ProductionStatus
             // 
             this.lab_lot.AutoSize = true;
             this.lab_lot.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
-            this.lab_lot.Location = new System.Drawing.Point(318, 47);
+            this.lab_lot.Location = new System.Drawing.Point(329, 47);
             this.lab_lot.Name = "lab_lot";
             this.lab_lot.Size = new System.Drawing.Size(79, 21);
             this.lab_lot.TabIndex = 1;
@@ -257,7 +261,27 @@ namespace EVS_ProductionStatus
             this.lab_card_eink.TabStop = false;
             this.lab_card_eink.Text = "Thông Tin Thẻ";
             // 
-            // Elink_NVL
+            // lab_qty_kd
+            // 
+            this.lab_qty_kd.AutoSize = true;
+            this.lab_qty_kd.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
+            this.lab_qty_kd.Location = new System.Drawing.Point(562, 104);
+            this.lab_qty_kd.Name = "lab_qty_kd";
+            this.lab_qty_kd.Size = new System.Drawing.Size(107, 21);
+            this.lab_qty_kd.TabIndex = 23;
+            this.lab_qty_kd.Text = "Khả Dụng :";
+            // 
+            // txt_kd
+            // 
+            this.txt_kd.AutoSize = true;
+            this.txt_kd.Font = new System.Drawing.Font("Arial", 13F, System.Drawing.FontStyle.Bold);
+            this.txt_kd.Location = new System.Drawing.Point(675, 104);
+            this.txt_kd.Name = "txt_kd";
+            this.txt_kd.Size = new System.Drawing.Size(20, 21);
+            this.txt_kd.TabIndex = 24;
+            this.txt_kd.Text = "6";
+            // 
+            // Eink_NVL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -274,7 +298,7 @@ namespace EVS_ProductionStatus
             this.Controls.Add(this.lab_item_code);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lab_card_eink);
-            this.Name = "Elink_NVL";
+            this.Name = "Eink_NVL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Thông tin thẻ Elink";
             this.Load += new System.EventHandler(this.Elink_NVL_Load);
@@ -304,5 +328,7 @@ namespace EVS_ProductionStatus
         private System.Windows.Forms.Label lab_lot;
         private System.Windows.Forms.Label txt_location;
         private System.Windows.Forms.Label lab_location;
+        private System.Windows.Forms.Label txt_kd;
+        private System.Windows.Forms.Label lab_qty_kd;
     }
 }

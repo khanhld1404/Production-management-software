@@ -25,11 +25,11 @@ using static System.Windows.Forms.LinkLabel;
 
 namespace EVS_ProductionStatus
 {
-    public partial class Elink_NVL : Form
+    public partial class Eink_NVL : Form
     {
         private readonly Product_Eink _item;
         string tt_connect = ""; // Thông tin connect_string
-        public Elink_NVL(Product_Eink item, string tt)
+        public Eink_NVL(Product_Eink item, string tt)
         {
             InitializeComponent();
             _item = item ?? throw new ArgumentNullException(nameof(item)); // lấy thông tin từ formRM_WIP sang
@@ -277,7 +277,7 @@ namespace EVS_ProductionStatus
                 using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                 {
                     var product = db.EVS_Inventory
-                        .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
+                        .FirstOrDefault(p =>  p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
 
                     if (product != null)
                     {
@@ -295,6 +295,7 @@ namespace EVS_ProductionStatus
             txt_location.Text = _item.Location.ToString();
             txt_Qty.Text = _item.R_float1.ToString();
             txt_Qty_allocate.Text = _item.R_float2.ToString();
+            txt_kd.Text = _item.R_float3.ToString();
         }
 
 
@@ -345,16 +346,19 @@ namespace EVS_ProductionStatus
             }
             else
             {
+                // Lấy giá trị mac và variant của thẻ eink
+                string mac = txt_MAC.Text.Trim().ToString();
+                string variant = txt_Variant.Text.Trim().ToString();
+
                 //Nếu sản phẩm đã được kết nối thì hiện ra thông báo
                 if (tt_connect == "Connect")
                 {
                     MessageBox.Show("Sản phẩm đã được kết nối!");
                     return;
                 }
-                string value_mac = txt_MAC.Text;
 
                 //Kiểm tra thông tin mac của thẻ có chính xác không
-                var link_mac = await GetDataAsync($"api/labelstatus/{value_mac}");
+                var link_mac = await GetDataAsync($"api/labelstatus/{mac}");
                 if (link_mac == null)
                 {
                     MessageBox.Show("Thông tin MAC của thẻ Eink không thỏa mãn!");
@@ -362,7 +366,7 @@ namespace EVS_ProductionStatus
                 }
 
                 //Kiểm tra thẻ Eink đã được sử  dụng hay chưa
-                var check_connect = await GetDataAsync($"api/link/by-mac/{value_mac}");
+                var check_connect = await GetDataAsync($"api/link/by-mac/{mac}");
                 if (check_connect == null)
                 {
                     //Ở đây có thể không cần tạo product nhưng tôi cứ viết cho chắc  trong trường hợp cần phải tạo product
@@ -373,6 +377,7 @@ namespace EVS_ProductionStatus
                         Location = _item.Location,
                         R_float1 = _item.R_float1,
                         R_float2 = _item.R_float2,
+                        R_float3 = _item.R_float3,
                     };
                     // Nếu sản phẩm đã tồn tại thì sẽ chỉ trả lại giá trị id của product đó, nếu chưa thì sẽ tạo product
                     var newIdStr = await PostDataAsync("api/product", newProduct);
@@ -384,8 +389,8 @@ namespace EVS_ProductionStatus
                     var newLink = new Link_Eink
                     {
                         ID = newIdStr.ToString(),
-                        Variant = txt_Variant.Text.ToString(),
-                        MAC = txt_MAC.Text.ToString(),
+                        Variant = variant,
+                        MAC = mac,
                     };
                     var ok = await PostDataLink<Link_Eink>("api/link", newLink);
                     if (ok)
@@ -395,10 +400,12 @@ namespace EVS_ProductionStatus
                         using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                         {
                             var product = db.EVS_Inventory
-                                .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
+                                .FirstOrDefault(p => p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
 
                             if (product != null)
                             {
+                                product.Eink_Mac = mac;
+                                product.Eink_Variant = variant;
                                 product.Connect_Status = "Connect";
                                 db.SaveChanges();
                             }
@@ -437,10 +444,12 @@ namespace EVS_ProductionStatus
                     using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                     {
                         var product = db.EVS_Inventory
-                            .FirstOrDefault(p => (p.Registered__Material ?? p.Material_Number) == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
+                            .FirstOrDefault(p => p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
 
                         if (product != null)
                         {
+                            product.Eink_Mac = null;
+                            product.Eink_Variant = null;
                             product.Connect_Status = "Disconnected";
                             db.SaveChanges();
                         }

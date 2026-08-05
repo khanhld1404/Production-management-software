@@ -253,6 +253,18 @@
     <Compile Include="EVS_Inventories\Detail_EVS_Inventory.Designer.cs">
       <DependentUpon>Detail_EVS_Inventory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Kitting_Process\Kitting_Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kitting_Process\Kitting_Screen.Designer.cs">
+      <DependentUpon>Kitting_Screen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Kitting_Process\Sew_Screen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kitting_Process\Sew_Screen.Designer.cs">
+      <DependentUpon>Sew_Screen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Add_Admin_Account.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,11 +277,11 @@
     <Compile Include="ToastForm.Designer.cs">
       <DependentUpon>ToastForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Check_Admin_Account.cs">
+    <Compile Include="Settings\Check_Account.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\Check_Admin_Account.Designer.cs">
-      <DependentUpon>Check_Admin_Account.cs</DependentUpon>
+    <Compile Include="Settings\Check_Account.Designer.cs">
+      <DependentUpon>Check_Account.cs</DependentUpon>
     </Compile>
     <Compile Include="Sub_Kitting_Function\DongGoiDongThoi.cs">
       <SubType>Form</SubType>
@@ -538,11 +550,11 @@
     <Compile Include="EVS_Inventories\Class\Other_function.cs" />
     <Compile Include="EVS_Inventories\Class\Placeholder.cs" />
     <Compile Include="EVS_Inventories\Class\Reload_Inventory_Infor.cs" />
-    <Compile Include="EVS_Inventories\Elink_NVL.cs">
+    <Compile Include="EVS_Inventories\Eink_NVL.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EVS_Inventories\Elink_NVL.Designer.cs">
-      <DependentUpon>Elink_NVL.cs</DependentUpon>
+    <Compile Include="EVS_Inventories\Eink_NVL.Designer.cs">
+      <DependentUpon>Eink_NVL.cs</DependentUpon>
     </Compile>
     <Compile Include="EVS_Inventories\Form_Kitting.cs">
       <SubType>UserControl</SubType>
@@ -615,14 +627,17 @@
     <EmbeddedResource Include="EVS_Inventories\Detail_EVS_Inventory.resx">
       <DependentUpon>Detail_EVS_Inventory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Kitting_Process\Kitting_Screen.resx">
+      <DependentUpon>Kitting_Screen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\Add_Admin_Account.resx">
       <DependentUpon>Add_Admin_Account.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ToastForm.resx">
       <DependentUpon>ToastForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\Check_Admin_Account.resx">
-      <DependentUpon>Check_Admin_Account.cs</DependentUpon>
+    <EmbeddedResource Include="Settings\Check_Account.resx">
+      <DependentUpon>Check_Account.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sub_Kitting_Function\DongGoiDongThoi.resx">
       <DependentUpon>DongGoiDongThoi.cs</DependentUpon>
@@ -722,8 +737,8 @@
     <EmbeddedResource Include="Settings\View_MasterBanVe.resx">
       <DependentUpon>View_MasterBanVe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EVS_Inventories\Elink_NVL.resx">
-      <DependentUpon>Elink_NVL.cs</DependentUpon>
+    <EmbeddedResource Include="EVS_Inventories\Eink_NVL.resx">
+      <DependentUpon>Eink_NVL.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EVS_Inventories\Form_Kitting.resx">
       <DependentUpon>Form_Kitting.cs</DependentUpon>

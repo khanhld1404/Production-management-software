@@ -111,7 +111,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
                     LotNo = item.Lot,
                     Location = item.Location,
                     R_float1 = item.Total,
-                    R_float2 = item.Alowcate
+                    R_float2 = item.Alowcate,
+                    R_float3 = item.KD
                 })
                 .ToList();
             await PostDataAsync("api/product/Stock/", ListProduct);
@@ -174,7 +175,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
         {
               // Thiết lập location 
             location_box.Items.Add("All Location");
-            // Thêm lựa chọn vào combobox
+            // Thêm lựa chọn vào combobox location
             foreach (string item in Trong_SX)
             {
                 location_box.Items.Add(item);
@@ -183,6 +184,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
             // Thiết lập comment cho ô tìm kiếm
             Placeholder.SetupPlaceholder(txt_Search_Material, "Item");
             Placeholder.SetupPlaceholder(txt_Batch_Number, "Lot");
+            Placeholder.SetupPlaceholder(txt_search_mac_eink, "Mac Eink");
 
             // Thêm một cột action vào 
             var btnCol = new DataGridViewButtonColumn();
@@ -194,7 +196,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
             Data_Load();
         }
 
-        private void Search(List<Model.EVS.EVS_Inventory_Alowcate> data, string tt_Material_Code,string tt_Batch_Number)
+        // Lọc dựa trên mã lot, mã item 
+        private void Search_1(List<Model.EVS.EVS_Inventory_Alowcate> data, string tt_Material_Code,string tt_Batch_Number)
         {
             if (tt_Material_Code != "" && tt_Batch_Number != "")
             {
@@ -207,6 +210,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 else
                 {
                     MessageBox.Show("Thông tin tìm kiếm không chính xác");
+                    return;
                 }
 
             }
@@ -221,6 +225,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 else
                 {
                     MessageBox.Show("Thông tin tìm kiếm không chính xác");
+                    return;
                 }
             }
             else if (tt_Material_Code == "" && tt_Batch_Number != "")
@@ -234,6 +239,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 else
                 {
                     MessageBox.Show("Thông tin tìm kiếm không chính xác");
+                    return ;
                 }
             }
             else
@@ -255,55 +261,61 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 }
             }
         }
-        private void Btn_Search_Click(object sender, EventArgs e)
+
+        // Lọc dựa trên mã mac của thẻ Eink và location
+        private void Search_2()
         {
             //Lấy thông tin trong ô tìm kiếm
             string tt_Material_Code = Placeholder.GetRealText(txt_Search_Material);
             string tt_Batch_Number = Placeholder.GetRealText(txt_Batch_Number);
+            string mac = Placeholder.GetRealText(txt_search_mac_eink);
             string location = location_box.Text.Trim();
             try
             {
-                if (location == "" || location == "All Location")
+                List<EVS_Inventory_Alowcate> Data_Search_Location = new List<EVS_Inventory_Alowcate> { };
+
+                if (mac == "")
                 {
-                    Search(data_load, tt_Material_Code,tt_Batch_Number);
+                    if (location == "" || location == "All Location")
+                    {
+                        Data_Search_Location = data_load;
+                    }
+                    else
+                    {
+                        Data_Search_Location = data_load
+                                            .Where(x => x.Location == location)
+                                            .ToList();
+                    }
                 }
                 else
                 {
-                    List<EVS_Inventory_Alowcate> Data_Search_Location = data_load
-                                                                        .Where(x => x.Location == location)
-                                                                        .ToList();
-                    Search(Data_Search_Location, tt_Material_Code, tt_Batch_Number);
+                    if (location == "" || location == "All Location")
+                    {
+                        Data_Search_Location = data_load.Where(x => x.Eink_Mac == mac).ToList();
+                    }
+                    else
+                    {
+                        Data_Search_Location = data_load
+                                            .Where(x => x.Location == location && x.Eink_Mac == mac)
+                                            .ToList();
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message); 
+                Search_1(Data_Search_Location, tt_Material_Code, tt_Batch_Number);
             }
 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void Btn_Search_Click(object sender, EventArgs e)
+        {
+            Search_2();
         }
 
         private void Btn_Excel_Click(object sender, EventArgs e)
         {
             Excel_Only_Sheet.ExportToExcel(EVS_Alowcate_Data);
-        }
-
-        private void EVS_Alowcate_Data_SelectionChanged(object sender, EventArgs e)
-        {
-
-            double ton = 0;
-            foreach (DataGridViewCell cell in EVS_Alowcate_Data.SelectedCells)
-            {
-                if (cell.Value == null) continue;
-
-                if (!double.TryParse(cell.Value.ToString(), out double value))
-                    continue;
-                if(cell.ColumnIndex >=3 && cell.ColumnIndex <= 8)
-                {
-                    ton += value;
-                }
-            }
-            lab_Ton.Text = $"Tổng Tồn: {ton:N1}";
-
         }
 
         private void EVS_Alowcate_Data_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -334,6 +346,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                     Location = location_value,
                     R_float1 = GetDouble("Ton"),
                     R_float2 = GetDouble("Alowcate"),
+                    R_float3 = GetDouble("KD")
                 };
                 // Lấy thông tin kiểm tra xem sản phẩm đã được connect đến thẻ eink chưa
                 string tt_connect = data_load
@@ -342,7 +355,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
 
                 //MessageBox.Show(Item_code + " " + Lot_No + " " + Qty + " " + Qty_Allowcate);
 
-                Elink_NVL f_Elink = new Elink_NVL(dto, tt_connect);
+                Eink_NVL f_Elink = new Eink_NVL(dto, tt_connect);
                 if (f_Elink.ShowDialog() == DialogResult.OK)
                 {
                     EVS_BackGround.RunWorkerAsync();
@@ -365,38 +378,49 @@ namespace EVS_ProductionStatus.EVS_Inventories
                            .GroupBy(x => new
                            {
                                Location = x.Storage_Location,
-                               MATERIAL_NUMBER = x.Registered__Material ?? x.Material_Number,
+                               MATERIAL_NUMBER = x.Material_Number,
                                BATCH_NUMBER = x.Vendor_Batch_Number ?? x.Batch_Number,
-                               Connect = x.Connect_Status
+                               Connect = x.Connect_Status,
+                               Mac = x.Eink_Mac
                            })
-                           .Select(g => new EVS_Inventory_Alowcate
+                           .Select(g => 
                            {
-                               Location = g.Key.Location,
-                               Item = g.Key.MATERIAL_NUMBER,
-                               Lot = g.Key.BATCH_NUMBER,
-                               UU = Math.Round(
+                               var uu = Math.Round(
                                 g.Sum(x => x.Stock_Type == "Unrestricted"
-                                    ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                    : 0), 2),
+                                 ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
+                                 : 0), 2);
+                               var alowcate = Get_Alowcate(MB25_Data, g.Key.MATERIAL_NUMBER, g.Key.BATCH_NUMBER, g.Key.Location);
+                               return new EVS_Inventory_Alowcate
+                               {
+                                   Location = g.Key.Location,
 
-                               Restricted = Math.Round(
-                                g.Sum(x => x.Stock_Type == "Restricted-Use"
-                                    ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                    : 0), 2),
+                                   Item = g.Key.MATERIAL_NUMBER,
 
-                               Blocked = Math.Round(
-                                g.Sum(x => x.Stock_Type == "Blocked"
-                                    ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                    : 0), 2),
-                               Total = Math.Round(
-                                g.Sum(x => double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                    , 2),
-                               Alowcate = Get_Alowcate(MB25_Data, g.Key.MATERIAL_NUMBER, g.Key.BATCH_NUMBER,g.Key.Location),
-                               KD = Math.Round(
-                                g.Sum(x => x.Stock_Type == "Unrestricted"
-                                    ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
-                                    : 0), 2) - Get_Alowcate(MB25_Data, g.Key.MATERIAL_NUMBER, g.Key.BATCH_NUMBER,g.Key.Location),
-                               Connect = g.Key.Connect
+                                   Lot = g.Key.BATCH_NUMBER,
+
+                                   UU = uu,
+
+                                   Restricted = Math.Round(
+                                        g.Sum(x => x.Stock_Type == "Restricted-Use"
+                                            ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
+                                            : 0), 2),
+
+                                   Blocked = Math.Round(
+                                        g.Sum(x => x.Stock_Type == "Blocked"
+                                            ? (double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
+                                            : 0), 2),
+
+                                   Total = Math.Round(
+                                        g.Sum(x => double.TryParse(x.Inventory_Qty, out double v) ? v : 0)
+                                            , 2),
+
+                                   Alowcate = alowcate,
+
+                                   KD = Math.Round(uu - alowcate,2),
+
+                                   Connect = g.Key.Connect,
+                                   Eink_Mac = g.Key.Mac
+                               };
                            })
                            .OrderBy(x => x.Connect)
                            .ToList();
@@ -425,6 +449,24 @@ namespace EVS_ProductionStatus.EVS_Inventories
             loading_data.Close();
         }
 
+        private void EVS_Alowcate_Data_SelectionChanged(object sender, EventArgs e)
+        {
+
+            double ton = 0;
+            foreach (DataGridViewCell cell in EVS_Alowcate_Data.SelectedCells)
+            {
+                if (cell.Value == null) continue;
+
+                if (!double.TryParse(cell.Value.ToString(), out double value))
+                    continue;
+                if (cell.ColumnIndex >= 3 && cell.ColumnIndex <= 8)
+                {
+                    ton += value;
+                }
+            }
+            lab_Ton.Text = $"Tổng Tồn: {ton:N1}";
+
+        }
         private void EVS_Alowcate_Data_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if(e.ColumnIndex >= 3 && e.ColumnIndex <= 8)
@@ -464,6 +506,32 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 loading_quantity.Close();
             }
 
+        }
+
+        private void btn_Refresh_Click(object sender, EventArgs e)
+        {
+            EVS_Alowcate_Data.Rows.Clear();
+            foreach (var tt in data_load)
+            {
+                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item, tt.Lot, tt.Total, tt.UU, tt.Restricted, tt.Blocked, tt.Alowcate, tt.KD);
+                if (tt.Connect == "Connect")
+                {
+                    EVS_Alowcate_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;
+                    EVS_Alowcate_Data.Rows[row_index].Cells["Action"].Value = "Đã Kết Nối";
+                }
+                else
+                {
+                    EVS_Alowcate_Data.Rows[row_index].Cells["Action"].Value = "Kết Nối Eink";
+                }
+            }
+        }
+
+        private void txt_search_mac_eink_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                Search_2(); 
+            }
         }
     }
 }

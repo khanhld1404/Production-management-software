@@ -1,6 +1,6 @@
 ﻿namespace EVS_ProductionStatus.Settings
 {
-    partial class Check_Admin_Account
+    partial class Check_Account
     {
         /// <summary>
         /// Required designer variable.

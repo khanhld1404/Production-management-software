@@ -21,6 +21,8 @@
           <Property Name="Available_Qty" Type="nvarchar" MaxLength="100" />
           <Property Name="MRP_Controller" Type="nvarchar" MaxLength="100" />
           <Property Name="Connect_Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Eink_Mac" Type="nvarchar" MaxLength="50" />
+          <Property Name="Eink_Variant" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="EVS_Manage">
           <Key>
@@ -222,6 +224,8 @@
           <Property Name="Available_Qty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MRP_Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Connect_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Eink_Mac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Eink_Variant" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="MB_25_Result">
           <Property Type="String" Name="Movement_type" Nullable="true" />
@@ -376,6 +380,8 @@
           <EntitySetMapping Name="EVS_Inventory">
             <EntityTypeMapping TypeName="Manage_evsModel.EVS_Inventory">
               <MappingFragment StoreEntitySet="EVS_Inventory">
+                <ScalarProperty Name="Eink_Variant" ColumnName="Eink_Variant" />
+                <ScalarProperty Name="Eink_Mac" ColumnName="Eink_Mac" />
                 <ScalarProperty Name="Connect_Status" ColumnName="Connect_Status" />
                 <ScalarProperty Name="MRP_Controller" ColumnName="MRP_Controller" />
                 <ScalarProperty Name="Available_Qty" ColumnName="Available_Qty" />

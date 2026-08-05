@@ -58,6 +58,7 @@
             this.btnTrangthaiSXOther = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btn_Function = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -376,11 +377,30 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
+            // btn_Function
+            // 
+            this.btn_Function.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Function.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btn_Function.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Function.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Function.ForeColor = System.Drawing.Color.Navy;
+            this.btn_Function.Image = global::EVS_ProductionStatus.Properties.Resources.icons8_category_68;
+            this.btn_Function.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Function.Location = new System.Drawing.Point(525, 435);
+            this.btn_Function.Name = "btn_Function";
+            this.btn_Function.Size = new System.Drawing.Size(162, 132);
+            this.btn_Function.TabIndex = 15;
+            this.btn_Function.Text = "Gợi ý Kitting";
+            this.btn_Function.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Function.UseVisualStyleBackColor = true;
+            this.btn_Function.Click += new System.EventHandler(this.btn_Function_Click);
+            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 623);
+            this.Controls.Add(this.btn_Function);
             this.Controls.Add(this.btn_Kitting);
             this.Controls.Add(this.btn_Ring);
             this.Controls.Add(this.btn_Box);
@@ -437,5 +457,6 @@
         private System.Windows.Forms.Button btn_Kitting;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.Button btn_Function;
     }
 }

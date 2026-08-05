@@ -15,6 +15,6 @@ namespace EVS_ProductionStatus.EVS_Inventories.Model
         public string Location { get; set; }
         public double? R_float1 { get; set; }      
         public double? R_float2 { get; set; }
-
+        public double? R_float3 { get; set; }
     }
 }

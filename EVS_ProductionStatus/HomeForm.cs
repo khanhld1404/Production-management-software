@@ -141,5 +141,10 @@ namespace EVS_ProductionStatus
             EVS_Kitting_Menu f = new EVS_Kitting_Menu();
             f.Show();
         }
+
+        private void btn_Function_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

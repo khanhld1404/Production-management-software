@@ -18,5 +18,6 @@ namespace EVS_ProductionStatus.EVS_Inventories.Model.EVS
         public double Alowcate { get; set; }
         public double KD { get; set; }
         public string Connect {  get; set; }
+        public string Eink_Mac { get; set; }
     }
 }

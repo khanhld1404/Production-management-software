@@ -95,7 +95,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                     })
                     .ToList();
 
-                Total_EVS_Data.DataSource = DataDetail;
+                Detail_EVS_Data.DataSource = DataDetail;
             }
         }
 
@@ -149,7 +149,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
 
         private void Btn_Excel_Click(object sender, EventArgs e)
         {
-            Excel_Only_Sheet.ExportToExcel(Total_EVS_Data);
+            Excel_Only_Sheet.ExportToExcel(Detail_EVS_Data);
         }
 
         //Tìm kiếm
@@ -166,8 +166,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 else
                 {
                     MessageBox.Show("Thông tin tìm kiếm đang không chính xác");
+                    return;
                 }
-
             }
             else if (Item != "" && lot == "")
             {
@@ -180,6 +180,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 else
                 {
                     MessageBox.Show("Thông tin tìm kiếm đang không chính xác");
+                    return;
                 }
 
             }
@@ -194,6 +195,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
                 else
                 {
                     MessageBox.Show("Thông tin tìm kiếm đang không chính xác");
+                    return;
                 }
 
             }
@@ -201,10 +203,11 @@ namespace EVS_ProductionStatus.EVS_Inventories
             {
                 DataSearch = data;
             }
-            Total_EVS_Data.DataSource = DataSearch;
+            Detail_EVS_Data.DataSource = DataSearch;
         }
 
-        private void Btn_Search_Click(object sender, EventArgs e)
+        // Tìm kiếm theo location
+        private void Search_Inventory()
         {
             //Lấy thông tin trong ô tìm kiếm
             string tt_Material_Code = Placeholder.GetRealText(txt_Search_Material);
@@ -214,7 +217,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
             {
                 if (location == "" || location == "All Location")
                 {
-                    Search(DataDetail,tt_Material_Code,tt_Batch_Number);
+                    Search(DataDetail, tt_Material_Code, tt_Batch_Number);
                 }
                 else
                 {
@@ -225,6 +228,74 @@ namespace EVS_ProductionStatus.EVS_Inventories
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+        private void Btn_Search_Click(object sender, EventArgs e)
+        {
+            Search_Inventory();
+        }
+
+        private void btn_Refresh_Click(object sender, EventArgs e)
+        {
+            Detail_EVS_Data.DataSource = DataDetail;
+        }
+
+        private void Total_EVS_Data_SelectionChanged(object sender, EventArgs e)
+        {
+            double ton = 0;
+            foreach (DataGridViewCell cell in Detail_EVS_Data.SelectedCells)
+            {
+                if (cell.Value == null) continue;
+
+                if (!double.TryParse(cell.Value.ToString(), out double value))
+                    continue;
+                if (cell.ColumnIndex >= 3 && cell.ColumnIndex <= 7)
+                {
+                    ton += value;
+                }
+            }
+            lab_Ton.Text = $"Tổng Tồn: {ton:N1}";
+        }
+
+        // Thực hiện tạo một hàm loading để tính toán số lượng có trong bảng
+        private Form loading_quantity;
+        private void Total_EVS_Data_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex >= 3 && e.ColumnIndex <= 7)
+            {
+                // Mở form load thông tin
+                // Tạo một loading
+                loading_quantity = new Form
+                {
+                    Text = "Xử lý thông tin...",
+                    StartPosition = FormStartPosition.CenterScreen,
+                    ControlBox = false,
+                    FormBorderStyle = FormBorderStyle.FixedDialog,
+                    ClientSize = new Size(320, 100),
+                    TopMost = true
+                };
+                var lbl = new Label
+                {
+                    Text = $"Đang thực hiện tính toán \nVui lòng chờ…",
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+
+                    Font = new Font("Arial", 10, FontStyle.Regular)
+                };
+                loading_quantity.Controls.Add(lbl);
+                loading_quantity.Show();
+                loading_quantity.Refresh();
+
+                Detail_EVS_Data.ClearSelection();
+
+                foreach (DataGridViewRow row in Detail_EVS_Data.Rows)
+                {
+                    row.Cells[e.ColumnIndex].Selected = true;
+                }
+
+
+                // Đóng lại màn hình load dữ liệu
+                loading_quantity.Close();
             }
         }
     }

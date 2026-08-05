@@ -100,7 +100,7 @@ namespace EVS_ProductionStatus
                 if (e.ColumnIndex == grThongtin.Columns["action"].Index)
                 {
                     string _uid = grThongtin.Rows[e.RowIndex].Cells["userid"].Value.ToString();
-                    Check_Admin_Account f = new Check_Admin_Account();
+                    Check_Account f = new Check_Account(true);
                     if(f.ShowDialog() == DialogResult.OK)
                     {
                         using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
@@ -159,7 +159,7 @@ namespace EVS_ProductionStatus
         private void btn_add_admin_Click(object sender, EventArgs e)
         {
             // Kiểm tra xem có phải là tài khoản admin hay không
-            Check_Admin_Account f = new Check_Admin_Account();
+            Check_Account f = new Check_Account(true);
             if(f.ShowDialog() == DialogResult.OK)
             {
                 Add_Admin_Account add_admin_form = new Add_Admin_Account();
