@@ -48,6 +48,7 @@
             this.btn_Refresh = new System.Windows.Forms.Button();
             this.Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemNCC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lot = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ton = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UU = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -127,7 +128,7 @@
             this.EVS_Alowcate_Data.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.ForestGreen;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 7, 0, 7);
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -138,6 +139,7 @@
             this.EVS_Alowcate_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Location,
             this.Item,
+            this.ItemNCC,
             this.Lot,
             this.Ton,
             this.UU,
@@ -149,7 +151,7 @@
             this.Real_Total});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 12F);
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -162,6 +164,7 @@
             this.EVS_Alowcate_Data.RowHeadersVisible = false;
             this.EVS_Alowcate_Data.RowTemplate.Height = 40;
             this.EVS_Alowcate_Data.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.EVS_Alowcate_Data.ShowEditingIcon = false;
             this.EVS_Alowcate_Data.Size = new System.Drawing.Size(1189, 559);
             this.EVS_Alowcate_Data.TabIndex = 18;
             this.EVS_Alowcate_Data.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.EVS_Alowcate_Data_CellClick);
@@ -293,6 +296,14 @@
             this.Item.Name = "Item";
             this.Item.ReadOnly = true;
             // 
+            // ItemNCC
+            // 
+            this.ItemNCC.DataPropertyName = "ItemNCC";
+            this.ItemNCC.FillWeight = 125F;
+            this.ItemNCC.HeaderText = "Item NCC";
+            this.ItemNCC.Name = "ItemNCC";
+            this.ItemNCC.ReadOnly = true;
+            // 
             // Lot
             // 
             this.Lot.DataPropertyName = "Lot";
@@ -308,6 +319,7 @@
             this.Ton.HeaderText = "Tổng Tồn";
             this.Ton.Name = "Ton";
             this.Ton.ReadOnly = true;
+            this.Ton.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // UU
             // 
@@ -315,6 +327,7 @@
             this.UU.HeaderText = "Unrestricted";
             this.UU.Name = "UU";
             this.UU.ReadOnly = true;
+            this.UU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Restricted
             // 
@@ -323,6 +336,7 @@
             this.Restricted.HeaderText = "Restricted";
             this.Restricted.Name = "Restricted";
             this.Restricted.ReadOnly = true;
+            this.Restricted.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Blocked
             // 
@@ -331,6 +345,7 @@
             this.Blocked.HeaderText = "Block";
             this.Blocked.Name = "Blocked";
             this.Blocked.ReadOnly = true;
+            this.Blocked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Alowcate
             // 
@@ -339,6 +354,7 @@
             this.Alowcate.HeaderText = "Tồn Allowcate";
             this.Alowcate.Name = "Alowcate";
             this.Alowcate.ReadOnly = true;
+            this.Alowcate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // KD
             // 
@@ -347,6 +363,7 @@
             this.KD.HeaderText = "Tồn Khả Dụng";
             this.KD.Name = "KD";
             this.KD.ReadOnly = true;
+            this.KD.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Total_Kitting
             // 
@@ -354,6 +371,7 @@
             this.Total_Kitting.HeaderText = "Tồn Kitting";
             this.Total_Kitting.Name = "Total_Kitting";
             this.Total_Kitting.ReadOnly = true;
+            this.Total_Kitting.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Real_Total
             // 
@@ -361,6 +379,7 @@
             this.Real_Total.HeaderText = "Tồn Thực Tế";
             this.Real_Total.Name = "Real_Total";
             this.Real_Total.ReadOnly = true;
+            this.Real_Total.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // EVS_Alowcate
             // 
@@ -413,6 +432,7 @@
         private System.Windows.Forms.Button btn_Refresh;
         private System.Windows.Forms.DataGridViewTextBoxColumn Location;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ItemNCC;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lot;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ton;
         private System.Windows.Forms.DataGridViewTextBoxColumn UU;

@@ -34,7 +34,7 @@ namespace EVS_ProductionStatus.Settings
             {
                 using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
-                    var user = db.tblUser_EVS
+                    var user = db.tblUsers
                                .Where(x => x.userid == tt)
                                .FirstOrDefault();
                     if (user != null)

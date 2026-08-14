@@ -58,7 +58,7 @@ namespace EVS_ProductionStatus
                     }
 
                     var qr = (from s in db.tblViTriNguoiTTs
-                              join u in db.tblUser_EVS on s.UserID equals u.userid into tmpU
+                              join u in db.tblUsers on s.UserID equals u.userid into tmpU
                               from u1 in tmpU.DefaultIfEmpty()
                               join khau in db.tblKhauIns on s.UserID equals khau.UserIn into tmpK
                               from khau1 in tmpK.DefaultIfEmpty()
@@ -93,7 +93,7 @@ namespace EVS_ProductionStatus
                     {
                         //Neu da hoan thanh hoac chua co du lieu
                         var qr_HT = (from s in db.tblViTriNguoiTTs
-                                  join u in db.tblUser_EVS on s.UserID equals u.userid into tmpU
+                                  join u in db.tblUsers on s.UserID equals u.userid into tmpU
                                   from u1 in tmpU.DefaultIfEmpty()
                                   join khau in db.tblKhauIns on s.UserID equals khau.UserIn into tmpK
                                   from khau1 in tmpK.DefaultIfEmpty()
@@ -127,7 +127,7 @@ namespace EVS_ProductionStatus
                 else
                 {
                     var qr = (from s in db.tblViTriNguoiTTs
-                              join u in db.tblUser_EVS on s.UserID equals u.userid into tmpU
+                              join u in db.tblUsers on s.UserID equals u.userid into tmpU
                               from u1 in tmpU.DefaultIfEmpty()
                               join khau in db.tblKhauIns on s.UserID equals khau.UserIn into tmpK
                               from khau1 in tmpK.DefaultIfEmpty()
@@ -161,7 +161,7 @@ namespace EVS_ProductionStatus
                     else
                     {
                         var qr_HT = (from s in db.tblViTriNguoiTTs
-                                  join u in db.tblUser_EVS on s.UserID equals u.userid into tmpU
+                                  join u in db.tblUsers on s.UserID equals u.userid into tmpU
                                   from u1 in tmpU.DefaultIfEmpty()
                                   join khau in db.tblKhauIns on s.UserID equals khau.UserIn into tmpK
                                   from khau1 in tmpK.DefaultIfEmpty()

@@ -26,7 +26,7 @@
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.v_06_LoaiSP" Width="1.5" PointX="3.375" PointY="12.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.Packing_List" Width="1.5" PointX="4.75" PointY="5.75" />
         <EntityTypeShape EntityType="EVS_ProductionStatusModel.Packing_Time" Width="1.5" PointX="4.75" PointY="10.375" />
-        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblUser_EVS" Width="1.5" PointX="2.75" PointY="9.875" />
+        <EntityTypeShape EntityType="EVS_ProductionStatusModel.tblUser" Width="1.5" PointX="2.75" PointY="10" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

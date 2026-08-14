@@ -399,14 +399,17 @@ namespace EVS_ProductionStatus
 
                         using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                         {
-                            var product = db.EVS_Inventory
-                                .FirstOrDefault(p => p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
+                            var allproduct = db.EVS_Inventory
+                                .Where(p => p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location).ToList();
 
-                            if (product != null)
+                            if (allproduct != null)
                             {
-                                product.Eink_Mac = mac;
-                                product.Eink_Variant = variant;
-                                product.Connect_Status = "Connect";
+                                foreach (var product in allproduct)
+                                {
+                                    product.Eink_Mac = mac;
+                                    product.Eink_Variant = variant;
+                                    product.Connect_Status = "Connect";
+                                }
                                 db.SaveChanges();
                             }
                         }
@@ -443,14 +446,17 @@ namespace EVS_ProductionStatus
                     ToastForm.Show("Thông Báo!", "Hủy kết nối thành công!", 1000, MessageBoxIcon.Information);
                     using (var db = new Manage_evsEntities(clConnection.connectEntity2))
                     {
-                        var product = db.EVS_Inventory
-                            .FirstOrDefault(p => p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location);
+                        var allproduct = db.EVS_Inventory
+                            .Where(p => p.Material_Number == _item.ItemCode && (p.Vendor_Batch_Number ?? p.Batch_Number) == _item.LotNo && p.Storage_Location == _item.Location).ToList();
 
-                        if (product != null)
+                        if (allproduct != null)
                         {
-                            product.Eink_Mac = null;
-                            product.Eink_Variant = null;
-                            product.Connect_Status = "Disconnected";
+                            foreach (var product in allproduct)
+                            {
+                                product.Eink_Mac = null;
+                                product.Eink_Variant = null;
+                                product.Connect_Status = "Disconnected";
+                            }
                             db.SaveChanges();
                         }
                     }

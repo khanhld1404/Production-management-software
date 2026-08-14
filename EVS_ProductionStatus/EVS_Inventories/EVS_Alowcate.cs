@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -104,6 +105,36 @@ namespace EVS_ProductionStatus.EVS_Inventories
         //Dữ liệu được truyền lên
         private async Task Set_Eink(List<Model.EVS.EVS_Inventory_Alowcate> data)
         {
+            // Kiểm tra xem có con nào có nhiều trạng thái. Nếu có một trạng thái là connect thì cho tất cả giá trị là connect
+
+            using (Manage_evsEntities db = new Manage_evsEntities(clConnection.connectEntity2))
+            {
+                var groups = db.EVS_Inventory
+                    .GroupBy(x => new
+                    {
+                        x.Material_Number,
+                        Batch = x.Batch_Number,
+                        x.Storage_Location
+                    })
+                    .ToList();
+
+                foreach (var group in groups)
+                {
+                    // Có ít nhất 1 record là Connect
+                    bool hasConnect = group.Any(x => x.Connect_Status == "Connect");
+
+                    if (hasConnect)
+                    {
+                        foreach (var item in group)
+                        {
+                            item.Connect_Status = "Connect";
+                        }
+                    }
+                }
+                db.SaveChanges();
+            }
+
+
             var ListProduct = data
                 .Select(item => new Product_Eink
                 {
@@ -249,7 +280,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
             EVS_Alowcate_Data.Rows.Clear();
             foreach (var tt in data_search)
             {
-                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item, tt.Lot, tt.Total, tt.UU, tt.Restricted, tt.Blocked, tt.Alowcate, tt.KD);
+                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item,tt.ItemNCC, tt.Lot, tt.Total, tt.UU, tt.Restricted, tt.Blocked, tt.Alowcate, tt.KD);
                 if (tt.Connect == "Connect")
                 {
                     EVS_Alowcate_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;
@@ -322,43 +353,53 @@ namespace EVS_ProductionStatus.EVS_Inventories
         {
             if(e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            var col = EVS_Alowcate_Data.Columns[e.ColumnIndex];
-            if (col == null) return;
-
-            // Xử lý sự kiện làm thẻ Eink
-            if (col.Name == "Action")
+            // Lấy giá  trị status dựa vào các giá trị trên
+            using (Manage_evsEntities db = new Manage_evsEntities(clConnection.connectEntity2))
             {
-                var row_tt = EVS_Alowcate_Data.Rows[e.RowIndex];
 
-                double GetDouble(string colName)
-                {
-                    var val = row_tt.Cells[colName].Value?.ToString();
-                    return double.TryParse(val, out var v) ? v : 0d;
-                }
-                // Tính toán giá trị để nhập vào
-                string item_value = row_tt.Cells["Item"].Value?.ToString();
-                string lot_value = row_tt.Cells["Lot"].Value?.ToString();
-                string location_value = row_tt.Cells["Location"].Value?.ToString();
-                var dto = new Product_Eink
-                {
-                    ItemCode = item_value,
-                    LotNo = lot_value,
-                    Location = location_value,
-                    R_float1 = GetDouble("Ton"),
-                    R_float2 = GetDouble("Alowcate"),
-                    R_float3 = GetDouble("KD")
-                };
-                // Lấy thông tin kiểm tra xem sản phẩm đã được connect đến thẻ eink chưa
-                string tt_connect = data_load
-                                 .Where(x => x.Item == item_value && x.Lot == lot_value && x.Location == location_value)
-                                 .Select(x => x.Connect).FirstOrDefault();
 
-                //MessageBox.Show(Item_code + " " + Lot_No + " " + Qty + " " + Qty_Allowcate);
+                var col = EVS_Alowcate_Data.Columns[e.ColumnIndex];
+                if (col == null) return;
 
-                Eink_NVL f_Elink = new Eink_NVL(dto, tt_connect);
-                if (f_Elink.ShowDialog() == DialogResult.OK)
+                // Xử lý sự kiện làm thẻ Eink
+                if (col.Name == "Action")
                 {
-                    EVS_BackGround.RunWorkerAsync();
+                    var row_tt = EVS_Alowcate_Data.Rows[e.RowIndex];
+
+                    double GetDouble(string colName)
+                    {
+                        var val = row_tt.Cells[colName].Value?.ToString();
+                        return double.TryParse(val, out var v) ? v : 0d;
+                    }
+                    // Tính toán giá trị để nhập vào
+                    string item_value = row_tt.Cells["Item"].Value?.ToString();
+                    string lot_value = row_tt.Cells["Lot"].Value?.ToString();
+                    string location_value = row_tt.Cells["Location"].Value?.ToString();
+                    string stocktype = db.EVS_Inventory
+                                       .Where(x => x.Material_Number == item_value && x.Batch_Number == lot_value && x.Storage_Location == location_value)
+                                       .Select(x => x.Stock_Type)
+                                       .FirstOrDefault();
+                    var dto = new Product_Eink
+                    {
+                        ItemCode = item_value,
+                        LotNo = lot_value,
+                        Location = location_value,
+                        R_float1 = GetDouble("Ton"),
+                        R_float2 = GetDouble("Alowcate"),
+                        R_float3 = GetDouble("KD")
+                    };
+                    // Lấy thông tin kiểm tra xem sản phẩm đã được connect đến thẻ eink chưa
+                    string tt_connect = data_load
+                                     .Where(x => x.Item == item_value && x.Lot == lot_value && x.Location == location_value)
+                                     .Select(x => x.Connect).FirstOrDefault();
+
+                    //MessageBox.Show(Item_code + " " + Lot_No + " " + Qty + " " + Qty_Allowcate);
+
+                    Eink_NVL f_Elink = new Eink_NVL(dto, tt_connect);
+                    if (f_Elink.ShowDialog() == DialogResult.OK)
+                    {
+                        EVS_BackGround.RunWorkerAsync();
+                    }
                 }
             }
         }
@@ -367,6 +408,12 @@ namespace EVS_ProductionStatus.EVS_Inventories
         {
             using (Manage_evsEntities mb = new Manage_evsEntities(clConnection.connectEntity2))
             {
+                // Nhiều con sau khi kết nối có sinh ra thêm những con khác cùng lot,item (do sản phảm có thể bị chặn hoặc chuyển vào kho)
+                // Ta cần đối với những con có connect kiểm ra xem có con nào chưa kết nối mà trùng location,item, lot  ko
+                // Thì cho nó kết nối
+
+
+
                 // data dùng để tính allowcate
                 var MB25_Data = mb.MB25.ToList();
                 // Chỉ tính alowcate của RM và WIP
@@ -379,9 +426,11 @@ namespace EVS_ProductionStatus.EVS_Inventories
                            {
                                Location = x.Storage_Location,
                                MATERIAL_NUMBER = x.Material_Number,
-                               BATCH_NUMBER = x.Vendor_Batch_Number ?? x.Batch_Number,
+                               RegistedMaterial = x.Registered__Material,
+                               BATCH_NUMBER = x.Batch_Number,
                                Connect = x.Connect_Status,
                                Mac = x.Eink_Mac
+                               //Status = x.Stock_Type
                            })
                            .Select(g => 
                            {
@@ -395,6 +444,8 @@ namespace EVS_ProductionStatus.EVS_Inventories
                                    Location = g.Key.Location,
 
                                    Item = g.Key.MATERIAL_NUMBER,
+
+                                   ItemNCC = g.Key.RegistedMaterial,
 
                                    Lot = g.Key.BATCH_NUMBER,
 
@@ -420,6 +471,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
 
                                    Connect = g.Key.Connect,
                                    Eink_Mac = g.Key.Mac
+                                   //StockType = g.Key.Status
                                };
                            })
                            .OrderBy(x => x.Connect)
@@ -434,7 +486,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
             EVS_Alowcate_Data.Rows.Clear();
             foreach (var tt in data_load)
             {
-                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item, tt.Lot, tt.Total, tt.UU,tt.Restricted,tt.Blocked, tt.Alowcate, tt.KD);
+                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item,tt.ItemNCC, tt.Lot, tt.Total, tt.UU,tt.Restricted,tt.Blocked, tt.Alowcate, tt.KD);
                 if (tt.Connect == "Connect")
                 {
                     EVS_Alowcate_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;
@@ -513,7 +565,7 @@ namespace EVS_ProductionStatus.EVS_Inventories
             EVS_Alowcate_Data.Rows.Clear();
             foreach (var tt in data_load)
             {
-                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item, tt.Lot, tt.Total, tt.UU, tt.Restricted, tt.Blocked, tt.Alowcate, tt.KD);
+                int row_index = EVS_Alowcate_Data.Rows.Add(tt.Location, tt.Item,tt.ItemNCC, tt.Lot, tt.Total, tt.UU, tt.Restricted, tt.Blocked, tt.Alowcate, tt.KD);
                 if (tt.Connect == "Connect")
                 {
                     EVS_Alowcate_Data.Rows[row_index].DefaultCellStyle.BackColor = Color.LightGreen;

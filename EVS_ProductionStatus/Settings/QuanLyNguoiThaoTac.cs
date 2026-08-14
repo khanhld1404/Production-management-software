@@ -33,7 +33,7 @@ namespace EVS_ProductionStatus
             {
                 using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                 {
-                    var qr = (from s in db.tblUser_EVS
+                    var qr = (from s in db.tblUsers
                               orderby s.userid
                               select s).ToList();
                     grThongtin.Rows.Clear();
@@ -64,7 +64,7 @@ namespace EVS_ProductionStatus
         {
             using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
             {
-                var qr = (from s in db.tblUser_EVS
+                var qr = (from s in db.tblUsers
                           where s.userid.Contains(_timkiem) || s.name.Contains(_timkiem)
                           orderby s.userid
                           select s).ToList();
@@ -105,7 +105,7 @@ namespace EVS_ProductionStatus
                     {
                         using (DB_Entities db = new DB_Entities(clConnection.connectEntity))
                         {
-                            var user = db.tblUser_EVS.FirstOrDefault(x => x.userid == _uid);
+                            var user = db.tblUsers.FirstOrDefault(x => x.userid == _uid);
                             // kiểm tra xem tài khoản đang mở hay đóng
                             if (user.active == "true")
                             {

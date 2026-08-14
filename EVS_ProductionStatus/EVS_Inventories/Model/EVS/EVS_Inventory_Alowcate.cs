@@ -10,6 +10,7 @@ namespace EVS_ProductionStatus.EVS_Inventories.Model.EVS
     {
         public string Location {  get; set; }
         public string Item { get; set; }
+        public string ItemNCC { get; set; }
         public string Lot {  get; set; }
         public double UU { get; set; }
         public double Restricted { get; set; }
@@ -19,5 +20,6 @@ namespace EVS_ProductionStatus.EVS_Inventories.Model.EVS
         public double KD { get; set; }
         public string Connect {  get; set; }
         public string Eink_Mac { get; set; }
+        //public string StockType { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace EVS_ProductionStatus.Data_EVS
     using System;
     using System.Collections.Generic;
     
-    public partial class tblUser_EVS
+    public partial class tblUser
     {
         public string userid { get; set; }
         public string name { get; set; }

@@ -202,7 +202,7 @@
     <Compile Include="Data_EVS\pro_18_BoxInfor_Result.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data_EVS\tblUser_EVS.cs">
+    <Compile Include="Data_EVS\tblUser.cs">
       <DependentUpon>db.tt</DependentUpon>
     </Compile>
     <Compile Include="Data_EVS\tblWO.cs">

@@ -212,7 +212,7 @@ namespace EVS_ProductionStatus
             {
                 // Lấy mã nhân viên đầu tiên
                 emp_1 = txt_emp_1.Text.Trim().ToString();
-                bool emp_exist = db.tblUser_EVS
+                bool emp_exist = db.tblUsers
                                 .Any(x => x.userid == emp_1 && x.active == "true");
                 if(emp_exist)
                 {
@@ -242,7 +242,7 @@ namespace EVS_ProductionStatus
                     lab_nv2_error.Text = "Cần mã nhân viên thứ hai!";
                     return;
                 }
-                bool emp_exist = db.tblUser_EVS
+                bool emp_exist = db.tblUsers
                                 .Any(x => x.userid == emp_2 && x.active == "true");
                 if (emp_exist)
                 {
